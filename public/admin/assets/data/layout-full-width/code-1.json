@@ -1,0 +1,4 @@
+@@extends('layout.default', [
+  'appSidebarHide' => true, 
+  'appClass' => 'app-content-full-width'
+])

@@ -1,0 +1,5 @@
+@extends('layout.default', [
+  'bodyClass' => 'app-with-bg',
+  'appTopNav' => true,
+  'appClass' => 'app-with-top-nav app-boxed-layout'
+])

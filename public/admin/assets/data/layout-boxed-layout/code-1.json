@@ -1,0 +1,4 @@
+@@extends('layout.default', [
+  'bodyClass' => 'app-with-bg', 
+  'appClass' => 'app-boxed-layout'
+])

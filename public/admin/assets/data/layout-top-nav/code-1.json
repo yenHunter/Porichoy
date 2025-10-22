@@ -1,0 +1,5 @@
+@extends('layout.default', [
+  'appTopNav' => true,
+  'appSidebarHide' => true, 
+  'appClass' => 'app-with-top-nav app-without-sidebar'
+])
