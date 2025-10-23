@@ -50,6 +50,11 @@ class VisitorController extends Controller
 
     public function education()
     {
-        dd('education is here');
+        return view(
+            'pages.education',
+            [
+                'education_list' => EducationInfo::where('status', 1)->orderBy('sequence', 'asc')->get(),
+            ]
+        );
     }
 }
