@@ -69,7 +69,7 @@ You can get your own instance of Porichoy up and running by following these step
     ```dotenv
     # .env
 
-    APP_URL=[http://your-domain.com](http://your-domain.com)
+    APP_URL=http://your-domain.com
 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
