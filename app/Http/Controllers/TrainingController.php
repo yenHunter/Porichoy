@@ -131,6 +131,9 @@ class TrainingController extends Controller
         try {
             $object = TrainingInfo::where('id', $training_id)->first();
             $object->delete();
+            if (!empty($object->certificate) && Storage::disk('public')->exists($object->certificate)) {
+                Storage::disk('public')->delete($object->certificate);
+            }
             $this->log_user_activity(Module::get_id_by_name('training'), 'Removed Training info');
             return back()->with('success', 'Training info removed');
         } catch (\Exception $exception) {

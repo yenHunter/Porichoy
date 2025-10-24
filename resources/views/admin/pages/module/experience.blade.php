@@ -142,7 +142,7 @@
                                                                 alt="organization-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('storage/logo/experience.png') }}"
+                                                                src="{{ asset('admin/image/logo/experience.png') }}"
                                                                 alt="organization-logo">
                                                         @endif
                                                     </td>

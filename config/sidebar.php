@@ -58,22 +58,22 @@ return [
       'is_header' => true
     ],
     [
-      'url' => 'education',
+      'url' => 'module/education',
       'icon' => 'fas fa-graduation-cap',
       'text' => 'Education'
     ],
     [
-      'url' => 'experience',
+      'url' => 'module/experience',
       'icon' => 'fas fa-briefcase',
       'text' => 'Experience'
     ],
     [
-      'url' => 'research',
+      'url' => 'module/research',
       'icon' => 'fas fa-microscope',
       'text' => 'Research'
     ],
     [
-      'url' => 'training',
+      'url' => 'module/training',
       'icon' => 'fas fa-certificate',
       'text' => 'Training'
     ],

@@ -30,9 +30,9 @@ class AuthController extends Controller
         try {
             // Validation
             $request->validate([
-                'email' => 'required',
-                'password' => 'required',
-                'g-recaptcha-response' => [new ReCaptcha()], // Validate reCAPTCHA
+                'email'                 => 'required',
+                'password'              => 'required',
+                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
             ]);
 
             $user_info = User::where('email', $request->email)->first();
@@ -60,11 +60,11 @@ class AuthController extends Controller
         try {
             // Validation
             $request->validate([
-                'first_name' => 'required',
-                'last_name' => 'required',
-                'email' => 'required|unique:users|email',
-                'password' => 'required|confirmed',
-                'g-recaptcha-response' => [new ReCaptcha()], // Validate reCAPTCHA
+                'first_name'                => 'required',
+                'last_name'                 => 'required',
+                'email'                     => 'required|unique:users|email',
+                'password'                  => 'required|confirmed',
+                'g-recaptcha-response'      => [new ReCaptcha()], // Validate reCAPTCHA
             ]);
 
             // Save user info in DB

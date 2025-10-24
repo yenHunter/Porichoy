@@ -138,11 +138,11 @@
                                                     <td>
                                                         @if (isset($item->institute_logo))
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('storage/' . $item->institute_logo) }}"
+                                                                src="{{ asset($item->institute_logo) }}"
                                                                 alt="institute-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('storage/logo/education.png') }}"
+                                                                src="{{ asset('admin/images/logo/education.png') }}"
                                                                 alt="institute-logo">
                                                         @endif
                                                     </td>

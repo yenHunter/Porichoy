@@ -128,7 +128,7 @@ class EducationController extends Controller
     {
         try {
             $object = EducationInfo::where('id', $education_id)->first();
-            if (Storage::disk('public')->exists($object->institute_logo)) {
+            if (!empty($object->institute_logo) && Storage::disk('public')->exists($object->institute_logo)) {
                 Storage::disk('public')->delete($object->institute_logo);
             }
             $object->delete();

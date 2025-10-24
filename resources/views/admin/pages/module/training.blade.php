@@ -143,7 +143,7 @@
                                                         @else
                                                             <a href="{{ $item->certificate }}" target="_blank">
                                                                 <img class="img-thumbnail rounded" width="50px"
-                                                                    src="{{ asset('storage/logo/training.png') }}"
+                                                                    src="{{ asset('admin/image/logo/training.png') }}"
                                                                     alt="source-logo">
                                                             </a>
                                                         @endif
