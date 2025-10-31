@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Module;
 use App\Models\SelectType;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
@@ -52,7 +51,7 @@ class ResearchController extends Controller
             $object->status = $request->status;
             $object->sequence = ResearchInfo::max('sequence') + 1;
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('research'), 'Created a new Research info');
+            $this->log_user_activity('Research', 'Created a new Research info');
             return back()->with('success', 'Research info created');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -93,7 +92,7 @@ class ResearchController extends Controller
             $object->status = $request->status;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('research'), 'Updated Research info');
+            $this->log_user_activity('Research', 'Updated Research info');
             return back()->with('success', 'Research info updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -106,7 +105,7 @@ class ResearchController extends Controller
         try {
             $object = ResearchInfo::where('id', $research_id)->first();
             $object->delete();
-            $this->log_user_activity(Module::get_id_by_name('research'), 'Removed Research info');
+            $this->log_user_activity('Research', 'Removed Research info');
             return back()->with('success', 'Research info removed');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -127,7 +126,7 @@ class ResearchController extends Controller
                     $value->save();
                 }
             }
-            $this->log_user_activity(Module::get_id_by_name('research'), 'Updated Research settings');
+            $this->log_user_activity('Research', 'Updated Research settings');
             return back()->with('success', 'Research settings updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

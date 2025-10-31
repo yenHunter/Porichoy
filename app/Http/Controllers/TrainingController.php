@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Module;
 use App\Models\SelectType;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
@@ -63,7 +62,7 @@ class TrainingController extends Controller
             $object->status = $request->status;
             $object->sequence = TrainingInfo::max('sequence') + 1;
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('training'), 'Created a new Training info');
+            $this->log_user_activity('Training', 'Created a new Training info');
             return back()->with('success', 'Training info created');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -118,7 +117,7 @@ class TrainingController extends Controller
             $object->status = $request->status;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('training'), 'Updated Training info');
+            $this->log_user_activity('Training', 'Updated Training info');
             return back()->with('success', 'Training info updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -134,7 +133,7 @@ class TrainingController extends Controller
             if (!empty($object->certificate) && Storage::disk('public')->exists($object->certificate)) {
                 Storage::disk('public')->delete($object->certificate);
             }
-            $this->log_user_activity(Module::get_id_by_name('training'), 'Removed Training info');
+            $this->log_user_activity('Training', 'Removed Training info');
             return back()->with('success', 'Training info removed');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -155,7 +154,7 @@ class TrainingController extends Controller
                     $value->save();
                 }
             }
-            $this->log_user_activity(Module::get_id_by_name('training'), 'Updated Training settings');
+            $this->log_user_activity('Training', 'Updated Training settings');
             return back()->with('success', 'Training settings updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

@@ -16,11 +16,11 @@ trait UserLogTrait
      * @param string $action
      * @return void
      */
-    public function log_user_activity($moduleId, $action)
+    public function log_user_activity($model, $action)
     {
         try {
             UserLog::create([
-            'module_id' => $moduleId,
+            'module_id' => $model,
             'action'    => $action,
             'user_id'   => Auth::id(),
             'user_ip'   => Request::ip(),

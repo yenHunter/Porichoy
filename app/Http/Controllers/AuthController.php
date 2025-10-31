@@ -101,7 +101,7 @@ class AuthController extends Controller
 
             return $status === Password::RESET_LINK_SENT
                 ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)]);
+                : back()->withErrors(['email' => __($status)])->withInput();
         } catch (\Throwable $th) {
             return back()->withErrors(['error' => $th->getMessage()])->withInput();
         }
@@ -130,7 +130,7 @@ class AuthController extends Controller
             );
 
             return $status === Password::PASSWORD_RESET
-                ? redirect()->route('admin.login.view')->with('status', __($status))
+                ? redirect()->route('login.view')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
         } catch (\Throwable $th) {
             return back()->withErrors(['error' => $th->getMessage()])->withInput();

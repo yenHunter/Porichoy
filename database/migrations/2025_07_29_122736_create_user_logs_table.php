@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('module_id');
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->string('model')->nullable();
             $table->string('action')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

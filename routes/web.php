@@ -28,6 +28,10 @@ Route::middleware('guest')->group(function () {
 	Route::get('register', [AuthController::class, 'register_view'])->name('register.view');
 	Route::post('login', [AuthController::class, 'login'])->name('login.attempt');
 	Route::post('register', [AuthController::class, 'register'])->name('register.attempt');
+	Route::get('forgot-password', [AuthController::class, 'forgot_password_view'])->name('forgot.password.view');
+	Route::post('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot.password.attempt');
+	Route::get('reset-password/{token}', [AuthController::class, 'reset_password_view'])->name('password.reset');
+	Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.attempt');
 });
 
 Route::middleware('auth')->group(function () {
@@ -83,10 +87,11 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('element')->name('element.')->group(function () {
 		Route::prefix('skill')->name('skill.')->group(function () {
 			Route::get('', [HomeController::class, 'skill_view'])->name('view');
-			Route::post('store', [HomeController::class, 'store'])->name('store');
+			Route::post('store', [HomeController::class, 'skill_store'])->name('store');
 			Route::get('edit/{experience_id}', [HomeController::class, 'edit'])->name('edit');
 			Route::put('update', [HomeController::class, 'update'])->name('update');
 			Route::get('delete/{experience_id}', [HomeController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [HomeController::class, 'update_sequence'])->name('sequence');
 		});
 	});
 

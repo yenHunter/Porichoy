@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EducationInfo;
-use App\Models\ColumnSettings;
-use App\Models\Module;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
-use Illuminate\Support\Facades\Auth;
+use App\Models\EducationInfo;
+use App\Models\ColumnSettings;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EducationController extends Controller
@@ -61,7 +60,7 @@ class EducationController extends Controller
             $object->sequence = EducationInfo::max('sequence') + 1;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('education'), 'Created a new Education info');
+            $this->log_user_activity('Education', 'Created a new Education info');
             return back()->with('success', 'Education info created');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -116,7 +115,7 @@ class EducationController extends Controller
             $object->status = $request->status;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('education'), 'Updated Education info');
+            $this->log_user_activity('Education', 'Updated Education info');
             return back()->with('success', 'Education info updated');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -132,7 +131,7 @@ class EducationController extends Controller
                 Storage::disk('public')->delete($object->institute_logo);
             }
             $object->delete();
-            $this->log_user_activity(Module::get_id_by_name('education'), 'Removed Education info');
+            $this->log_user_activity('Education', 'Removed Education info');
             return back()->with('success', 'Education info removed');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -153,7 +152,7 @@ class EducationController extends Controller
                     $value->save();
                 }
             }
-            $this->log_user_activity(Module::get_id_by_name('education'), 'Updated Education settings');
+            $this->log_user_activity('Education', 'Updated Education settings');
             return back()->with('success', 'Education settings updated');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

@@ -34495,3 +34495,7 @@ body .note-modal-backdrop {
 .app.app-without-sidebar .app-content {
   margin-left: 0;
 }
+
+.fa-up-down-left-right {
+  cursor: move;
+}

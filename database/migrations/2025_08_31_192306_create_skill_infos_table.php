@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('logo')->nullable();
-            $table->integer('score')->default(100);
+            $table->double('score')->default(100);
             $table->text('details')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->integer('sequence')->default(0);

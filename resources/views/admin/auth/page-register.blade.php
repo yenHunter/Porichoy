@@ -16,11 +16,19 @@
                 {{ csrf_field() }}
                 <h1 class="text-center">Sign Up</h1>
                 <p class="text-muted text-center">One Admin ID is all you need to access all the Admin services.</p>
-                @error('error')
-                    <div class="text-danger text-center mb-4">
-                        {{ $message }}
+                @if (session('status'))
+                    <div class="alert alert-success text-center mb-2">
+                        {{ session('status') }}
                     </div>
-                @enderror
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger text-center mb-2">
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="mb-3">
                     <div class="d-flex justify-content-between align-items-center">
                         <label class="form-label mb-2">First Name <span class="text-danger">*</span></label>

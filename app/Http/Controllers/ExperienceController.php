@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Module;
 use App\Models\SelectType;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
@@ -66,7 +65,7 @@ class ExperienceController extends Controller
             $object->sequence = ExperienceInfo::max('sequence') + 1;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('experience'), 'Created a new Experience info');
+            $this->log_user_activity('Experience', 'Created a new Experience info');
             return back()->with('success', 'Experience info created');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -123,7 +122,7 @@ class ExperienceController extends Controller
             $object->status = $request->status;
             $object->updated_by = Auth::id();
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('experience'), 'Updated Experience info');
+            $this->log_user_activity('Experience', 'Updated Experience info');
             return back()->with('success', 'Experience info updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -139,7 +138,7 @@ class ExperienceController extends Controller
                 Storage::disk('public')->delete($object->organization_logo);
             }
             $object->delete();
-            $this->log_user_activity(Module::get_id_by_name('experience'), 'Removed Experience info');
+            $this->log_user_activity('Experience', 'Removed Experience info');
             return back()->with('success', 'Experience info removed');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -160,7 +159,7 @@ class ExperienceController extends Controller
                     $value->save();
                 }
             }
-            $this->log_user_activity(Module::get_id_by_name('experience'), 'Updated Experience settings');
+            $this->log_user_activity('Experience', 'Updated Experience settings');
             return back()->with('success', 'Experience settings updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

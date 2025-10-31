@@ -53,7 +53,7 @@ class UserController extends Controller
             $object->profile_picture = $path;
             $object->status = $request->status;
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('user'), 'Created a new user: ' . $request->email);
+            $this->log_user_activity('User', 'Created a new user: ' . $request->email);
             return back()->with('success', 'User created');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -94,7 +94,7 @@ class UserController extends Controller
             $object->profile_picture = $path;
             $object->status = $request->status;
             $object->save();
-            $this->log_user_activity(Module::get_id_by_name('user'), 'Updated user for: ' . $request->email);
+            $this->log_user_activity('User', 'Updated user for: ' . $request->email);
             return back()->with('success', 'User updated');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -110,7 +110,7 @@ class UserController extends Controller
                 Storage::disk('public')->delete($object->profile_picture);
             }
             $object->delete();
-            $this->log_user_activity(Module::get_id_by_name('user'), 'Updated user for: ' . $object->email);
+            $this->log_user_activity('User', 'Updated user for: ' . $object->email);
             return back()->with('success', 'User removed');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

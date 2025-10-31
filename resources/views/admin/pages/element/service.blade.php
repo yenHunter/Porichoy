@@ -3,20 +3,28 @@
 @section('title', 'Skill Management')
 
 @push('css')
+<link href="/admin/assets/plugins/tag-it/css/jquery.tagit.css" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}"
         rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}"
         rel="stylesheet">
+    <link href="{{ asset('admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+    <link href="/admin/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/bootstrap4-toggle/css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" rel="stylesheet">
+    <link href="/admin/assets/plugins/spectrum-colorpicker2/dist/spectrum.min.css" rel="stylesheet">
+    <link href="/admin/assets/plugins/jquery-typeahead/dist/jquery.typeahead.min.css" rel="stylesheet">
 @endpush
 
 @push('js')
+    <script src="{{ asset('admin/assets/plugins/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/demo/highlight.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/demo/highlightjs.demo.js') }}"></script>
+    <script src="{{ asset('admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="/admin/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
     <script src="{{ asset('admin/assets/plugins/datatables.net/js/dataTables.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
@@ -27,51 +35,16 @@
     <script src="{{ asset('admin/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}">
     </script>
+    <script src="{{ asset('admin/assets/plugins/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/demo/table-plugins.demo.js') }}"></script>
     <script src="{{ asset('admin/assets/js/demo/sidebar-scrollspy.demo.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/bootstrap4-toggle/js/bootstrap4-toggle.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script>
-        $('#slider-tooltip').bootstrapSlider({
-            formatter: function(value) {
-                return 'Current value: ' + value;
-            }
-        });
-        $(function() {
-            $("#sortable-skill").sortable({
-                handle: '.fa-up-down-left-right', // Only drag by the icon
-                update: function(event, ui) {
-                    let order = [];
-                    $('#sortable-skill tr').each(function(index, element) {
-                        order.push({
-                            id: $(element).data('id'),
-                            sequence: index + 1 // sequence starts from 1
-                        });
-                    });
-
-                    // Send AJAX to update order
-                    $.ajax({
-                        url: '{{ route('element.skill.sequence') }}',
-                        method: 'POST',
-                        data: {
-                            order: order,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            // Optionally show a success message
-                            Swal.fire('Updated!', 'Skill order updated.', 'success');
-                        },
-                        error: function(xhr) {
-                            Swal.fire('Error!', 'Could not update order.', 'error');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('admin/assets/js/demo/table-plugins.demo.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/demo/form-plugins.demo.js') }}"></script>
+    <script src="/admin/assets/plugins/spectrum-colorpicker2/dist/spectrum.min.js"></script>
+    <script src="/admin/assets/plugins/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
+    <link href="/admin/assets/plugins/tag-it/js/tag-it.min.js" rel="stylesheet">
 @endpush
 
 @section('page_head')
@@ -161,22 +134,20 @@
                         <div id="datatable" class="mb-5">
                             <div class="card">
                                 <div class="card-body">
-                                    <table id="skill_datatable" class="table text-nowrap w-100">
+                                    <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>Order</th>
+                                                <th>#</th>
                                                 <th>Logo</th>
                                                 <th>Title</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="sortable-skill">
+                                        <tbody>
                                             @foreach ($skill_list as $item)
-                                                <tr data-id="{{ $item->id }}">
-                                                    <td>
-                                                        <i class="fa-2xl fas fa-up-down-left-right"></i>
-                                                    </td>
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>
                                                         @if (isset($item->logo))
                                                             <img class="img-thumbnail rounded" width="50px"
@@ -184,13 +155,13 @@
                                                                 alt="skill-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('admin/images/logo/skill.png') }}"
+                                                                src="{{ asset('storage/logo/skill.png') }}"
                                                                 alt="skill-logo">
                                                         @endif
                                                     </td>
                                                     <td>
                                                         {{ $item->title }}<br>
-                                                        <small>{{ $item->score }}%</small>
+                                                        <small>{{ $item->score }}</small>
                                                     </td>
                                                     <td>
                                                         @if ($item->status === 1)
@@ -256,7 +227,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2" for="logo">Logo</label>
+                                <label class="form-label mb-2" for="logo">Institute Logo</label>
                                 @error('logo')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -265,24 +236,22 @@
                         </div>
                         <div class="form-group mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2" for="logo">Score</label>
+                                <label class="form-label mb-2" for="logo">Institute Logo</label>
                                 @error('logo')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <input id="slider-tooltip" class="form-control" style="width: 100%; left: 0;"
-                                data-slider-id="ex1Slider" type="text" data-slider-min="0" data-slider-max="100"
-                                data-slider-step="0.01" data-slider-value="50" name="score"
-                                value="{{ old('score') }}" />
+                            <input id="slider-tooltip" class="form-control" data-slider-id="ex1Slider" type="text"
+                                data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0">
                         </div>
                         <div class="form-group mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label for="details" class="form-label mb-2">Skill Details</label>
+                                <label for="details" class="form-label mb-2">Education Details</label>
                                 @error('details')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <textarea class="summernote" name="details" id="details"></textarea>
+                            <textarea class="summernote" name="details" id="details" cols="30" rows="10"></textarea>
                         </div>
                         <div class="form-group mb-4">
                             <label class="form-label">Status</label>
