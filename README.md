@@ -89,18 +89,7 @@ You can get your own instance of Porichoy up and running by following these step
     php artisan migrate --seed
     ```
 
-7.  **Install front-end dependencies:**
-    ```bash
-    npm install
-    ```
-
-8.  **Build front-end assets:**
-    ```bash
-    npm run build
-    ```
-    (Or use `npm run dev` for development)
-
-9.  **Serve the application:**
+7.  **Serve the application:**
     ```bash
     php artisan serve
     ```
