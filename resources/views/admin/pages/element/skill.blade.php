@@ -161,7 +161,7 @@
                         <div id="datatable" class="mb-5">
                             <div class="card">
                                 <div class="card-body">
-                                    <table id="skill_datatable" class="table text-nowrap w-100">
+                                    <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
                                                 <th>Order</th>
@@ -272,7 +272,7 @@
                             </div>
                             <input id="slider-tooltip" class="form-control" style="width: 100%; left: 0;"
                                 data-slider-id="ex1Slider" type="text" data-slider-min="0" data-slider-max="100"
-                                data-slider-step="0.01" data-slider-value="50" name="score"
+                                data-slider-step="1" data-slider-value="50" name="score"
                                 value="{{ old('score') }}" />
                         </div>
                         <div class="form-group mb-3">

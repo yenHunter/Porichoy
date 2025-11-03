@@ -45,7 +45,7 @@ class AuthController extends Controller
             // Login Attempt
             if ($user_info->status === 1) {
                 if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
-                    return redirect('home');
+                    return redirect()->intended('home');
                 }
                 return back()->withErrors(['error' => 'Password incorrect'])->withInput();
             }
@@ -74,7 +74,6 @@ class AuthController extends Controller
             $object->last_name = $request->last_name;
             $object->email = $request->email;
             $object->password = Hash::make($request->password);
-            $object->profile_picture = 'admin/images/cj-logo.png';
             $object->status = 0;
             $object->save();
             return redirect('login')->withErrors(['error' => 'Please contact admin for activation']);
@@ -142,5 +141,38 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
         return redirect('login');
+    }
+
+    public function session_lock()
+    {
+        session(['locked' => true]);
+        return view(
+            'admin.auth.lock-screen',
+            [
+                'user_info' => Auth::user()
+            ]
+        );
+    }
+
+    public function session_unlock(Request $request)
+    {
+        try {
+            // Validation
+            $request->validate([
+                'password'              => 'required',
+                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
+            ]);
+
+            $user = Auth::user();
+
+            if (Hash::check($request->password, $user->password)) {
+                session()->forget('locked');
+                return redirect()->intended('home');
+            }
+
+            return back()->withErrors(['password' => 'Incorrect password']);
+        } catch (\Throwable $th) {
+            return back()->withErrors(['error' => $th->getMessage()])->withInput();
+        }
     }
 }

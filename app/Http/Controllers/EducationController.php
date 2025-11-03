@@ -19,7 +19,7 @@ class EducationController extends Controller
         return view(
             'admin.pages.module.education',
             [
-                'education_list'            => EducationInfo::get(),
+                'education_list'            => EducationInfo::orderBy('sequence', 'asc')->get(),
                 'education_settings'        => ColumnSettings::where('module', 'education')->get()
             ]
         );
@@ -136,6 +136,20 @@ class EducationController extends Controller
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
+        }
+    }
+
+    public function update_sequence(Request $request)
+    {
+        try {
+            $order = $request->input('order');
+            foreach ($order as $item) {
+                EducationInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+            }
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['status' => 'error']);
         }
     }
 

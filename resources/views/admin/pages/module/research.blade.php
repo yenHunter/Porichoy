@@ -123,7 +123,7 @@
                                     <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Order</th>
                                                 <th>Source</th>
                                                 <th>Degree</th>
                                                 <th>Institute</th>
@@ -131,10 +131,12 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="sortable-research">
                                             @foreach ($research_list as $item)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
+                                                <tr data-id="{{ $item->id }}">
+                                                    <td>
+                                                        <i class="fas fa-up-down-left-right"></i>
+                                                    </td>
                                                     <td>
                                                         @if (isset($item->source->details))
                                                             <img class="img-thumbnail rounded" width="50px"
@@ -142,7 +144,7 @@
                                                                 alt="source-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('admin/image/logo/research.png') }}"
+                                                                src="{{ asset('static/logo/research.png') }}"
                                                                 alt="source-logo">
                                                         @endif
                                                     </td>
@@ -411,6 +413,38 @@
                         }
                     });
                 });
+            });
+        });
+
+        // Change sequence of research
+        $(function() {
+            $("#sortable-research").sortable({
+                handle: '.fa-up-down-left-right', // Only drag by the icon
+                update: function(event, ui) {
+                    let order = [];
+                    $('#sortable-research tr').each(function(index, element) {
+                        order.push({
+                            id: $(element).data('id'),
+                            sequence: index + 1 // sequence starts from 1
+                        });
+                    });
+                    // Send AJAX to update order
+                    $.ajax({
+                        url: '{{ route('module.research.sequence') }}',
+                        method: 'POST',
+                        data: {
+                            order: order,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            // Optionally show a success message
+                            Swal.fire('Updated!', 'Research order updated.', 'success');
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Error!', 'Could not update order.', 'error');
+                        }
+                    });
+                }
             });
         });
     </script>

@@ -111,8 +111,12 @@
                 <a class="dropdown-item d-flex align-items-center" href="/settings">Setting <i
                         class="fa fa-wrench fa-fw ms-auto text-body text-opacity-50"></i></a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">Log Out <i
-                        class="fa fa-toggle-off fa-fw ms-auto text-body text-opacity-50"></i></a>
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('lock.screen') }}">Lock
+                    <i class="fa fa-lock fa-fw ms-auto text-body text-opacity-50"></i>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">Log Out
+                    <i class="fa fa-toggle-off fa-fw ms-auto text-body text-opacity-50"></i>
+                </a>
             </div>
         </div>
     </div>

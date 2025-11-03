@@ -21,7 +21,7 @@ class ResearchController extends Controller
             [
                 'research_list'           => ResearchInfo::with('source')->whereHas('source', function ($query) {
                     $query->where('use_for', 'research_source');
-                })->get(),
+                })->orderBy('sequence', 'asc')->get(),
                 'research_settings'       => ColumnSettings::where('module', 'research')->get(),
                 'research_source'         => SelectType::where('use_for', 'research_source')->get()
             ]
@@ -110,6 +110,20 @@ class ResearchController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
+        }
+    }
+
+    public function update_sequence(Request $request)
+    {
+        try {
+            $order = $request->input('order');
+            foreach ($order as $item) {
+                ResearchInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+            }
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['status' => 'error']);
         }
     }
 

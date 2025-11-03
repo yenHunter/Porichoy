@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $user_info->last_name = 'Ltd.';
         $user_info->email = 'admin@cyberjatra.com';
         $user_info->password = Hash::make('Admin#123');
-        $user_info->profile_picture = 'cj-logo.png';
+        $user_info->profile_picture = 'static/cj-logo.png';
         $user_info->status = 1;
         $user_info->save();
     }

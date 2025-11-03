@@ -20,7 +20,7 @@ class ExperienceController extends Controller
         return view(
             'admin.pages.module.experience',
             [
-                'experience_list'           => ExperienceInfo::get(),
+                'experience_list'           => ExperienceInfo::orderBy('sequence', 'asc')->get(),
                 'experience_settings'       => ColumnSettings::where('module', 'experience')->get(),
                 'employment_type'           => SelectType::where('use_for', 'employment_type')->get(),
                 'location_type'             => SelectType::where('use_for', 'location_type')->get()
@@ -143,6 +143,20 @@ class ExperienceController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
+        }
+    }
+
+    public function update_sequence(Request $request)
+    {
+        try {
+            $order = $request->input('order');
+            foreach ($order as $item) {
+                ExperienceInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+            }
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['status' => 'error']);
         }
     }
 

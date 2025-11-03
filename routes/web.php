@@ -37,6 +37,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 	Route::get('home', [HomeController::class, 'dashboard'])->name('home');
 	Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+	Route::get('lock', [AuthController::class, 'session_lock'])->name('lock.screen');
+	Route::post('unlock', [AuthController::class, 'session_unlock'])->name('unlock.screen');
 
 	Route::prefix('user')->name('user.')->group(function () {
 		Route::get('list', [UserController::class, 'user_view'])->name('view');
@@ -53,6 +55,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{education_id}', [EducationController::class, 'edit'])->name('edit');
 			Route::put('update', [EducationController::class, 'update'])->name('update');
 			Route::get('delete/{education_id}', [EducationController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [EducationController::class, 'update_sequence'])->name('sequence');
 			Route::put('settings-update', [EducationController::class, 'settings_update'])->name('settings.update');
 		});
 
@@ -62,6 +65,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{experience_id}', [ExperienceController::class, 'edit'])->name('edit');
 			Route::put('update', [ExperienceController::class, 'update'])->name('update');
 			Route::get('delete/{experience_id}', [ExperienceController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [ExperienceController::class, 'update_sequence'])->name('sequence');
 			Route::put('settings-update', [ExperienceController::class, 'settings_update'])->name('settings.update');
 		});
 
@@ -71,6 +75,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{experience_id}', [ResearchController::class, 'edit'])->name('edit');
 			Route::put('update', [ResearchController::class, 'update'])->name('update');
 			Route::get('delete/{experience_id}', [ResearchController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [ResearchController::class, 'update_sequence'])->name('sequence');
 			Route::put('settings-update', [ResearchController::class, 'settings_update'])->name('settings.update');
 		});
 

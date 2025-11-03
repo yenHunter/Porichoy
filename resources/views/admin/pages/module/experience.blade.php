@@ -123,7 +123,7 @@
                                     <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Order</th>
                                                 <th>Logo</th>
                                                 <th>Position</th>
                                                 <th>Organization</th>
@@ -131,10 +131,12 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="sortable-experience">
                                             @foreach ($experience_list as $item)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
+                                                <tr data-id="{{ $item->id }}">
+                                                    <td>
+                                                        <i class="fas fa-up-down-left-right"></i>
+                                                    </td>
                                                     <td>
                                                         @if (isset($item->organization_logo))
                                                             <img class="img-thumbnail rounded" width="50px"
@@ -142,7 +144,7 @@
                                                                 alt="organization-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('admin/image/logo/experience.png') }}"
+                                                                src="{{ asset('static/logo/experience.png') }}"
                                                                 alt="organization-logo">
                                                         @endif
                                                     </td>
@@ -438,6 +440,38 @@
                         }
                     });
                 });
+            });
+        });
+
+        // Change sequence of experience
+        $(function() {
+            $("#sortable-experience").sortable({
+                handle: '.fa-up-down-left-right', // Only drag by the icon
+                update: function(event, ui) {
+                    let order = [];
+                    $('#sortable-experience tr').each(function(index, element) {
+                        order.push({
+                            id: $(element).data('id'),
+                            sequence: index + 1 // sequence starts from 1
+                        });
+                    });
+                    // Send AJAX to update order
+                    $.ajax({
+                        url: '{{ route('module.experience.sequence') }}',
+                        method: 'POST',
+                        data: {
+                            order: order,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            // Optionally show a success message
+                            Swal.fire('Updated!', 'Experience order updated.', 'success');
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Error!', 'Could not update order.', 'error');
+                        }
+                    });
+                }
             });
         });
     </script>

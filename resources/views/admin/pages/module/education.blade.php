@@ -123,7 +123,7 @@
                                     <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
+                                                <th>Order</th>
                                                 <th>Logo</th>
                                                 <th>Degree</th>
                                                 <th>Institute</th>
@@ -131,18 +131,20 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="sortable-education">
                                             @foreach ($education_list as $item)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
+                                                <tr data-id="{{ $item->id }}">
+                                                    <td>
+                                                        <i class="fa-2xl fas fa-up-down-left-right"></i>
+                                                    </td>
                                                     <td>
                                                         @if (isset($item->institute_logo))
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset($item->institute_logo) }}"
+                                                                src="{{ asset('storage/' . $item->institute_logo) }}"
                                                                 alt="institute-logo">
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('admin/images/logo/education.png') }}"
+                                                                src="{{ asset('static/logo/education.png') }}"
                                                                 alt="institute-logo">
                                                         @endif
                                                     </td>
@@ -405,12 +407,44 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "{{ route('module.education.delete', ':id') }}"
+                            window.location.href =
+                                "{{ route('module.education.delete', ':id') }}"
                                 .replace(':id', education_id);
 
                         }
                     });
                 });
+            });
+        });
+
+        $(function() {
+            $("#sortable-education").sortable({
+                handle: '.fa-up-down-left-right', // Only drag by the icon
+                update: function(event, ui) {
+                    let order = [];
+                    $('#sortable-education tr').each(function(index, element) {
+                        order.push({
+                            id: $(element).data('id'),
+                            sequence: index + 1 // sequence starts from 1
+                        });
+                    });
+                    // Send AJAX to update order
+                    $.ajax({
+                        url: '{{ route('module.education.sequence') }}',
+                        method: 'POST',
+                        data: {
+                            order: order,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            // Optionally show a success message
+                            Swal.fire('Updated!', 'Education order updated.', 'success');
+                        },
+                        error: function(xhr) {
+                            Swal.fire('Error!', 'Could not update order.', 'error');
+                        }
+                    });
+                }
             });
         });
     </script>
