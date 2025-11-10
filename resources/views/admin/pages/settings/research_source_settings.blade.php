@@ -1,6 +1,6 @@
 @extends('admin.layout.default')
 
-@section('title', 'Research Management')
+@section('title', 'Research Source Management')
 
 @push('css')
     <link href="{{ asset('admin/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
@@ -11,6 +11,7 @@
     <link href="{{ asset('admin/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.css') }}" rel="stylesheet">
     <link href="{{ asset('admin/assets/plugins/bootstrap4-toggle/css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/assets/plugins/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" rel="stylesheet">
 @endpush
 
 @push('js')
@@ -31,6 +32,7 @@
     <script src="{{ asset('admin/assets/js/demo/sidebar-scrollspy.demo.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.min.js') }}"></script>
     <script src="{{ asset('admin/assets/plugins/bootstrap4-toggle/js/bootstrap4-toggle.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/plugins/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
 @endpush
 
 @section('page_head')
@@ -51,11 +53,11 @@
                         <li class="breadcrumb-item text-uppercase">
                             <a href="{{ route('home') }}">Dashboard</a>
                         </li>
-                        <li class="breadcrumb-item text-uppercase active">Research Management</li>
+                        <li class="breadcrumb-item text-uppercase active">Research Source Management</li>
                     </ul>
                     <div class="d-flex justify-content-between align-items-center">
                         <h1 class="page-header">
-                            Research Management <small>create update delete all in here</small>
+                            Research Source Management <small>create update delete all in here</small>
                         </h1>
                         <button class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#create_update_modal">Create</button>
@@ -69,7 +71,7 @@
                                 <div class="card-header border-success fw-bold small text-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h4 class="card-title m-0">Research Management</h4>
+                                            <h4 class="card-title m-0">Research Source Management</h4>
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-tool"
@@ -92,7 +94,7 @@
                                 <div class="card-header border-danger fw-bold small text-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h4 class="card-title m-0">Research Management</h4>
+                                            <h4 class="card-title m-0">Research Source Management</h4>
                                         </div>
                                         <div class="col-auto">
                                             <button type="button" class="btn btn-tool"
@@ -123,25 +125,29 @@
                                     <table id="datatableDefault" class="table text-nowrap w-100">
                                         <thead>
                                             <tr>
-                                                <th>Order</th>
+                                                <th>#</th>
                                                 <th>Source</th>
-                                                <th>Degree</th>
-                                                <th>Institute</th>
+                                                <th>Title</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="sortable-research">
-                                            @foreach ($research_list as $item)
-                                                <tr data-id="{{ $item->id }}">
+                                        <tbody>
+                                            @foreach ($research_source_list as $item)
+                                                <tr>
                                                     <td>
-                                                        <i class="fa-2xl fas fa-up-down-left-right"></i>
+                                                        {{ $loop->iteration }}
                                                     </td>
                                                     <td>
-                                                        @if (isset($item->source->details))
-                                                            <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('storage/' . $item->source->details) }}"
-                                                                alt="source-logo">
+                                                        @if (isset($item->details))
+                                                            @if (\Illuminate\Support\Str::contains($item->details, 'static/settings/'))
+                                                                <img class="img-thumbnail rounded" width="50px"
+                                                                    src="{{ asset($item->details) }}" alt="source-logo" />
+                                                            @else
+                                                                <img class="img-thumbnail rounded" width="50px"
+                                                                    src="{{ asset('storage/' . $item->details) }}"
+                                                                    alt="source-logo" />
+                                                            @endif
                                                         @else
                                                             <img class="img-thumbnail rounded" width="50px"
                                                                 src="{{ asset('static/logo/research.png') }}"
@@ -149,14 +155,7 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <a href="{{ $item->link }}" class="text-dark"
-                                                            target="_blank">{{ $item->title }}</a>
-                                                        <br>
-                                                        <small>{{ $item->category }}</small>
-                                                    </td>
-                                                    <td>
-                                                        {{ $item->role }}<br>
-                                                        <small>{{ $item->published?->format('d-M-Y') }}</small>
+                                                        {{ $item->value }}<br>
                                                     </td>
                                                     <td>
                                                         @if ($item->status === 1)
@@ -167,11 +166,11 @@
                                                     </td>
                                                     <td>
                                                         <button class="btn btn-warning btn-sm btn-edit"
-                                                            data-research_id="{{ $item->id }}">
+                                                            data-research_source_id="{{ $item->id }}">
                                                             <i class="fas fa-pencil"></i> edit
                                                         </button>
                                                         <button class="btn btn-danger btn-sm btn-delete"
-                                                            data-id="{{ $item->id }}">
+                                                            data-research_source_id="{{ $item->id }}">
                                                             <i class="fas fa-trash"></i> delete
                                                         </button>
                                                     </td>
@@ -192,11 +191,11 @@
                                 <h4>Column Visibility Status</h4>
                                 <h6 class="text-muted mb-3">Only column with <span class="text-success">ON</span> status
                                     will visible in website</h6>
-                                <form action="{{ route('module.research.settings.update') }}" method="POST"
+                                <form action="{{ route('module.training.settings.update') }}" method="POST"
                                     id="user-create-update">
                                     @method('PUT')
                                     @csrf
-                                    @foreach ($research_settings as $item)
+                                    @foreach ($research_source_settings as $item)
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <label>{{ $item->column_title }}</label>
                                             <input type="checkbox" name="{{ $item->column_name }}"
@@ -228,107 +227,34 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Create new research info</h3>
+                    <h3 class="modal-title">Create new research source info</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('module.research.store') }}" method="POST" id="create_update_form">
+                    <form action="{{ route('settings.research_source.store') }}" method="POST" id="create_update_form"
+                        enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="_method" id="create_update_form_method" value="POST">
-                        <input type="hidden" name="research_id" id="research_id">
+                        <input type="hidden" name="research_source_id" id="research_source_id">
                         <div class="form-group mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2">Source <span class="text-danger">*</span></label>
-                                @error('source_id')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <select class="form-select" name="source_id" id="source_id">
-                                <option value="0">Please select</option>
-                                @foreach ($research_source as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old('source_id') == $item->id ? 'selected' : '' }}>{{ $item->value }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2">Title <span class="text-danger">*</span></label>
+                                <label class="form-label mb-2" for="title">Title <span
+                                        class="text-danger">*</span></label>
                                 @error('title')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <input type="text" class="form-control"
-                                placeholder="Sustained benefits of long-term biochar application for food security and climate change mitigation"
+                            <input type="text" class="form-control" placeholder="Elsevier"
                                 value="{{ old('title') }}" name="title" id="title" required>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="form-label mb-2">Category <span class="text-danger">*</span></label>
-                                    @error('category')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <select class="form-select" name="category" id="category">
-                                    <option {{ old('category') == 'National' ? 'selected' : '' }}>National</option>
-                                    <option {{ old('category') == 'International' ? 'selected' : '' }}>International
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label for="published" class="form-label mb-2">Published date</label>
-                                    @error('published')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <input type="date" class="form-control" name="published" id="published"
-                                    value="{{ old('published') }}">
-                            </div>
-                        </div>
                         <div class="form-group mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label for="role" class="form-label mb-2">Role</label>
-                                @error('role')
+                                <label class="form-label mb-2" for="thumbnail">Logo</label>
+                                @error('thumbnail')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <select class="form-select" name="role" id="role">
-                                <option {{ old('role') == 'Author' ? 'selected' : '' }}>Author</option>
-                                <option {{ old('role') == 'Co-author' ? 'selected' : '' }}>Co-author</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="authors" class="form-label mb-2">Authors</label>
-                                @error('authors')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <input class="form-control" name="authors" id="authors"
-                                placeholder="Jingrui Yang, Longlong Xia, Kees Jan van Groenigen, Xu Zhao"
-                                value="{{ old('authors') }}">
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="link" class="form-label mb-2">Link</label>
-                                @error('link')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <input class="form-control" type="text" name="link" id="link"
-                                placeholder="https://www.researchgate.net/" value="{{ old('link') }}">
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label for="details" class="form-label mb-2">Research Details</label>
-                                @error('details')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <textarea class="summernote" name="details" id="details" cols="30" rows="10">{{ old('details') }}</textarea>
+                            <input type="file" class="form-control" name="thumbnail" accept="image/*">
                         </div>
                         <div class="form-group mb-4">
                             <label class="form-label">Status</label>
@@ -349,39 +275,29 @@
 {{-- Page Script Start --}}
 @section('page_script')
     <script>
-        $(document).ready(function() {
-            $('.summernote').summernote();
-        });
-
         $('#create_update_modal').on('hidden.bs.modal', function() {
             $('#create_update_form')[0].reset();
-            $('#create_update_form').attr('action', '{{ route('module.research.store') }}');
+            $('#create_update_form').attr('action', '{{ route('settings.research_source.store') }}');
             $('#end_date').prop('disabled', false);
             $('#current_degree').prop('checked', false);
             $('#create_update_form_method').val('POST');
-            $('#research_id').val('');
+            $('#research_source_id').val('');
         });
 
         $(document).on('click', '.btn-edit', function() {
-            let research_id = $(this).data('research_id');
+            let research_source_id = $(this).data('research_source_id');
 
             $.ajax({
-                url: "{{ route('module.research.edit', ':id') }}".replace(':id', research_id),
+                url: "{{ route('settings.research_source.edit', ':id') }}".replace(':id', research_source_id),
                 type: 'GET',
                 success: function(response) {
                     // Fill the form fields
-                    $('#research_id').val(response.id);
-                    $('#source_id').val(response.source_id);
-                    $('#category').val(response.category);
-                    $('#title').val(response.title);
-                    $('#published').val(response.published);
-                    $('#role').val(response.role);
-                    $('#link').val(response.link);
-                    $('#details').summernote('code', response.details);
+                    $('#research_source_id').val(response.id);
+                    $('#title').val(response.value);
                     $('#status').val(response.status);
 
                     const form = document.getElementById('create_update_form');
-                    form.action = "{{ route('module.research.update') }}";
+                    form.action = "{{ route('settings.research_source.update') }}";
                     document.getElementById('create_update_form_method').value = 'PUT';
 
                     // Show modal
@@ -394,7 +310,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.btn-delete').forEach(button => {
                 button.addEventListener('click', function() {
-                    const research_id = this.getAttribute('data-id');
+                    const research_source_id = this.getAttribute('data-research_source_id');
 
                     Swal.fire({
                         title: 'Are you sure?',
@@ -407,44 +323,13 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "{{ route('module.research.delete', ':id') }}"
-                                .replace(':id', research_id);
+                            window.location.href =
+                                "{{ route('settings.research_source.delete', ':id') }}"
+                                .replace(':id', research_source_id);
 
                         }
                     });
                 });
-            });
-        });
-
-        // Change sequence of research
-        $(function() {
-            $("#sortable-research").sortable({
-                handle: '.fa-up-down-left-right', // Only drag by the icon
-                update: function(event, ui) {
-                    let order = [];
-                    $('#sortable-research tr').each(function(index, element) {
-                        order.push({
-                            id: $(element).data('id'),
-                            sequence: index + 1 // sequence starts from 1
-                        });
-                    });
-                    // Send AJAX to update order
-                    $.ajax({
-                        url: '{{ route('module.research.sequence') }}',
-                        method: 'POST',
-                        data: {
-                            order: order,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            // Optionally show a success message
-                            Swal.fire('Updated!', 'Research order updated.', 'success');
-                        },
-                        error: function(xhr) {
-                            Swal.fire('Error!', 'Could not update order.', 'error');
-                        }
-                    });
-                }
             });
         });
     </script>

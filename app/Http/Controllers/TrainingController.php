@@ -61,6 +61,7 @@ class TrainingController extends Controller
             $object->certificate = $path;
             $object->status = $request->status;
             $object->sequence = TrainingInfo::max('sequence') + 1;
+            $object->updated_by = Auth::id();
             $object->save();
             $this->log_user_activity('Training', 'Created a new Training info');
             return back()->with('success', 'Training info created');
@@ -138,6 +139,20 @@ class TrainingController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
+        }
+    }
+
+    public function update_sequence(Request $request)
+    {
+        try {
+            $order = $request->input('order');
+            foreach ($order as $item) {
+                TrainingInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+            }
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['status' => 'error']);
         }
     }
 

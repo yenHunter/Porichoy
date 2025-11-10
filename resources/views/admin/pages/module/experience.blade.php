@@ -135,7 +135,7 @@
                                             @foreach ($experience_list as $item)
                                                 <tr data-id="{{ $item->id }}">
                                                     <td>
-                                                        <i class="fas fa-up-down-left-right"></i>
+                                                        <i class="fa-2xl fas fa-up-down-left-right"></i>
                                                     </td>
                                                     <td>
                                                         @if (isset($item->organization_logo))

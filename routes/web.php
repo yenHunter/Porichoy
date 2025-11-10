@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
 			Route::get('edit/{experience_id}', [TrainingController::class, 'edit'])->name('edit');
 			Route::put('update', [TrainingController::class, 'update'])->name('update');
 			Route::get('delete/{experience_id}', [TrainingController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [TrainingController::class, 'update_sequence'])->name('sequence');
 			Route::put('settings-update', [TrainingController::class, 'settings_update'])->name('settings.update');
 		});
 	});
@@ -102,11 +103,13 @@ Route::middleware('auth')->group(function () {
 
 	Route::prefix('settings')->name('settings.')->group(function () {
 		Route::get('theme', [SettingsController::class, 'theme_view'])->name('theme');
-		Route::post('store', [TrainingController::class, 'store'])->name('store');
-		Route::get('edit/{experience_id}', [TrainingController::class, 'edit'])->name('edit');
-		Route::put('update', [TrainingController::class, 'update'])->name('update');
-		Route::get('delete/{experience_id}', [TrainingController::class, 'delete'])->name('delete');
-		Route::put('settings-update', [TrainingController::class, 'settings_update'])->name('settings.update');
+		Route::name('research_source.')->group(function () {
+			Route::get('research-source', [SettingsController::class, 'viewResearchSource'])->name('view');
+			Route::post('store', [SettingsController::class, 'storeResearchSource'])->name('store');
+			Route::get('edit/{research_source_id}', [SettingsController::class, 'editResearchSource'])->name('edit');
+			Route::put('update', [SettingsController::class, 'updateResearchSource'])->name('update');
+			Route::get('detete/{research_source_id}', [SettingsController::class, 'deleteResearchSource'])->name('delete');
+		});
 	});
 
 	Route::prefix('configuration')->name('configuration.')->group(function () {

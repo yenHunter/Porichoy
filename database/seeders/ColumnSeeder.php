@@ -287,6 +287,22 @@ class ColumnSeeder extends Seeder
                 'created_at'        => Carbon::now()->toDateTimeString(),
                 'updated_at'        => Carbon::now()->toDateTimeString()
             ],
+            [
+                'module'            => 'research_source',
+                'column_title'      => 'Title',
+                'column_name'       => 'value',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'research_source',
+                'column_title'      => 'Image',
+                'column_name'       => 'details',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
         ];
 
         // Create Education Settings
