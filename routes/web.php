@@ -103,12 +103,28 @@ Route::middleware('auth')->group(function () {
 
 	Route::prefix('settings')->name('settings.')->group(function () {
 		Route::get('theme', [SettingsController::class, 'theme_view'])->name('theme');
-		Route::name('research_source.')->group(function () {
-			Route::get('research-source', [SettingsController::class, 'viewResearchSource'])->name('view');
+		Route::prefix('research-source')->name('research_source.')->group(function () {
+			Route::get('', [SettingsController::class, 'viewResearchSource'])->name('view');
 			Route::post('store', [SettingsController::class, 'storeResearchSource'])->name('store');
 			Route::get('edit/{research_source_id}', [SettingsController::class, 'editResearchSource'])->name('edit');
 			Route::put('update', [SettingsController::class, 'updateResearchSource'])->name('update');
 			Route::get('detete/{research_source_id}', [SettingsController::class, 'deleteResearchSource'])->name('delete');
+		});
+		
+		Route::prefix('location-type')->name('location_type.')->group(function () {
+			Route::get('', [SettingsController::class, 'viewLocationType'])->name('view');
+			Route::post('store', [SettingsController::class, 'storeLocationType'])->name('store');
+			Route::get('edit/{location_type_id}', [SettingsController::class, 'editLocationType'])->name('edit');
+			Route::put('update', [SettingsController::class, 'updateLocationType'])->name('update');
+			Route::get('detete/{location_type_id}', [SettingsController::class, 'deleteLocationType'])->name('delete');
+		});
+		
+		Route::prefix('employment-type')->name('employment_type.')->group(function () {
+			Route::get('', [SettingsController::class, 'viewEmploymentType'])->name('view');
+			Route::post('store', [SettingsController::class, 'storeEmploymentType'])->name('store');
+			Route::get('edit/{employment_type_id}', [SettingsController::class, 'editEmploymentType'])->name('edit');
+			Route::put('update', [SettingsController::class, 'updateEmploymentType'])->name('update');
+			Route::get('detete/{employment_type_id}', [SettingsController::class, 'deleteEmploymentType'])->name('delete');
 		});
 	});
 
