@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->integer('location_type')->nullable();
             $table->longText('details')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

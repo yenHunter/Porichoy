@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('profile_image')->nullable();
             $table->longText('details')->nullable();
             $table->json('skills')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

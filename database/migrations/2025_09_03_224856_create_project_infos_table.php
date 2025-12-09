@@ -26,7 +26,7 @@ return new class extends Migration
             $table->text('background')->nullable();
             $table->text('challenges')->nullable();
             $table->text('solution')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->smallInteger('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

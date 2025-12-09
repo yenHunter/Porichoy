@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('use_for');
             $table->string('value');
             $table->string('details')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

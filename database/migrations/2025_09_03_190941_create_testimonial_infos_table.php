@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('details');
             $table->tinyInteger('review');
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

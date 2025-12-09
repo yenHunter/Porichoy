@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('question');
             $table->text('answer');
-            $table->tinyInteger('status');
+            $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

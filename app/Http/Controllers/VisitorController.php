@@ -18,7 +18,7 @@ class VisitorController extends Controller
         $client_list = ClientInfo::where('status', 1)->orderBy('sequence', 'asc')->get();
         if ($client_list->count() > 0) {
             if ($client_list->count() <= 5) {
-                $rows = [$client_list]; // all in one row
+                $rows = [$client_list];
             } else {
                 $firstRowCount = (int) ceil($client_list->count() / 2);
                 $rows = [

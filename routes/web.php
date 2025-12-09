@@ -215,9 +215,9 @@ Route::get('/ui/modal-notifications', function () {
 // 	return view('/pages/ui-typography');
 // });
 
-// Route::get('/ui/tabs-accordions', function () {
-// 	return view('/pages/ui-tabs-accordions');
-// });
+Route::get('/ui/tabs-accordions', function () {
+	return view('/admin/pages/ui-tabs-accordions');
+});
 
 Route::get('/form/elements', function () {
 	return view('/admin/pages/form-elements');

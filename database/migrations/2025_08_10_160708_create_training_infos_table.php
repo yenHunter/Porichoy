@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('certificate')->nullable();
             $table->text('details')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();

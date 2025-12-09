@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('profile_infos', function (Blueprint $table) {
             $table->id();
+            $table->string('use_for');
             $table->string('column_title');
             $table->string('column_name');
             $table->string('column_value');
+            $table->boolean('status')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
