@@ -36,7 +36,7 @@ class VisitorController extends Controller
                 'service_list' => ServiceInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(4)->get(),
                 'project_list' => ProjectInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(6)->get(),
                 'skill_list' => SkillInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(8)->get(),
-                'education_list' => EducationInfo::where('status', 1)->orderBy('sequence', 'asc')->get(),
+                'education_list' => EducationInfo::active()->sorted()->get(),
                 'experience_list' => ExperienceInfo::where('status', 1)->orderBy('sequence', 'asc')->get(),
                 'client_list' => $rows,
             ]
@@ -53,7 +53,7 @@ class VisitorController extends Controller
         return view(
             'pages.education',
             [
-                'education_list' => EducationInfo::where('status', 1)->orderBy('sequence', 'asc')->get(),
+                'education_list' => EducationInfo::active()->sorted()->get(),
             ]
         );
     }

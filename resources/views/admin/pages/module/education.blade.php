@@ -138,15 +138,8 @@
                                                         <i class="fa-2xl fas fa-up-down-left-right"></i>
                                                     </td>
                                                     <td>
-                                                        @if (isset($item->institute_logo))
-                                                            <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('storage/' . $item->institute_logo) }}"
-                                                                alt="institute-logo">
-                                                        @else
-                                                            <img class="img-thumbnail rounded" width="50px"
-                                                                src="{{ asset('static/logo/education.png') }}"
-                                                                alt="institute-logo">
-                                                        @endif
+                                                        <img class="img-thumbnail rounded" width="50px"
+                                                            src="{{ $item->logo_url }}" alt="institute-logo">
                                                     </td>
                                                     <td>
                                                         {{ $item->degree }}<br>

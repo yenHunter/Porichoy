@@ -7,7 +7,6 @@ use App\Traits\UserLogTrait;
 use App\Models\EducationInfo;
 use App\Models\ColumnSettings;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EducationController extends Controller
@@ -19,7 +18,7 @@ class EducationController extends Controller
         return view(
             'admin.pages.module.education',
             [
-                'education_list'            => EducationInfo::orderBy('sequence', 'asc')->get(),
+                'education_list'            => EducationInfo::sorted()->get(),
                 'education_settings'        => ColumnSettings::where('module', 'education')->get()
             ]
         );
@@ -41,7 +40,7 @@ class EducationController extends Controller
             if ($request->hasFile('institute_logo')) {
                 $file = $request->file('institute_logo');
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/uploads/education', $filename); // stored in storage/app/public/uploads
+                $file->storeAs('public/uploads/education', $filename);
                 $path = 'uploads/education/' . $filename;
             }
 
@@ -57,8 +56,6 @@ class EducationController extends Controller
             $object->result = $request->result;
             $object->details = $request->details;
             $object->status = $request->status;
-            $object->sequence = EducationInfo::max('sequence') + 1;
-            $object->updated_by = Auth::id();
             $object->save();
             $this->log_user_activity('Education', 'Created a new Education info');
             return back()->with('success', 'Education info created');
@@ -113,7 +110,6 @@ class EducationController extends Controller
             $object->result = $request->result;
             $object->details = $request->details;
             $object->status = $request->status;
-            $object->updated_by = Auth::id();
             $object->save();
             $this->log_user_activity('Education', 'Updated Education info');
             return back()->with('success', 'Education info updated');

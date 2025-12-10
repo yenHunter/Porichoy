@@ -1,4 +1,4 @@
-/*! Responsive 3.0.5
+/*! Responsive 3.0.7
  * © SpryMedia Ltd - datatables.net/license
  */
 
@@ -52,7 +52,7 @@ var DataTable = $.fn.dataTable;
 /**
  * @summary     Responsive
  * @description Responsive tables plug-in for DataTables
- * @version     3.0.5
+ * @version     3.0.7
  * @author      SpryMedia Ltd
  * @copyright   SpryMedia Ltd.
  *
@@ -296,6 +296,13 @@ $.extend(Responsive.prototype, {
 		// First pass when the table is ready
 		dt
 			.on('draw.dtr', function () {
+				// For server-side tables, each draw needs the child node
+				// cache to be cleared since it is no longer relevant. We can
+				// create a new object for speed in this case - no mutation.
+				if (dt.page.info().serverSide) {
+					that.s.childNodeStore = {};
+				}
+
 				that._controlClass();
 			})
 			.ready(function () {
@@ -819,7 +826,13 @@ $.extend(Responsive.prototype, {
 		}
 
 		$(dt.table().body()).on('keyup.dtr', 'td, th', function (e) {
-			if (e.keyCode === 13 && $(this).data('dtr-keyboard')) {
+			let activeNodeName = document.activeElement.nodeName.toLowerCase();
+
+			if (
+				e.keyCode === 13 &&
+				$(this).data('dtr-keyboard') &&
+				(activeNodeName === 'td' || activeNodeName === 'th')
+			) {
 				$(this).click();
 			}
 		});
@@ -1836,7 +1849,7 @@ Api.registerPlural(
  * @name Responsive.version
  * @static
  */
-Responsive.version = '3.0.5';
+Responsive.version = '3.0.7';
 
 $.fn.dataTable.Responsive = Responsive;
 $.fn.DataTable.Responsive = Responsive;
