@@ -12,21 +12,23 @@ trait UserLogTrait
     /**
      * Log user activity.
      *
-     * @param int $moduleId
+     * @param string $model
      * @param string $action
      * @return void
      */
-    public function log_user_activity($model, $action)
-    {
+    public function logUserActivity(
+        string $model,
+        string $action
+    ) {
         try {
             UserLog::create([
-            'module_id' => $model,
-            'action'    => $action,
-            'user_id'   => Auth::id(),
-            'user_ip'   => Request::ip(),
-        ]);
+                'module_id' => $model,
+                'action'    => $action,
+                'user_id'   => Auth::id(),
+                'user_ip'   => Request::ip(),
+            ]);
         } catch (\Throwable $th) {
-             Log::error($th->getMessage());
+            Log::error($th->getMessage());
         }
     }
 }
