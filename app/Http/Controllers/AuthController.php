@@ -4,29 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Rules\ReCaptcha;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
-    public function login_view()
+    /**
+     * Show the login page.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function login_view(): View
     {
         return view(
             'admin.auth.page-login'
         );
     }
 
-    public function register_view()
+    /**
+     * Show the registration page.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function register_view(): View
     {
         return view(
             'admin.auth.page-register'
         );
     }
 
-    public function login(Request $request)
+    /**
+     * Attempt to login to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Throwable
+     */
+    public function login(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -56,7 +76,15 @@ class AuthController extends Controller
         }
     }
 
-    public function register(Request $request)
+    /**
+     * Attempt to register a user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Throwable
+     */
+    public function register(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -82,14 +110,29 @@ class AuthController extends Controller
         }
     }
 
-    public function forgot_password_view()
+    /**
+     * Forgot password view
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function forgot_password_view(): View
     {
         return view(
             'admin.auth.forgot-password'
         );
     }
 
-    public function forgot_password(Request $request)
+    /**
+     * Forgot password.
+     *
+     * This endpoint is used to send a password reset link to a user.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Throwable
+     */
+    public function forgot_password(Request $request): RedirectResponse
     {
         try {
             $request->validate(['email' => 'required|email']);
@@ -106,12 +149,28 @@ class AuthController extends Controller
         }
     }
 
-    public function reset_password_view($token)
+    /**
+     * Show the reset password page.
+     *
+     * @param string $token The password reset token.
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function reset_password_view($token): View
     {
         return view('admin.auth.reset-password', ['token' => $token]);
     }
 
-    public function reset_password(Request $request)
+    /**
+     * Resets the password for a user.
+     *
+     * This endpoint is used to reset a user's password.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Throwable
+     */
+    public function reset_password(Request $request): RedirectResponse
     {
         try {
             $request->validate([
@@ -136,14 +195,30 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    /**
+     * Logs a user out of the system.
+     *
+     * This endpoint is used to log a user out of the system.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(): RedirectResponse
     {
         Session::flush();
         Auth::logout();
         return redirect('login');
     }
 
-    public function session_lock()
+    /**
+     * Locks the user's session.
+     *
+     * This endpoint is used to lock a user's session. When a user's session is locked,
+     * they will be redirected to the lock screen page where they will need to enter
+     * their password to unlock their session.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function session_lock(): View
     {
         session(['locked' => true]);
         return view(
@@ -154,7 +229,17 @@ class AuthController extends Controller
         );
     }
 
-    public function session_unlock(Request $request)
+    /**
+     * Unlocks a user's session.
+     *
+     * This endpoint is used to unlock a user's session. When a user's session is unlocked,
+     * they will be redirected to the home page.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
+    public function session_unlock(Request $request): RedirectResponse
     {
         try {
             // Validation
