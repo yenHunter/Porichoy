@@ -3,7 +3,7 @@
 return [
 
     // Default visitor theme
-    'default_theme' => 'antux',
+    'default_theme' => 'dorbesh',
     'default_color' => 'light',
 
     // Available visitor themes
