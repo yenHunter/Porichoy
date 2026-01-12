@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Dorbesh - Creative Portfolio Showcase Template">
+    <meta name="description" content="Let Them Know">
     <meta name="keywords"
         content="personal, portfolio new, html, one page, bootstrap, new html template, design, creative, onepage, clean, modern">
     <meta name="author" content="Themesvila">
