@@ -13,8 +13,8 @@
                         <div class="about-image-part2">
                             <img src="{{ asset('visitor/dorbesh/images/about/profile.jpg') }}" alt="About Me" />
                         </div>
-                        <h2>Dorbesh Baba</h2>
-                        <p>I am a Web Designer based in san francisco.</p>
+                        <h2>Dr. Khurshid Zabin Hossain Taufique</h2>
+                        <p>I am an Urban planner based in Dhaka, Bangladesh.</p>
                         <div class="about-social text-center">
                             <ul>
                                 <li><a href=""><i class="ri-facebook-circle-fill"></i></a></li>
@@ -31,12 +31,13 @@
                     <div class="about-content-part wow fadeInUp delay-0-2s">
                         <p>Hello There!</p>
                         <h2>
-                            I’m <span>Dorbesh Baba</span>, a product designer crafting <span>user-centric design</span> with
+                            I’m <span>K.Z Hossain Taufique</span>, a product designer crafting <span>user-centric
+                                design</span> with
                             pixel-perfect precision.
                         </h2>
                         <div class="adress-field">
                             <ul>
-                                <li><i class="ri-circle-fill"></i>Available for Freelancing</li>
+                                <li><i class="ri-circle-fill"></i>Available for planning</li>
                             </ul>
                         </div>
                         <div class="hero-btns">
@@ -47,11 +48,11 @@
                         <div class="company-list">
                             <div class="scroller" data-direction="left" data-speed="slow">
                                 <div class="scroller__inner">
-                                    <h4>Bank lotpat kora amr main kaj.</h4>
-                                    <h4>Manusher taka ami mere khai</h4>
-                                    <h4>Ami khuni hasinar lok</h4>
-                                    <h4>Ami desh chere palaite chaichilam</h4>
-                                    <h4>Kinto pari nai</h4>
+                                    <h4>Architecture</h4>
+                                    <h4>Urban Planning</h4>
+                                    <h4>Infrastructure Planning</h4>
+                                    <h4>Environmental Planning</h4>
+                                    <h4>Environmental Impact Assessment</h4>
                                 </div>
                             </div>
                         </div>
@@ -121,36 +122,48 @@
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-briefcase-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2021 - Present</span>
-                                        <h4>Themeforest Market</h4>
-                                        <span class="company"> Web Designer </span>
+                                        <span class="years">Jan, 2021 - Present</span>
+                                        <h4>Head, Urban Lab</h4>
+                                        <span class="company">Vitti Sthapati Brindo Ltd.</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-briefcase-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2021 - 2023</span>
-                                        <h4>Envato Theme Developer</h4>
-                                        <span class="company">Web Development</span>
+                                        <span class="years">Mar, 2025 - Present</span>
+                                        <h4>City Planning Law Expert</h4>
+                                        <span class="company">Nippon Koei Bangladesh Ltd.</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-briefcase-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2021 - 2022</span>
-                                        <h4> Marketing Expert GRP</h4>
-                                        <span class="company">Web Developer & Business Partner</span>
+                                        <span class="years">Feb, 2024 - Jul, 2024</span>
+                                        <h4>Urban Planning Consultant</h4>
+                                        <span class="company">Re-Think Building, Bangladesh</span>
+                                    </div>
+                                </div>
+                                <!-- / END SINGLE RESUME DESIGN AREA -->
+                                <!-- START SINGLE RESUME DESIGN AREA -->
+                                <div class="resume-item wow fadeInUp delay-0-3s">
+                                    <div class="icon">
+                                        <i class="ri-briefcase-line"></i>
+                                    </div>
+                                    <div class="content">
+                                        <span class="years">Nov, 2009 - Nov, 2023</span>
+                                        <h4>Retired Director</h4>
+                                        <span class="company">Urban Development Directorate (UDD)</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
@@ -166,37 +179,40 @@
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-graduation-cap-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2013 - 2015</span>
-                                        <h4>Bachelor Degree of Information Technology</h4>
-                                        <span class="company">State University bangladesh
-                                        </span>
+                                        <span class="years">2009</span>
+                                        <h4>Doctor-Engineer (Dr.-Ing.)</h4>
+                                        <h6>Architecture Faculty</h6>
+                                        <span class="company">Bauhaus University Weimar, Germany</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-graduation-cap-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2021 - 2024</span>
-                                        <h4>Higher secoundery Education </h4>
-                                        <span class="company">Premium College United VC</span>
+                                        <span class="years">1997</span>
+                                        <h4>Master of Infrastructure Planning (MIP)</h4>
+                                        <h6>Architecture Faculty</h6>
+                                        <span class="company">University of Stuttgart, Germany</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
                                 <!-- START SINGLE RESUME DESIGN AREA -->
                                 <div class="resume-item wow fadeInUp delay-0-3s">
                                     <div class="icon">
-                                        <i class="ri-book-line"></i>
+                                        <i class="ri-graduation-cap-line"></i>
                                     </div>
                                     <div class="content">
-                                        <span class="years">2021 - 2024</span>
-                                        <h4>Webster College</h4>
-                                        <span class="company"> UI/UX Design </span>
+                                        <span class="years">1991</span>
+                                        <h4>Bachelor of Architecture (B.Arch.)</h4>
+                                        <h6>Architecture and Planning Faculty</h6>
+                                        <span class="company">Bangladesh University of Engineering and Technology
+                                            (BUET)</span>
                                     </div>
                                 </div>
                                 <!-- / END SINGLE RESUME DESIGN AREA -->
@@ -313,8 +329,8 @@
                         <div class="project-item style-two wow fadeInUp delay-0-3s">
                             <div class="project-image">
                                 <img src="{{ asset('visitor/dorbesh/images/projects/work1.jpg') }}" alt="Project">
-                                <a href="{{ asset('visitor/dorbesh/images/projects/work1.jpg') }}" class="details-btn work-popup"><i
-                                        class="ri-arrow-right-up-line"></i></a>
+                                <a href="{{ asset('visitor/dorbesh/images/projects/work1.jpg') }}"
+                                    class="details-btn work-popup"><i class="ri-arrow-right-up-line"></i></a>
                             </div>
                             <div class="project-content">
                                 <span class="sub-title">Branding</span>
@@ -343,8 +359,8 @@
                         <div class="project-item style-two wow fadeInUp delay-0-5s">
                             <div class="project-image">
                                 <img src="{{ asset('visitor/dorbesh/images/projects/work3.jpg') }}" alt="Project">
-                                <a href="{{ asset('visitor/dorbesh/images/projects/work3.jpg') }}" class="details-btn work-popup"><i
-                                        class="ri-arrow-right-up-line"></i></a>
+                                <a href="{{ asset('visitor/dorbesh/images/projects/work3.jpg') }}"
+                                    class="details-btn work-popup"><i class="ri-arrow-right-up-line"></i></a>
                             </div>
                             <div class="project-content">
                                 <span class="sub-title">Graphics</span>
@@ -358,8 +374,8 @@
                         <div class="project-item style-two wow fadeInUp delay-0-6s">
                             <div class="project-image">
                                 <img src="{{ asset('visitor/dorbesh/images/projects/work4.jpg') }}" alt="Project">
-                                <a href="{{ asset('visitor/dorbesh/images/projects/work4.jpg') }}" class="details-btn work-popup"><i
-                                        class="ri-arrow-right-up-line"></i></a>
+                                <a href="{{ asset('visitor/dorbesh/images/projects/work4.jpg') }}"
+                                    class="details-btn work-popup"><i class="ri-arrow-right-up-line"></i></a>
                             </div>
                             <div class="project-content">
                                 <span class="sub-title">Game</span>
@@ -373,8 +389,8 @@
                         <div class="project-item style-two wow fadeInUp delay-0-7s">
                             <div class="project-image">
                                 <img src="{{ asset('visitor/dorbesh/images/projects/work5.jpg') }}" alt="Project">
-                                <a href="{{ asset('visitor/dorbesh/images/projects/work5.jpg') }}" class="details-btn work-popup"><i
-                                        class="ri-arrow-right-up-line"></i></a>
+                                <a href="{{ asset('visitor/dorbesh/images/projects/work5.jpg') }}"
+                                    class="details-btn work-popup"><i class="ri-arrow-right-up-line"></i></a>
                             </div>
                             <div class="project-content">
                                 <span class="sub-title">Branding</span>
@@ -511,7 +527,8 @@
                             <!-- START SINGLE TESTIMONIALS DESIGN AREA -->
                             <div class="testimonial-item wow fadeInUp delay-0-3s">
                                 <div class="author">
-                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author1.jpg') }}" alt="Author" />
+                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author1.jpg') }}"
+                                        alt="Author" />
                                 </div>
                                 <div class="text">
                                     Financial planners help people to knowledge in about how to
@@ -527,7 +544,8 @@
                             <!-- START SINGLE TESTIMONIALS DESIGN AREA -->
                             <div class="testimonial-item wow fadeInUp delay-0-4s">
                                 <div class="author">
-                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author2.jpg') }}" alt="Author" />
+                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author2.jpg') }}"
+                                        alt="Author" />
                                 </div>
                                 <div class="text">
                                     Financial planners help people to knowledge in about how to
@@ -543,7 +561,8 @@
                             <!-- START SINGLE TESTIMONIALS DESIGN AREA -->
                             <div class="testimonial-item wow fadeInUp delay-0-2s">
                                 <div class="author">
-                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author1.jpg') }}" alt="Author" />
+                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author1.jpg') }}"
+                                        alt="Author" />
                                 </div>
                                 <div class="text">
                                     Financial planners help people to knowledge in about how to
@@ -559,7 +578,8 @@
                             <!-- START SINGLE TESTIMONIALS DESIGN AREA -->
                             <div class="testimonial-item wow fadeInUp delay-0-4s">
                                 <div class="author">
-                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author2.jpg') }}" alt="Author" />
+                                    <img src="{{ asset('visitor/dorbesh/images/testimonials/author2.jpg') }}"
+                                        alt="Author" />
                                 </div>
                                 <div class="text">
                                     Financial planners help people to knowledge in about how to
@@ -736,8 +756,8 @@
                                 <div class="contact-icon">
                                     <i class="ri-map-pin-line"></i>
                                 </div>
-                                <h2>our office:</h2>
-                                <p>Gonobhavan, Bangladesh</p>
+                                <h2>Location:</h2>
+                                <p>Dhaka, Bangladesh</p>
                             </div>
                             <!-- / END CONTACT SINGLEDESIGN AREA -->
                             <!-- START CONTACT SINGLEDESIGN AREA -->
@@ -745,8 +765,8 @@
                                 <div class="contact-icon">
                                     <i class="ri-phone-line"></i>
                                 </div>
-                                <h2>contact number:</h2>
-                                <p>+1234321321</p>
+                                <h2>Contact number:</h2>
+                                <p>+880 1711-104467</p>
                             </div>
                             <!-- / END CONTACT SINGLEDESIGN AREA -->
                             <!-- START CONTACT SINGLEDESIGN AREA -->
@@ -755,7 +775,7 @@
                                     <i class="ri-mail-line"></i>
                                 </div>
                                 <h2>Email us:</h2>
-                                <p>khunihashina@mail.com</p>
+                                <p>bdutpal@gmail.com</p>
                             </div>
                             <!-- / END CONTACT SINGLEDESIGN AREA -->
                         </div>
@@ -841,8 +861,9 @@
                     <h2 class="map_title">View My Live Map Location</h2>
                     <div class="map">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.957183635167!2d-74.00402768559431!3d40.71895904512855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2598a1316e7a7%3A0x47bb20eb6074b3f0!2sNew%20Work%20City%20-%20(CLOSED)!5e0!3m2!1sbn!2sbd!4v1600305497356!5m2!1sbn!2sbd"
-                            style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d233667.49930605068!2d90.25487553147933!3d23.78106723687385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b087026b81%3A0x8fa563bbdd5904c2!2sDhaka!5e0!3m2!1sen!2sbd!4v1768203183911!5m2!1sen!2sbd"
+                            style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
                         <h2 class="close_btn">Hide Map</h2>
                     </div>
                 </div><!-- END COL-->
