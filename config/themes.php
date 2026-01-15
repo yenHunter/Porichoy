@@ -3,8 +3,8 @@
 return [
 
     // Default visitor theme
-    'default_theme' => 'dorbesh',
-    'default_color' => 'light',
+    'default_theme' => env('APP_THEME', 'antux'),
+    'default_color' => env('APP_COLOR', 'light'),
 
     // Available visitor themes
     'available' => [

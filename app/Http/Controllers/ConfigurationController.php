@@ -28,17 +28,18 @@ class ConfigurationController extends Controller
     public function theme_update($theme)
     {
         try {
-            $configPath = config_path('themes.php');
-            // Get current config file content
-            $configContent = File::get($configPath);
-            // Replace the default_theme value with new theme
-            $updatedContent = preg_replace(
-                "/('default_theme'\s*=>\s*)'[^']*'/",
-                "'default_theme' => '{$theme}'",
-                $configContent
-            );
-            // Write back to file
-            File::put($configPath, $updatedContent);
+            // Update the .env file
+            $envFile = base_path('.env');
+            if (file_exists($envFile)) {
+                $envContent = file_get_contents($envFile);
+                $updatedEnvContent = preg_replace(
+                    "/(APP_THEME=)[^]*/",
+                    "${1}{$theme}",
+                    $envContent
+                );
+                file_put_contents($envFile, $updatedEnvContent);
+            }
+
             // Optionally clear config cache if used
             Artisan::call('config:clear');
 

@@ -653,7 +653,7 @@
         </div>
     </div>
     <!-- END BRAND DESIGN AREA -->
-    <!-- START VLOG DESIGN AREA -->
+    <!-- START BLOG DESIGN AREA -->
     <section id="blog" class="blog-area">
         <div class="container">
             <div class="row">
@@ -735,7 +735,7 @@
             <!-- START SINGLE VLOG DESIGN AREA -->
         </div>
     </section>
-    <!-- / END VLOG DESIGN AREA -->
+    <!-- / END BLOG DESIGN AREA -->
     <!-- START CONTACT DESIGN AREA -->
     <section id="contact" class="contact-area">
         <div class="container">
