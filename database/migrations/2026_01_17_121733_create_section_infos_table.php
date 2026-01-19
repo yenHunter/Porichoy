@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->foreignId('theme_id')->constrained('theme_infos')->onDelete('cascade');
-            $table->string('name');
             $table->string('title');
             $table->string('description')->nullable();
             $table->integer('sequence')->default(0);
-            $table->boolean('status')->default(false);
-            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->boolean('status')->default(true);
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

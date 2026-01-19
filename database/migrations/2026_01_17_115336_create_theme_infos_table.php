@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('resource_path')->nullable();
             $table->string('preview_image')->nullable();
             $table->integer('sequence')->default(0);
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

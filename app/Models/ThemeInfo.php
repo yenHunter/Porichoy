@@ -29,7 +29,7 @@ class ThemeInfo extends Model
     ];
 
     protected $casts = [
-        'status'        => 'boolean', 
+        'status'        => 'boolean',
         'sequence'      => 'integer',
     ];
 
@@ -44,6 +44,8 @@ class ThemeInfo extends Model
             // Auto User ID
             if (Auth::check()) {
                 $model->updated_by = Auth::id();
+            } else {
+                $model->updated_by = 1;
             }
 
             // Auto Sequence
@@ -55,7 +57,7 @@ class ThemeInfo extends Model
         static::updating(function ($model) {
             // Generate slug from title
             if ($model->isDirty('title') && empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->title,$model->id);
+                $model->slug = static::generateUniqueSlug($model->title, $model->id);
             }
 
             // Auto User ID
@@ -90,8 +92,8 @@ class ThemeInfo extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->preview_image 
-                ? asset('storage/' . $this->preview_image) 
+            get: fn() => $this->preview_image
+                ? asset('storage/' . $this->preview_image)
                 : asset('static/theme-preview.png')
         );
     }
