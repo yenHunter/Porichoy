@@ -18,6 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleSeeder::class);
         $this->call(ColumnSeeder::class);
         $this->call(SetectSeeder::class);
-        $this->call(FileSeeder::class);
+        // $this->call(FileSeeder::class);
     }
 }
