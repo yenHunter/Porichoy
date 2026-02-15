@@ -43,7 +43,7 @@ class VisitorController extends Controller
         );
     }
 
-    public function service_details(ServiceInfo $service)
+    public function service_details($service)
     {
         return view('pages.service-details', compact('service'));
     }
