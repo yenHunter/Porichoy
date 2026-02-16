@@ -142,7 +142,7 @@ Route::middleware('visitor')->name('visitor.')->group(function () {
 	Route::get('about', [VisitorController::class, 'about'])->name('visitor.about');
 	Route::get('education', [VisitorController::class, 'education'])->name('visitor.education');
 	Route::get('/service/{service}', [VisitorController::class, 'service_details'])->name('service.details');
-	Route::get('/project/{service}', [VisitorController::class, 'project_details'])->name('project.details');
+	Route::get('/project/{project}', [VisitorController::class, 'project_details'])->name('project.details');
 	Route::post('/theme/change', [VisitorController::class, 'changeTheme'])->name('visitor.theme.change');
 });
 

@@ -4,8 +4,7 @@
 
 @section('content')
 
-    <!-- Start Breadcrumb
-        ============================================= -->
+    <!-- Start Breadcrumb -->
     <div class="breadcrumb-area text-center">
         <div class="container">
             <div class="row">
@@ -24,8 +23,7 @@
     </div>
     <!-- End Breadcrumb -->
 
-    <!-- Star Services Details Area
-        ============================================= -->
+    <!-- Star Services Details Area -->
     <div class="services-details-area default-padding-bottom">
         <div class="container">
             <div class="services-details-items">
@@ -99,8 +97,7 @@
     </div>
     <!-- End Services Details Area -->
 
-    <!-- Star Services Details Area
-        ============================================= -->
+    <!-- Star Services Details Area -->
     <div class="services-details-area default-padding bg-gray">
         <div class="container">
             <div class="services-details-items">
@@ -196,8 +193,7 @@
     </div>
     <!-- End Services Details Area -->
 
-    <!-- Start Testimonial
-        ============================================= -->
+    <!-- Start Testimonial -->
     <div class="testimonial-style-one-area default-padding">
         <div class="shape-left-top">
             <img src="{{ asset('visitor/antux/img/banner/3.jpg') }}" alt="Image Not Found">
@@ -467,8 +463,7 @@
     </div>
     <!-- End Testimonial -->
 
-    <!-- Start Promo box
-        ============================================= -->
+    <!-- Start Promo box -->
     <div class="promot-box-area default-padding">
         <div class="container">
             <div class="row">
