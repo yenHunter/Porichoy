@@ -246,7 +246,7 @@
                                 <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}">Branding
                                     Design</a>
                             </h4>
-                            <a href="services-details.html" class="btn-style-four">
+                            <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}" class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -263,8 +263,8 @@
                         <div class="service-style-one-item active">
                             <img src="{{ asset('visitor/antux/img/icon/5.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="services-details.html">App Development</a></h4>
-                            <a href="services-details.html" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App Development</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}" class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -281,8 +281,8 @@
                         <div class="service-style-one-item">
                             <img src="{{ asset('visitor/antux/img/icon/6.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="services-details.html">UI/UX Design</a></h4>
-                            <a href="services-details.html" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">UI/UX Design</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}" class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -299,8 +299,8 @@
                         <div class="service-style-one-item">
                             <img src="{{ asset('visitor/antux/img/icon/7.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="services-details.html">Web Design</a></h4>
-                            <a href="services-details.html" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web Design</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}" class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
