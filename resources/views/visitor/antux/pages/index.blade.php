@@ -383,11 +383,11 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
+                                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                             class="fas fa-long-arrow-right"></i></a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Document manager application</a></h4>
+                                            <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Document manager application</a></h4>
                                         </div>
                                     </div>
                                 </div>
