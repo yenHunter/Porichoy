@@ -1412,10 +1412,10 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="blog-single-with-sidebar.html">Picked up brussels burger signications with ham
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Picked up brussels burger signications with ham
                                         efforts.</a>
                                 </h4>
-                                <a href="blog-single-with-sidebar.html" class="btn-read-more">Read More <i
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
                                         class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>
@@ -1437,10 +1437,10 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="blog-single-with-sidebar.html">This prefabrice passive house is highly
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">This prefabrice passive house is highly
                                         sustainable with intent</a>
                                 </h4>
-                                <a href="blog-single-with-sidebar.html" class="btn-read-more">Read More <i
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
                                         class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>
@@ -1462,10 +1462,10 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="blog-single-with-sidebar.html">Announcing if attachment resolution sentim
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Announcing if attachment resolution sentim
                                         commercial.</a>
                                 </h4>
-                                <a href="blog-single-with-sidebar.html" class="btn-read-more">Read More <i
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
                                         class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>

@@ -9,7 +9,7 @@
                     <h1>No Code Development Website Builder</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"><i
+                            <li><a href="#"><i
                                         class="fas fa-home"></i> Home</a></li>
                             <li class="active">Blog</li>
                         </ol>
@@ -31,16 +31,19 @@
                             <div class="blog-item-box">
 
                                 <div class="thumb">
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"><img
-                                            src="./Antux - Personal Portfolio Template_files/v2.jpg" alt="Thumb"></a>
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                        <img src="{{ asset('visitor/antux/img/blog/v2.jpg') }}" alt="Thumb">
+                                    </a>
                                 </div>
                                 <div class="info">
                                     <div class="meta">
                                         <ul>
                                             <li>
-                                                <i class="fas fa-user"></i> <a
-                                                    href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#">Md
-                                                    Sohag</a>
+                                                <i class="fas fa-user"></i>
+                                                <a
+                                                    href="#">
+                                                    Md Sohag
+                                                </a>
                                             </li>
                                             <li>
                                                 <i class="fas fa-calendar-alt"></i> 25 April, 2023
@@ -104,10 +107,10 @@
                         <!-- Post Author -->
                         <div class="post-author">
                             <div class="thumb">
-                                <img src="./Antux - Personal Portfolio Template_files/11.jpg" alt="Thumb">
+                                <img src="{{ asset('visitor/antux/img/team/11.jpg') }}" alt="Thumb">
                             </div>
                             <div class="info">
-                                <h4><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Md
+                                <h4><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Md
                                         Sohag</a></h4>
                                 <p>
                                     Grursus mal suada faci lisis Lorem ipsum dolarorit more ametion consectetur
@@ -123,8 +126,8 @@
                         <div class="post-tags share">
                             <div class="tags">
                                 <h4>Tags: </h4>
-                                <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Algorithm</a>
-                                <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Data
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Algorithm</a>
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Data
                                     science</a>
                             </div>
 
@@ -133,24 +136,24 @@
                                 <ul>
                                     <li>
                                         <a class="facebook"
-                                            href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"
+                                            href="#"
                                             target="_blank"><i class="fab fa-facebook-f"></i></a>
                                     </li>
                                     <li>
                                         <a class="twitter"
-                                            href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"
+                                            href="#"
                                             target="_blank"><img
-                                                src="./Antux - Personal Portfolio Template_files/twitter.png"
+                                                src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
                                                 alt="Image Not Found"></a>
                                     </li>
                                     <li>
                                         <a class="pinterest"
-                                            href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"
+                                            href="#"
                                             target="_blank"><i class="fab fa-pinterest-p"></i></a>
                                     </li>
                                     <li>
                                         <a class="linkedin"
-                                            href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"
+                                            href="#"
                                             target="_blank"><i class="fab fa-linkedin-in"></i></a>
                                     </li>
                                 </ul><!-- End Social Share -->
@@ -161,14 +164,14 @@
                         <!-- Start Post Pagination -->
                         <div class="post-pagi-area">
                             <div class="post-previous">
-                                <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
                                     <div class="icon"><i class="fas fa-angle-double-left"></i></div>
                                     <div class="nav-title"> Previus Post <h5>Discovery incommode</h5>
                                     </div>
                                 </a>
                             </div>
                             <div class="post-next">
-                                <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
                                     <div class="nav-title">Next Post <h5>Discovery incommode</h5>
                                     </div>
                                     <div class="icon"><i class="fas fa-angle-double-right"></i></div>
@@ -185,12 +188,12 @@
                                     <div class="comments-list">
                                         <div class="comment-item">
                                             <div class="avatar">
-                                                <img src="./Antux - Personal Portfolio Template_files/9.jpg" alt="Author">
+                                                <img src="{{ asset('visitor/antux/img/team/9.jpg') }}" alt="Author">
                                             </div>
                                             <div class="content">
                                                 <div class="title">
                                                     <h5>Bubhan Prova <span class="reply"><a
-                                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"><i
+                                                                href="#"><i
                                                                     class="fas fa-reply"></i> Reply</a></span></h5>
                                                     <span>28 Feb, 2022</span>
                                                 </div>
@@ -206,13 +209,13 @@
                                         </div>
                                         <div class="comment-item reply">
                                             <div class="avatar">
-                                                <img src="./Antux - Personal Portfolio Template_files/10.jpg"
+                                                <img src="{{ asset('visitor/antux/img/team/10.jpg') }}"
                                                     alt="Author">
                                             </div>
                                             <div class="content">
                                                 <div class="title">
                                                     <h5>Mickel Jones <span class="reply"><a
-                                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"><i
+                                                                href="#"><i
                                                                     class="fas fa-reply"></i> Reply</a></span></h5>
                                                     <span>15 Mar, 2022</span>
                                                 </div>
@@ -232,7 +235,7 @@
                                         <h3>Leave a comments</h3>
                                     </div>
                                     <form
-                                        action="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"
+                                        action="#"
                                         class="contact-comments">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -285,8 +288,8 @@
                                     <li>
                                         <div class="thumb">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/1.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}"
                                                     alt="Thumb">
                                             </a>
                                         </div>
@@ -295,15 +298,15 @@
                                                 <span class="post-date">12 Feb, 2020</span>
                                             </div>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Commanded
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
                                                 household smallness delivered.</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/2.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}"
                                                     alt="Thumb">
                                             </a>
                                         </div>
@@ -312,15 +315,15 @@
                                                 <span class="post-date">05 Jul, 2022</span>
                                             </div>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Future
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
                                                 Plan &amp; Strategy for Consutruction </a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/3.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}"
                                                     alt="Thumb">
                                             </a>
                                         </div>
@@ -329,7 +332,7 @@
                                                 <span class="post-date">29 Aug, 2020</span>
                                             </div>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Melancholy
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
                                                 particular devonshire alteration</a>
                                         </div>
                                     </li>
@@ -340,23 +343,23 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">national
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
                                                 <span>69</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">national
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
                                                 <span>25</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">sports
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">sports
                                                 <span>18</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">megazine
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">megazine
                                                 <span>37</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">health
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">health
                                                 <span>12</span></a>
                                         </li>
                                     </ul>
@@ -368,43 +371,43 @@
                                     <ul>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/6.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/6.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/4.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/4.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/5.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/5.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/3.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/2.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
                                         <li>
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Personal Portfolio Template_files/1.jpg"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}"
                                                     alt="thumb">
                                             </a>
                                         </li>
@@ -415,13 +418,13 @@
                                 <h4 class="title">Archives</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Aug
+                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Aug
                                                 2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Sept
+                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Sept
                                                 2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Nov
+                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Nov
                                                 2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Dec
+                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Dec
                                                 2020</a></li>
                                     </ul>
                                 </div>
@@ -432,26 +435,26 @@
                                     <ul>
                                         <li class="facebook">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#">
+                                                href="#">
                                                 <i class="fab fa-facebook-f"></i>
                                             </a>
                                         </li>
                                         <li class="twitter">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#">
-                                                <img src="./Antux - Personal Portfolio Template_files/twitter.png"
+                                                href="#">
+                                                <img src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
                                                     alt="Image Not Found">
                                             </a>
                                         </li>
                                         <li class="pinterest">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#">
+                                                href="#">
                                                 <i class="fab fa-pinterest"></i>
                                             </a>
                                         </li>
                                         <li class="linkedin">
                                             <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#">
+                                                href="#">
                                                 <i class="fab fa-linkedin-in"></i>
                                             </a>
                                         </li>
@@ -466,19 +469,19 @@
                                                 href="https://validthemes.net/site-template/antux/blog-standard.html">Fashion</a>
                                         </li>
                                         <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Education</a>
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Education</a>
                                         </li>
                                         <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">nation</a>
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">nation</a>
                                         </li>
                                         <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">study</a>
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">study</a>
                                         </li>
                                         <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">health</a>
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">health</a>
                                         </li>
                                         <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">food</a>
+                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">food</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -503,7 +506,7 @@
                                 now</a></h4>
                         <div class="button mt-40">
                             <a class="btn-style-regular"
-                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html#"><span>Hire
+                                href="#"><span>Hire
                                     Me Now </span> <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
