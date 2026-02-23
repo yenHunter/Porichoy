@@ -78,6 +78,11 @@ return [
       'text' => 'Training'
     ],
     [
+      'url' => '/module/blog',
+      'icon' => 'fas fa-rss',
+      'text' => 'Blog'
+    ],
+    [
       'is_divider' => true
     ],
     [
@@ -85,9 +90,24 @@ return [
       'is_header' => true
     ],
     [
+      'url' => '/element/service',
+      'icon' => 'fas fa-screwdriver-wrench',
+      'text' => 'Service'
+    ],
+    [
+      'url' => '/element/project',
+      'icon' => 'fas fa-diagram-project',
+      'text' => 'Project'
+    ],
+    [
       'url' => '/element/skill',
       'icon' => 'fas fa-crown',
       'text' => 'Skill'
+    ],
+    [
+      'url' => '/element/client',
+      'icon' => 'fas fa-handshake',
+      'text' => 'Client'
     ],
     [
       'is_divider' => true

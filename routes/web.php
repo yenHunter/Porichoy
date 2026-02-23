@@ -147,7 +147,7 @@ Route::middleware('visitor')->name('visitor.')->group(function () {
 	Route::get('project/{project}', [VisitorController::class, 'project_details'])->name('project.details');
 	Route::get('blogs', [VisitorController::class, 'blogs'])->name('blog.index');
 	Route::get('blog/{blog}', [VisitorController::class, 'blog_details'])->name('blog.details');
-	Route::post('theme/change', [VisitorController::class, 'changeTheme'])->name('visitor.theme.change');
+	Route::post('contact', [VisitorController::class, 'contact'])->name('contact.index');
 });
 
 

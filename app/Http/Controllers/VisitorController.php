@@ -43,14 +43,29 @@ class VisitorController extends Controller
         );
     }
 
+    public function services()
+    {
+        return view('pages.services');
+    }
+
     public function service_details($service)
     {
         return view('pages.service-details', compact('service'));
     }
 
+    public function projects()
+    {
+        return view('pages.projects');
+    }
+
     public function project_details($project)
     {
         return view('pages.project-details', compact('project'));
+    }
+
+    public function blogs()
+    {
+        return view('pages.blogs');
     }
 
     public function blog_details($blog)

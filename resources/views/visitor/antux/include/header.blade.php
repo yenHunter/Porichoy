@@ -47,22 +47,22 @@
 
                 <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                     <li>
-                        <a class="smooth-menu active" href="{{ route('visitor.index') }}">Home</a>
+                        <a class="smooth-menu" href="{{ route('visitor.index') }}#home">Home</a>
                     </li>
                     <li>
                         <a class="smooth-menu" href="{{ route('visitor.index') }}#services">Services</a>
                     </li>
                     <li>
-                        <a class="smooth-menu" href="#portfolio">Portfolio</a>
+                        <a class="smooth-menu" href="{{ route('visitor.index') }}#portfolio">Portfolio</a>
                     </li>
                     <li>
-                        <a class="smooth-menu" href="#resume">Resume</a>
+                        <a class="smooth-menu" href="{{ route('visitor.index') }}#resume">Resume</a>
                     </li>
                     <li>
-                        <a class="smooth-menu" href="#pricing">Pricing</a>
+                        <a class="smooth-menu" href="{{ route('visitor.index') }}#pricing">Pricing</a>
                     </li>
                     <li>
-                        <a class="smooth-menu" href="#contact">contact</a>
+                        <a class="smooth-menu" href="{{ route('visitor.index') }}#contact">contact</a>
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->

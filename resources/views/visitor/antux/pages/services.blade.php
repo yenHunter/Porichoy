@@ -11,8 +11,9 @@
                     <h1>Professional service websites design</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/service.html#"><i
-                                        class="fas fa-home"></i> Home</a></li>
+                            <li>
+                                <a href="{{ route('visitor.index') }}"><i class="fas fa-home"></i> Home</a>
+                            </li>
                             <li class="active">Services</li>
                         </ol>
                     </nav>
@@ -29,14 +30,19 @@
                 <!-- Single Item -->
                 <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
                     <div class="service-style-one-item">
-                        <img src="./Antux - Services_files/1.png" alt="Image Not Found">
-                        <h4><a href="https://validthemes.net/site-template/antux/services-details.html">Digital
-                                Marketing</a></h4>
+                        <img src="{{ asset('visitor/antux/img/icon/1.png') }}" alt="Image Not Found">
+                        <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
+                        <h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}">Branding
+                                Design</a>
+                        </h4>
                         <p>
                             Continue indulged speaking the was horrible for domestic position. Seeing get rather.
                         </p>
-                        <a href="https://validthemes.net/site-template/antux/services-details.html" class="btn-style-four">
-                            <div class="icon"><img src="./Antux - Services_files/arrow.png" alt="Image Not Found">
+                        <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}"
+                            class="btn-style-four">
+                            <div class="icon">
+                                <img src="{{ asset('visitor/antux/img/icon/arrow.png') }}" alt="Image Not Found">
                             </div> Read More
                         </a>
                     </div>
@@ -46,14 +52,19 @@
                 <div class="col-xl-3 col-md-6 mb-30 active wow fadeInUp" data-wow-delay="200ms"
                     style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                     <div class="service-style-one-item">
-                        <img src="./Antux - Services_files/2.png" alt="Image Not Found">
-                        <h4><a href="https://validthemes.net/site-template/antux/services-details.html">App
-                                Development</a></h4>
+                        <img src="{{ asset('visitor/antux/img/icon/2.png') }}" alt="Image Not Found">
+                        <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
+                        <h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App
+                                Development</a>
+                        </h4>
                         <p>
                             Continue indulged speaking the was horrible for domestic position. Seeing get rather.
                         </p>
-                        <a href="https://validthemes.net/site-template/antux/services-details.html" class="btn-style-four">
-                            <div class="icon"><img src="./Antux - Services_files/arrow.png" alt="Image Not Found">
+                        <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}"
+                            class="btn-style-four">
+                            <div class="icon">
+                                <img src="{{ asset('visitor/antux/img/icon/arrow.png') }}" alt="Image Not Found">
                             </div> Read More
                         </a>
                     </div>
@@ -63,14 +74,19 @@
                 <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp" data-wow-delay="400ms"
                     style="visibility: visible; animation-delay: 400ms; animation-name: fadeInUp;">
                     <div class="service-style-one-item active">
-                        <img src="./Antux - Services_files/3.png" alt="Image Not Found">
-                        <h4><a href="https://validthemes.net/site-template/antux/services-details.html">UI/UX
-                                Design</a></h4>
+                        <img src="{{ asset('visitor/antux/img/icon/3.png') }}" alt="Image Not Found">
+                        <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
+                        <h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'uiux-design']) }}">UI/UX
+                                Design</a>
+                        </h4>
                         <p>
                             Continue indulged speaking the was horrible for domestic position. Seeing get rather.
                         </p>
-                        <a href="https://validthemes.net/site-template/antux/services-details.html" class="btn-style-four">
-                            <div class="icon"><img src="./Antux - Services_files/arrow.png" alt="Image Not Found">
+                        <a href="{{ route('visitor.service.details', ['service' => 'uiux-design']) }}"
+                            class="btn-style-four">
+                            <div class="icon">
+                                <img src="{{ asset('visitor/antux/img/icon/arrow.png') }}" alt="Image Not Found">
                             </div> Read More
                         </a>
                     </div>
@@ -80,14 +96,19 @@
                 <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp" data-wow-delay="600ms"
                     style="visibility: visible; animation-delay: 600ms; animation-name: fadeInUp;">
                     <div class="service-style-one-item">
-                        <img src="./Antux - Services_files/4.png" alt="Image Not Found">
-                        <h4><a href="https://validthemes.net/site-template/antux/services-details.html">Web
-                                Design</a></h4>
+                        <img src="{{ asset('visitor/antux/img/icon/4.png') }}" alt="Image Not Found">
+                        <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
+                        <h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web
+                                Design</a>
+                        </h4>
                         <p>
                             Continue indulged speaking the was horrible for domestic position. Seeing get rather.
                         </p>
-                        <a href="https://validthemes.net/site-template/antux/services-details.html" class="btn-style-four">
-                            <div class="icon"><img src="./Antux - Services_files/arrow.png" alt="Image Not Found">
+                        <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}"
+                            class="btn-style-four">
+                            <div class="icon">
+                                <img src="{{ asset('visitor/antux/img/icon/arrow.png') }}" alt="Image Not Found">
                             </div> Read More
                         </a>
                     </div>

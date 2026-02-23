@@ -7,11 +7,11 @@
                     <a href="#" class="footer-logot"><img src="{{ asset('visitor/antux/img/logo.png') }}"
                             alt="Image Not Found"></a>
                     <ul class="foter-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="service.html">Services</a></li>
-                        <li><a href="projects.html">Portfolio</a></li>
-                        <li><a href="blog-with-sidebar.html">Blog</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="{{ route('visitor.index') }}">Home</a></li>
+                        <li><a href="{{ route('visitor.service.index') }}">Services</a></li>
+                        <li><a href="{{ route('visitor.project.index') }}">Portfolio</a></li>
+                        <li><a href="{{ route('visitor.blog.index') }}">Blog</a></li>
+                        <li><a href="{{ route('visitor.contact.index') }}">Contact</a></li>
                     </ul>
                     <p>Copyright &copy; {{ now()->year }} Antux. All Rights Reserved</p>
                 </div>

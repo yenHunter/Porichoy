@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Start Banner -->
-    <div class="banner-style-one-area bg-gray" style="background-image: url({{ asset('visitor/antux/img/shape/4.png') }});">
+    <div id="home" class="banner-style-one-area bg-gray" style="background-image: url({{ asset('visitor/antux/img/shape/4.png') }});">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -240,7 +240,7 @@
                     <!-- Single Item -->
                     <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp">
                         <div class="service-style-one-item">
-                            <img src="{{ asset('visitor/antux/img/icon/4.png') }}" alt="Image Not Found">
+                            <img src="{{ asset('visitor/antux/img/icon/1.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
                             <h4>
                                 <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}">Branding
@@ -261,7 +261,7 @@
                     <!-- Single Item -->
                     <div class="col-xl-3 col-md-6 mb-30 active wow fadeInUp" data-wow-delay="200ms">
                         <div class="service-style-one-item active">
-                            <img src="{{ asset('visitor/antux/img/icon/5.png') }}" alt="Image Not Found">
+                            <img src="{{ asset('visitor/antux/img/icon/2.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
                             <h4><a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App Development</a></h4>
                             <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}" class="btn-style-four">
@@ -279,7 +279,7 @@
                     <!-- Single Item -->
                     <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp" data-wow-delay="400ms">
                         <div class="service-style-one-item">
-                            <img src="{{ asset('visitor/antux/img/icon/6.png') }}" alt="Image Not Found">
+                            <img src="{{ asset('visitor/antux/img/icon/3.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
                             <h4><a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">UI/UX Design</a></h4>
                             <a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}" class="btn-style-four">
@@ -297,7 +297,7 @@
                     <!-- Single Item -->
                     <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp" data-wow-delay="600ms">
                         <div class="service-style-one-item">
-                            <img src="{{ asset('visitor/antux/img/icon/7.png') }}" alt="Image Not Found">
+                            <img src="{{ asset('visitor/antux/img/icon/4.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
                             <h4><a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web Design</a></h4>
                             <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}" class="btn-style-four">

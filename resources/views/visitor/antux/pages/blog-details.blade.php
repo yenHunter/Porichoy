@@ -9,8 +9,7 @@
                     <h1>No Code Development Website Builder</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="#"><i
-                                        class="fas fa-home"></i> Home</a></li>
+                            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
                             <li class="active">Blog</li>
                         </ol>
                     </nav>
@@ -40,8 +39,7 @@
                                         <ul>
                                             <li>
                                                 <i class="fas fa-user"></i>
-                                                <a
-                                                    href="#">
+                                                <a href="#">
                                                     Md Sohag
                                                 </a>
                                             </li>
@@ -135,26 +133,25 @@
                                 <h4>Share:</h4>
                                 <ul>
                                     <li>
-                                        <a class="facebook"
-                                            href="#"
-                                            target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="facebook" href="#" target="_blank">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a class="twitter"
-                                            href="#"
-                                            target="_blank"><img
-                                                src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
-                                                alt="Image Not Found"></a>
+                                        <a class="twitter" href="#" target="_blank">
+                                            <img src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
+                                                alt="Image Not Found">
+                                        </a>
                                     </li>
                                     <li>
-                                        <a class="pinterest"
-                                            href="#"
-                                            target="_blank"><i class="fab fa-pinterest-p"></i></a>
+                                        <a class="pinterest" href="#" target="_blank">
+                                            <i class="fab fa-pinterest-p"></i>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a class="linkedin"
-                                            href="#"
-                                            target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                        <a class="linkedin" href="#" target="_blank">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
                                     </li>
                                 </ul><!-- End Social Share -->
                             </div>
@@ -174,7 +171,9 @@
                                 <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
                                     <div class="nav-title">Next Post <h5>Discovery incommode</h5>
                                     </div>
-                                    <div class="icon"><i class="fas fa-angle-double-right"></i></div>
+                                    <div class="icon">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </div>
                                 </a>
                             </div>
                         </div>
@@ -192,8 +191,7 @@
                                             </div>
                                             <div class="content">
                                                 <div class="title">
-                                                    <h5>Bubhan Prova <span class="reply"><a
-                                                                href="#"><i
+                                                    <h5>Bubhan Prova <span class="reply"><a href="#"><i
                                                                     class="fas fa-reply"></i> Reply</a></span></h5>
                                                     <span>28 Feb, 2022</span>
                                                 </div>
@@ -209,13 +207,11 @@
                                         </div>
                                         <div class="comment-item reply">
                                             <div class="avatar">
-                                                <img src="{{ asset('visitor/antux/img/team/10.jpg') }}"
-                                                    alt="Author">
+                                                <img src="{{ asset('visitor/antux/img/team/10.jpg') }}" alt="Author">
                                             </div>
                                             <div class="content">
                                                 <div class="title">
-                                                    <h5>Mickel Jones <span class="reply"><a
-                                                                href="#"><i
+                                                    <h5>Mickel Jones <span class="reply"><a href="#"><i
                                                                     class="fas fa-reply"></i> Reply</a></span></h5>
                                                     <span>15 Mar, 2022</span>
                                                 </div>
@@ -234,9 +230,7 @@
                                     <div class="title">
                                         <h3>Leave a comments</h3>
                                     </div>
-                                    <form
-                                        action="#"
-                                        class="contact-comments">
+                                    <form action="#" class="contact-comments">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -287,52 +281,43 @@
                                 <ul>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}"
-                                                    alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">12 Feb, 2020</span>
                                             </div>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
                                                 household smallness delivered.</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}"
-                                                    alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">05 Jul, 2022</span>
                                             </div>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
                                                 Plan &amp; Strategy for Consutruction </a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}"
-                                                    alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">29 Aug, 2020</span>
                                             </div>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
                                                 particular devonshire alteration</a>
                                         </div>
                                     </li>
@@ -370,45 +355,33 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/6.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/6.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/4.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/4.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/5.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/5.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}"
-                                                    alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                     </ul>
@@ -418,14 +391,18 @@
                                 <h4 class="title">Archives</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Aug
-                                                2020</a></li>
-                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Sept
-                                                2020</a></li>
-                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Nov
-                                                2020</a></li>
-                                        <li><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Dec
-                                                2020</a></li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Aug 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Sept 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Nov 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Dec 2020</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -434,27 +411,23 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li class="facebook">
-                                            <a
-                                                href="#">
+                                            <a href="#">
                                                 <i class="fab fa-facebook-f"></i>
                                             </a>
                                         </li>
                                         <li class="twitter">
-                                            <a
-                                                href="#">
+                                            <a href="#">
                                                 <img src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
                                                     alt="Image Not Found">
                                             </a>
                                         </li>
                                         <li class="pinterest">
-                                            <a
-                                                href="#">
+                                            <a href="#">
                                                 <i class="fab fa-pinterest"></i>
                                             </a>
                                         </li>
                                         <li class="linkedin">
-                                            <a
-                                                href="#">
+                                            <a href="#">
                                                 <i class="fab fa-linkedin-in"></i>
                                             </a>
                                         </li>
@@ -465,23 +438,23 @@
                                 <h4 class="title">tags</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-standard.html">Fashion</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Fashion</a>
                                         </li>
-                                        <li><a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Education</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Education</a>
                                         </li>
-                                        <li><a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">nation</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">nation</a>
                                         </li>
-                                        <li><a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">study</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">study</a>
                                         </li>
-                                        <li><a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">health</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">health</a>
                                         </li>
-                                        <li><a
-                                                href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">food</a>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">food</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -505,8 +478,7 @@
                         <h4>For quick response: <a href="skype:example123?chat"><i class="fab fa-skype"></i> Chat
                                 now</a></h4>
                         <div class="button mt-40">
-                            <a class="btn-style-regular"
-                                href="#"><span>Hire
+                            <a class="btn-style-regular" href="#"><span>Hire
                                     Me Now </span> <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>

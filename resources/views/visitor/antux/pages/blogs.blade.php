@@ -11,8 +11,9 @@
                     <h1>No Code Development Website Builder</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#"><i
-                                        class="fas fa-home"></i> Home</a></li>
+                            <li>
+                                <a href="{{ route('visitor.index') }}"><i class="fas fa-home"></i> Home</a>
+                            </li>
                             <li class="active">Blog</li>
                         </ol>
                     </nav>
@@ -32,16 +33,15 @@
                             <!-- Single Item -->
                             <div class="blog-style-one item">
                                 <div class="thumb">
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"><img
-                                            src="./Antux - Blogs_files/v1.jpg" alt="Image Not Found"></a>
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                        <img src="{{ asset('visitor/antux/img/blog/v1.jpg') }}" alt="Image Not Found">
+                                    </a>
                                 </div>
                                 <div class="info">
                                     <div class="meta">
                                         <ul>
                                             <li>
-                                                <a
-                                                    href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">Md
-                                                    Sohag</a>
+                                                <a href="#">Md Sohag</a>
                                             </li>
                                             <li>
                                                 25 April, 2023
@@ -49,7 +49,7 @@
                                         </ul>
                                     </div>
                                     <h2>
-                                        <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Miscovery
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Miscovery
                                             incommode earnestly commanded temparing task.</a>
                                     </h2>
                                     <p>
@@ -57,7 +57,7 @@
                                         cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
                                         limits hearts. Resolve parties but why she shewing. She sang know now
                                     </p>
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
                                         class="button-regular">
                                         Continue Reading <i class="fas fa-arrow-right"></i>
                                     </a>
@@ -67,16 +67,15 @@
                             <!-- Single Item -->
                             <div class="blog-style-one item">
                                 <div class="thumb">
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"><img
-                                            src="./Antux - Blogs_files/v2.jpg" alt="Thumb"></a>
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                        <img src="{{ asset('visitor/antux/img/blog/v2.jpg') }}" alt="Thumb">
+                                    </a>
                                 </div>
                                 <div class="info">
                                     <div class="meta">
                                         <ul>
                                             <li>
-                                                <a
-                                                    href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">Md
-                                                    Sohag</a>
+                                                <a href="#">Md Sohag</a>
                                             </li>
                                             <li>
                                                 25 April, 2023
@@ -84,7 +83,7 @@
                                         </ul>
                                     </div>
                                     <h2>
-                                        <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Minuter
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Minuter
                                             him own clothes but observe country to beloved another.</a>
                                     </h2>
                                     <p>
@@ -92,7 +91,7 @@
                                         cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
                                         limits hearts. Resolve parties but why she shewing. She sang know now
                                     </p>
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
                                         class="button-regular">
                                         Continue Reading <i class="fas fa-arrow-right"></i>
                                     </a>
@@ -102,16 +101,15 @@
                             <!-- Single Item -->
                             <div class="blog-style-one item">
                                 <div class="thumb">
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"><img
-                                            src="./Antux - Blogs_files/v3.jpg" alt="Thumb"></a>
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                        <img src="{{ asset('visitor/antux/img/blog/v1.jpg') }}" alt="Thumb">
+                                    </a>
                                 </div>
                                 <div class="info">
                                     <div class="meta">
                                         <ul>
                                             <li>
-                                                <a
-                                                    href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">Md
-                                                    Sohag</a>
+                                                <a href="#">Md Sohag</a>
                                             </li>
                                             <li>
                                                 25 April, 2023
@@ -119,7 +117,7 @@
                                         </ul>
                                     </div>
                                     <h2>
-                                        <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Overcame
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Overcame
                                             breeding point concerns has terminate actual is monitoring.</a>
                                     </h2>
                                     <p>
@@ -127,7 +125,7 @@
                                         cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
                                         limits hearts. Resolve parties but why she shewing. She sang know now
                                     </p>
-                                    <a href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html"
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
                                         class="button-regular">
                                         Continue Reading <i class="fas fa-arrow-right"></i>
                                     </a>
@@ -141,21 +139,25 @@
                             <div class="col-md-12 pagi-area text-center">
                                 <nav aria-label="navigation">
                                     <ul class="pagination">
-                                        <li class="page-item"><a class="page-link"
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html"><i
-                                                    class="fas fa-angle-left"></i></a></li>
-                                        <li class="page-item active"><a class="page-link"
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">1</a>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ route('visitor.blog.index') }}">
+                                                <i class="fas fa-angle-left"></i>
+                                            </a>
                                         </li>
-                                        <li class="page-item"><a class="page-link"
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">2</a>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="{{ route('visitor.blog.index') }}">1</a>
                                         </li>
-                                        <li class="page-item"><a class="page-link"
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">3</a>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ route('visitor.blog.index') }}">2</a>
                                         </li>
-                                        <li class="page-item"><a class="page-link"
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html"><i
-                                                    class="fas fa-angle-right"></i></a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ route('visitor.blog.index') }}">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ route('visitor.blog.index') }}">
+                                                <i class="fas fa-angle-right"></i>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -180,49 +182,43 @@
                                 <ul>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/1.jpg" alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">12 Feb, 2020</span>
                                             </div>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Commanded
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
                                                 household smallness delivered.</a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/2.jpg" alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">05 Jul, 2022</span>
                                             </div>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Future
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
                                                 Plan &amp; Strategy for Consutruction </a>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="thumb">
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/3.jpg" alt="Thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
                                             </a>
                                         </div>
                                         <div class="info">
                                             <div class="meta-title">
                                                 <span class="post-date">29 Aug, 2020</span>
                                             </div>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">Melancholy
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
                                                 particular devonshire alteration</a>
                                         </div>
                                     </li>
@@ -233,23 +229,23 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">national
+                                            <a href="{{ route('visitor.blog.index') }}">national
                                                 <span>69</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">national
+                                            <a href="{{ route('visitor.blog.index') }}">national
                                                 <span>25</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">sports
+                                            <a href="{{ route('visitor.blog.index') }}">sports
                                                 <span>18</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">megazine
+                                            <a href="{{ route('visitor.blog.index') }}">megazine
                                                 <span>37</span></a>
                                         </li>
                                         <li>
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">health
+                                            <a href="{{ route('visitor.blog.index') }}">health
                                                 <span>12</span></a>
                                         </li>
                                     </ul>
@@ -260,39 +256,33 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/6.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/6.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/4.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/5.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/5.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/4.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/3.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/2.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                         <li>
-                                            <a
-                                                href="https://validthemes.net/site-template/antux/blog-single-with-sidebar.html">
-                                                <img src="./Antux - Blogs_files/1.jpg" alt="thumb">
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="thumb">
                                             </a>
                                         </li>
                                     </ul>
@@ -302,14 +292,18 @@
                                 <h4 class="title">Archives</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Aug
-                                                2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Sept
-                                                2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Nov
-                                                2020</a></li>
-                                        <li><a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Dec
-                                                2020</a></li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Aug 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Sept 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Nov 2020</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('visitor.blog.index') }}">Dec 2020</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -318,22 +312,23 @@
                                 <div class="sidebar-info">
                                     <ul>
                                         <li class="facebook">
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">
+                                            <a href="#">
                                                 <i class="fab fa-facebook-f"></i>
                                             </a>
                                         </li>
                                         <li class="twitter">
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">
-                                                <img src="./Antux - Blogs_files/twitter.png" alt="Image Not Found">
+                                            <a href="#">
+                                                <img src="{{ asset('visitor/antux/img/icon/twitter.png') }}"
+                                                    alt="Image Not Found">
                                             </a>
                                         </li>
                                         <li class="pinterest">
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">
+                                            <a href="#">
                                                 <i class="fab fa-pinterest"></i>
                                             </a>
                                         </li>
                                         <li class="linkedin">
-                                            <a href="https://validthemes.net/site-template/antux/blog-with-sidebar.html#">
+                                            <a href="#">
                                                 <i class="fab fa-linkedin-in"></i>
                                             </a>
                                         </li>
@@ -344,23 +339,17 @@
                                 <h4 class="title">tags</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-standard.html">Fashion</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">Fashion</a>
                                         </li>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">Education</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">Education</a>
                                         </li>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">nation</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">nation</a>
                                         </li>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">study</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">study</a>
                                         </li>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">health</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">health</a>
                                         </li>
-                                        <li><a
-                                                href="https://validthemes.net/site-template/antux/blog-with-sidebar.html">food</a>
+                                        <li><a href="{{ route('visitor.blog.index') }}">food</a>
                                         </li>
                                     </ul>
                                 </div>
