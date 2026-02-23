@@ -12,8 +12,11 @@
                     <h1>Digital marketing and analytical solution</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/project-details.html#"><i
-                                        class="fas fa-home"></i> Home</a></li>
+                            <li>
+                                <a href="{{ route('visitor.index') }}">
+                                    <i class="fas fa-home"></i> Home
+                                </a>
+                            </li>
                             <li class="active">Project</li>
                         </ol>
                     </nav>
@@ -188,18 +191,17 @@
                 <div class="col-lg-12">
                     <div class="project-paginvation-items mt-xs--25 mt-md--25">
                         <div class="project-previous">
-                            <a href="https://validthemes.net/site-template/antux/project-details.html#">
+                            <a href="#">
                                 <div class="icon"><i class="fas fa-angle-double-left"></i></div>
                                 <div class="nav-title"> Previus Post <h5>Discovery incommode</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="project-all">
-                            <a href="https://validthemes.net/site-template/antux/project-details.html#"><i
-                                    class="fas fa-th-large"></i></a>
+                            <a href="{{ route('visitor.project.index') }}"><i class="fas fa-th-large"></i></a>
                         </div>
                         <div class="project-next">
-                            <a href="https://validthemes.net/site-template/antux/project-details.html#">
+                            <a href="#">
                                 <div class="nav-title">Next Post <h5>Discovery incommode</h5>
                                 </div>
                                 <div class="icon"><i class="fas fa-angle-double-right"></i></div>
@@ -222,8 +224,7 @@
                         <h4>For quick response: <a href="skype:example123?chat"><i class="fab fa-skype"></i> Chat now</a>
                         </h4>
                         <div class="button mt-40">
-                            <a class="btn-style-regular"
-                                href="https://validthemes.net/site-template/antux/project-details.html#"><span>Hire Me Now
+                            <a class="btn-style-regular" href="#"><span>Hire Me Now
                                 </span> <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>

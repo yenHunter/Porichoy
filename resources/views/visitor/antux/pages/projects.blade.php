@@ -11,7 +11,7 @@
                     <h1>Digital marketing and analytical solution</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/projects.html#"><i
+                            <li><a href="#"><i
                                         class="fas fa-home"></i> Home</a></li>
                             <li class="active">Projects</li>
                         </ol>
@@ -25,7 +25,7 @@
     <!-- Start Portfolio -->
     <div id="portfolio" class="portfolio-style-one-area default-padding-bottom">
         <div class="shape-top-left">
-            <img src="./Antux - Projects_files/9.png" alt="Image Not Found">
+            <img src="{{ asset('visitor/antux/img/shape/9.png') }}" alt="Image Not Found">
         </div>
         <div class="container">
             <div class="row">
@@ -36,27 +36,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/1.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/1.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Web</a>
+                                                            href="#">Web</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Coding</a>
+                                                            href="#">Coding</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Document
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Document
                                                 manager application</a></h4>
                                     </div>
                                 </div>
@@ -65,27 +65,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 33.2461%; top: 0px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/2.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/2.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Software</a>
+                                                            href="#">Software</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Mobile</a>
+                                                            href="#">Mobile</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Dynamic
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Dynamic
                                                 mobile app development</a></h4>
                                     </div>
                                 </div>
@@ -94,27 +94,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 66.5794%; top: 0px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/3.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/3.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Brochure</a>
+                                                            href="#">Brochure</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Design</a>
+                                                            href="#">Design</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Printable
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Printable
                                                 professional brochure templates</a></h4>
                                     </div>
                                 </div>
@@ -123,27 +123,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 0%; top: 494px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/6.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/4.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Brand</a>
+                                                            href="#">Brand</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Mockup</a>
+                                                            href="#">Mockup</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Create
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Create
                                                 stunning product flexible mockups</a></h4>
                                     </div>
                                 </div>
@@ -152,27 +152,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 66.5794%; top: 527px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/5.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/5.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Design</a>
+                                                            href="#">Design</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Art</a>
+                                                            href="#">Art</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Decor
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Decor
                                                 design vectors illustrations</a></h4>
                                     </div>
                                 </div>
@@ -181,27 +181,27 @@
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 33.2461%; top: 619px;">
                                 <div class="gallery-style-one">
-                                    <img src="./Antux - Projects_files/4.jpg" alt="Thumb">
+                                    <img src="{{ asset('visitor/antux/img/projects/6.jpg') }}" alt="Thumb">
                                     <div class="info">
                                         <div class="overlay">
                                             <div class="content">
                                                 <ul class="pf-tags">
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Music</a>
+                                                            href="#">Music</a>
                                                     </li>
                                                     <li>
                                                         <a
-                                                            href="https://validthemes.net/site-template/antux/projects.html#">Video</a>
+                                                            href="#">Video</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="icon">
-                                                <a href="https://validthemes.net/site-template/antux/project-details.html"><i
+                                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                         class="fas fa-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <h4><a href="https://validthemes.net/site-template/antux/project-details.html">Making
+                                        <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Making
                                                 smart software smartphones</a></h4>
                                     </div>
                                 </div>

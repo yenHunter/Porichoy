@@ -4,7 +4,8 @@
 
 @section('content')
     <!-- Start Banner -->
-    <div id="home" class="banner-style-one-area bg-gray" style="background-image: url({{ asset('visitor/antux/img/shape/4.png') }});">
+    <div id="home" class="banner-style-one-area bg-gray"
+        style="background-image: url({{ asset('visitor/antux/img/shape/4.png') }});">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12">
@@ -41,8 +42,8 @@
                                 <p>
                                     {{ $profile_info['about_me'] ??
                                         "Hi, my name is Dalton Grant and I began using WordPress when it first began. I’ve spent
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        most of my waking hours for the last ten years designing, programming and operating
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        WordPress sites." }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    most of my waking hours for the last ten years designing, programming and operating
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    WordPress sites." }}
                                 </p>
                             </div>
                             <div class="flex-social mt-40">
@@ -246,7 +247,8 @@
                                 <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}">Branding
                                     Design</a>
                             </h4>
-                            <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}" class="btn-style-four">
+                            <a href="{{ route('visitor.service.details', ['service' => 'branding-design']) }}"
+                                class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -263,8 +265,10 @@
                         <div class="service-style-one-item active">
                             <img src="{{ asset('visitor/antux/img/icon/2.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App Development</a></h4>
-                            <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App
+                                    Development</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}"
+                                class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -281,8 +285,10 @@
                         <div class="service-style-one-item">
                             <img src="{{ asset('visitor/antux/img/icon/3.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">UI/UX Design</a></h4>
-                            <a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">UI/UX
+                                    Design</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}"
+                                class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -299,8 +305,10 @@
                         <div class="service-style-one-item">
                             <img src="{{ asset('visitor/antux/img/icon/4.png') }}" alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web Design</a></h4>
-                            <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web
+                                    Design</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}"
+                                class="btn-style-four">
                                 <div class="icon"><img src="{{ asset('visitor/antux/img/icon/arrow.png') }}"
                                         alt="Image Not Found"></div> Read
                                 More
@@ -383,11 +391,17 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}"><i
                                                             class="fas fa-long-arrow-right"></i></a>
                                                 </div>
                                             </div>
-                                            <h4><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Document manager application</a></h4>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Document manager application
+                                                </a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -409,11 +423,18 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
-                                                            class="fas fa-long-arrow-right"></i></a>
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                        <i class="fas fa-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Dynamic mobile app development</a></h4>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Dynamic mobile app development
+                                                </a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -435,12 +456,17 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
-                                                            class="fas fa-long-arrow-right"></i></a>
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                        <i class="fas fa-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Printable professional brochure
-                                                    templates</a>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Printable professional brochure templates
+                                                </a>
                                             </h4>
                                         </div>
                                     </div>
@@ -463,11 +489,17 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
-                                                            class="fas fa-long-arrow-right"></i></a>
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                        <i class="fas fa-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Create stunning product flexible mockups</a>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Create stunning product flexible mockups
+                                                </a>
                                             </h4>
                                         </div>
                                     </div>
@@ -490,11 +522,18 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
-                                                            class="fas fa-long-arrow-right"></i></a>
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                        <i class="fas fa-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Decor design vectors illustrations</a></h4>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Decor design vectors illustrations
+                                                </a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -516,11 +555,18 @@
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="project-details.html"><i
-                                                            class="fas fa-long-arrow-right"></i></a>
+                                                    <a
+                                                        href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                        <i class="fas fa-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <h4><a href="project-details.html">Making smart software smartphones</a></h4>
+                                            <h4>
+                                                <a
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
+                                                    Making smart software smartphones
+                                                </a>
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -1412,11 +1458,12 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Picked up brussels burger signications with ham
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Picked up
+                                        brussels burger signications with ham
                                         efforts.</a>
                                 </h4>
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
-                                        class="fas fa-long-arrow-right"></i></a>
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
+                                    class="btn-read-more">Read More <i class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1437,11 +1484,12 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">This prefabrice passive house is highly
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">This prefabrice
+                                        passive house is highly
                                         sustainable with intent</a>
                                 </h4>
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
-                                        class="fas fa-long-arrow-right"></i></a>
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
+                                    class="btn-read-more">Read More <i class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1462,11 +1510,12 @@
                             </ul>
                             <div class="info">
                                 <h4 class="blog-title">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Announcing if attachment resolution sentim
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Announcing if
+                                        attachment resolution sentim
                                         commercial.</a>
                                 </h4>
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}" class="btn-read-more">Read More <i
-                                        class="fas fa-long-arrow-right"></i></a>
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
+                                    class="btn-read-more">Read More <i class="fas fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
