@@ -73,6 +73,11 @@ class VisitorController extends Controller
         return view('pages.blog-details', compact('blog'));
     }
 
+    public function contact()
+    {
+        return view('pages.contact');
+    }
+
     public function education()
     {
         return view(

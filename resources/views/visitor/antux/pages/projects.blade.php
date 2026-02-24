@@ -11,7 +11,7 @@
                     <h1>Digital marketing and analytical solution</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="#"><i
+                            <li><a href="{{ route('visitor.index') }}"><i
                                         class="fas fa-home"></i> Home</a></li>
                             <li class="active">Projects</li>
                         </ol>

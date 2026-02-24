@@ -73,7 +73,7 @@
                     <div class="attr-nav attr-box">
                         <ul>
                             <li class="button">
-                                <a class="smooth-menu" href="#contact">Let's Talk <i class="fas fa-comment-alt"></i></a>
+                                <a class="smooth-menu" href="{{ route('visitor.index') }}#contact">Let's Talk <i class="fas fa-comment-alt"></i></a>
                             </li>
                         </ul>
                     </div>
