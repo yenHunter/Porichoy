@@ -16,6 +16,10 @@ return [
             'name' => 'Dorbesh',
             'view_path' => resource_path('views/visitor/dorbesh'),
         ],
+        'reeni' => [
+            'name' => 'Reeni',
+            'view_path' => resource_path('views/visitor/reeni'),
+        ],
     ],
 
 ];
