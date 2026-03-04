@@ -21,6 +21,8 @@
         </div>
     </div>
     <!-- Breadcrumb Area End -->
+
+    <!-- Blog Area Start -->
     <div class="blog-classic-area-wrapper tmp-section-gap">
         <div class="container">
             <div class="row">
@@ -29,8 +31,8 @@
                         <div class="img-box">
                             <a href="blog-details.html">
                                 <img class="img-primary hidden-on-mobile"
-                                    src="assets/images/blog/blog-classic-card-img-1.jpg" alt="Blog Thumbnail">
-                                <img class="img-secondary" src="assets/images/blog/blog-classic-card-img-1.jpg"
+                                    src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-1.jpg') }}" alt="Blog Thumbnail">
+                                <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-1.jpg') }}"
                                     alt="BLog Thumbnail">
                             </a>
                         </div>
@@ -80,8 +82,8 @@
                         <div class="img-box">
                             <a href="blog-details.html">
                                 <img class="img-primary hidden-on-mobile"
-                                    src="assets/images/blog/blog-classic-card-img-2.jpg" alt="Blog Thumbnail">
-                                <img class="img-secondary" src="assets/images/blog/blog-classic-card-img-2.jpg"
+                                    src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-2.jpg') }}" alt="Blog Thumbnail">
+                                <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-2.jpg') }}"
                                     alt="BLog Thumbnail">
                             </a>
                         </div>
@@ -128,8 +130,8 @@
                         <div class="img-box">
                             <a href="blog-details.html">
                                 <img class="img-primary hidden-on-mobile"
-                                    src="assets/images/blog/blog-classic-card-img-3.jpg" alt="Blog Thumbnail">
-                                <img class="img-secondary" src="assets/images/blog/blog-classic-card-img-3.jpg"
+                                    src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-3.jpg') }}" alt="Blog Thumbnail">
+                                <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-3.jpg') }}"
                                     alt="BLog Thumbnail">
                             </a>
                         </div>
@@ -232,7 +234,7 @@
                             <div class="body">
                                 <div class="single-post-card tmp-hover-link">
                                     <div class="single-post-card-img">
-                                        <img src="assets/images/blog/single-post-card-img-1.png" alt="">
+                                        <img src="{{ asset('visitor/reeni/images/blog/single-post-card-img-1.png') }}" alt="">
                                     </div>
                                     <div class="single-post-right">
                                         <div class="single-post-top">
@@ -246,7 +248,7 @@
                                 </div>
                                 <div class="single-post-card tmp-hover-link">
                                     <div class="single-post-card-img">
-                                        <img src="assets/images/blog/single-post-card-img-2.png" alt="">
+                                        <img src="{{ asset('visitor/reeni/images/blog/single-post-card-img-2.png') }}" alt="">
                                     </div>
                                     <div class="single-post-right">
                                         <div class="single-post-top">
@@ -260,7 +262,7 @@
                                 </div>
                                 <div class="single-post-card tmp-hover-link">
                                     <div class="single-post-card-img">
-                                        <img src="assets/images/blog/single-post-card-img-3.png" alt="">
+                                        <img src="{{ asset('visitor/reeni/images/blog/single-post-card-img-3.png') }}" alt="">
                                     </div>
                                     <div class="single-post-right">
                                         <div class="single-post-top">
@@ -282,7 +284,7 @@
                                 <div class="about-me-details">
                                     <div class="about-me-details-head">
                                         <div class="about-me-img">
-                                            <img src="assets/images/blog/about-me-user-img.png" alt="about-me-user-img">
+                                            <img src="{{ asset('visitor/reeni/images/blog/about-me-user-img.png') }}" alt="about-me-user-img">
                                         </div>
                                         <div class="about-me-right-content">
                                             <h3 class="title">Fatima Afrafy</h3>
@@ -325,4 +327,5 @@
             </div>
         </div>
     </div>
+    <!-- Blog Area End -->
 @endsection

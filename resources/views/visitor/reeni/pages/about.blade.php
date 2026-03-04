@@ -77,7 +77,8 @@
                             <div class="progress-wrapper">
                                 <div class="content">
                                     <h2 class="custom-title mb--30 tmp-scroll-trigger tmp-fade-in animation-order-1">
-                                        Design Skill <span><img src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}"
+                                        Design Skill <span><img
+                                                src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}"
                                                 alt="custom-line"></span>
                                     </h2>
                                     <!-- Start Single Progress Charts -->
@@ -147,7 +148,8 @@
                             <div class="progress-wrapper">
                                 <div class="content">
                                     <h2 class="custom-title mb--30 tmp-scroll-trigger tmp-fade-in animation-order-1">
-                                        Development Skill <span><img src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}"
+                                        Development Skill <span><img
+                                                src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}"
                                                 alt="custom-line"></span>
                                     </h2>
                                     <!-- Start Single Progress Charts -->
@@ -328,7 +330,8 @@
                         <div class="experiences-wrap-left-content">
 
                             <h2 class="custom-title mb-32 tmp-scroll-trigger tmp-fade-in animation-order-1">Experiences
-                                <span><img src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}" alt="custom-line"></span>
+                                <span><img src="{{ asset('visitor/reeni/images/custom-line/custom-line.png') }}"
+                                        alt="custom-line"></span>
                             </h2>
                             <div class="experience-content tmp-scroll-trigger tmp-fade-in animation-order-1">
                                 <p class="ex-subtitle">experience</p>
@@ -354,7 +357,7 @@
     </section>
     <!-- Tpm Education Experience Area End -->
 
-
+    <!-- Tpm My Price plan Start -->
     <section class="our-price-plan-area tmp-section-gapBottom">
         <div class="container">
             <div class="section-head mb--60">
@@ -519,6 +522,7 @@
             </div>
         </div>
     </section>
+    <!-- Tpm My Price plan End -->
 
     <!-- Tpm Get In touch start -->
     <section class="get-in-touch-area tmp-section-gapBottom">
