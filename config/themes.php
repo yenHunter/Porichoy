@@ -20,6 +20,10 @@ return [
             'name' => 'Reeni',
             'view_path' => resource_path('views/visitor/reeni'),
         ],
+        'flixta' => [
+            'name' => 'Flixta',
+            'view_path' => resource_path('views/visitor/flixta'),
+        ],
     ],
 
 ];

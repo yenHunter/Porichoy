@@ -1,0 +1,47 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  2.6 social
+/*----------------------------------------*/
+
+.rs-theme-social{
+    display: flex;
+    gap: 20px;
+    a{
+        color: var(--rs-theme-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+        background-color: #EAEEFF;
+        border-radius: 50%;
+        transition: .3s;
+        &:hover{
+            background: var(--rs-theme-primary);
+            color: var(--rs-white);
+        }
+    }
+    &.has-border{
+        a{
+            border: 1px solid #D9E2DF;
+            background: transparent;
+            color: #666;
+            &:hover{
+                background: var(--rs-theme-primary);
+                color: var(--rs-white);
+                border-color: var(--rs-theme-primary);
+            }
+        }
+    }
+    &.has-white{
+        a{
+            background: var(--rs-white);
+            &:hover{
+                background: var(--rs-theme-primary);
+                color: var(--rs-white);
+            }
+        }
+    }
+}

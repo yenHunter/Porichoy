@@ -1,0 +1,171 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  brand
+/*----------------------------------------*/
+
+.rs-brand{
+    &-one{
+        .rs-brand-item{
+            transition: all 0.3s ease-in-out;
+            &:hover{
+                .rs-brand-thumb{
+                    img{
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+        .rs-brand-thumb{
+            img{
+                width: 180px;
+                opacity: 0.4;
+                &.has-black{
+                    display: none;
+                }
+            }
+        }
+    }
+    &-two{
+        .swiper-wrapper{
+            display: flex;
+            align-items: center;
+        }
+        .rs-brand-thumb{
+            img{
+                width: 180px;
+            }
+        }
+    }
+    &-three{
+        .rs-brand-wrapper{
+            display: grid;
+            grid-template-columns: repeat(6,1fr);
+            align-items: center;
+            @media #{$lg}{
+                grid-template-columns: repeat(5,1fr);
+            }
+            @media #{$md}{
+                grid-template-columns: repeat(4,1fr);
+            }
+            @media #{$sm}{
+                grid-template-columns: repeat(3,1fr);
+            }
+            @media #{$xs}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$xxs}{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+        .rs-brand-item{
+            border-right: 1px solid rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &:nth-child(6n){
+                border-right: 0;
+                @media #{$lg}{
+                    border-right: unset;
+                }
+            }
+            &:nth-child(13),
+            &:nth-child(14),
+            &:nth-child(15),
+            &:nth-child(16),
+            &:nth-child(17),
+            &:nth-child(18){
+                border-bottom: 0;
+            }
+            @media #{$lg}{
+                &:nth-child(5n){
+                    border-right: 0;
+                }
+                &:nth-child(6){
+                    border-right: 1px solid rgba(0, 0, 0, 0.04);
+                }
+                &:nth-child(12){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                    border-right: 1px solid rgba(0, 0, 0, 0.04);
+                }
+                &:nth-child(13),
+                &:nth-child(14),
+                &:nth-child(15){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                }
+                &:nth-child(18){
+                    border-right: 1px solid rgba(0, 0, 0, 0.04);
+                }
+            }
+            @media #{$md}{
+                &:nth-child(4n){
+                    border-right: 0;
+                }
+                &:nth-child(6){
+                    border-right: 1px solid rgba(0, 0, 0, 0.04);
+                }
+                &:nth-child(13),
+                &:nth-child(14),
+                &:nth-child(15),
+                &:nth-child(16){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                }
+
+                &:nth-child(18){
+                    border-right: 1px solid rgba(0, 0, 0, 0.04);
+                }
+            }
+            @media #{$sm}{
+                &:nth-child(3n){
+                    border-right: 0;
+                }
+                &:nth-child(13),
+                &:nth-child(14),
+                &:nth-child(15){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                }
+            }
+            @media #{$xs}{
+                &:nth-child(2n){
+                    border-right: 0;
+                }
+                &:nth-child(13),
+                &:nth-child(14),
+                &:nth-child(15),
+                &:nth-child(16){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                }
+            }
+            @media #{$xxs}{
+                &:nth-child(1n){
+                    border-right: 0;
+                }
+                &:nth-child(17){
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+                }
+            }
+        }
+        .rs-brand-thumb{
+            img{
+                width: 135px;
+            }
+        }
+    }
+    &-four{
+        .rs-brand-item{
+            background: var(--rs-bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 130px;
+            border-radius: 4px;
+        }
+        .rs-brand-thumb{
+            img{
+                height: 50px;
+            }
+        }
+    }
+}

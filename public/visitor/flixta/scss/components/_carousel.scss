@@ -1,0 +1,20 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  2.5 Carousel
+/*----------------------------------------*/
+
+.rs-swiper-dot {
+    .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
+        background-color: #CDCDCD;
+        opacity: 1;
+        border-radius: 50%;
+        position: relative;
+        margin: 0 6px !important;
+        &.swiper-pagination-bullet-active {
+            background-color: var(--rs-theme-primary);
+        }
+    }
+}

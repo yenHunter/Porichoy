@@ -1,0 +1,166 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.5 Banner Style 7
+/*----------------------------------------*/
+
+.rs-banner{
+    &-seven{
+        padding-top: 155px;
+        @media #{$xl,$lg}{
+            padding-top: 140px;
+        }
+        @media #{$md,$sm,$xs}{
+            padding-top: 145px;
+        }
+        .rs-banner-bg{
+            &.bg-black{
+             display: none;
+            }
+         }
+        .rs-banner-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .rs-banner-content{
+            padding-top: 120px;
+            @media #{$lg}{
+                padding-top: 100px;
+            }
+            @media #{$md,$sm,$xs}{
+                padding-top: 0px;
+            }
+        }
+        .rs-section-subtitle{
+            display: inline-flex;
+            border: 1px solid rgba(21, 42, 64, 0.7);
+            padding: 5px 20px 5px 20px;
+            border-radius: 100px;
+            height: 36px;
+            color: var(--rs-title-secondary);
+            margin: 0;
+            img{
+                width: 24px;
+                height: 24px;
+                object-fit: unset;
+                &.has-dark{
+                    display: none;
+                }
+            }
+        }
+        .rs-banner-title-top{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .rs-banner-title{
+            font-size: 96px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--rs-title-secondary);
+            line-height: 1.1;
+            @media #{$xl}{
+                font-size: 90px;
+            }
+            @media #{$lg}{
+                font-size: 80px;
+            }
+            @media #{$md}{
+                font-size: 70px;
+            }
+            @media #{$sm}{
+                font-size: 55px;
+            }
+            @media #{$xs}{
+                font-size: 45px;
+            }
+        }
+        .rs-banner-small-title{
+            font-size: 50px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--rs-title-secondary);
+            @media #{$sm}{
+                font-size: 40px;
+            }
+            @media #{$xs}{
+                font-size: 30px;
+            }
+            @media #{$xxs}{
+                font-size: 25px;
+            }
+        }
+        .rs-banner-stroke-title{
+            font-size: 100px;
+            font-weight: 500;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: var(--rs-title-secondary);
+            @media #{$xl}{
+                font-size: 90px;
+            }
+            @media #{$lg}{
+                font-size: 80px;
+            }
+            @media #{$md}{
+                font-size: 70px;
+            }
+            @media #{$sm}{
+                font-size: 55px;
+            }
+            @media #{$xs}{
+                font-size: 45px;
+            }
+        }
+        .rs-banner-description{
+            margin: 15px 0 40px 0;
+            p{
+                font-size: 20px;
+                font-weight: 500;
+                color: var(--rs-title-secondary);
+            }
+        }
+        .rs-banner-thumb{
+            position: relative;
+            z-index: 1;
+            img{
+                width: 640px;
+                height: 780px;
+                @media #{$lg}{
+                    height: 600px;
+                }
+                @media #{$md,$sm,$xs}{
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+        }
+        .rs-banner-shape{
+            position: absolute;
+            bottom: 50px;
+            z-index: -1;
+            inset-inline-start: 105px;
+            @media #{$sm}{
+                inset-inline-start: 10px;
+            }
+            @media #{$xs}{
+                inset-inline-start: -20px;
+            }
+            img{
+                width: 480px;
+                height: auto;
+                animation: rs-scale-two 1s alternate infinite;
+                -webkit-animation: rs-scale-two 1s alternate infinite;
+                animation-duration: 2.1s;
+            }
+        }
+    }
+}

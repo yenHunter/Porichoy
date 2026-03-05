@@ -1,0 +1,15 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  2.4 Color Short Code
+/*----------------------------------------*/
+
+.rs-text-primary {
+    color: var(--rs-theme-primary);
+}
+.rs-theme-orange{
+    color: var(--rs-theme-orange);
+}
+.rs-theme-yellow{
+    color: var(--rs-theme-yellow);
+}

@@ -1,0 +1,61 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  gallery css
+/*----------------------------------------*/
+
+
+.rs-gallery{
+    &-one{
+        .rs-gallery-item{
+            position: relative;
+            &:hover{
+                .rs-gallery-content-wrap{
+                    bottom: 30px;
+                    opacity: 1;
+                    visibility: visible;
+                }
+                .rs-gallery-thumb{
+                    &::before{
+                        visibility: visible;
+                        opacity: 1;
+                    }
+                }
+                .rs-gallery-btn{
+                    transform: translate(-50%, -50%) scale(1);
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+        .rs-gallery-thumb{
+            position: relative;
+            &::before{
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(253, 175, 64, .8);
+                transition: all 0.4s ease-out;
+                border-radius: 4px;
+                opacity: 0;
+                visibility: hidden;
+            }
+            img{
+                width: 100%;
+                border-radius: 4px;
+            }
+        }
+        .rs-gallery-btn{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.3);
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.4s ease-out;
+        }
+    }
+}

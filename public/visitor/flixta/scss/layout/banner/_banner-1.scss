@@ -1,0 +1,282 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.1 banner Style 1
+/*----------------------------------------*/
+
+.rs-banner-one {
+    .rs-banner-bg{
+       &.bg-black{
+        display: none;
+       }
+    }
+    padding-top: 250px;
+  padding-bottom: 130px;
+  @media #{$xl}{
+    padding-top: 200px;
+  }
+  @media #{$lg}{
+    padding-top: 170px;
+  }
+  @media #{$md}{
+    padding-top: 150px;
+    padding-bottom: 100px;
+  }
+  @media #{$sm,$xs}{
+    padding-top: 130px;
+    padding-bottom: 90px;
+  }
+    .rs-banner-bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    .rs-banner-content{
+        position: relative;
+        z-index: 3;
+    }
+    .rs-banner-title{
+        font-size: 90px;
+        line-height: 1.4;
+        @media #{$xl}{
+            font-size: 80px;
+        }
+        @media #{$lg}{
+            font-size: 70px;
+        }
+        @media #{$md}{
+            font-size: 60px;
+        }
+        @media #{$sm}{
+            font-size: 50px;
+        }
+        @media #{$xs}{
+            font-size: 40px;
+        }
+    }
+    .rs-banner-description{
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: 2.4px;
+        margin: 20px 0 50px 0;
+        @media #{$xs}{
+            font-size: 18px;
+        }
+    }
+    .rs-banner-shape{
+        position: absolute;
+        top: 35px;
+        inset-inline-end: 370px;
+        @media #{$xl}{
+            top: 25px;
+            inset-inline-end: 260px;
+        }
+        @media #{$lg}{
+            top: 20px;
+            inset-inline-end: 330px;
+        }
+        @media #{$md}{
+            top: 10px;
+            inset-inline-end: 150px;
+        }
+        @media #{$sm}{
+            top: 7px;
+            inset-inline-end: 30px;
+        }
+        @media #{$xs}{
+            display: none;
+        }
+        img{
+            animation:leftright 2s alternate infinite;
+            -webkit-animation: leftright 2s alternate infinite;
+        }
+    }
+    .rs-banner-shape-two{
+        width: 150px;
+        inset-inline-start: 39%;
+        position: absolute;
+        bottom: 120px;
+        @media #{$sm}{
+            inset-inline-start: 50%;
+            bottom: 90px;
+        }
+        @media #{$xs}{
+            inset-inline-start: 60%;
+        }
+        @media #{$xxs}{
+            display: none;
+        }
+    }
+    .rs-banner-shape-three{
+        position: absolute;
+        inset-inline-end: 220px;
+        width: 30px;
+        @media #{$md}{
+            inset-inline-end: 120px;
+        }
+        @media #{$sm,$xs}{
+            display: none;
+        }
+    }
+    .rs-banner-thumb{
+        margin-top: -360px;
+        margin-inline-end: -140px;
+        position: relative;
+        display: flex;
+        justify-content: end;
+        z-index: 2;
+        @media #{$xxl}{
+            margin-inline-end: -30px;
+        }
+        @media #{$xl}{
+            margin-inline-end: 0;
+        }
+        @media #{$lg}{
+            margin-inline-end: -20px;
+        }
+        @media #{$md,$sm}{
+            margin-top: 0;
+            margin-inline-end: 0px;
+            margin-inline-start: 70px;
+        }
+        @media #{$sm,$xs}{
+            margin-top: 0;
+            margin-inline-end: 0px;
+            margin-inline-start: 70px;
+        }
+        @media #{$xxs}{
+            margin-inline-start: 0px;
+        }
+        img{
+            width: 517px;
+            @media #{$md,$sm,$xs}{
+                width: 100%;
+            }
+        }
+        .rs-banner-exp{
+            background: var(--rs-theme-primary);
+            position: absolute;
+            inset-inline-end: 450px;
+            top: 50%;
+            border-radius: 100px 100px 100px 100px;
+            height: 180px;
+            width: 140px;
+            padding: 32px 26px 35px 26px;
+            text-align: center;
+            transform: translateY(-50%);
+            box-shadow: 6px 6px 8px 0px rgba(10, 50, 32, 0.2);
+            @media #{$md,$sm,$xs}{
+                inset-inline-end: auto;
+                inset-inline-start: -70px;
+            }
+            @media #{$xxs}{
+                display: none;
+            }
+            p{
+                color: var(--rs-white);
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 22px;
+            }
+    
+        }
+        .rs-banner-exp-title{
+            font-size: 48px;
+            color: var(--rs-white);
+            margin-bottom: 5px;
+        }
+    }
+    .rs-theme-social{
+        margin-top: 60px;
+    }
+}
+
+
+// banner animation style
+
+.cd-headline{
+    &.slide{
+        background-color: var(--rs-theme-primary);
+        border-radius: 50px 50px 50px 50px;
+        color: var(--rs-white);
+        padding: 12px 35px 12px 35px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        @media #{$xs}{
+            padding: 10px 20px 10px 20px;
+        }
+        b.is{
+            &-visible{
+                top: 0;
+                opacity: 1;
+                -webkit-animation: slide-in 0.6s;
+                -moz-animation: slide-in 0.6s;
+                animation: slide-in 0.6s;
+            }
+            &-hidden{
+                -webkit-animation: slide-out 0.6s;
+                -moz-animation: slide-out 0.6s;
+                animation: slide-out 0.6s;
+            }
+        }
+    }
+}
+.cd-words-wrapper{
+    position: relative;
+    text-align: left;
+    line-height: .9;
+    overflow: hidden;
+    display: inline-block;
+    width: 100% !important;
+}
+
+
+
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-100%);
+        -moz-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        -o-transform: translateY(-100%);
+        transform: translateY(-100%);
+    }
+
+    60% {
+        opacity: 1;
+        -webkit-transform: translateY(20%);
+        -moz-transform: translateY(20%);
+        -ms-transform: translateY(20%);
+        -o-transform: translateY(20%);
+        transform: translateY(20%);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+    }
+
+    60% {
+        opacity: 0;
+        -webkit-transform: translateY(120%);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateY(100%);
+    }
+}
+

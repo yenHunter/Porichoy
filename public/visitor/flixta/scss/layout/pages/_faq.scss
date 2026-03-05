@@ -1,0 +1,34 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  FAq css
+/*----------------------------------------*/
+
+.rs-faq{
+    &-one{
+        padding-top: 50px;
+        .rs-faq-thumb{
+            margin-left: 60px;
+            @media #{$xl}{
+                margin-left: 30px;
+            }
+            @media #{$lg}{
+                margin-left: 10px;
+                position: sticky;
+                top: 110px;
+            }
+            @media #{$md,$sm,$xs}{
+                margin-left: 0px;
+            }
+            img{
+                width: 100%;
+            }
+        }
+    }
+    &-two{
+        margin-inline-end: 40px;
+        @media #{$lg,$md,$sm,$xs}{
+            margin-inline-end: 0;
+        }
+    }
+}

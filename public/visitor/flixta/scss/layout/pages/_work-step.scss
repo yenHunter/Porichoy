@@ -1,0 +1,62 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  work step css
+/*----------------------------------------*/
+
+.rs-work-step{
+    &-one{
+        .rs-work-step-wrapper{
+            border-top: 1px solid var(--rs-border-primary);
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            padding-top: 55px;
+            gap: 30px;
+            @media #{$md}{
+                grid-template-columns: repeat(3,1fr);
+            }
+            @media #{$sm}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$xs}{
+                grid-template-columns: repeat(1,1fr);
+            }
+            @media #{$md,$sm,$xs}{
+                padding-top: 0;
+                border-top: none;
+            }
+        }
+        .rs-work-step-item{
+            background: var(--rs-white);
+            padding: 30px 30px 30px 30px;
+            position: relative;
+            border-radius: 4px;
+            @media #{$lg,$md}{
+                padding: 20px 20px 20px 20px;
+            }
+        }
+        .rs-work-step-shape{
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            @media #{$md,$sm,$xs}{
+                display: none;
+            }
+            .has-black{
+                display: none;
+            }
+        }
+        .rs-work-step-number{
+            font-size: 36px;
+            font-weight: 700;
+            color: #EEEEEE;
+            margin-bottom: 10px;
+            display: inline-block;
+            line-height: 1.1;
+        }
+        .rs-work-step-title{
+            margin-bottom: 10px;
+        }
+    }
+}

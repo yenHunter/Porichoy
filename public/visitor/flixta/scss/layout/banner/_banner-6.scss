@@ -1,0 +1,184 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.5 Banner Style 6
+/*----------------------------------------*/
+
+.rs-banner{
+    &-six{
+        .rs-banner-bg{
+            &.bg-black{
+             display: none;
+            }
+         }
+        padding-top: 250px;
+        padding-bottom: 130px;
+        @media #{$xl}{
+            padding-top: 200px;
+            padding-bottom: 120px;
+        }
+        @media #{$lg}{
+            padding-top: 180px;
+            padding-bottom: 110px;
+        }
+        @media #{$md}{
+            padding-top: 170px;
+            padding-bottom: 100px;
+        }
+        @media #{$sm,$xs}{
+            padding-top: 150px;
+            padding-bottom: 90px;
+        }
+        .rs-banner-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .rs-banner-shape-two{
+            position: absolute;
+            left: 50%;
+            bottom: -20px;
+            img{
+                animation: rs-vertical 3s alternate infinite;
+                -webkit-animation: rs-vertical 3s alternate infinite;
+            }
+        }
+        .rs-banner-shape{
+            max-width: 110px;
+            position: absolute;
+            inset-inline-start: 220px;
+            bottom: 120px;
+        }
+        .rs-section-subtitle{
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--rs-theme-primary);
+            padding: 10px 19px;
+            background-color: rgba(87, 119, 255, 0.07);
+            border-radius: 30px 30px 30px 30px;
+            display: inline-flex;
+            align-items: center;
+            text-transform: unset;
+            letter-spacing: unset;
+            justify-content: unset;
+            height: 40px;
+            img{
+                width: 18px;
+            }
+        }
+        .rs-banner-title{
+            font-size: 90px;
+            @media #{$xl}{
+                font-size: 70px;
+            }
+            @media #{$lg,$md}{
+                font-size: 60px;
+            }
+            @media #{$sm}{
+                font-size: 50px;
+            }
+            @media #{$xs}{
+                font-size: 40px;
+            }
+        }
+        .rs-title-slide{
+            font-size: 70px;
+            background-color: unset;
+            border-radius: unset;
+            color: var(--rs-theme-primary);
+            padding: 0;
+            @media #{$xl}{
+                font-size: 50px;
+            }
+            @media #{$lg,$md,$sm}{
+                font-size: 40px;
+            }
+            @media #{$xs}{
+                font-size: 30px;
+            }
+            b{
+                line-height: 1.28;
+            }
+        }
+        .rs-banner-description{
+            margin: 20px 0 40px 0;
+            max-width: 600px;
+            line-height: 30px;
+            @media #{$lg}{
+                max-width: 450px;
+            }
+            @media #{$md,$sm,$xs}{
+                max-width: 100%;
+            }
+            p{
+                font-size: 20px;
+                line-height: 1.5;
+            }
+        }
+        .rs-banner-thumb{
+            position: relative;
+            width: 600px;
+            @media #{$xxl,$xl,$lg,$md,$sm,$xs}{
+                width: 100%;
+            }
+            img{
+                width:100%;
+                border-radius: 100% 100% 100% 100%;
+            }
+        }
+        .rs-banner-exp{
+            background: var(--rs-theme-primary);
+            position: absolute;
+            inset-inline-end: 340px;
+            bottom: -140px;
+            border-radius: 100px 100px 100px 100px;
+            height: 180px;
+            width: 180px;
+            padding: 32px 26px 35px 26px;
+            text-align: center;
+            transform: translateY(-50%);
+            box-shadow: 6px 6px 8px 0px rgba(10, 50, 32, 0.2);
+            @media #{$xl}{
+                inset-inline-end: 250px;
+            }
+            @media #{$lg}{
+                inset-inline-end: 200px;
+            }
+            @media #{$md}{
+                inset-inline-end: 450px;
+            }
+            @media #{$xs}{
+                inset-inline-end: 250px;
+            }
+            @media #{$xxs}{
+                inset-inline-end: 140px;
+                height: 150px;
+                width: 150px;
+                padding: 22px 26px 35px 26px;
+                bottom: -100px;
+            }
+            p{
+                color: var(--rs-white);
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 22px;
+            }
+    
+        }
+        .rs-banner-exp-title{
+            font-size: 48px;
+            color: var(--rs-white);
+            margin-bottom: 5px;
+            @media #{$xs}{
+                font-size: 40px;
+            }
+        }
+    }
+}
+
+  

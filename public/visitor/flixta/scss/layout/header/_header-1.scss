@@ -1,0 +1,72 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  3.5.1 Header Style 1
+/*----------------------------------------*/
+
+.rs-header-logo {
+	img {
+		max-width: 110px;
+	}
+}
+
+// logo
+.logo-white {
+	display: none ;
+}
+
+.rs-header-left {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0 44px;
+	@media #{$xl} {
+		gap: 0 10px;
+	}
+}
+.rs-header-right {
+	display: flex;
+	align-items: center;
+	gap: 0 36px;
+	@media #{$xl} {
+		gap: 0 20px;
+	}
+}
+.rs-header-shop {
+	display: flex;
+	align-items: center;
+	&-icon {
+		color: var(--rs-theme-primary);
+  		font-size: 20px;
+		position: relative;
+		&:first-child {
+			padding-inline-end:20px ;
+			margin-inline-end: 20px;
+			&::after {
+				position: absolute;
+				content: "";
+				width: 2px;
+				height: 30px;
+				top: 50%;
+  				transform: translateY(-50%);
+				inset-inline-end: 0px;
+				background-color: var(--rs-border-primary);
+			}
+		}
+	}
+	.item-number {
+		position: absolute;
+		right: -10px;
+		top: -9px;
+		width: 20px;
+		height: 20px;
+		background-color: var(--rs-theme-primary);
+		color: var(--rs-white);
+		text-align: center;
+		line-height: 20px;
+		border-radius: 50%;
+		font-size: 14px;
+	}
+}
+
+

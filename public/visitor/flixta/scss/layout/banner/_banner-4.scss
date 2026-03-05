@@ -1,0 +1,234 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.4 Banner Style 4
+/*----------------------------------------*/
+
+.rs-banner{
+    &-four{
+        min-height: 960px;
+        @media #{$xl}{
+            min-height: 850px;
+        }
+        @media #{$lg}{
+            min-height: 800px;
+        }
+        @media #{$md}{
+            min-height: 750px;
+        }
+        @media #{$sm}{
+            min-height: 700px;
+        }
+        @media #{$xs}{
+            min-height: 630px;
+        }
+        .rs-banner-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .rs-banner-shape{
+            position: absolute;
+            z-index: 1;
+            top: 38%;
+            left: -23%;
+            width: 100%;
+            height: 100%;
+            @media #{$md}{
+                left: 0;
+            }
+            .shape-1{
+                @media #{$xl,$lg,$sm,$xs}{
+                    display: none;
+                }
+            }
+            .shape-2{
+                @media #{$md,$sm,$xs}{
+                    display: none;
+                }
+            }
+            .shape-3{
+                position: absolute;
+                @media #{$md,$sm,$xs}{
+                    display: none;
+                }
+            }
+        }
+        .rs-banner-shape-two{
+            position: absolute;
+            top: 170px;
+            left: 125px;
+            @media #{$sm}{
+                top: 120px;
+                left: 55px;
+            }
+            @media #{$xs}{
+                display: none;
+            }
+            img{
+                width: 20px;
+                animation: rs-vertical 3s alternate infinite;
+                -webkit-animation: rs-vertical 3s alternate infinite;
+            }
+        }
+        .rs-banner-shape-three{
+            position: absolute;
+            bottom: 125px;
+            right: 60px;
+            @media #{$xs}{
+                display: none;
+            }
+            img{
+                width: 20px;
+                animation: rs-vertical 3s alternate infinite;
+                -webkit-animation: rs-vertical 3s alternate infinite;
+            }
+        }
+        .rs-banner-thumb{
+            position: absolute;
+            inset-inline-start: 33%;
+            bottom: -20px;
+            z-index: 2;
+            @media #{$xl}{
+                inset-inline-start: 27%;
+            }
+            @media #{$md}{
+                inset-inline-start: 50%;
+            }
+            @media #{$xs}{
+                inset-inline-start: 15%;
+            }
+            @media #{$xxs}{
+                inset-inline-start: 3%;
+            }
+            img{
+                width: 570px;
+                @media #{$xl}{
+                    width: 500px;
+                }
+                @media #{$lg}{
+                    width: 450px;
+                }
+                @media #{$md,$sm}{
+                    width: 400px;
+                }
+                @media #{$xs}{
+                    width: 350px;
+                }
+            }
+        }
+        .rs-banner-content{
+            padding: 170px 0 10px 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            @media #{$xl}{
+                padding: 140px 0 10px 0;
+            }
+            @media #{$lg,$sm,$xs}{
+                padding: 130px 0 10px 0;
+            }
+            @media #{$md}{
+                padding: 120px 0 10px 0;
+            }
+        }
+        .rs-banner-content-inner{
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            position: relative;
+             z-index: 1;
+        }
+        .rs-stroke-text{
+            display: block;
+            font-size: 80px;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: var(--rs-theme-primary);
+            @media #{$lg}{
+                font-size: 70px;
+            }
+            @media #{$md}{
+                font-size: 60px;
+            }
+            @media #{$sm}{
+                font-size: 50px;
+            }
+            @media #{$xs}{
+                font-size: 30px;
+                margin-bottom: 5px;
+            }
+            @media #{$xxs}{
+                font-size:25px;
+            }
+        }
+        .rs-banner-title{
+            font-size: 153px;
+            text-transform: uppercase;
+            letter-spacing: 3.7px;
+            font-weight: 800;
+            line-height: 1.17;
+            @media #{$xl}{
+                font-size: 120px;
+            }
+            @media #{$lg}{
+                font-size: 90px;
+            }
+            @media #{$md}{
+                font-size: 70px;
+            }
+            @media #{$sm}{
+                font-size:55px;
+            }
+            @media #{$xs}{
+                font-size:40px;
+            }
+            @media #{$xxs}{
+                font-size:30px;
+            }
+        }
+        .description{
+            padding: 20px 30px 20px 30px;
+            background: var(--rs-white);
+            border-radius: 10px 10px 10px 10px;
+            box-shadow: 0px 21px 32px 0px rgba(113, 76, 76, 0.05);
+            color: var(--rs-title-primary);
+            @media #{$sm,$xs}{
+                display: none;
+            }
+            &.one{
+                max-width: 345px;
+            }
+            &.two{
+                max-width: 305px;
+            }
+            &.three{
+                max-width: 250px;
+                @media #{$md}{
+                    display: none;
+                }
+            }
+        }
+        .rs-banner-social{
+            margin-top: 60px;
+            @media #{$xs}{
+                display: none;
+            }
+        }
+        .rs-banner-right{
+            margin-top: 45px;
+        }
+        .rs-banner-btn{
+            margin-top: 90px;
+            margin-inline-start: -30px;
+            @media #{$lg,$md,$sm,$xs}{
+                display: none;
+            }
+            @media #{$xl}{
+                margin-inline-start: 0px;
+            }
+        }
+    }
+}

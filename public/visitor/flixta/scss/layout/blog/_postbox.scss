@@ -1,0 +1,262 @@
+@use "../../utils" as *;
+
+/*----------------------------------------*/
+/*  3.2.3 Postbox css
+/*----------------------------------------*/
+
+
+.rs-postbox-more{
+    &-navigation{
+        border-radius: 8px;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid var(--rs-border-primary);
+        padding-top: 70px;
+        margin-top: 70px;
+        padding-bottom: 70px;
+        @media #{$md,$sm,$xs}{
+            padding-top: 60px;
+            margin-top: 60px;
+            padding-bottom: 60px;
+        }
+        @media #{$md,$sm,$xs}{
+            display: none;
+        }
+    }
+    &-left{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    &-right{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        text-align: right;
+    }
+    &-content{
+        a{
+            &:hover{
+                color: var(--rs-theme-primary);
+            }
+        }
+        p{
+            margin-bottom: 10px;
+        }
+    }
+    &-menu{
+        a{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(87, 119, 255, .15);
+            &:hover{
+                background: var(--rs-theme-primary);
+                svg{
+                    path{
+                        fill: var(--rs-white);
+                    }
+                }
+            }
+            svg{
+                path{
+                    fill: var(--rs-black);
+                }
+            }
+        }
+    }
+    &-icon{
+        .rs-circle-btn{
+            width: 60px;
+            height: 60px;
+            background: var(--rs-theme-primary);
+            color: var(--rs-white);
+            &:hover{
+                background: var(--rs-hover-primary);
+            }
+        }
+    }
+
+}
+
+
+// postbox style
+
+.rs-postbox{
+    &-item{
+        &:not(:last-child){
+            margin-bottom: 30px;
+        }
+    }
+    &-content{
+        padding: 40px 40px;
+        background: var(--rs-white);
+        border-radius: 0px 0px 4px 4px;
+        @media #{$lg,$sm,$xs}{
+            padding: 30px 30px;
+        }
+        @media #{$xxs}{
+            padding: 20px 20px;
+        }
+    }
+    &-thumb{
+        position: relative;
+        img{
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+        }
+    }
+    &-tag{
+        position: absolute;
+        top: 20px;
+        inset-inline-start: 20px;
+        a{
+            color: var(--rs-white);
+            font-size: 16px;
+            text-transform: capitalize;
+            padding: 5px 20px 5px 20px;
+            border-radius: 4px;
+            background: var(--rs-theme-primary);
+            transition: 0.3s;
+            &:hover{
+                background: var(--rs-hover-primary);
+            }
+        }
+    }
+    &-meta-list{
+        display: flex;
+        gap: 0 10px;
+    }
+    &-title{
+        margin: 15px 0 15px;
+        a{
+            &:hover{
+                color: var(--rs-theme-primary);
+            }
+        }
+    }
+    &-meta-item{
+        &.has-separator{
+            margin-inline-end: 10px;
+            padding-inline-end: 20px;
+        }
+        .meta-author{
+            color: var(--rs-black);
+            &:hover{
+                color: var(--rs-theme-primary);
+            }
+        }
+    }
+    &-btn{
+        margin-top: 30px;
+    }
+    &-details{
+        &-thumb{
+            img{
+                width: 100%;
+                border-radius: 4px;
+            }
+        }
+    }
+    &-quote{
+        margin-bottom: 40px;
+        blockquote{
+            padding: 30px 40px;
+            background: var(--rs-white);
+            border-radius: 4px;
+            position: relative;
+            z-index: 1;
+            border-left: 4px solid var(--rs-theme-primary);
+            @media #{$xxs}{
+                padding: 20px 30px;
+            }
+            &:before{
+                content: "\ec52" !important;
+                font-family: remixicon !important;
+                position: absolute;
+                inset-inline-start: 0;
+                top: -50px;
+                font-size: 183px;
+                color: #f3f5ff;
+                z-index: -1;
+            }
+            p{
+                font-size: 22px;
+                font-weight: 700;
+                color: var(--rs-title-primary);
+                line-height: 1.6;
+                @media #{$sm,$xs}{
+                    font-size: 20px;
+                }
+            }
+            cite{
+                font-size: 16px;
+                &::before{
+                    content: "";
+                    font-size: 28px;
+                    padding-bottom: 0px;
+                    display: inline-block;
+                    background: var(--rs-black);
+                    height: 1px;
+                    width: 40px;
+                    font-weight: 400;
+                    text-align: center;
+                    top: -5px;
+                    position: relative;
+                    left: 0;
+                    margin-inline-end: 10px;
+                }
+            }
+        }
+    }
+    &-details-feature{
+        margin-bottom: 40px;
+        ul{
+            li{
+                list-style: none;
+                position: relative;
+                padding-inline-start: 50px;
+                display: flex;
+                align-items: center;
+                &:not(:last-child){
+                    margin-bottom: 15px;
+                }
+                &::before{
+                    content: "\eb7b";
+                    font-family: remixicon;
+                    position: absolute;
+                    font-size: 18px;
+                    color: var(--rs-theme-primary);
+                    width: 30px;
+                    height: 30px;
+                    border: 1px solid rgba(26,115,233,.14);
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    inset-inline-start:0;
+                }
+            }
+        }
+    }
+    &-comment-form{
+        .input-box{
+            input{
+                width: 100%;
+                height: 50px;
+                outline: 0;
+                padding: 0 25px;
+                background: var(--rs-white);
+            }
+            textarea{
+                background: var(--rs-white);
+                height: 160px;
+            }
+        }
+    }
+}

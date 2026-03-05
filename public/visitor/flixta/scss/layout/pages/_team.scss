@@ -1,0 +1,30 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  Team css
+/*----------------------------------------*/
+
+.rs-team{
+    &-one{
+        position: relative;
+        min-height: 800px;
+        @media #{$xl}{
+            min-height: 500px;
+        }
+        @media #{$lg,$md,$sm}{
+            min-height: 400px;
+        }
+        @media #{$xs}{
+            min-height: 300px;
+        }
+        .rs-team-bg-thumb{
+            position: absolute;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+    }
+}

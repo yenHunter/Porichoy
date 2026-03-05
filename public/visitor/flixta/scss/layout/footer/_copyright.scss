@@ -1,0 +1,45 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  Copyright Style
+/*----------------------------------------*/
+
+
+.rs-copyright{
+    &-one{
+        .rs-footer-copyright{
+            a{
+                &:hover{
+                    color: var(--rs-theme-primary);
+                }
+            }
+            p{
+                font-size: 17px;
+            }
+            &.has-theme-tertiary{
+                a{
+                    &:hover{
+                        color: var(--rs-hover-tertiary);
+                    }
+                }
+                p{
+                    color: var(--rs-white);
+                }
+            }
+            &.has-theme-orange{
+                a{
+                    &:hover{
+                        color: var(--rs-theme-orange);
+                    }
+                }
+            }
+            &.has-theme-yellow{
+                a{
+                    &:hover{
+                        color: var(--rs-theme-yellow);
+                    }
+                }
+            }
+        }
+    }
+}

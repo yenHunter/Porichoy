@@ -1,0 +1,428 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  skill css
+/*----------------------------------------*/
+
+.rs-skill{
+    &-one{
+        padding-top: 70px;
+        &.has-space-none{
+            padding-top: 0;
+        }
+        .rs-skill-item{
+            background: var(--rs-white);
+            padding: 40px 40px 40px 40px;
+            border-radius: 4px 4px 4px 4px;
+            border: 1px solid transparent;
+            transition: .3s;
+            @media #{$xl}{
+                padding: 20px 20px 20px 20px;
+            }
+            @media #{$lg,$xs}{
+                padding: 30px 30px 30px 30px;
+            }
+            &:hover{
+                border-color: var(--rs-theme-primary);
+            }
+        }
+        .rs-skill-top{
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        .rs-skill-icon{
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--rs-theme-primary);
+            border-radius: 50%;
+            img{
+                height: 34px;
+                width: auto;
+            }
+        }
+        .rs-skill-description{
+            margin-bottom: 48px;
+        }
+        .rs-skill-progress{
+            margin-top: 20px;
+        }
+        .single-progress{
+            overflow:visible;
+        }
+        .progress-number{
+            position: absolute;
+            top: -28px;
+            inset-inline-end: 0;
+            z-index: 1;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--rs-title-primary);
+        }
+    }
+    &-two{
+        padding-top: 40px;
+        .rs-skill-shape{
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            @media #{$xxs}{
+                display: none;
+            }
+            img{
+                opacity: 0.4;
+            }
+        }
+        .rs-skill-item{
+            background: var(--rs-bg-secondary);
+            padding: 40px 40px 40px 40px;
+            border-radius: 4px 4px 4px 4px;
+            @media #{$xl}{
+                padding: 20px 20px 20px 20px;
+            }
+            @media #{$lg,$xs}{
+                padding: 30px 30px 30px 30px;
+            }
+        }
+        .rs-skill-top{
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 75px;
+        }
+        .rs-skill-icon{
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(87, 119, 255, 0.07);
+            border-radius: 50%;
+            img{
+                height: 34px;
+                width: auto;
+            }
+        }
+        .rs-skill-description{
+            margin-bottom: 48px;
+        }
+        .rs-skill-progress{
+            margin-top: 20px;
+        }
+        .single-progress{
+            overflow:visible;
+        }
+        .progress-number{
+            position: absolute;
+            top: -28px;
+            inset-inline-end: 0;
+            z-index: 1;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--rs-black);
+        }
+        .rs-skill{
+            &-tab{
+                .nav{
+                    display: inline-flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    flex-direction: row;
+                    justify-content: center;
+                    border: 1px solid var(--rs-border-primary);
+                    border-radius: 50px;
+                    padding: 5px;
+                }
+                a{
+                    border-radius: 30px;
+                    padding: 8px 20px 8px 20px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    &.active{
+                        background: var(--rs-theme-primary);
+                        color: var(--rs-white);
+                    }
+                }
+            }
+        }
+        &.has-theme-yellow{
+            padding-top: 0;
+            .rs-skill-item{
+                background: transparent;
+                padding: 30px 30px 30px 30px;
+                border: 1px solid rgba(21, 42, 64, 0.65);
+                transition: .3s;
+                @media #{$xl}{
+                    padding: 15px 15px 15px 15px;
+                }
+                &:hover{
+                    border-color: var(--rs-theme-yellow);
+                }
+            }
+            .rs-skill-icon{
+                background: none;
+                background: none;
+            border-radius: unset;
+                svg{
+                    path{
+                        fill: var(--rs-theme-yellow);
+                    }
+                }
+            }
+            .progress-bar{
+                background-color: var(--rs-theme-yellow);
+            }
+        }
+    }
+    &-three{
+        .rs-skill-wrapper{
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 30px;
+            @media #{$lg}{
+                grid-template-columns: repeat(4,1fr);
+            }
+            @media #{$md,$sm}{
+                grid-template-columns: repeat(3,1fr);
+            }
+            @media #{$xs}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$xxs}{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+        .rs-skill-item{
+            background: var(--rs-bg-secondary);
+            text-align: center;
+            padding: 50px 20px 30px 20px;
+            border-radius: 15px;
+            border: 1px solid var(--rs-border-primary);
+        }
+        .rs-skill-icon{
+            margin-bottom: 20px;
+            img{
+                width: 50px;
+            }
+        }
+        .rs-skill-title{
+            margin-bottom: 30px;
+        }
+        .progress{
+            height: 40px;
+            border-radius: 70px;
+            background: #f2f4ff;
+        }
+        .progress-bar{
+            border-radius: 70px;
+            background-color: var(--rs-white);
+        }
+        .progress-number{
+            position: absolute;
+            font-size: 16px;
+            right: 0;
+            z-index: 1;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            font-weight: 700;
+            color: var(--rs-text-primary);
+        }
+    }
+    &-four{
+        padding-bottom: 45px;
+        .rs-skill-content{
+            margin-left: 50px;
+            @media #{$md,$sm,$xs}{
+                margin-left: 0;
+            }
+        }
+        .rs-skill-progress{
+            max-width: 525px;
+            @media #{$md,$sm,$xs}{
+                max-width: 100%;
+            }
+            .single-progress{
+                overflow: visible;
+                &:not(:last-child){
+                    margin-bottom: 20px;
+                }
+            }
+            .progress-top{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+            .progress-title{
+                font-weight: 600;
+            }
+            .progress-bar{
+                background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+                background-size: 1rem 1rem;
+                border-radius: 0;
+            }
+            .progress-number{
+                font-weight: 700;
+                font-size: 16px;
+                color: var(--rs-black);
+                position: static;
+            }
+            .progress{
+                height: 7px;
+                background-color: #eee;
+            }
+        }
+    }
+    &-five{
+        padding-bottom: 200px;
+        @media #{$xl}{
+            padding-bottom: 180px;
+        }
+        @media #{$lg}{
+            padding-bottom: 160px;
+        }
+        @media #{$md}{
+            padding-bottom: 80px;
+        }
+        @media #{$sm,$xs} {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        .rs-skill-shape{
+            position: absolute;
+            left: 33%;
+            bottom: 50px;
+            transform: rotateZ(-15deg) !important;
+            @media #{$md,$sm,$xs}{
+                display: none;
+            }
+            img{
+                width: 300px;
+            }
+        }
+      .rs-section-paragraph{
+        font-size: 20px;
+        font-weight: 500;
+      }
+      .rs-skill-content{
+        margin-inline-start: 50px;
+        @media #{$md,$sm,$xs}{
+            margin-inline-start: 0px;
+        }
+      }
+      .rs-skill-progress{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 30px;
+        @media #{$xs}{
+            grid-template-columns: repeat(1,1fr);
+        }
+      }
+      .single-progress{
+        &:not(:last-child){
+            margin-bottom: 5px;
+        }
+      }
+      .progress-title{
+        margin-bottom: 6px;
+      }
+      .progress-number{
+        font-size: 16px;
+        color: var(--rs-black);
+        font-weight: 700;
+      }
+      .progress-bar{
+        background: var(--rs-theme-green);
+      }
+    }
+    &-six{
+        .rs-skill-wrapper{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 30px;
+            margin-inline-end: 30px;
+            @media #{$xl}{
+                margin-inline-end: 20px;
+            }
+            @media #{$lg,$md,$sm,$xs}{
+                margin-inline-end: 0px;
+            }
+            @media #{$xs}{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+        .rs-skill-item{
+            background: var(--rs-bg-light);
+            text-align: center;
+            padding: 50px 20px 30px 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .rs-skill-icon{
+            margin-bottom: 20px;
+            svg{
+                width: 60px;
+                height: 60px;
+                path{
+                    fill: var(--rs-theme-orange) !important;
+                }
+            }
+        }
+        .rs-skill-title{
+            margin-bottom: 30px;
+        }
+        .progress{
+            height: 40px;
+            border-radius: 70px;
+            background: var(--rs-black);
+        }
+        .progress-bar{
+            border-radius: 70px;
+            background-color: var(--rs-theme-orange);
+        }
+        .progress-number{
+            position: absolute;
+            font-size: 16px;
+            right: 0;
+            z-index: 1;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            font-weight: 700;
+            color: var(--rs-white);
+        }
+        .rs-skill-feature-list{
+            margin: 30px 0 40px;
+            ul{
+                li{
+                    list-style: none;
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    padding-inline-start: 22px;
+                    &:not(:last-child){
+                        margin-bottom: 10px;
+                    }
+                    &::before{
+                        content: "\f178";
+                        color: var(--rs-theme-orange);
+                        font-size: 14px;
+                        margin: 0;
+                        font-weight: 400;
+                        display: inline-block;
+                        font-family: var(--rs-ff-fontawesome);
+                        position: absolute;
+                        inset-inline-start: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+

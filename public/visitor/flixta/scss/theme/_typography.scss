@@ -1,0 +1,332 @@
+@use '../utils' as *;
+
+/*---------------------------------
+	1.2 Typography SCSS
+---------------------------------*/
+
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 10px;
+}
+
+/*---------------------------------
+    Typography css start 
+---------------------------------*/
+body {
+	color: var(--rs-text-primary);
+	font-family: var(--rs-ff-body);
+	font-size: var(--rs-fs-body);
+	font-weight: normal;
+	line-height: 1.5;
+	background: var(--rs-body-primary);
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h5,
+h5, .h5,
+h6, .h6 {
+	color: var(--rs-title-primary);
+	margin-top: 0px;
+	line-height: 1;
+	margin-bottom: 0;
+	font-weight: var(--rs-fw-bold);
+	word-break: break-word;
+	font-family: var(--rs-ff-title);
+}
+
+h1,
+.h1 {
+	font-size: var(--rs-fs-h1);
+	line-height: 1;
+	font-weight: var(--rs-fw-bold);
+	font-family: var(--rs-ff-title);
+}
+
+h2,
+.h2 {
+	font-size: var(--rs-fs-h2);
+	line-height: 1.18;
+	font-weight: var(--rs-fw-bold);
+	@media #{$xl} {
+		font-size: 45px;
+	}
+	@media #{$lg} {
+		font-size: 40px;
+	}
+	@media #{$md} {
+		font-size: 35px;
+	}
+	@media #{$sm} {
+		font-size: 30px;
+	}
+	@media #{$xs} {
+		font-size: 28px;
+	}
+	@media #{$xxs} {
+		font-size: 26px;
+	}
+}
+
+h3,
+.h3 {
+	font-size: var(--rs-fs-h3);
+	line-height: 1.25;
+	font-weight: var(--rs-fw-bold);
+	@media #{$sm} {
+		font-size: 28px;
+	}
+	@media #{$xs} {
+		font-size: 24px;
+	}
+}
+
+h4,
+.h4 {
+	font-size: var(--rs-fs-h4);
+	line-height: 1.33;
+	font-weight: var(--rs-fw-bold);
+	@media #{$sm,$xs} {
+		font-size: 22px;
+	}
+	&.medium {
+		font-size: 28px;
+	}
+}
+
+h5,
+.h5 {
+	font-size: var(--rs-fs-h5);
+	line-height: 1.4;
+	font-weight: var(--rs-fw-bold);
+	@media #{$xl} {
+		font-size: 22px;
+	}
+	@media #{$lg} {
+		font-size: 20px;
+	}
+	@media #{$md,$sm} {
+		font-size: 22px;
+	}
+	@media #{$xs} {
+		font-size: 20px;
+	}
+}
+
+h6,
+.h6 {
+	font-size: var(--rs-fs-h6);
+	line-height: 1.44;
+	font-weight: var(--rs-fw-bold);
+	&.small {
+		font-size: 18px;
+	}
+	@media #{$xs} {
+		font-size: 18px;
+	}
+}
+ul {
+	margin: 0px;
+	padding: 0px;
+}
+
+p {
+	font-size: var(--rs-fs-p);
+	font-family: var(--rs-ff-p);
+	font-weight: var(--rs-fw-normal);
+	color: var(--rs-text-primary);
+	margin-bottom: 30px;
+	line-height: 30px;
+	&.b1 {
+		font-size: var(--rs-fs-b1);
+		line-height: 1.714;
+	}
+	
+	&.b2 {
+		font-size: var(--rs-fs-b2);
+		line-height: 1.625;
+	}
+	
+	&.b3 {
+		font-size: var(--rs-fs-b3);
+		line-height: 1.55;
+	}
+	
+	&.b4 {
+		font-size: var(--rs-fs-b4);
+		line-height: 1.454;
+	}
+	&:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.b1 {
+    font-size: var(--rs-fs-b1);
+    line-height: 1.714;
+}
+
+.b2 {
+    font-size: var(--rs-fs-b2);
+    line-height: 1.625;
+}
+
+.b3 {
+    font-size: var(--rs-fs-b3);
+    line-height: 1.55;
+}
+
+.b4 {
+    font-size: var(--rs-fs-b4);
+    line-height: 1.454;
+}
+
+a {
+	text-decoration: none;
+}
+
+a,
+.btn,
+button,
+span,
+sub,
+sup,
+p,
+input,
+select,
+textarea,
+img,
+svg,
+.transition-3,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@extend %rs-transition-3;
+}
+
+a:focus,
+.button:focus {
+	text-decoration: none;
+	outline: none;
+}
+
+a:focus,
+a:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+a,
+button {
+	color: inherit;
+	outline: none;
+	border: none;
+	background: transparent;
+}
+
+img {
+	max-width: 100%;
+	object-fit: cover;
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+button:focus {
+	outline: 0;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+hr:not([size]) {
+	// margin: 0;
+	// border-color: rgba(0, 0, 0, 0.07);
+	// opacity: 1;
+	// border-width: 1px;
+	margin: 0;
+  opacity: 1;
+  border: none;
+  height: 1px;
+  background-color: #ececec;
+  @include dark{
+	background-color: #2d2d27;
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+textarea {
+	outline: none;
+	background-color: transparent;
+	height: 50px;
+	width: 100%;
+	font-size: 16px;
+	border: none;
+	@include border-radius(6px);
+	border: 1px solid var(--rs-border-primary);
+	color: var(--rs-black);
+	padding-inline-start: 25px;
+	padding-inline-end: 25px;
+	&:focus {
+		border-color: var(--rs-theme-primary);
+	}
+}
+
+textarea {
+	padding: 14px 24px;
+	&:focus {
+		border-color: var(--rs-theme-primary);
+	  }
+}
+*::-moz-selection {
+	background: var(--rs-hover-primary);
+	color: var(--rs-white);
+	text-shadow: none;
+}
+
+::-moz-selection {
+	background: var(--rs-theme-primary);
+	color: var(--rs-white);
+	text-shadow: none;
+}
+
+::selection {
+	background: var(--rs-theme-primary);
+	color: var(--rs-white);
+	text-shadow: none;
+}
+
+*::-moz-placeholder {
+	opacity: 1;
+	font-size: 16px;
+	color: var(--rs-placeholder);
+}
+
+*::placeholder {
+	opacity: 1;
+	font-size: 16px;
+	font-weight: 400;
+	font-family: var(--rs-ff-title);
+	color: var(--rs-placeholder);
+}

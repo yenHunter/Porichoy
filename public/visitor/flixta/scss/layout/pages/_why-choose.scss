@@ -1,0 +1,32 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  Why Choose css
+/*----------------------------------------*/
+
+.rs-why-choose{
+    &-one{
+        .rs-why-choose-video-wrapper{
+            margin-inline-start: 40px;
+            @media #{$lg,$md,$sm,$xs}{
+                margin-inline-start: 0px; 
+            }
+        }
+        .rs-why-choose-video-inner{
+            video{
+                width: 100%;
+                border-radius: 4px;
+                height: 610px;
+                object-fit: cover;
+                @media #{$md}{
+                    height: 400px;
+                }
+                @media #{$sm,$xs}{
+                    height: 300px;
+                }
+            }
+        }
+    }
+}
+
+

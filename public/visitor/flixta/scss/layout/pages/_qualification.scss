@@ -1,0 +1,304 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  services css
+/*----------------------------------------*/
+
+.rs-qualification {
+    &-one {
+        .rs-qualification-content {
+            padding: 50px 30px 50px 30px;
+            background-color: var(--rs-white);
+            @media #{$xl,$lg,$sm,$xs}{
+                padding: 30px 30px 30px 30px;
+            }
+        }
+        .rs-qualification-item {
+            display: flex;
+            position: relative;
+            width: 100%;
+            min-height: 120px;
+            @media #{$xs}{
+                display: block;
+            }
+        }
+        .rs-qualification-title{
+            margin-bottom: 3px;
+            @media #{$xl,$lg,$sm}{
+                font-size: 18px;
+            }
+        }
+        .rs-qualification-meta{
+            @media #{$xl,$lg,$sm}{
+                font-size: 16px;
+            }
+        }
+        .rs-divider {
+            position: absolute;
+            top: 30px;
+            inset-inline-start: 50%;
+            bottom: 0;
+            width: 1px;
+            border-style: dashed;
+            border-width: 0px 0px 0px 1px;
+            border-color: #8C8C8C;
+            &:before {
+                position: absolute;
+                content: "";
+                display: block;
+                width: 10px;
+                height: 10px;
+                margin-inline-start: -5px;
+                top: -22px;
+                border-radius: 50%;
+                background-color:var(--rs-theme-primary);
+            }
+            &::after{
+                content: "";
+                display: block;
+                margin-top: -32px;
+                width: 30px;
+                height: 30px;
+                margin-inline-start: -15px;
+                border-radius: 50%;
+                border: 1px dashed #8C8C8C;
+            }
+            @media #{$xs}{
+                inset-inline-start: 0;
+            }
+        }
+        .left-part{
+            padding-inline-end: 60px;
+            width: 50%;
+            text-align: right;
+            @media #{$lg}{
+                padding-inline-end: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+                text-align: start;
+                padding-inline-end: 0px;
+            }
+        }
+        .right-part{
+            padding-inline-start: 60px;
+            width: 50%;
+            @media #{$lg}{
+                padding-inline-start: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+            }
+        }
+        .rs-qualification-left{
+            margin-inline-end: 25px;
+            @media #{$xl,$lg,$md,$sm,$xs}{
+                margin-inline-end: 0px;
+            }
+        }
+        .rs-qualification-right{
+            margin-inline-start: 25px;
+            @media #{$xl,$lg,$md,$sm,$xs}{
+                margin-inline-start: 0px;
+            }
+        }
+    }
+    &-two {
+        padding: 50px 40px 40px;
+        @media #{$xs}{
+            padding: 20px 20px 20px;
+        }
+        .rs-qualification-content {
+            padding: 50px 30px 50px 30px;
+            background-color: var(--rs-white);
+            @media #{$xl,$lg,$sm,$xs}{
+                padding: 30px 30px 30px 30px;
+            }
+            @media #{$xxs}{
+                padding: 20px 20px 20px 20px;
+            }
+        }
+        .rs-qualification-item {
+            display: flex;
+            position: relative;
+            width: 100%;
+            min-height: 120px;
+            @media #{$xs}{
+                display: block;
+            }
+        }
+        .rs-qualification-title{
+            margin-bottom: 3px;
+            @media #{$xl,$lg,$sm}{
+                font-size: 18px;
+            }
+        }
+        .rs-qualification-meta{
+            @media #{$xl,$lg,$sm}{
+                font-size: 16px;
+            }
+        }
+        .rs-divider {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            bottom: 0;
+            width: 1px;
+            border-style: dashed;
+            border-width: 0px 0px 0px 1px;
+            border-color: #8C8C8C;
+            &:before {
+                position: absolute;
+                content: "";
+                display: block;
+                width: 10px;
+                height: 10px;
+                margin-left: -5px;
+                top: -22px;
+                border-radius: 50%;
+                background-color:var(--rs-theme-quaternary);
+            }
+            &::after{
+                content: "";
+                display: block;
+                margin-top: -32px;
+                width: 30px;
+                height: 30px;
+                margin-left: -15px;
+                border-radius: 50%;
+                border: 1px dashed #8C8C8C;
+            }
+            @media #{$xs}{
+                left: 0;
+            }
+        }
+        .left-part{
+            padding-inline-end: 60px;
+            width: 50%;
+            text-align: right;
+            @media #{$lg}{
+                padding-inline-end: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+                text-align: start;
+                padding-inline-end: 0px;
+            }
+        }
+        .right-part{
+            padding-inline-start: 60px;
+            width: 50%;
+            @media #{$lg}{
+                padding-inline-start: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+            }
+        }
+        .rs-qualification-left{
+            margin-inline-end: 25px;
+            @media #{$xl,$lg,$md,$sm,$xs}{
+                margin-inline-end: 0px;
+            }
+        }
+        .rs-qualification-right{
+            margin-inline-start: 25px;
+            @media #{$xl,$lg,$md,$sm,$xs}{
+                margin-inline-start: 0px;
+            }
+        }
+    }
+    &-three {
+        .rs-qualification-content{
+            @media #{$xs}{
+                padding: 0 0 0 15px;
+            }
+        }
+        .rs-qualification-item {
+            display: flex;
+            position: relative;
+            width: 100%;
+            min-height: 120px;
+            @media #{$xs}{
+                display: block;
+            }
+        }
+        .rs-qualification-title{
+            margin-bottom: 3px;
+            @media #{$xl,$lg,$sm}{
+                font-size: 18px;
+            }
+        }
+        .rs-qualification-meta{
+            @media #{$xl,$lg,$sm}{
+                font-size: 16px;
+            }
+        }
+        .rs-divider {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            bottom: 0;
+            width: 1px;
+            border-style: dashed;
+            border-width: 0px 0px 0px 1px;
+            border-color: #8C8C8C;
+            &:before {
+                position: absolute;
+                content: "";
+                display: block;
+                width: 10px;
+                height: 10px;
+                margin-inline-start: -5px;
+                top: -22px;
+                border-radius: 50%;
+                background-color:var(--rs-theme-primary);
+            }
+            &::after{
+                content: "";
+                display: block;
+                margin-top: -32px;
+                width: 30px;
+                height: 30px;
+                margin-inline-start: -15px;
+                border-radius: 50%;
+                border: 1px dashed #8C8C8C;
+            }
+            @media #{$xs}{
+                left: 0;
+            }
+        }
+        .left-part{
+            padding-inline-end: 60px;
+            width: 50%;
+            text-align: right;
+            padding-bottom: 30px;
+            @media #{$lg}{
+                padding-inline-end: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+                text-align: start;
+                padding-inline-end: 0px;
+            }
+        }
+        .right-part{
+            padding-inline-start: 60px;
+            width: 50%;
+            padding-bottom: 30px;
+            text-align: left;
+            @media #{$lg}{
+                padding-inline-start: 40px;
+            }
+            @media #{$xs}{
+                padding-inline-start: 30px;
+                width: 100%;
+            }
+        }
+    }
+}

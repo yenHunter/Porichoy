@@ -1,0 +1,229 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  slide text css
+/*----------------------------------------*/
+
+.rs-text-slide{
+    &-one{
+        padding-bottom: 50px;
+        .rs-text-slide-wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-transform: uppercase;
+            text-align: center;
+            .gsap-marquee{
+                min-width: max-content;
+            }
+            .rs-text-slide-item{
+                font-size: 150px;
+                letter-spacing: 2px;
+                font-weight: 700;
+                position: relative;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 1px;
+                -webkit-text-stroke-color: var(--rs-border-secondary);
+                line-height: .8;
+                @media #{$xl}{
+                    font-size: 120px;
+                }
+                @media #{$lg}{
+                    font-size: 100px;
+                }
+                @media #{$md}{
+                    font-size: 80px;
+                }
+                @media #{$sm}{
+                    font-size: 70px;
+                }
+                @media #{$xs}{
+                    font-size: 60px;
+                }
+                
+            }
+        }
+        &.has-section-space{
+            padding-top: 100px;
+            @media #{$xl}{
+                padding-top: 80px;
+            }
+            @media #{$lg}{
+                padding-top: 70px;
+            }
+            @media #{$md,$sm,$xs}{
+                padding-top: 50px;
+            }
+        }
+    }
+    &-two{
+        overflow-x: clip;
+        padding: 250px 0 100px;
+        @media #{$x3l}{
+            padding: 200px 0 100px;
+        }
+        @media #{$xxl}{
+            padding: 180px 0 100px;
+        }
+        @media #{$xl}{
+            padding: 160px 0 100px;
+        }
+        @media #{$lg}{
+            padding: 130px 0 100px;
+        }
+        @media #{$md}{
+            padding: 150px 0 40px;
+        }
+        @media #{$sm}{
+            padding: 150px 0 20px;
+        }
+        @media #{$xs}{
+            padding: 160px 0 0px;
+        }
+        .rs-text-slider-wrapper{
+            position: relative;
+        }
+        .rs-text-slider-item{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-transform: uppercase;
+            text-align: center;
+            &:nth-child(1){
+                position: relative;
+                z-index: 0;
+                transform: rotate(7deg);
+                @media #{$md}{
+                    top: -30px;
+                }
+                @media #{$sm}{
+                    top: -50px;
+                }
+                @media #{$xs}{
+                    top: -70px;
+                }
+            }
+            &:nth-child(2){
+                position: absolute;
+                transform: rotate(-7deg);
+                top: -230px;
+                left: -100px;
+            }
+            .gsap-marquee{
+                min-width: max-content;
+            }
+            .rs-text-slider-inner{
+                padding: 20px 0px 20px 0px;
+                border: 1px solid var(--rs-border-primary);
+                background: var(--rs-white);
+                @media #{$sm,$xs}{
+                    padding: 10px 0px 10px 0px;
+                }
+            }
+            .rs-text-slide-title{
+                font-size: 100px;
+                letter-spacing: 4px;
+                font-weight: 700;
+                position: relative;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 1px;
+                -webkit-text-stroke-color: var(--rs-border-secondary);
+                line-height: .8;
+                @media #{$xl}{
+                    font-size: 90px;
+                }
+                @media #{$lg}{
+                    font-size: 80px;
+                }
+                @media #{$md}{
+                    font-size: 70px;
+                }
+                @media #{$sm}{
+                    font-size: 60px;
+                }
+                @media #{$xs}{
+                    font-size: 50px;
+                }
+                
+            }
+        }
+    }
+    &-three{
+        padding-top: 100px;
+        padding-bottom: 70px;
+        @media #{$md,$sm,$xs}{
+            padding-top: 80px;  
+        }
+        .rs-text-slide-wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-transform: capitalize;
+            text-align: center;
+            .gsap-marquee{
+                min-width: max-content;
+            }
+            .rs-text-slide-item{
+                font-size: 150px;
+                letter-spacing: 2px;
+                font-weight: 700;
+                position: relative;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 1px;
+                -webkit-text-stroke-color: var(--rs-border-secondary);
+                line-height: .8;
+                @media #{$xl}{
+                    font-size: 130px;
+                }
+                @media #{$lg}{
+                    font-size: 100px;
+                }
+                @media #{$md}{
+                    font-size: 90px;
+                }
+                @media #{$sm}{
+                    font-size: 80px;
+                }
+                @media #{$xs}{
+                    font-size: 70px;
+                }
+            }
+        }
+    }
+    &-four{
+        margin-bottom: -155px;
+        margin-top: 70px;
+        position: relative;
+        z-index: 1;
+        .rs-text-slide-wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-transform: capitalize;
+            text-align: center;
+            .gsap-marquee{
+                min-width: max-content;
+            }
+            .rs-text-slide-item{
+                font-size: 100px;
+                letter-spacing: 2px;
+                font-weight: 700;
+                position: relative;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 1px;
+                -webkit-text-stroke-color: rgba(87, 119, 255, 0.2);
+                line-height: .8;
+                text-transform: uppercase;
+                @media #{$md}{
+                    font-size: 80px;
+                }
+                @media #{$sm,$xs}{
+                    font-size: 70px;
+                }
+            }
+        }
+    }
+}

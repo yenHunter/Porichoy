@@ -1,0 +1,16 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  2.0 Swiper scrollbar 
+/*----------------------------------------*/
+
+.rs-swiper-scrollbar{
+    &.swiper-scrollbar{
+        height: 5px;
+        background: var( --rs-bg-secondary);
+    }
+    .swiper-scrollbar-drag{
+        width: 220px !important;
+        background: var(--rs-theme-primary);
+    }
+}

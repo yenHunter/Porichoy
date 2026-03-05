@@ -1,0 +1,392 @@
+@use '../../utils' as *;
+
+// /*----------------------------------------*/
+// /*  3.6.2 Main menu css
+// /*----------------------------------------*/
+
+.main-menu {
+    ul{
+        li{
+            &.active{
+                > a{
+                    color: var(--rs-theme-primary);
+                }
+            }
+            a{
+                &.active{
+                    color: var(--rs-theme-primary);
+                }
+            }
+        }
+    }
+    >ul {
+        display: inline-flex;
+        >li {
+            &:hover {
+                >a {
+                    color: var(--rs-theme-primary);
+                    &::before {
+                        opacity: 1;
+                    }
+                }
+
+                >ul {
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: scaleY(1);
+                    visibility: visible;
+
+                    &.submenu li {
+                        &:hover {
+                            >ul {
+                                opacity: 1;
+                                pointer-events: all;
+                                visibility: visible;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    li {
+        position: relative;
+        list-style: none;
+        a {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--rs-black);
+            padding: 42px 20px;
+            display: flex;
+            align-items: center;
+            text-transform: capitalize;
+            position: relative;
+            transition: all 0.3s linear;
+        }
+        &.menu-item-has-children > a{
+            &::after{
+                content: "\f107";
+                font-family: var(--rs-ff-fontawesome);
+                margin-inline-start: 5px;
+                font-weight: 500;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .submenu {
+        background-color: var(--rs-white);
+        box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.1);
+        width: 260px;
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 10;
+        top: 100%;
+        transform: scaleY(0);
+        transition: all 0.5s ease;
+        visibility: hidden;
+        transform-origin: top center;
+        
+        ul {
+            background-color: var(--rs-white);
+            width: 260px;
+            position: absolute;
+            inset-inline-start: 100%;
+            top: 0;
+            opacity: 0;
+            z-index: 10;
+            transition: all 0.5s;
+        }
+
+        li {
+            position: relative;
+            &:not(:last-child){
+                border-bottom: 1px solid rgba(200, 192, 226, 0.18);
+            }
+            &:hover {
+                >a {
+                    color: var(--rs-theme-primary);
+                    letter-spacing: 0.5px;
+                }
+
+                >ul {
+                    opacity: 1;
+                    transform: none !important;
+                    pointer-events: all;
+                }
+            }
+
+            a {
+                font-size: 16px;
+                color: var(--rs-text-primary);
+                display: block;
+                transition: all 0.5s;
+                text-align: start;
+                cursor: pointer;
+                padding: 15px 20px 15px 20px;
+            }
+        }
+    }
+
+    .has-mega-menu {
+        position: static;
+        transition: all 15s ease-in-out;
+    }
+}
+
+.main-menu li .has-arrow {
+    > a::after {
+        content: "\f107";
+        font-family: var(--rs-ff-fontawesome);
+        font-weight: 600;
+        position: absolute;
+        inset-inline-end: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+    &:hover a::after {
+        transform: rotate(-90deg);
+        @include rtl {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.home-menu {
+    &-item {
+        position: relative;
+        &:hover {
+            .home-menu-thumb{
+                &::before {
+                    opacity: .5;
+                }
+            }
+            .home-menu-buttons {
+                transform: scale(1, 1);
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+    &-thumb {
+        position: relative;
+        border: 1px solid blue;
+        border-radius: 6px;
+        &::before {
+            position: absolute;
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: var(--rs-theme-secondary);
+            opacity: 0;
+            transition: all 0.3s linear;
+            left: 0;
+            bottom: 0;
+            border-radius: 6px;
+        }
+        img {
+            width: 100%;
+            border-radius: 6px;
+        }
+    }
+}
+
+// different menu color css
+.rs-header-area{
+    &.has-theme-yellow{
+        &.rs-sticky{
+            background: #252D3DBD;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.07);
+        }
+        .main-menu{
+            ul{
+                li{
+                    &.active{
+                        > a{
+                            color: var(--rs-theme-yellow);
+                        }
+                    }
+                    a{
+                        &.active{
+                            color: var(--rs-theme-yellow);
+                        }
+                    }
+                }
+            }
+            .submenu{
+                background: var(--rs-theme-tertiary);
+            }
+            li{
+                a{
+                    color: var(--rs-white);
+                    &:hover{
+                        color: var(--rs-theme-yellow);
+                    }
+                }
+            }
+        }
+        .sidebar-toggle{
+            background: var(--rs-theme-yellow);
+        }
+        .bar-icon{
+            span{
+                background: var(--rs-theme-tertiary);
+            }
+        }
+    }
+    &.has-theme-orange{
+        padding: 0 135px 0 135px;
+        @media #{$x3l,$xxl,$xl}{
+            padding: 0;
+        }
+        @media #{$lg,$md,$sm,$xs}{
+            @media #{$lg}{
+                padding: 16px 0;
+            }
+            @media #{$md}{
+                padding: 14px 0;
+            }
+            @media #{$sm}{
+                padding: 12px 0;
+            }
+            @media #{$xs}{
+                padding: 18px 0 18px;
+            }
+        }
+        .sidebar-toggle{
+            background: var(--rs-theme-orange);
+        }
+        .main-menu{
+            ul{
+                li{
+                    &.active{
+                        > a{
+                            color: var(--rs-theme-orange);
+                        }
+                    }
+                    a{
+                        &.active{
+                            color: var(--rs-theme-orange);
+                        }
+                    }
+                }
+            }
+            ul{
+                li{
+                    a{
+                        &:hover{
+                            color: var(--rs-theme-orange);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.has-theme-green{
+        &.rs-sticky{
+            background: #10332F;
+        }
+        .main-menu{
+            ul{
+                li{
+                    &.active{
+                        > a{
+                            color: var(--rs-theme-green);
+                        }
+                    }
+                    a{
+                        &.active{
+                            color: var(--rs-theme-green);
+                        }
+                    }
+                }
+            }
+            .submenu{
+                background: #10332F;
+            }
+            li{
+                a{
+                    color: var(--rs-white);
+                    &:hover{
+                        color: var(--rs-theme-green);
+                    }
+                }
+            }
+        }
+        .sidebar-toggle{
+            background: var(--rs-theme-green);
+        }
+    }
+    &.has-theme-quaternary{
+        &.rs-sticky{
+            background: #101B30;
+        }
+        .main-menu{
+            ul{
+                li{
+                    &.active{
+                        > a{
+                            color: var(--rs-theme-quaternary);
+                        }
+                    }
+                    a{
+                        &.active{
+                            color: var(--rs-theme-quaternary);
+                        }
+                    }
+                }
+            }
+            .submenu{
+                background: #101B30;
+            }
+            li{
+                a{
+                    color: var(--rs-white);
+                    &:hover{
+                        color: var(--rs-theme-quaternary);
+                    }
+                }
+            }
+        }
+        .sidebar-toggle{
+            background: var(--rs-theme-quaternary);
+        }
+    }
+    &.has-theme-tertiary{
+        &.rs-sticky{
+            background: #F3DABA;
+        }
+        .main-menu{
+            ul{
+                li{
+                    &.active{
+                        > a{
+                            color: var(--rs-text-primary);
+                        }
+                    }
+                    a{
+                        &.active{
+                            color: var(--rs-text-primary);
+                        }
+                    }
+                }
+            }
+            .submenu{
+                background: #F3DABA;
+            }
+            li{
+                a{
+                    color: var(--rs-theme-tertiary);
+                    &:hover{
+                        color: var(--rs-text-primary);
+                    }
+                }
+            }
+        }
+        .sidebar-toggle{
+            background: var(--rs-theme-tertiary);
+        }
+    }
+}

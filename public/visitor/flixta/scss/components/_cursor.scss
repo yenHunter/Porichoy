@@ -1,0 +1,44 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  2.2 cursor
+/*----------------------------------------*/
+
+#rs-mouse {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 999999;
+    transition: opacity 0.2s ease-in-out 0.5s;
+  }
+  #rs-mouse #cursor-ball {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(34, 34, 34, 0.1);
+    border-radius: 50%;
+    pointer-events: none;
+    box-sizing: border-box;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999999;
+  }
+  #rs-mouse #cursor-ball:after {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--rs-theme-primary);
+    transform: translate(-50%);
+  }
+  @media #{$md,$sm,$xs} {
+    #rs-mouse {
+      display: none;
+    }
+  }

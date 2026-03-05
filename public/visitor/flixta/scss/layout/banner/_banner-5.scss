@@ -1,0 +1,235 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.5 Banner Style 5
+/*----------------------------------------*/
+
+
+.rs-banner{
+    &-five{
+        padding-top: 210px;
+        padding-bottom: 150px;
+        @media #{$lg}{
+            padding-top: 180px;
+            padding-bottom: 120px;
+        }
+        @media #{$md}{
+            padding-top: 150px;
+            padding-bottom: 100px;
+        }
+        @media #{$sm,$xs}{
+            padding-top: 130px;
+            padding-bottom: 80px;
+        }
+        .rs-banner-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .rs-banner-shape{
+            &-one{
+                position: absolute;
+                right: 45%;
+                top: 140px;
+                @media #{$lg}{
+                    right: 35%;
+                }
+                @media #{$md,$sm,$xs}{
+                    display: none;
+                }
+                img{
+                    animation: rs-scale 1s alternate infinite;
+                    -webkit-animation: rs-scale 1s alternate infinite;
+                }
+            }
+            &-two{
+                position: absolute;
+                right: 100px;
+                top: 180px;
+                @media #{$lg}{
+                    right: 40px;
+                }
+                @media #{$xs}{
+                    display: none;
+                }
+                img{
+                    animation: rs-scale 1s alternate infinite;
+                    -webkit-animation: rs-scale 1s alternate infinite;
+                }
+            }
+            &-three{
+                position: absolute;
+                position: absolute;
+                bottom: 190px;
+                right: 47%;
+                @media #{$xl}{
+                    right: 41%;
+                }
+                @media #{$lg}{
+                    display: none;
+                }
+                @media #{$md,$sm,$xs}{
+                    display: none;
+                }
+                img{
+                    animation: rs-scale 1s alternate infinite;
+                    -webkit-animation: rs-scale 1s alternate infinite;
+                }
+            }
+            &-four{
+                position: absolute;
+                right: 210px;
+                bottom: 170px;
+                @media #{$xxl}{
+                    right: 80px;
+                    bottom: 80px;
+                }
+                @media #{$xl}{
+                    right: 50px;
+                    bottom: 80px;
+                }
+                @media #{$lg}{
+                    right: 60px;
+                    bottom: 50px;
+                }
+                @media #{$lg}{
+                    right: 60px;
+                    bottom: 50px;
+                }
+                @media #{$md,$sm,$xs}{
+                    display: none;
+                }
+                img{
+                    animation: rs-scale 1s alternate infinite;
+                    -webkit-animation: rs-scale 1s alternate infinite;
+                }
+            }
+        }
+        .rs-banner-title{
+            font-size: 72px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            @media #{$xl}{
+                font-size: 60px;
+            }
+            @media #{$lg}{
+                font-size: 50px;
+            }
+            @media #{$md}{
+                font-size: 40px;
+            }
+            @media #{$sm}{
+                font-size: 35px;
+            }
+            @media #{$xs}{
+                font-size: 30px;
+            }
+        }
+        .rs-mark-text{
+            display: inline-flex;
+            font-size: 90px;
+            gap: 10px;
+            @media #{$xl}{
+                font-size: 80px;
+            }
+            @media #{$lg}{
+                font-size: 70px;
+            }
+            @media #{$md}{
+                font-size: 60px;
+                display: block;
+            }
+            @media #{$sm}{
+                font-size: 50px;
+                display: block;
+            }
+            @media #{$xs}{
+                font-size: 40px;
+                display: block;
+            }
+        }
+        .rs-title-slide{
+            background-color: unset;
+            border-radius: unset;
+            color: var(--rs-theme-primary);
+            padding: 0;
+            font-size: 90px;
+            @media #{$xl}{
+                font-size: 80px;
+            }
+            @media #{$lg}{
+                font-size: 70px;
+            }
+            @media #{$md}{
+                font-size: 60px;
+            }
+            @media #{$sm}{
+                font-size: 50px;
+            }
+            @media #{$xs}{
+                font-size: 40px;
+            }
+            b{
+                line-height: 1.2;
+            }
+        }
+        .rs-banner-description{
+            p{
+                font-size: 22px;
+                line-height: 1.6;
+                @media #{$sm}{
+                    font-size: 20px;
+                }
+                @media #{$xs}{
+                    font-size: 18px;
+                }
+            }
+        }
+        .rs-banner-info-btn{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0 50px 0;
+            flex-wrap: wrap;
+            @media #{$lg,$md}{
+                margin: 40px 0 40px 0;
+            }
+            @media #{$sm,$xs}{
+                margin: 30px 0 30px 0;
+            }
+        }
+        .rs-client-meta{
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            @media #{$lg}{
+                br{
+                    display: none;
+                }
+            }
+            @media #{$xs}{
+                flex-wrap: wrap;
+            }
+        }
+        .rs-client-meta-text{
+            p{
+                font-weight: 600;
+                color: var(--rs-black);
+            }
+        }
+        .rs-banner-thumb{
+            margin-left: 50px;
+            @media #{$lg,$md,$sm,$xs}{
+                margin-left: 0;
+            }
+            img{
+                width: 100%;
+            }
+        }
+    }
+}

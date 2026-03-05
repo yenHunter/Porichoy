@@ -1,0 +1,238 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  3.5.4 Header Common Style 
+/*----------------------------------------*/
+
+.rs-header {
+	&-area{
+		@media #{$lg}{
+			padding: 16px 0;
+		}
+		@media #{$md}{
+			padding: 14px 0;
+		}
+		@media #{$sm}{
+			padding: 12px 0;
+		}
+		@media #{$xs}{
+			padding: 18px 0 18px;
+		}
+	}
+	&-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		z-index: 99;
+	}
+	&-menu {
+		text-align: center;
+		@media #{$lg,$md,$sm,$xs}{
+			display: none;
+		}
+		ul {
+			li {
+				&:hover {
+					.mega-menu {
+						opacity: 1;
+						visibility: visible;
+						top: 80px;
+					}
+				}
+			}
+		}
+	}
+	&-category {
+		position: relative;
+		&:hover {
+			.rs-category-dropdown {
+				opacity: 1;
+				visibility: visible;
+				transform: scaleY(1);
+			}
+		}
+	}
+}
+.rs-category{
+	&-btn {
+		padding: 28px 0px;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		position: relative;
+		font-size: 16px;
+		font-weight: 500;
+		color: var(--rs-theme-black);
+		cursor: pointer;
+		transition: all linear 0.3s;
+		&:hover {
+			color: var(--rs-theme-primary);
+		}
+	}
+	&-dropdown {
+		min-width: 250px;
+		background-color: var(--rs-bg-primary);
+		padding: 10px 0;
+		transition: 0.3s;
+		border-radius: 3px;
+		z-index: 1001;
+		position: absolute;
+		top: 80px;
+		left: 0;
+		opacity: 0;
+		visibility: hidden;
+		transform: scaleY(0);
+		transform-origin: top center;
+		& ul {
+			li {
+				position: relative;
+				list-style: none;
+				a {
+					display: block;
+					padding: 15px 20px;
+					position: relative;
+					color: var(--rs-theme-black);
+					font-size: 16px;
+					line-height: 1;
+					font-weight: 600;
+				}
+				&:hover {
+					.rs-category-submenu {
+						opacity: 1;
+						visibility: visible;
+					}
+				}
+			}
+		}
+	}
+	&-submenu {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		min-width: 250px;
+		min-height: 100%;
+		background: var(--rs-bg-primary);
+		opacity: 0;
+		padding: 5px 0;
+		visibility: hidden;
+		border-radius: 6px;
+		transition: all 0.3s linear;
+	}
+	&-children {
+		position: relative;
+		&::after {
+			position: absolute;
+			content: "\f105";
+			right: 20px;
+			top: 12px;
+			font-family: var(--rs-ff-fontawesome);
+		}
+	}
+}
+
+.rs-sticky {
+	position: fixed !important;
+	top: 0;
+	z-index: 55;
+	inset-inline-end: 0;
+	inset-inline-start: 0;
+	width: 100%;
+	-webkit-animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+	animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+	background: var(--rs-white);
+	border-top: 0;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.07);
+}
+
+// Header Bar icon
+.rs-header-hamburger {
+	display: none;
+
+	@media #{$lg,$md,$sm,$xs} {
+		display: block;
+	}
+}
+
+.bar-icon {
+	width: 25px;
+	height: 16px;
+	@include flexbox();
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: hidden;
+	transition: color .2s ease-out;
+
+	span {
+		width: 28px;
+		height: 2px;
+		background: var(--rs-white);
+		display: inline-block;
+		transition: color .2s ease-out;
+		margin: 0 auto;
+		margin-right: auto;
+		margin-right: 0;
+
+		&:nth-child(1) {
+			width: 20px;
+			transition: all 0.3s linear;
+		}
+
+		&:nth-child(2) {
+			width: 15px;
+			transition: all 0.3s linear;
+		}
+
+		&:nth-child(3) {
+			width: 20px;
+			transition: all 0.3s linear;
+		}
+	}
+
+	&:hover {
+		span {
+			animation: qode-draw .8s cubic-bezier(.44, 1.1, .53, .99) 1 forwards;
+			&:nth-child(2) {
+				animation-delay: .1s;
+			}
+			&:nth-child(3) {
+				animation-delay: .2s;
+			}
+		}
+	}
+	&.is-black {
+		span {
+			background: var(--rs-black);
+		}
+	}
+	&.is-white {
+		span {
+			background: var(--rs-white);
+		}
+	}
+	&.style-two {
+		span {
+			transition: all 0.3s ease-in;
+			&:nth-child(2) {
+				width: 85%;
+			}
+			&:nth-child(3) {
+				width: 75%;
+			}
+		}
+		&:hover {
+			span {
+				width: 100%;
+			}
+		}
+	}
+}
+
+.header-transparent {
+	position: absolute;
+	inset-inline-start: 0;
+	margin: auto;
+	width: 100%;
+	z-index: 99;
+}

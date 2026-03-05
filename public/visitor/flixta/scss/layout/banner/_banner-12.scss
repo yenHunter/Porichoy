@@ -1,0 +1,148 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.5 Banner Style 5
+/*----------------------------------------*/
+
+.rs-banner{
+    &-twelve{
+        padding-top: 180px;
+        overflow-x: clip;
+        @media #{$xl,$sm}{
+            padding-top: 150px;
+        }
+        @media #{$lg}{
+            padding-top: 150px;
+        }
+        @media #{$md}{
+            padding-top: 160px;
+        }
+        @media #{$xs}{
+            padding-top: 130px;
+        }
+        .rs-banner-content{
+            margin-inline-end: 60px;
+            @media #{$lg}{
+                margin-inline-end: 30px;
+            }
+            @media #{$md,$sm,$xs}{
+                margin-inline-end: 0px;
+            }
+        }
+        .rs-banner-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .rs-banner-subtitle{
+            font-size: 18px;
+            color: var(--rs-theme-yellow);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+            display: inline-block;
+        }
+        .rs-banner-title{
+            font-size: 70px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: var(--rs-white);
+            @media #{$xl}{
+                font-size: 60px;
+            }
+            @media #{$lg,$md,$sm}{
+                font-size: 50px;
+            }
+            @media #{$sm}{
+                font-size: 45px;
+            }
+            @media #{$xs}{
+                font-size: 40px;
+            }
+        }
+        .rs-title-slide{
+            background-color: unset;
+            border-radius: unset;
+            color: var(--rs-theme-yellow);
+            padding: 0;
+            font-size: 55px;
+            @media #{$xl}{
+                font-size: 45px;
+            }
+            @media #{$lg,$md}{
+                font-size: 40px;
+            }
+            @media #{$sm}{
+                font-size: 35px;
+            }
+            @media #{$xs}{
+                font-size: 30px;
+            }
+            b{
+                line-height: 1.2;
+            }
+        }
+        .rs-banner-description{
+            max-width: 90%;
+            @media #{$sm,$xs}{
+                max-width: 100%;
+            }
+            p{
+                font-size: 22px;
+                line-height: 1.6;
+                color: rgba(255, 255, 255, 0.7);
+                @media #{$lg,$sm}{
+                    font-size: 20px;
+                }
+                @media #{$xs}{
+                    font-size: 18px;
+                }
+            }
+        }
+        .rs-banner-info-btn{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0 50px 0;
+            flex-wrap: wrap;
+            @media #{$lg,$md}{
+                margin: 40px 0 40px 0;
+            }
+            @media #{$sm,$xs}{
+                margin: 30px 0 30px 0;
+            }
+        }
+        .rs-banner-thumb{
+            margin-inline-start: -80px;
+            width: 640px;
+            @media #{$xl}{
+                width: 550px;
+            }
+            @media #{$lg}{
+                width: 480px;
+            }
+            @media #{$md,$sm,$xs}{
+                width: 100%;
+                margin-inline-start: 0px;
+            }
+            img{
+                width: 100%;
+            }
+        }
+        .rs-banner-social{
+            a{
+                color:var(--rs-white);
+                background: #252D3D;
+                &:hover{
+                    background: var(--rs-theme-yellow);
+                    color: #252D3D;
+                }
+            }
+        }
+    }
+}

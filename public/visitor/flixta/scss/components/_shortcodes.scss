@@ -1,0 +1,281 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  2.12 Short codes
+/*----------------------------------------*/
+
+
+
+/* display flex */
+.d-flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.d-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d-flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.has-separator {
+    position: relative;
+    &::before {
+        position: absolute;
+        content: "";
+        width: 1px;
+        height: 12px;
+        background-color: rgba(101,101,103,.3);
+        transform: translateY(-50%);
+        inset-inline-end: 0px;
+        top: 50%;
+    }
+}
+
+.img-hover {
+    &:hover {
+        img {
+            transform: scale3d(1.07, 1.07, 1.07);
+        }
+    }
+}
+
+.has-position{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    z-index: 1;
+}
+
+
+
+
+/* gap */
+
+.gap-05 {
+    gap: 5px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.gap-16 {
+    gap: 16px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.gap-25 {
+    gap: 25px;
+}
+
+.gap-30 {
+    gap: 30px;
+}
+
+.gap-35 {
+    gap: 35px;
+}
+
+/* Border Radius Short Code */
+
+.radius-0 {
+    border-radius: 0px;
+}
+
+.radius-6 {
+    border-radius: 6px;
+}
+
+.radius-8 {
+    border-radius: 8px;
+}
+
+.radius-10 {
+    border-radius: 10px;
+}
+
+.radius-16 {
+    border-radius: 16px;
+}
+
+.radius-24 {
+    border-radius: 16px;
+}
+
+.radius-50 {
+    border-radius: 50px;
+}
+
+code {
+    font-size: 16px;
+    color: var(--rs-text-primary);
+    word-wrap: break-word;
+}
+
+.text-border-highlights {
+    position: relative;
+    z-index: 1;
+
+    span {
+        position: absolute;
+        inset-inline-start: 0;
+        display: inline-block;
+        z-index: -1;
+        width: calc(100% - 3px);
+    }
+}
+
+/* Height Short code */
+.h-2px {
+    height: 2px;
+}
+
+.h-3px {
+    height: 3px;
+}
+
+.h-4px {
+    height: 4px;
+}
+
+.h-5px {
+    height: 5px;
+}
+
+.h-6px {
+    height: 6px;
+}
+
+.h-7px {
+    height: 7px;
+}
+
+.h-8px {
+    height: 8px;
+}
+
+.h-9px {
+    height: 9px;
+}
+
+.h-10px {
+    height: 10px;
+}
+
+.h-15px {
+    height: 15px;
+}
+
+.h-20px {
+    height: 20px;
+}
+
+.h-40px {
+    height: 40px;
+}
+
+.height-50 {
+    height: 50px;
+}
+
+/* Bottom Short Code */
+.bottom-0 {
+    inset-block-end: 0;
+}
+
+.bottom-5 {
+    inset-block-end: 5px;
+}
+
+.bottom-6 {
+    inset-block-end: 6px;
+}
+
+.bottom-7 {
+    inset-block-end: 7px;
+}
+
+.bottom-8 {
+    inset-block-end: 8px;
+}
+
+.bottom-9 {
+    inset-block-end: 9px;
+}
+
+.bottom-10 {
+    inset-block-end: 10px;
+}
+
+.bottom-15 {
+    inset-block-end: 15px;
+}
+
+.bottom-20 {
+    inset-block-end: 20px;
+}
+
+.bottom-25 {
+    inset-block-end: 25px;
+}
+
+/* List Style None */
+.list-none {
+    ul {
+        list-style: none;
+    }
+}
+
+/* Font Weight */
+.fw-1 {
+    font-weight: var(--rs-fw-thin);
+}
+
+.fw-2 {
+    font-weight: var(--rs-fw-elight);
+}
+
+.fw-3 {
+    font-weight: var(--rs-fw-light);
+}
+
+.fw-4 {
+    font-weight: var(--rs-fw-regular);
+}
+
+.fw-5 {
+    font-weight: var(--rs-fw-medium);
+}
+
+.fw-6 {
+    font-weight: var(--rs-fw-sbold);
+}
+
+.fw-7 {
+    font-weight: var(--rs-fw-bold);
+}
+
+.fw-8 {
+    font-weight: var(--rs-fw-ebold);
+}
+
+.fw-9 {
+    font-weight: var(--rs-fw-black);
+}

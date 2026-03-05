@@ -1,0 +1,86 @@
+@use "../utils" as *;
+
+/*----------------------------------------*/
+/*  2.6 Breadcrumb
+/*----------------------------------------*/
+
+.rs-breadcrumb{
+	&-one{
+		padding-top: 200px;
+		padding-bottom: 120px;
+		@media #{$md}{
+			padding-top: 140px;
+  			padding-bottom: 110px;
+		}
+		@media #{$md}{
+			padding-top: 140px;
+  			padding-bottom: 100px;
+		}
+		@media #{$sm}{
+			padding-top: 140px;
+  			padding-bottom: 90px;
+		}
+		@media #{$xs}{
+			padding-top: 130px;
+  			padding-bottom: 90px;
+		}
+		.rs-breadcrumb-bg{
+			&.bg-black{
+			 display: none;
+			}
+		 }
+		.rs-breadcrumb-bg{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background-position: top center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			z-index: -1;
+		}
+		.rs-breadcrumb-title{
+			font-size: 60px;
+			margin-bottom: 15px;
+			@media #{$md}{
+				font-size: 55px;
+			}
+			@media #{$sm}{
+				font-size: 50px;
+			}
+			@media #{$xs}{
+				font-size: 45px;
+			}
+		}
+		.rs-breadcrumb-menu{
+			ul{
+				display: inline-flex;
+				gap: 20px 35px;
+				justify-content: center;
+				flex-wrap: wrap;
+				li{
+					list-style: none;
+					position: relative;
+					&:not(:last-child){
+						&::before{
+							content: "\ea6e";
+							position: absolute;
+							font-family: remixicon !important;
+							font-size: 20px;
+							inset-inline-end: -28px;
+							opacity: 1;
+						}
+					}
+					span{
+						a{
+							&:hover{
+								color: var(--rs-theme-primary);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

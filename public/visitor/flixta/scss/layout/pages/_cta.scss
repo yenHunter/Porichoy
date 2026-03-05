@@ -1,0 +1,460 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  call to action css
+/*----------------------------------------*/
+
+.rs-cta{
+    &-one{
+        .rs-cta-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+        .rs-cta-thumb{
+            position: relative;
+            z-index: 3;
+            img{
+                width: 100%;
+                border-radius: 50%;
+            }
+        }
+        .rs-cta-content{
+            position: relative;
+            z-index: 2;
+            margin-inline-start: 40px;
+            @media #{$xl,$lg}{
+                margin-inline-start: 20px;
+            }
+            @media #{$md,$sm,$xs}{
+                margin-inline-start: 0px;
+            }
+        }
+        .rs-cta-large-text{
+            position: absolute;
+            inset-inline-start: -140px;
+            top: -120px;
+            z-index: -1;
+            @media #{$xl}{
+                top: -80px;
+            }
+            @media #{$lg}{
+                top: -60px;
+            }
+            @media #{$md}{
+                top: -80px;
+                inset-inline-start: -50px;
+            }
+            @media #{$sm}{
+                inset-inline-start: -50px;
+                top: -70px;
+            }
+            @media #{$xs}{
+                inset-inline-start: 0px;
+                top: -20px;
+            }
+        }
+        .rs-cta-large-title{
+            color: rgba(87, 119, 255, 0.05);
+            font-size: 200px;
+            font-weight: 600;
+            @media #{$xl}{
+                font-size: 180px;
+            }
+            @media #{$lg}{
+                font-size: 160px;
+            }
+            @media #{$md}{
+                font-size: 130px;
+            }
+            @media #{$sm}{
+                font-size: 120px;
+            }
+            @media #{$xs}{
+                font-size: 80px;
+            }
+        }
+        .rs-cta-shape{
+            margin-bottom: 20px;
+            img{
+                width: 60px;
+                animation-duration: 5s;
+                -webkit-animation-duration: 5s;
+                animation-name: rs-hand-move;
+                -webkit-animation-name: rs-hand-move;
+                animation-duration: 4s;
+                -webkit-animation-duration: 4s;
+                animation-direction: linear;
+                -webkit-animation-direction: linear;
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite;
+            }
+        }
+        .rs-cta-title{
+            margin-bottom: 30px;
+        }
+        .rs-cta-meta{
+            position: relative;
+            z-index: 2;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            @media #{$xl}{
+                font-size: 32px;
+            }
+            @media #{$lg,$md}{
+                font-size: 30px;
+            }
+            @media #{$sm,$xs}{
+                font-size: 25px;
+            }
+            @media #{$xxs}{
+                font-size: 22px;
+            }
+            a{
+                &:hover{
+                    color: var(--rs-theme-primary);
+                }
+            }
+            a{
+                color: var(--rs-text-primary);
+            }
+        }
+        .rs-cta-btn{
+            margin-bottom: 30px;
+        }
+        &.has-theme-green{
+            .rs-cta-large-title{
+                color:  rgba(0, 141, 132, 0.05);
+            }
+            .rs-cta-description{
+                font-size: 20px;
+            }
+            .rs-cta-content{
+                max-width: 650px;
+            }
+        }
+    }
+    &-two{
+        .rs-cta-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+        .rs-cta-thumb{
+            position: relative;
+            z-index: 3;
+            img{
+                width: 100%;
+                border-radius: 50%;
+            }
+        }
+        .rs-cta-content{
+            position: relative;
+            z-index: 2;
+            margin-left: 40px;
+            @media #{$xl}{
+                margin-left: 20px;
+            }
+            @media #{$lg,$md,$sm,$xs}{
+                margin-left: 0px;
+            }
+        }
+        .rs-cta-large-text{
+            position: absolute;
+            inset-inline-start: -140px;
+            top: -120px;
+            z-index: -1;
+            @media #{$xl}{
+                top: -80px;
+                inset-inline-start: -120px;
+            }
+            @media #{$lg}{
+                inset-inline-start: -110px;
+                top: -80px;
+            }
+            @media #{$md}{
+                inset-inline-start: -30px;
+                top: -70px;
+            }
+            @media #{$sm,$xs}{
+                inset-inline-start: -30px;
+                top: -40px;
+            }
+        }
+        .rs-cta-large-title{
+            color: rgba(87, 119, 255, 0.05);
+            font-size: 200px;
+            font-weight: 600;
+            @media #{$lg}{
+                font-size: 160px;
+            }
+            @media #{$md,$sm,$xs}{
+                font-size: 100px;
+            }
+        }
+        .rs-cta-shape{
+            margin-bottom: 20px;
+            img{
+                width: 60px;
+                animation-duration: 5s;
+                -webkit-animation-duration: 5s;
+                animation-name: rs-hand-move;
+                -webkit-animation-name: rs-hand-move;
+                animation-duration: 4s;
+                -webkit-animation-duration: 4s;
+                animation-direction: linear;
+                -webkit-animation-direction: linear;
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite;
+            }
+        }
+        .rs-cta-title{
+            margin-bottom: 25px;
+        }
+        .rs-cta-description{
+            margin-bottom: 30px;
+            P{
+                font-size: 25px;
+                line-height: 1.4;
+                strong{
+                    color: var(--rs-theme-primary);
+                }
+                @media #{$xl,$md}{
+                    font-size: 22px;
+                }
+                @media #{$lg,$sm,$xs}{
+                    font-size: 20px;
+                }
+                @media #{$xxs}{
+                    font-size: 18px;
+                }
+            }
+        }
+        .rs-cta-btn{
+            margin-bottom: 30px;
+        }
+    }
+    &-three{
+        padding: 80px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        @media #{$sm,$xs}{
+            padding: 60px 0;
+        }
+        .rs-theme-content{
+            display: flex;
+            gap: 35px;
+        }
+        .rs-cta-content{
+            display: flex;
+            gap: 35px;
+            align-items: center;
+            @media #{$lg}{
+                flex-wrap: wrap;
+            }
+            @media #{$sm,$xs}{
+                display: block;
+                text-align: center;
+            }
+        }
+        .rs-section-title{
+            color: var(--rs-white);
+            margin-bottom: 10px;
+        }
+        .rs-cta-description{
+            color: var(--rs-white);
+        }
+        .rs-cta-icon{
+            @media #{$sm,$xs}{
+                margin-bottom: 20px;
+            }
+            img{
+                width: 80px;
+                height: auto;
+            }
+        }
+        .rs-cta-input{
+            position: relative;
+            input{
+                width: 100%;
+                height: 70px;
+                padding-inline-start: 30px;
+                padding-inline-end: 170px;
+                background-color: rgba(255, 255, 255, 0.09);
+                color: var(--rs-white);
+                @media #{$xxs}{
+                    padding-inline-end: 30px;
+                }
+                &::placeholder{
+                    color: rgba(255, 255, 255, .5);
+                }
+                &:focus{
+                    border-color: var(--rs-theme-secondary);
+                }
+            }
+        }
+        .rs-btn{
+            position: absolute;
+            inset-inline-end: 0;
+            bottom: 0;
+            height: 70px;
+            border-radius: 0 4px 4px 0px;
+            border: transparent;
+            @media #{$xxs}{
+                position: unset;
+                margin-top: 10px;
+                border-radius: 4px 4px 4px 4px;
+                width: 100%;
+            }
+            @include rtl{
+                border-radius: 4px 0px 0px 4px;
+            }
+            &.has-theme-secondary{
+               &:hover{
+                background: var(--rs-white);
+               }
+            }
+
+        }
+        .rs-cta-form{
+            margin-inline-start:80px;
+            @media #{$xl}{
+                margin-inline-start: 50px;
+            }
+            @media #{$lg,$md,$sm,$xs}{
+                margin-inline-start: 0px;
+            }
+        }
+    }
+    &-four{
+        .rs-cta-content{
+            text-align: center;
+        }
+        .rs-cta-bg{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+        }
+        .rs-cta-content{
+            position: relative;
+            z-index: 2;
+            margin-inline-start: 40px;
+            @media #{$xl,$lg}{
+                margin-inline-start: 20px;
+            }
+            @media #{$md,$sm,$xs}{
+                margin-inline-start: 0px;
+            }
+        }
+        .rs-cta-large-text{
+            position: absolute;
+            left: 150px;
+            z-index: -1;
+            top: -80px;
+            @media #{$xl}{
+                top: -80px;
+            }
+            @media #{$lg}{
+                top: -60px;
+            }
+            @media #{$md}{
+                top: -80px;
+                left: 150px;
+            }
+            @media #{$sm}{
+                left: 90px;
+                top: -70px;
+            }
+            @media #{$xs}{
+                left: 60px;
+                top: -20px;
+            }
+        }
+        .rs-cta-large-title{
+            color: rgba(87, 119, 255, 0.05);
+            font-size: 200px;
+            font-weight: 600;
+            @media #{$xl}{
+                font-size: 180px;
+            }
+            @media #{$lg}{
+                font-size: 160px;
+            }
+            @media #{$md}{
+                font-size: 130px;
+            }
+            @media #{$sm}{
+                font-size: 120px;
+            }
+            @media #{$xs}{
+                font-size: 80px;
+            }
+        }
+        .rs-cta-shape{
+            margin-bottom: 20px;
+            img{
+                width: 60px;
+                animation-duration: 5s;
+                -webkit-animation-duration: 5s;
+                animation-name: rs-hand-move;
+                -webkit-animation-name: rs-hand-move;
+                animation-duration: 4s;
+                -webkit-animation-duration: 4s;
+                animation-direction: linear;
+                -webkit-animation-direction: linear;
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite;
+            }
+        }
+        .rs-cta-title{
+            margin-bottom: 30px;
+        }
+        .rs-cta-meta{
+            position: relative;
+            z-index: 2;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            @media #{$xl}{
+                font-size: 32px;
+            }
+            @media #{$lg,$md}{
+                font-size: 30px;
+            }
+            @media #{$sm,$xs}{
+                font-size: 25px;
+            }
+            @media #{$xxs}{
+                font-size: 22px;
+            }
+            a{
+                &:hover{
+                    color: var(--rs-theme-primary);
+                }
+            }
+            a{
+                color: var(--rs-text-primary);
+            }
+        }
+        .rs-cta-btn{
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+
+
+    
+
+
+

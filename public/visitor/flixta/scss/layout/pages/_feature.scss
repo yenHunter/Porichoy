@@ -1,0 +1,172 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  Feature css
+/*----------------------------------------*/
+
+.rs-feature{
+    &-one{
+        .rs-feature-item{
+            &:hover{
+                .rs-feature-icon{
+                    svg{
+                        animation: rs-fold linear .3s;
+                    }
+                }
+            }
+        }
+        .rs-feature-icon{
+            margin-bottom: 40px;
+            @media #{$md,$sm,$xs}{
+                margin-bottom: 20px;
+            }
+            svg{
+                width: 70px;
+                height: 70px;
+                path{
+                    fill: var(--rs-theme-primary) !important;
+                }
+            }
+        }
+        .rs-feature-title{
+            margin-bottom: 20px;
+            @media #{$md,$sm,$xs}{
+                margin-bottom: 15px;
+            }
+        }
+    }
+    &-two{
+        .rs-feature-shape-two{
+            position: absolute;
+            inset-inline-start: 180px;
+            bottom: -30px;
+        }
+        .rs-feature-wrapper{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 30px;
+            @media #{$lg}{
+                grid-template-columns: repeat(3,1fr);
+            }
+            @media #{$md}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$sm,$xs}{
+                grid-template-columns: repeat(1,1fr);
+            }
+        }
+        .rs-feature-item{
+            &:hover{
+                .rs-feature-icon{
+                    svg{
+                        animation: rs-fold linear 0.3s;
+                    }
+                }
+            }
+        }
+        .rs-feature-icon{
+            svg{
+                width: 80px;
+            }
+        }
+        .rs-feature-title{
+            margin: 30px 0 10px 0;
+            color: var(--rs-title-secondary);
+        }
+        .rs-feature-description{
+            p{
+                font-size: 16px;
+                color: var(--rs-text-secondary);
+            }
+        }
+        .rs-feature-thumb{
+            position: relative;
+            width: 320px;
+            z-index: 2;
+            margin-bottom: 30px;
+            @media #{$sm,$xs}{
+                width: 100%;
+            }
+            img{
+                width: 100%;
+                border-radius: 4px;
+                height: 250px;
+                @media #{$sm,$xs}{
+                    height: 100%;
+                }
+            }
+        }
+        .rs-feature-video{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            .rs-play-btn{
+                width: 80px;
+                height: 80px;
+                background: var(--rs-theme-secondary);
+                font-size: 40px;
+                color: var(--rs-theme-tertiary);
+                &::before{
+                    background: var(--rs-theme-secondary);
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+        .rs-feature-shape{
+            position: absolute;
+            inset-inline-end: -80px;
+            bottom: -30px;
+            z-index: -1;
+            @media #{$xl,$md,$sm}{
+                inset-inline-end: -20px;
+            }
+            @media #{$xs}{
+                inset-inline-end: 0px;
+            }
+            img{
+                width: 158px;
+                height: 158px;
+            }
+        }
+    }
+    &-three{
+        padding: 80px 0 70px;
+        .rs-feature-item{
+            &:hover{
+                .rs-feature-icon{
+                    svg{
+                        animation: rs-fold linear .3s;
+                    }
+                }
+            }
+        }
+        .rs-feature-icon{
+            margin-bottom: 40px;
+            @media #{$md,$sm,$xs}{
+                margin-bottom: 20px;
+            }
+            svg{
+                width: 70px;
+                height: 70px;
+                path{
+                    fill: var(--rs-white) !important;
+                }
+            }
+        }
+        .rs-feature-title{
+            margin-bottom: 20px;
+            color: var(--rs-white);
+            @media #{$md,$sm,$xs}{
+                margin-bottom: 15px;
+            }
+        }
+        .rs-feature-description{
+            p{
+                color: rgba(255, 255, 255, 0.8);
+            }
+        }
+    }
+}

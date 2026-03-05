@@ -1,0 +1,349 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  4.8 experience css
+/*----------------------------------------*/
+
+.rs-experience {
+    &-one {
+        .rs-experience-item {
+            border: 1px solid rgba(87, 119, 255, 0.3);
+            border-radius: 4px;
+        }
+        .rs-experience-top {
+            background: var(--rs-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+            @media #{$xs}{
+                padding: 20px;
+            }
+            @media #{$xxs}{
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+        .rs-circle-shape {
+            position: relative;
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px dashed #c2c2c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rsSpin 10s linear infinite;
+            &::before {
+                position: absolute;
+                content: "";
+                width: 10px;
+                height: 10px;
+                background: var(--rs-theme-primary);
+                border-radius: 50%;
+            }
+        }
+        .rs-experience-designation-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .rs-experience-meta {
+            font-size: 20px;
+        }
+        .rs-experience-bottom {
+            padding: 37px 60px 45px 80px;
+            display: inline-flex;
+            align-items: start;
+            gap: 38px;
+            @media #{$xl}{
+                padding:40px 35px 40px 35px;
+            }
+            @media #{$lg}{
+                padding:30px 45px 30px 45px;
+                display: block;
+            }
+            @media #{$sm}{
+                padding:30px 30px 30px 30px;
+            }
+            @media #{$xs}{
+                padding: 20px 20px 20px;
+            }
+            @media #{$xxs}{
+                display: block;
+            }
+        }
+        .rs-experience-brand-thumb {
+            @media #{$lg,$xxs}{
+                margin-bottom: 20px;
+            }
+            img {
+                max-width: 130px;
+                &.has-black{
+                    display: none;
+                }
+            }
+        }
+        .rs-experience-place {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+    &-two {
+        .rs-experience-shape-one{
+            position: absolute;
+            top: 50%;
+            left: 0;
+            img{
+                opacity: 0.4;
+                filter: brightness( 100% ) contrast( 100% ) saturate( 100% ) blur( 0px ) hue-rotate( 0deg );
+            }
+        }
+        .rs-experience-shape-two{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            img{
+                opacity: 0.4;
+                filter: brightness( 100% ) contrast( 100% ) saturate( 100% ) blur( 0px ) hue-rotate( 0deg );
+            }
+        }
+        .rs-experience-item {
+            border: 1px solid rgba(87, 119, 255, 0.3);
+            border-radius: 4px;
+            background: var(--rs-bg-secondary);
+        }
+        .rs-experience-top {
+            background: var(--rs-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+            @media #{$xs}{
+                gap: 15px;
+                padding: 20px;
+                flex-wrap: wrap;
+            }
+        }
+        .rs-circle-shape {
+            position: relative;
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px dashed #c2c2c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rsSpin 10s linear infinite;
+            &::before {
+                position: absolute;
+                content: "";
+                width: 10px;
+                height: 10px;
+                background: var(--rs-theme-primary);
+                border-radius: 50%;
+            }
+        }
+        .rs-experience-designation-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .rs-experience-meta {
+            font-size: 20px;
+        }
+        .rs-experience-bottom {
+            padding: 35px 70px 35px 70px;
+            display: inline-flex;
+            align-items: start;
+            gap: 38px;
+            @media #{$xl}{
+                padding: 35px 60px 35px 60px;
+            }
+            @media #{$lg,$md}{
+                padding: 35px 50px 35px 50px;
+            }
+            @media #{$sm,$xs}{
+                padding: 30px 30px 30px 30px;
+                display: block;
+            }
+            @media #{$xxs}{
+                padding: 20px 20px 20px 20px;
+                display: block;
+            }
+        }
+        .rs-experience-brand-thumb {
+            @media #{$sm,$xs}{
+                margin-bottom: 20px;
+            }
+            img {
+                max-width: 130px;
+                &.has-black{
+                    display: none;
+                }
+            }
+        }
+        .rs-experience-place {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+    &-three {
+        .rs-experience-item {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            @media #{$xxs}{
+                gap: 30px;
+                display: block;
+            }
+            &:hover{
+                .rs-meta{
+                    background: var(--rs-theme-primary);
+                    color: var(--rs-white);
+                }
+            }
+            &:not(:last-child){
+                margin-bottom: 35px;
+            }
+            &:last-child{
+                .left-part{
+                    &::before{
+                        content: none;
+                    }
+                }
+            }
+        }
+        .rs-experience-sub-title{
+            @media #{$lg}{
+                font-size: 35px;
+            }
+            @media #{$md,$sm}{
+                font-size: 30px;
+            }
+        }
+        .left-part {
+            position: relative;
+            @media #{$xxs}{
+                margin-bottom: 30px;
+            }
+            &::before {
+                left: 50px;
+                content: "";
+                position: absolute;
+                height: 100%;
+                border-left: 1px dashed rgba(102, 102, 102, 0.4);
+                bottom: -100px;
+                @media #{$xxs}{
+                    content: none;
+                }
+            }
+        }
+        .rs-meta {
+            font-size: 24px;
+            font-weight: 600;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px 10px 10px 10px;
+            background-color: var(--rs-white);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .rs-experience-title {
+            margin-bottom: 5px;
+        }
+    }
+    &-four {
+        padding: 50px 40px 40px;
+        @media #{$xs}{
+            padding: 20px 20px 20px;
+        }
+        .rs-experience-item {
+            border: 1px solid rgba(182, 157, 116, 0.2);
+            border-radius: 4px;
+        }
+        .rs-experience-top {
+            background: #FFF6E6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+            padding: 30px;
+            @media #{$xs}{
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+        .rs-circle-shape {
+            position: relative;
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px dashed #c2c2c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: rsSpin 10s linear infinite;
+            &::before {
+                position: absolute;
+                content: "";
+                width: 10px;
+                height: 10px;
+                background: var(--rs-theme-quaternary);
+                border-radius: 50%;
+            }
+        }
+        .rs-experience-designation-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .rs-experience-meta {
+            font-size: 20px;
+        }
+        .rs-experience-bottom {
+            padding: 37px 50px 45px 80px;
+            display: inline-flex;
+            align-items: start;
+            gap: 38px;
+            background: var(--rs-white);
+            @media #{$xl}{
+                padding: 37px 30px 45px 30px;
+            }
+            @media #{$lg,$md,$sm,$xs}{
+                padding: 30px 30px 30px 30px;
+                display: block;
+            }
+            @media #{$xs}{
+                padding: 20px 20px 20px;
+            }
+        }
+        .rs-experience-brand-thumb {
+            @media #{$lg,$md,$sm,$xs}{
+                margin-bottom: 20px;
+            }
+            img {
+                max-width: 130px;
+                &.has-black{
+                    display: none;
+                }
+            }
+        }
+        .rs-experience-place {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,198 @@
+@use '../../utils' as *;
+/*----------------------------------------*/
+/*  3.1.2 banner Style 2
+/*----------------------------------------*/
+
+.rs-banner{
+    &-two{
+        overflow-x: clip;
+        .banner-shape-two{
+            width: 50px;
+            position: absolute;
+            top: 60px;
+            left: 120px;
+            animation: rs-scale 1s alternate infinite;
+            -webkit-animation: rs-scale 1s alternate infinite;
+            @media #{$xl}{
+                left: 20px;
+            }
+            @media #{$lg}{
+                left: 5px;
+            }
+            @media #{$md,$sm,$xs}{
+                display: none;
+            }
+        }
+        padding-top: 70px;
+        @media #{$lg,$xs}{
+            padding-top: 50px;
+        }
+        @media #{$md,$sm}{
+            padding-top: 60px;
+        }
+        .rs-banner-top{
+            padding-bottom: 80px;
+            position: relative;
+            z-index: 1;
+            @media #{$lg,$sm,$xs}{
+                padding-bottom: 40px; 
+            }
+            @media #{$md}{
+                padding-bottom: 35px; 
+            }
+        }
+        .rs-banner-content{
+            margin-inline-start: 15px;
+            @media #{$md,$sm,$xs}{
+                margin-inline-start: 0;
+            }
+        }
+        .banner-shape-one{
+            position: absolute;
+            z-index: -1;
+            top: 40px;
+            inset-inline-end: 0;
+            @media #{$xl}{
+                top: 20px;
+                width: 450px;
+                inset-inline-end: 30px;
+            }
+            @media #{$lg}{
+                top: 10px;
+                width: 370px;
+                inset-inline-end: 50px;
+            }
+            @media #{$md}{
+                top: 15px;
+                width: 280px;
+                inset-inline-end: 15px;
+            }
+            @media #{$sm}{
+                top: 5px;
+                width: 210px;
+                inset-inline-end: 25px;
+            
+            }
+            @media #{$xs}{
+                top: 5px;
+                width: 150px;
+                inset-inline-end: unset;
+            
+            }
+            @media #{$xxs}{
+                top: 5px;
+                width: 120px;
+            
+            }
+        }
+        .rs-banner-title{
+            font-size: 200px;
+            text-transform: capitalize;
+            @media #{$xl}{
+                font-size: 160px;
+            }
+            @media #{$lg}{
+                font-size: 130px;
+            }
+            @media #{$md}{
+                font-size: 100px;
+            }
+            @media #{$sm}{
+                font-size: 70px;
+            }
+            @media #{$xs}{
+                font-size: 50px;
+            }
+            @media #{$xxs}{
+                font-size: 40px;
+            }
+        }
+        .rs-banner-thumb{
+            transform: rotate(-13deg);
+            transition: .3s;
+            @media #{$md,$sm,$xs}{
+                transform: rotate(0);
+            }
+            img{
+                width: 350px;
+                @media #{$md,$sm,$xs}{
+                    width: 100%;
+                }
+            }
+            &:hover{
+                transform: rotate(0);
+            }
+        }
+        .rs-banner-small-title{
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            @media #{$sm,$xs}{
+                font-size: 35px;
+            }
+            @media #{$xxs}{
+                font-size: 25px;
+            }
+            .cd-headline{
+                &.slide{
+                    background-color: unset;
+                    border-radius: unset;
+                    color: var(--rs-theme-primary);
+                    padding: 0;
+                }
+            }
+        }
+        .rs-banner-description{
+            font-size: 24px;
+            line-height: 36px;
+            @media #{$lg,$sm,$xs}{
+                font-size: 20px;
+            }
+            @media #{$xxs}{
+                font-size: 18px;
+            }
+        }
+        .rs-banner-bottom{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .rs-banner-social-wrapper{
+            position: relative;
+            padding-inline-start:30px;
+            padding-top: 5px;
+            &::before{
+                position: absolute;
+                content: "";
+                width: 1px;
+                height: 75px;
+                background: var(--rs-border-primary);
+                top: 0;
+                inset-inline-start: 0;
+            }
+        }
+        .rs-banner-social-title{
+            color: var(--rs-text-primary);
+            font-weight: 400;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+        .rs-theme-social{
+            a{
+                color: var(--rs-text-primary);
+                font-size: 18px;
+                background-color: transparent;
+                transition: all .3s ease 0s;
+                display: unset;
+                width: unset;
+                height: unset;
+                &:hover{
+                    transform: translate(0,-5%);
+                    color: var(--rs-theme-primary);
+                }
+            }
+        }
+    }
+}

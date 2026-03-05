@@ -1,0 +1,70 @@
+@use '../../utils' as *;
+
+/*----------------------------------------*/
+/*  Award css
+/*----------------------------------------*/
+
+.rs-award{
+    &-one{
+        .rs-award-wrapper{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 30px;
+            padding: 50px 40px 40px;
+            @media #{$lg}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$md,$sm}{
+                grid-template-columns: repeat(2,1fr);
+            }
+            @media #{$xs}{
+                grid-template-columns: repeat(1,1fr);
+                padding: 30px 30px 30px;
+            }
+        }
+        .rs-award-item{
+            background: var(--rs-white);
+            padding: 30px 30px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: .3s;
+            @media #{$xl,$md,$sm}{
+                padding: 20px 20px;
+            }
+            &:hover{
+                border-color: var(--rs-theme-quaternary);
+            }
+        }
+        .rs-award-top{
+            display: flex;
+            justify-content: space-between;
+        }
+        .rs-award-thumb{
+            img{
+                width: 80px;
+            }
+        }
+        .rs-award-date{
+            color: var(--rs-black);
+            font-weight: 600;
+        }
+        .rs-award-title{
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--rs-text-primary);
+            margin: 12px 0 3px;
+            @media #{$sm,$xs}{
+                font-size: 16px;
+            }
+        }
+        .rs-award-name{
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 75px 0 0;
+            font-size: 18px;
+            @media #{$sm,$xs}{
+                font-size: 16px;
+            }
+        }
+    }
+}
