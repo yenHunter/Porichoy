@@ -5,57 +5,40 @@
             <div class="col-lg-12">
                 <div class="header-content">
                     <div class="logo">
-                        <a href="index-white.html">
+                        <a href="{{ route('visitor.index') }}">
                             <img class="logo-dark" src="{{ asset('visitor/reeni/images/logo/white-logo-reeni-4.png') }}"
                                 alt="Reeni - Personal Portfolio HTML Template for developers and freelancers">
                             <img class="logo-white" src="{{ asset('visitor/reeni/images/logo/logo-white-3.png') }}"
                                 alt="Reeni - Personal Portfolio HTML Template for developers and freelancers">
                         </a>
                     </div>
-                    <nav class="tmp-mainmenu-nav d-none d-xl-block">
-                        <ul class="tmp-mainmenu">
-                            <li>
-                                <a href="#">Home</a>
-                            </li>
-                            <li>
-                                <a href="about-white.html">About</a>
-                            </li>
-                            <li class="has-dropdown">
-                                <a href="#">Services
-                                    <i class="fa-regular fa-chevron-down"></i>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="service-white.html">Service</a></li>
-                                    <li><a href="service-details-white.html">Service Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-dropdown">
-                                <a href="#">Blog
-                                    <i class="fa-regular fa-chevron-down"></i>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="blog-white.html">Blog Classic</a></li>
-                                    <li><a href="blog-white-col-4.html">Blog Column 3</a></li>
-                                    <li><a href="blog-details-white.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-dropdown">
-                                <a href="#">Project
-                                    <i class="fa-regular fa-chevron-down"></i>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="project-white.html">Project</a></li>
-                                    <li><a href="project-style-two-white.html">Project Style 2</a></li>
-                                    <li><a href="project-style-three-white.html">Project Style 3</a></li>
-                                    <li><a href="project-details-white.html">Project Details</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="contact-white.html">Contact</a>
-                            </li>
-                        </ul>
-
-                    </nav>
+                    <div class="tmp-mainmenu-nav d-none d-xl-block">
+                        <nav class="navbar-example2 onepagenav">
+                            <ul class="tmp-mainmenu nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#home-area">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#services-area">Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#resume-area">Resume</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#portfolio-area">Portfolio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#pricing-area">Pricing</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#contact-area">Contact</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="smoth-animation" href="{{ route('visitor.index') }}#blog-area">Blog</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                     <div class="tmp-header-right">
                         <div class="social-share-wrapper d-none d-md-block">
                             <div class="social-link">

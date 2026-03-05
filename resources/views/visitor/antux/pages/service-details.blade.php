@@ -12,7 +12,7 @@
                     <h1>Professional service websites design</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li><a href="https://validthemes.net/site-template/antux/services-details.html#"><i
+                            <li><a href="{{ route('visitor.index') }}"><i
                                         class="fas fa-home"></i> Home</a></li>
                             <li class="active">Services</li>
                         </ol>
@@ -474,7 +474,7 @@
                                 now</a></h4>
                         <div class="button mt-40">
                             <a class="btn-style-regular"
-                                href="https://validthemes.net/site-template/antux/services-details.html#"><span>Hire
+                                href="#"><span>Hire
                                     Me Now </span> <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>

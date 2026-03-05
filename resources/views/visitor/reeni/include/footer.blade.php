@@ -6,7 +6,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="single-footer-wrapper border-right mr--20">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{{ route('visitor.index') }}">
                                 <img src="{{ asset('visitor/reeni/images/logo/logo-white-3.png') }}"
                                     alt="Reeni - Personal Portfolio HTML Template for developers and freelancers">
                             </a>
@@ -26,19 +26,19 @@
                         <h5 class="ft-title">Quick Link</h5>
                         <ul class="ft-link tmp-scroll-trigger animation-order-1 tmp-link-animation">
                             <li>
-                                <a href="about.html">About Me</a>
+                                <a href="{{ route('visitor.about') }}">About</a>
                             </li>
                             <li>
-                                <a href="service.html">Service</a>
+                                <a href="{{ route('visitor.service.index') }}">Service</a>
                             </li>
                             <li>
-                                <a href="service.html">Contact Us</a>
+                                <a href="{{ route('visitor.project.index') }}">Portfolio</a>
                             </li>
                             <li>
-                                <a href="blog.html">Blog Post</a>
+                                <a href="{{ route('visitor.blog.index') }}">Blog</a>
                             </li>
                             <li>
-                                <a href="contact.html">Pricing</a>
+                                <a href="{{ route('visitor.contact.index') }}">Contact</a>
                             </li>
                         </ul>
                     </div>
@@ -50,7 +50,7 @@
                             <li><span class="ft-icon"><i class="fa-solid fa-phone"></i></span><a href="#">017345
                                     678
                                     9101</a></li>
-                            <li><span class="ft-icon"><i class="fa-solid fa-location-dot"></i></span>Cumilla,Bangladesh
+                            <li><span class="ft-icon"><i class="fa-solid fa-location-dot"></i></span>Cumilla, Bangladesh
                             </li>
                             <li><span class="ft-icon"><i class="fa-solid fa-envelope"></i></span><a
                                     href="#">abcd@gmail.com</a></li>
@@ -78,15 +78,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="main-wrapper tmp-scroll-trigger animation-order-1">
-                    <p class="copy-right-para">© InversWeb
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script> | All Rights Reserved
+                    <p class="copy-right-para">Develop with <i class="fa-solid fa-heart text-success"></i> by <a href="https://github.com/yenHunter" target="_blank">yenHunter</a>
                     </p>
                     <ul class="tmp-link-animation">
                         <li><a href="#">Trams & Condition</a></li>
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="https://github.com/yenHunter/Porichoy" target="_blank">Contact Us</a></li>
                     </ul>
                 </div>
             </div>

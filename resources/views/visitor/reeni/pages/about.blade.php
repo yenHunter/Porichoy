@@ -31,7 +31,7 @@
                         <div class="service-card-icon">
                             <i class="fa-light fa-pen-ruler"></i>
                         </div>
-                        <h4 class="service-title"><a href="service-details.html">Web Design</a></h4>
+                        <h4 class="service-title"><a href="{{ route('visitor.service.details', ['service' => 'web-design']) }}">Web Design</a></h4>
                         <p class="service-para">120 Projects</p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <div class="service-card-icon">
                             <i class="fa-light fa-bezier-curve"></i>
                         </div>
-                        <h4 class="service-title"><a href="service-details.html">Ui/Ux Design</a></h4>
+                        <h4 class="service-title"><a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">Ui/Ux Design</a></h4>
                         <p class="service-para">241 Projects</p>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <div class="service-card-icon">
                             <i class="fa-light fa-lightbulb"></i>
                         </div>
-                        <h4 class="service-title"><a href="service-details.html">Web Research</a></h4>
+                        <h4 class="service-title"><a href="{{ route('visitor.service.details', ['service' => 'web-research']) }}">Web Research</a></h4>
                         <p class="service-para">240 Projects</p>
                     </div>
                 </div>
@@ -58,8 +58,8 @@
                         <div class="service-card-icon">
                             <i class="fa-light fa-envelope"></i>
                         </div>
-                        <h4 class="service-title"><a href="service-details.html">Marketing</a></h4>
-                        <p class="service-para">331 Prodect</p>
+                        <h4 class="service-title"><a href="{{ route('visitor.service.details', ['service' => 'marketing']) }}">Marketing</a></h4>
+                        <p class="service-para">331 Projects</p>
                     </div>
                 </div>
             </div>
@@ -404,7 +404,7 @@
                             </ul>
                         </div>
                         <div class="tmp-button-here">
-                            <a class="tmp-btn hover-icon-reverse btn-border btn-md radius-round" href="contact.html">
+                            <a class="tmp-btn hover-icon-reverse btn-border btn-md radius-round" href="{{ route('visitor.contact.index') }}">
                                 <span class="icon-reverse-wrapper">
                                     <span class="btn-text">Get Started</span>
                                     <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -464,7 +464,7 @@
                             </ul>
                         </div>
                         <div class="tmp-button-here">
-                            <a class="tmp-btn hover-icon-reverse btn-md radius-round" href="contact.html">
+                            <a class="tmp-btn hover-icon-reverse btn-md radius-round" href="{{ route('visitor.contact.index') }}">
                                 <span class="icon-reverse-wrapper">
                                     <span class="btn-text">Get Started</span>
                                     <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -509,7 +509,7 @@
                             </ul>
                         </div>
                         <div class="tmp-button-here">
-                            <a class="tmp-btn hover-icon-reverse btn-border btn-md radius-round" href="contact.html">
+                            <a class="tmp-btn hover-icon-reverse btn-border btn-md radius-round" href="{{ route('visitor.contact.index') }}">
                                 <span class="icon-reverse-wrapper">
                                     <span class="btn-text">Get Started</span>
                                     <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>

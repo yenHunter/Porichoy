@@ -185,7 +185,7 @@
           breakpoints: {
             0: {
               slidesPerView: 1,
-              centeredSlides: true, 
+              centeredSlides: true,
             },
             767: {
               slidesPerView: 2,
@@ -289,7 +289,7 @@
           $(".header--sticky").removeClass("sticky");
         }
 
-       
+
 
       });
 
@@ -583,17 +583,17 @@
         // Select all title and subtitle elements
         const heroTitles = document.querySelectorAll(".tmp-title-split");
         const heroSubtitles = document.querySelectorAll(".hero__sub-title");
-      
+
         // Loop through each pair of title and subtitle
         heroTitles.forEach((title, index) => {
           const subtitle = heroSubtitles[index]; // Match title with subtitle (if in pairs)
-      
+
           // Split the text for both title and subtitle
           const splitTitle = new SplitText(title, { type: "chars" });
           const splitSubtitle = subtitle
             ? new SplitText(subtitle, { type: "chars words" })
             : null;
-      
+
           // Create a timeline for each title and subtitle
           gsap.timeline({
             scrollTrigger: {
@@ -626,17 +626,17 @@
         // Select all title and subtitle elements
         const heroTitles = document.querySelectorAll(".tmp-title-split-2");
         const heroSubtitles = document.querySelectorAll(".hero__sub-title");
-      
+
         // Loop through each pair of title and subtitle
         heroTitles.forEach((title, index) => {
           const subtitle = heroSubtitles[index]; // Match title with subtitle (if in pairs)
-      
+
           // Split the text for both title and subtitle
           const splitTitle = new SplitText(title, { type: "chars" });
           const splitSubtitle = subtitle
             ? new SplitText(subtitle, { type: "chars words" })
             : null;
-      
+
           // Create a timeline for each title and subtitle
           gsap.timeline({
             scrollTrigger: {
@@ -665,21 +665,21 @@
             );
         });
       });
-      
-        
+
+
 
     },
 
     animationOnHover: function () {
       let cards = document.querySelectorAll('.tmponhover');
-        cards.forEach((tmpOnHover) => {
-          tmpOnHover.onmousemove = function (e) {
-            let rect = tmpOnHover.getBoundingClientRect();
-            let x = e.clientX - rect.left; // element X position
-            let y = e.clientY - rect.top;  // element Y position
-            tmpOnHover.style.setProperty('--x', `${x}px`);
-            tmpOnHover.style.setProperty('--y', `${y}px`);
-          };
+      cards.forEach((tmpOnHover) => {
+        tmpOnHover.onmousemove = function (e) {
+          let rect = tmpOnHover.getBoundingClientRect();
+          let x = e.clientX - rect.left; // element X position
+          let y = e.clientY - rect.top;  // element Y position
+          tmpOnHover.style.setProperty('--x', `${x}px`);
+          tmpOnHover.style.setProperty('--y', `${y}px`);
+        };
       });
     },
 
@@ -724,59 +724,59 @@
 
     },
 
-    titleSplit_2: function(){
-      
-      if ($('.tmp-title-split').length) {				
-        let	 staggerAmount 		= 0.03,
-           translateXValue	= 20,
-           delayValue 		= 0.1,
-           easeType 			= "power2.out",
-           animatedTextElements = document.querySelectorAll('.tmp-title-split');
-        
+    titleSplit_2: function () {
+
+      if ($('.tmp-title-split').length) {
+        let staggerAmount = 0.03,
+          translateXValue = 20,
+          delayValue = 0.1,
+          easeType = "power2.out",
+          animatedTextElements = document.querySelectorAll('.tmp-title-split');
+
         animatedTextElements.forEach((element) => {
-          let animationSplitText = new SplitText(element, { type: "chars, words,lines",linesClass: "split-line", });
-            gsap.from(animationSplitText.chars, {
-              duration: 1,
-              delay: delayValue,
-              x: translateXValue,
-              autoAlpha: 0,
-              stagger: staggerAmount,
-              ease: easeType,
-              scrollTrigger: { trigger: element, start: "top 85%"},
-            });
-        });		
+          let animationSplitText = new SplitText(element, { type: "chars, words,lines", linesClass: "split-line", });
+          gsap.from(animationSplitText.chars, {
+            duration: 1,
+            delay: delayValue,
+            x: translateXValue,
+            autoAlpha: 0,
+            stagger: staggerAmount,
+            ease: easeType,
+            scrollTrigger: { trigger: element, start: "top 85%" },
+          });
+        });
       }
-      
-   
+
+
 
     },
 
-    tiltAnimation: function(){
+    tiltAnimation: function () {
 
-      $(document).ready(function(){
+      $(document).ready(function () {
         let lengthTilt = document.getElementsByClassName('tilt-container');
-        if(lengthTilt.length){
+        if (lengthTilt.length) {
           const container = document.querySelector(".tilt-container");
           const card = document.querySelector(".tilt-card");
-      
+
           container.addEventListener("mousemove", (e) => {
             const xPos = (window.innerWidth / 2 - e.pageX) / 80;
             const yPos = (window.innerHeight / 2 - e.pageY) / 80;
-      
+
             card.style.transform = `rotateX(${yPos}deg) rotateY(${xPos}deg)`;
           });
-      
+
           container.addEventListener("mouseenter", () => {
             card.style.transition = "none";
           });
-      
+
           container.addEventListener("mouseleave", () => {
             card.style.transition = "transform 0.3s";
             card.style.transform = "none";
           });
         }
       });
-      
+
       if ($('.inv-title-animation-wrap').length) {
         let animatedTextElements = document.querySelectorAll('.inv-title-animation-wrap');
 
@@ -832,12 +832,12 @@ updateDimensions();
 // Add resize event listener to update dimensions
 window.addEventListener('resize', updateDimensions);
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   var box = document.querySelector(".scrollToTop");
   if (box) {
     var water = box.querySelector(".water");
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       var scrollPosition = window.scrollY;
       var percent = Math.min(
         Math.floor((scrollPosition / documentHeight) * 100),
@@ -853,7 +853,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add click event listener to scroll to top
-    box.addEventListener('click', function() {
+    box.addEventListener('click', function () {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   document.body.classList.add("preloader-active");
-  window.addEventListener('load', function() {
+  window.addEventListener('load', function () {
     removePreloader();
   });
 });

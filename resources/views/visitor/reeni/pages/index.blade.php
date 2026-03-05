@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- tmp banner area start -->
-    <div class="rpp-banner-four-area">
+    <div id="home-area" class="rpp-banner-four-area">
         <div class="container">
             <div class="banner-four-main-wrapper">
                 <div class="bg-benner-img-four">
@@ -25,7 +25,7 @@
                                 advantages, incl b usinesses Outsourcing can provide usinesses Outsourcing can provide
                             </p>
                             <div class="button-area-banner-three tmp-scroll-trigger tmp-fade-in animation-order-4">
-                                <a class="tmp-btn hover-icon-reverse radius-round" href="portfolio-details-white.html">
+                                <a class="tmp-btn hover-icon-reverse radius-round" href="#">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">View Portfolio</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -147,7 +147,7 @@
 
                         </div>
                         <div class="about-btn mt--40 tmp-scroll-trigger tmp-fade-in animation-order-6">
-                            <a class="tmp-btn hover-icon-reverse radius-round" href="about-white.html">
+                            <a class="tmp-btn hover-icon-reverse radius-round" href="{{ route('visitor.about') }}">
                                 <span class="icon-reverse-wrapper">
                                     <span class="btn-text">Read More About Me</span>
                                     <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -163,7 +163,7 @@
     <!-- tmp About Me end -->
 
     <!-- tmp Latest Portfolio Start -->
-    <section class="tmp-portfolio-area tmp-section-gap">
+    <section id="services-area" class="tmp-portfolio-area tmp-section-gap">
         <div class="container">
             <div class="section-head mb--60">
                 <div class="section-sub-title center-title tmp-scroll-trigger tmp-fade-in animation-order-1">
@@ -217,11 +217,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">My
                                                     Portfolio of Innovation</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -229,7 +229,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -240,11 +240,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">A
                                                     Showcase of My Projects</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -252,7 +252,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -263,10 +263,10 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Professional Showcase</a></h3>
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Professional Showcase</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -274,7 +274,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -285,11 +285,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">My
                                                     Journey as a Creator</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -297,7 +297,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -308,11 +308,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">A
                                                     Journey Through My Work</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -320,7 +320,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -331,11 +331,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Portfolio of Art & Dedication</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -343,7 +343,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
                         </div>
@@ -359,11 +359,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">A
                                                     Journey Through My Work</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -371,7 +371,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -382,11 +382,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Showcase of My Projects</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -394,7 +394,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -405,11 +405,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">My
                                                     Journey as a Creator</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -417,7 +417,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -428,11 +428,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">My
                                                     Professional Portfolio</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -440,7 +440,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -451,11 +451,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Transforming Ideas into
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Transforming Ideas into
                                                     Reality</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -463,7 +463,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -474,10 +474,10 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Unveiling Potential</a></h3>
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Unveiling Potential</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -485,7 +485,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
                         </div>
@@ -501,11 +501,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">My
                                                     Portfolio of Innovation</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -513,7 +513,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -524,11 +524,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Showcase of My Projects</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -536,7 +536,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -547,10 +547,10 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Professional Showcase</a></h3>
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Professional Showcase</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -558,7 +558,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -569,11 +569,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">My
                                                     Journey as a Creator</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -581,7 +581,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -592,11 +592,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Journey Through My Work</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -604,7 +604,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -615,11 +615,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">A
                                                     Portfolio of Art & Dedication</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -627,7 +627,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
                         </div>
@@ -643,11 +643,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-writing']) }}">A
                                                     Journey Through My Work</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-writing']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -655,7 +655,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-writing']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -666,11 +666,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Showcase of My Projects</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -678,7 +678,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -689,11 +689,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">My
                                                     Journey as a Creator</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -701,7 +701,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -712,11 +712,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">My
                                                     Professional Portfolio</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -724,7 +724,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -735,11 +735,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Transforming Ideas into
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Transforming Ideas into
                                                     Reality</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -747,7 +747,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -758,10 +758,10 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Unveiling Potential</a></h3>
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Unveiling Potential</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -769,7 +769,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
                         </div>
@@ -785,11 +785,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">A
                                                     Journey Through My Work</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -797,7 +797,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -808,11 +808,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">A
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">A
                                                     Showcase of My Projects</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -820,7 +820,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -831,11 +831,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">My
                                                     Journey as a Creator</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -843,7 +843,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -854,11 +854,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">My
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">My
                                                     Professional Portfolio</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -866,7 +866,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -877,11 +877,11 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Transforming Ideas into
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Transforming Ideas into
                                                     Reality</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -889,7 +889,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}" class="over_link"></a>
                                 </div>
                             </div>
 
@@ -900,10 +900,10 @@
                                         <div class="content-left">
                                             <p class="portfoli-card-para">Development</p>
                                             <h3 class="portfolio-card-title animated fadeIn"><a
-                                                    href="project-details-white.html">Unveiling Potential</a></h3>
+                                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Unveiling Potential</a></h3>
                                         </div>
                                         <div class="portfolio-btn">
-                                            <a href="project-details-white.html" class="tmp-arrow-icon-btn">
+                                            <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="tmp-arrow-icon-btn">
                                                 <div class="btn-inner">
                                                     <i class="tmp-icon fa-solid fa-arrow-up-right"></i>
                                                     <i class="tmp-icon-bottom fa-solid fa-arrow-up-right"></i>
@@ -911,7 +911,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="project-details-white.html" class="over_link"></a>
+                                    <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}" class="over_link"></a>
                                 </div>
                             </div>
                         </div>
@@ -1201,9 +1201,8 @@
     </section>
     <!-- tmp Clients Testimonial End -->
 
-
     <!-- Tpm My Skill Area Start -->
-    <section class="my-skill-area-style-two plr--120 plr_lg--30 plr_md--30 plr_sm--30 plr_mobile--15 mt--70">
+    <section id="resume-area" class="my-skill-area-style-two plr--120 plr_lg--30 plr_md--30 plr_sm--30 plr_mobile--15 mt--70">
         <div class="tpm-custom-box-bg">
             <div class="container">
                 <div class="row">
@@ -1279,7 +1278,7 @@
     <!-- Tpm My Skill Area End -->
 
     <!-- Tpm Latest Portfolio Start -->
-    <section class="tmp-latest-portfolio tmp-section-gapTop">
+    <section id="portfolio-area" class="tmp-latest-portfolio tmp-section-gapTop">
         <div class="container">
             <div class="header-top-inner">
                 <div class="section-head text-align-left">
@@ -1303,7 +1302,7 @@
                         class="latest-portfolio-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-1">
                         <div class="portfoli-card-img">
                             <div class="img-box v2">
-                                <a href="project-details-white.html">
+                                <a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">
                                     <img class="img-primary hidden-on-mobile"
                                         src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-5.jpg') }}" alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-5.jpg') }}"
@@ -1313,7 +1312,7 @@
                         </div>
                         <div class="portfolio-card-content-wrap">
                             <div class="content-left">
-                                <h3 class="portfolio-card-title"><a href="project-details-white.html">SAAS website
+                                <h3 class="portfolio-card-title"><a href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">SAAS website
                                         design</a>
                                 </h3>
                                 <div class="tag-items">
@@ -1329,7 +1328,7 @@
                             </div>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="project-details-white.html">
+                                    href="{{ route('visitor.project.details', ['project' => 'web-development']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">View Design</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1346,7 +1345,7 @@
                         class="latest-portfolio-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-2">
                         <div class="portfoli-card-img">
                             <div class="img-box v2">
-                                <a href="project-details-white.html">
+                                <a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
                                     <img class="img-primary hidden-on-mobile"
                                         src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-6.jpg') }}" alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-6.jpg') }}"
@@ -1356,7 +1355,7 @@
                         </div>
                         <div class="portfolio-card-content-wrap">
                             <div class="content-left">
-                                <h3 class="portfolio-card-title"><a href="project-details-white.html">Workout App
+                                <h3 class="portfolio-card-title"><a href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">Workout App
                                         design</a>
                                 </h3>
                                 <div class="tag-items">
@@ -1375,7 +1374,7 @@
                             </div>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="project-details-white.html">
+                                    href="{{ route('visitor.project.details', ['project' => 'web-coding']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">View Design</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1391,7 +1390,7 @@
                         class="latest-portfolio-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-3">
                         <div class="portfoli-card-img">
                             <div class="img-box v2">
-                                <a href="project-details-white.html">
+                                <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">
                                     <img class="img-primary hidden-on-mobile"
                                         src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-7.jpg') }}" alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-7.jpg') }}"
@@ -1401,7 +1400,7 @@
                         </div>
                         <div class="portfolio-card-content-wrap">
                             <div class="content-left">
-                                <h3 class="portfolio-card-title"><a href="project-details-white.html">e-Commerce
+                                <h3 class="portfolio-card-title"><a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">e-Commerce
                                         design</a>
                                 </h3>
                                 <div class="tag-items">
@@ -1420,7 +1419,7 @@
                             </div>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="project-details-white.html">
+                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">View Design</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1436,7 +1435,7 @@
                         class="latest-portfolio-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-4">
                         <div class="portfoli-card-img">
                             <div class="img-box v2">
-                                <a href="project-details-white.html">
+                                <a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">
                                     <img class="img-primary hidden-on-mobile"
                                         src="{{ asset('visitor/reeni/images/latest-portfolio/portfoli-img-8.jpg') }}" alt="Blog Thumbnail">
                                     <img class="img-secondary col-md-6"
@@ -1446,7 +1445,7 @@
                         </div>
                         <div class="portfolio-card-content-wrap">
                             <div class="content-left">
-                                <h3 class="portfolio-card-title"><a href="project-details-white.html">Dashboard
+                                <h3 class="portfolio-card-title"><a href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">Dashboard
                                         design</a>
                                 </h3>
                                 <div class="tag-items">
@@ -1462,7 +1461,7 @@
                             </div>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="project-details-white.html">
+                                    href="{{ route('visitor.project.details', ['project' => 'web-design']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">View Design</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1488,7 +1487,7 @@
     <!-- Tpm Latest Portfolio End -->
 
     <!-- Tpm My Price plan Start -->
-    <section class="our-price-plan-area tmp-section-gapTop">
+    <section id="pricing-area" class="our-price-plan-area tmp-section-gapTop">
         <div class="container">
             <div class="section-head mb--60">
                 <div class="section-sub-title center-title tmp-scroll-trigger tmp-fade-in animation-order-1">
@@ -1674,7 +1673,7 @@
     <!-- Tpm My Price plan End -->
 
     <!-- Tpm Get In touch start -->
-    <section class="get-in-touch-area tmp-section-gapTop">
+    <section id="contact-area" class="get-in-touch-area tmp-section-gapTop">
         <div class="container">
             <div class="get-in-touch-wrapper tmponhover">
                 <div class="row g-5 align-items-center">
@@ -1781,7 +1780,7 @@
     <!-- Tpm Get In touch End -->
 
     <!-- Tpm Blog and news Area Start -->
-    <section class="blog-and-news-are tmp-section-gap">
+    <section id="blog-area" class="blog-and-news-are tmp-section-gap">
         <div class="container">
             <div class="section-head mb--60">
                 <div class="section-sub-title center-title tmp-scroll-trigger tmp-fade-in animation-order-1">
@@ -1796,7 +1795,7 @@
 
                         <div class="blog-card-img">
                             <div class="img-box">
-                                <a href="blog-details.html">
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'blog-7']) }}">
                                     <img class="img-primary hidden-on-mobile" src="{{ asset('visitor/reeni/images/blog/blog-img-7.jpg') }}"
                                         alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-img-7.jpg') }}"
@@ -1816,14 +1815,14 @@
                                     </li>
                                 </ul>
                             </div>
-                            <h3 class="blog-title"><a href="blog-details.html">Inspiring the World, One Project at a
+                            <h3 class="blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'blog-7']) }}">Inspiring the World, One Project at a
                                     Time for the
                                     man</a></h3>
 
 
                             <div class="read-more-btn">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'blog-7']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1839,7 +1838,7 @@
                     <div class="blog-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-2">
                         <div class="blog-card-img">
                             <div class="img-box">
-                                <a href="blog-details.html">
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'blog-8']) }}">
                                     <img class="img-primary hidden-on-mobile" src="{{ asset('visitor/reeni/images/blog/blog-img-8.jpg') }}"
                                         alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-img-8.jpg') }}"
@@ -1859,12 +1858,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <h3 class="blog-title"><a href="blog-details.html">Let’s bring your ideas to life! Contact
+                            <h3 class="blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'blog-8']) }}">Let’s bring your ideas to life! Contact
                                     me, and let’s</a>
                             </h3>
                             <div class="read-more-btn">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'blog-8']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -1879,7 +1878,7 @@
                     <div class="blog-card-style-two tmponhover tmp-scroll-trigger tmp-fade-in animation-order-3">
                         <div class="blog-card-img">
                             <div class="img-box">
-                                <a href="blog-details.html">
+                                <a href="{{ route('visitor.blog.details', ['blog' => 'blog-9']) }}">
                                     <img class="img-primary hidden-on-mobile" src="{{ asset('visitor/reeni/images/blog/blog-img-9.jpg') }}"
                                         alt="Blog Thumbnail">
                                     <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-img-9.jpg') }}"
@@ -1899,12 +1898,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <h3 class="blog-title"><a href="blog-details.html">Each one showcases my approach and
+                            <h3 class="blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'blog-9']) }}">Each one showcases my approach and
                                     dedication man</a>
                             </h3>
                             <div class="read-more-btn">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'blog-9']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>

@@ -253,7 +253,7 @@
                                     <div class="blog-submit-btn mt--40">
                                         <div class="tmp-button-here">
                                             <a class="tmp-btn hover-icon-reverse radius-round w-100"
-                                                href="blog-details.html">
+                                                href="#">
                                                 <span class="icon-reverse-wrapper">
                                                     <span class="btn-text">Submit Now</span>
                                                     <span class="btn-icon"><i

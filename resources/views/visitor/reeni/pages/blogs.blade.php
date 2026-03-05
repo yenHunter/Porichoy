@@ -29,7 +29,7 @@
                 <div class="col-lg-8">
                     <div class="blog-classic-card tmp-scroll-trigger tmponhover tmp-fade-in animation-order-1">
                         <div class="img-box">
-                            <a href="blog-details.html">
+                            <a href="{{ route('visitor.blog.details', ['blog' => 'stand-out-from-the-crowd-with-a-professional-portfolio']) }}">
                                 <img class="img-primary hidden-on-mobile"
                                     src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-1.jpg') }}" alt="Blog Thumbnail">
                                 <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-1.jpg') }}"
@@ -68,7 +68,7 @@
 
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'stand-out-from-the-crowd-with-a-professional-portfolio']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="blog-classic-card tmp-scroll-trigger tmponhover tmp-fade-in animation-order-2">
                         <div class="img-box">
-                            <a href="blog-details.html">
+                            <a href="{{ route('visitor.blog.details', ['blog' => 'elevate-your-brand-with-a-stunning-portfolio']) }}">
                                 <img class="img-primary hidden-on-mobile"
                                     src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-2.jpg') }}" alt="Blog Thumbnail">
                                 <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-2.jpg') }}"
@@ -116,7 +116,7 @@
                                 ullamcorper</p>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'elevate-your-brand-with-a-stunning-portfolio']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
@@ -128,7 +128,7 @@
                     </div>
                     <div class="blog-classic-card tmp-scroll-trigger tmponhover tmp-fade-in animation-order-3">
                         <div class="img-box">
-                            <a href="blog-details.html">
+                            <a href="{{ route('visitor.blog.details', ['blog' => 'elevate-your-brand-with-a-stunning-portfolio']) }}">
                                 <img class="img-primary hidden-on-mobile"
                                     src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-3.jpg') }}" alt="Blog Thumbnail">
                                 <img class="img-secondary" src="{{ asset('visitor/reeni/images/blog/blog-classic-card-img-3.jpg') }}"
@@ -164,7 +164,7 @@
                                 ullamcorper</p>
                             <div class="tmp-button-here">
                                 <a class="tmp-btn hover-icon-reverse radius-round btn-border btn-md"
-                                    href="blog-details.html">
+                                    href="{{ route('visitor.blog.details', ['blog' => 'elevate-your-brand-with-a-stunning-portfolio']) }}">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Read More</span>
                                         <span class="btn-icon"><i class="fa-sharp fa-regular fa-arrow-right"></i></span>
