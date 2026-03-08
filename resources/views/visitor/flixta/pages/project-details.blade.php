@@ -20,8 +20,8 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
-                                        <li><span>Portfolio</span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.project.index') }}">Portfolio</a></span></li>
                                         <li><span>Portfolio Details</span></li>
                                     </ul>
                                 </nav>
@@ -185,14 +185,14 @@
                         <div class="rs-postbox-more-navigation wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="rs-postbox-more-left">
                                 <div class="rs-postbox-more-icon">
-                                    <a class="rs-circle-btn" href="blog-details.html">
+                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">
                                         <i class="fa-regular fa-arrow-left-long"></i>
                                     </a>
                                 </div>
                                 <div class="rs-postbox-more-content">
                                     <p>Previous Post</p>
                                     <h6>
-                                        <a href="blog-details.html">Document Manager Application</a>
+                                        <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">Document Manager Application</a>
                                     </h6>
                                 </div>
                             </div>
@@ -221,11 +221,11 @@
                                 <div class="rs-postbox-more-content">
                                     <p>Next Post</p>
                                     <h6>
-                                        <a href="blog-details.html">Creative Website</a>
+                                        <a href="{{ route('visitor.project.details', ['project' => 'creative-website']) }}">Creative Website</a>
                                     </h6>
                                 </div>
                                 <div class="rs-postbox-more-icon">
-                                    <a class="rs-circle-btn" href="blog-details.html">
+                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => 'creative-website']) }}">
                                         <i class="fa-regular fa-arrow-right-long"></i>
                                     </a>
                                 </div>

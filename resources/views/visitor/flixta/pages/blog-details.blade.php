@@ -20,8 +20,8 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
-                                        <li><span>Blog</span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.blog.index') }}">Blog</a></span></li>
                                         <li><span>Blog Details</span></li>
                                     </ul>
                                 </nav>
@@ -169,15 +169,15 @@
                                 <div class="sidebar-widget-content">
                                     <div class="list">
                                         <ul>
-                                            <li><a href="blog-details.html">App Development</a></li>
-                                            <li><a href="blog-details.html">Business</a></li>
-                                            <li><a href="blog-details.html">Creative Branding</a></li>
-                                            <li><a href="blog-details.html">Digital Marketing</a></li>
-                                            <li><a href="blog-details.html">Doctor</a></li>
-                                            <li><a href="blog-details.html">Lawyer</a></li>
-                                            <li><a href="blog-details.html">Product Design</a></li>
-                                            <li><a href="blog-details.html">Web Development</a></li>
-                                            <li><a href="blog-details.html">Yoga</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -188,13 +188,13 @@
                                     <div class="sidebar-blog-item-wrapper">
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
                                                     <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg')}}" alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html">What is the hardest thing about a</a>
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
                                                     <i class="ri-calendar-line"></i>
@@ -204,13 +204,13 @@
                                         </div>
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
                                                     <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg')}}" alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html"> What’s your opinion of the probate
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}"> What’s your opinion of the probate
                                                         process? </a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
@@ -221,13 +221,13 @@
                                         </div>
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
                                                     <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg')}}" alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html">Under what conditions do you recommend</a>
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Under what conditions do you recommend</a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
                                                     <i class="ri-calendar-line"></i>

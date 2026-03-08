@@ -5,27 +5,27 @@
             <div class="rs-header-inner">
                 <div class="rs-header-left">
                     <div class="rs-header-logo">
-                        <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
+                        <a class="logo-black" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
                                 alt="logo"></a>
-                        <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
+                        <a class="logo-white" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
                                 alt="logo"></a>
                     </div>
                 </div>
                 <div class="rs-header-menu">
                     <nav id="mobile-menu" class="main-menu">
                         <ul class="onepage-menu">
-                            <li> <a href="#home">Home</a></li>
-                            <li><a href="#homeabout">About</a></li>
-                            <li> <a href="#homeservices">Services</a></li>
-                            <li> <a href="#homeportfolio">Portfolio</a> </li>
-                            <li><a href="#homeblog">Blog</a> </li>
-                            <li><a href="#homecontact">Contact</a></li>
+                            <li> <a href="{{ route('visitor.index') }}#home">Home</a></li>
+                            <li><a href="{{ route('visitor.index') }}#about">About</a></li>
+                            <li> <a href="{{ route('visitor.index') }}#services">Services</a></li>
+                            <li> <a href="{{ route('visitor.index') }}#portfolio">Portfolio</a> </li>
+                            <li><a href="{{ route('visitor.index') }}#blog">Blog</a> </li>
+                            <li><a href="{{ route('visitor.index') }}#contact">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="rs-header-right">
                     <div class="rs-header-btn style-one d-none d-sm-block">
-                        <a class="rs-btn has-color has-icon" href="contact.html">Let's Talk
+                        <a class="rs-btn has-color has-icon" href="{{ route('visitor.contact.index') }}">Let's Talk
                             <span class="icon-box">
                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                     <path
@@ -63,8 +63,8 @@
                 <div class="offcanvas-content">
                     <div class="offcanvas-top d-flex justify-content-between align-items-center mb-25">
                         <div class="offcanvas-logo">
-                            <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}" alt="logo"></a>
-                            <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}" alt="logo"></a>
+                            <a class="logo-black" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}" alt="logo"></a>
+                            <a class="logo-white" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}" alt="logo"></a>
                         </div>
                         <div class="offcanvas-close">
                             <button class="offcanvas-close-icon animation--flip">

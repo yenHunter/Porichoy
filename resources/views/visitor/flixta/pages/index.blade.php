@@ -119,7 +119,7 @@
         <!-- counter area start -->
 
         <!-- about area start -->
-        <section id="homeabout" class="rs-about-area section-space-top rs-about-one secondary-bg">
+        <section id="about" class="rs-about-area section-space-top rs-about-one secondary-bg">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-6">
@@ -268,7 +268,7 @@
         <!-- skill area start -->
 
         <!-- services area start -->
-        <section id="homeservices" class="rs-services-area section-space primary-bg rs-services-one">
+        <section id="services" class="rs-services-area section-space primary-bg rs-services-one">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-6">
@@ -544,7 +544,7 @@
         <!-- text slide area end -->
 
         <!-- portfolio area start -->
-        <section id="homeportfolio" class="rs-portfolio-area rs-portfolio-one primary-bg section-space-bottom">
+        <section id="portfolio" class="rs-portfolio-area rs-portfolio-one primary-bg section-space-bottom">
             <div class="container">
                 <div class="row g-5">
                     <div class="col-xl-6 cl-lg-6">
@@ -911,7 +911,7 @@
         <!-- cta area end -->
 
         <!-- blog area start -->
-        <section id="homeblog" class="rs-blog-area rs-blog-one section-space secondary-bg">
+        <section id="blog" class="rs-blog-area rs-blog-one section-space secondary-bg">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-6">
@@ -1139,7 +1139,7 @@
         <!-- blog area end -->
 
         <!-- contact area start -->
-        <section id="homecontact" class="rs-contact-area rs-contact-one section-space primary-bg p-relative">
+        <section id="contact" class="rs-contact-area rs-contact-one section-space primary-bg p-relative">
             <div class="rs-contact-bg" data-background="{{ asset('visitor/flixta/images/bg/contact-bg-01.png') }}">
             </div>
             <div class="container">

@@ -22,7 +22,7 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span>Portfolio</span></li>
                                     </ul>
                                 </nav>
@@ -43,14 +43,14 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="portfolio-details.html">
+                                        <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-01.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="portfolio-details.html">Document Manager Application</a>
+                                            <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">Document Manager Application</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -63,14 +63,14 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="portfolio-details.html">
+                                        <a href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-02.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="portfolio-details.html">Digital Marketing</a>
+                                            <a href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">Digital Marketing</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -83,14 +83,14 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="portfolio-details.html">
+                                        <a href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-03.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="portfolio-details.html">Creative Portfolio</a>
+                                            <a href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">Creative Portfolio</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -103,14 +103,14 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="portfolio-details.html">
+                                        <a href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-01.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="portfolio-details.html">Mobile App Development</a>
+                                            <a href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">Mobile App Development</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>

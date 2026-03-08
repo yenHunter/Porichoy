@@ -20,7 +20,7 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span>Contact</span></li>
                                     </ul>
                                 </nav>

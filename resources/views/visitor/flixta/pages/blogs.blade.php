@@ -9,8 +9,10 @@
 
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-01.png')}}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png')}}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
@@ -21,7 +23,7 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span>Blog</span></li>
                                     </ul>
                                 </nav>
@@ -41,26 +43,27 @@
                         <div class="rs-postbox-wrapper">
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-01.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-01.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Business</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Business</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">What is the hardest thing about a lawyer? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">What is the hardest thing about a lawyer? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -70,7 +73,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -92,26 +95,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-02.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-02.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Business</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">Business</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html"> What’s your opinion of the probate process? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}"> What’s your opinion of the probate process? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -121,7 +125,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -143,26 +147,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-03.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-03.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Business</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Business</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">Under what conditions do you recommend </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Under what conditions do you recommend </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -172,7 +177,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -194,26 +199,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-04.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-04.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Business</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">Business</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">How do I protect my children from abusive relatives
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">How do I protect my children from abusive relatives
                                         </a>
                                     </h3>
                                     <div class="rs-postbox-text">
@@ -224,7 +230,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'how-do-i-protect-my-children-from-abusive-relatives']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -246,26 +252,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-05.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-05.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Business</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">Business</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">Can I keep my kids from controlling their entire </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">Can I keep my kids from controlling their entire </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -275,7 +282,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'can-i-keep-my-kids-from-controlling-their-entire']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -297,26 +304,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-06.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-06.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Yoga</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">Yoga</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">What are the three important things in yoga? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">What are the three important things in yoga? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -326,7 +334,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'what-are-the-three-important-things-in-yoga']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -348,26 +356,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-07.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-07.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Yoga</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">Yoga</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">How is yoga different from meditation? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">How is yoga different from meditation? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -377,7 +386,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'how-is-yoga-different-from-meditation']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -399,26 +408,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-08.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-08.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Yoga</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}">Yoga</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html"> How frequently should i practice yoga </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}"> How frequently should i practice yoga </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -428,7 +438,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'how-frequently-should-i-practice-yoga']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -450,26 +460,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-09.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-09.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Yoga</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">Yoga</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">Do I need to be flexible and strong class? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">Do I need to be flexible and strong class? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -479,7 +490,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'do-i-need-to-be-flexible-and-strong']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -501,26 +512,27 @@
                             </article>
                             <article class="rs-postbox-item">
                                 <div class="rs-postbox-thumb">
-                                    <a href="blog-details.html">
-                                        <img src="{{asset('visitor/flixta/images/blog/post/blog-post-10.jpg')}}" alt="image">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                        <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-10.jpg') }}"
+                                            alt="image">
                                     </a>
                                     <div class="rs-postbox-tag">
-                                        <a href="blog-details.html">Yoga</a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Yoga</a>
                                     </div>
                                 </div>
                                 <div class="rs-postbox-content">
                                     <div class="rs-postbox-meta-list">
                                         <div class="rs-postbox-meta-item has-separator">
-                                            <span class="rs-meta-text">By<a class="meta-author" href="blog-details.html">
+                                            <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
                                                     Flixta</a></span>
                                         </div>
                                         <div class="rs-postbox-meta-item">
-                                            <span class="rs-postbox-meta-text"><a href="blog-details.html">June 12,
+                                            <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">June 12,
                                                     2023</a></span>
                                         </div>
                                     </div>
                                     <h3 class="rs-postbox-title">
-                                        <a href="blog-details.html">What about eating or drinking before class? </a>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What about eating or drinking before class? </a>
                                     </h3>
                                     <div class="rs-postbox-text">
                                         <p>We denounce with righteous indige nation and dislike men who are so beguiled and
@@ -530,7 +542,7 @@
                                             cannot foresee the pain.</p>
                                     </div>
                                     <div class="rs-postbox-btn">
-                                        <a class="rs-btn has-color has-icon has-radius" href="blog-details.html">Continue
+                                        <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Continue
                                             Reading
                                             <span class="icon-box">
                                                 <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -580,15 +592,15 @@
                                 <div class="sidebar-widget-content">
                                     <div class="list">
                                         <ul>
-                                            <li><a href="blog-details.html">App Development</a></li>
-                                            <li><a href="blog-details.html">Business</a></li>
-                                            <li><a href="blog-details.html">Creative Branding</a></li>
-                                            <li><a href="blog-details.html">Digital Marketing</a></li>
-                                            <li><a href="blog-details.html">Doctor</a></li>
-                                            <li><a href="blog-details.html">Lawyer</a></li>
-                                            <li><a href="blog-details.html">Product Design</a></li>
-                                            <li><a href="blog-details.html">Web Development</a></li>
-                                            <li><a href="blog-details.html">Yoga</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
+                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -599,13 +611,14 @@
                                     <div class="sidebar-blog-item-wrapper">
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg')}}" alt="image">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg') }}"
+                                                        alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html">What is the hardest thing about a</a>
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
                                                     <i class="ri-calendar-line"></i>
@@ -615,13 +628,14 @@
                                         </div>
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg')}}" alt="image">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg') }}"
+                                                        alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html"> What’s your opinion of the probate
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}"> What’s your opinion of the probate
                                                         process? </a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
@@ -632,13 +646,14 @@
                                         </div>
                                         <div class="sidebar-blog-item">
                                             <div class="sidebar-blog-thumb">
-                                                <a href="blog-details.html">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg')}}" alt="image">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg') }}"
+                                                        alt="image">
                                                 </a>
                                             </div>
                                             <div class="sidebar-blog-content">
                                                 <h6 class="sidebar-blog-title">
-                                                    <a href="blog-details.html">Under what conditions do you recommend</a>
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">Under what conditions do you recommend</a>
                                                 </h6>
                                                 <div class="sidebar-blog-meta">
                                                     <i class="ri-calendar-line"></i>

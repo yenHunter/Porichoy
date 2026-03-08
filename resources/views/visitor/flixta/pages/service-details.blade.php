@@ -20,8 +20,8 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
-                                        <li><span>Services</span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.service.index') }}">Services</a></span></li>
                                         <li><span>Services Details</span></li>
                                     </ul>
                                 </nav>
@@ -535,14 +535,14 @@
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">
-                                    <a class="rs-btn rs-btn-circle" href="contact.html">
+                                    <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                             <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
                                             </path>
                                         </svg>
                                     </a>
-                                    <a class="rs-btn rs-btn-primary" href="contact.html">Hire Me Now</a>
-                                    <a class="rs-btn rs-btn-circle" href="contact.html">
+                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me Now</a>
+                                    <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                             <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
                                             </path>

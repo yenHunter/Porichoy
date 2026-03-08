@@ -8,8 +8,10 @@
 
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
@@ -20,7 +22,7 @@
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
-                                        <li><span><a href="index.html">Home</a></span></li>
+                                        <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span>Services</span></li>
                                     </ul>
                                 </nav>
@@ -40,7 +42,8 @@
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
                                 <h5 class="rs-services-title">
-                                    <a href="services-details.html">Web <br> Development</a>
+                                    <a href="{{ route('visitor.service.details', ['service' => 'web-development']) }}">Web
+                                        <br> Development</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-01.png') }}" alt="image">
@@ -54,7 +57,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">Digital <br> Marketing</a>
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'digital-marketing']) }}">Digital <br> Marketing</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-02.png') }}" alt="image">
@@ -68,7 +71,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">Brand <br> Strategy</a></h5>
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'brand-strategy']) }}">Brand <br> Strategy</a></h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-03.png') }}" alt="image">
                                 </div>
@@ -81,7 +84,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">App <br> Development</a></h5>
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App <br> Development</a></h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-04.png') }}" alt="image">
                                 </div>
@@ -94,7 +97,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">UI/UX<br>Product Design</a>
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'ui-ux-design']) }}">UI/UX<br>Product Design</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-05.png') }}" alt="image">
@@ -108,7 +111,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">E-commerce<br>Business
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'e-commerce-business-solutions']) }}">E-commerce<br>Business
                                         Solutions</a></h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-06.png') }}" alt="image">
@@ -122,10 +125,11 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">Digital<br>Strategy
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'digital-strategy-consulting']) }}">Digital<br>Strategy
                                         Consulting</a></h5>
                                 <div class="rs-services-icon">
-                                    <img src="{{ asset('visitor/flixta/images/icon/service-icon-07.png') }}" alt="image">
+                                    <img src="{{ asset('visitor/flixta/images/icon/service-icon-07.png') }}"
+                                        alt="image">
                                 </div>
                                 <div class="rs-services-description">
                                     <p> We are helping client to create UI websites.</p>
@@ -136,10 +140,11 @@
                     <div class="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="1s" data-wow-duration="1s">
                         <div class="rs-services-wrapper">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="services-details.html">Creative<br>Brand
+                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'creative-brand-identity']) }}">Creative<br>Brand
                                         Identity</a></h5>
                                 <div class="rs-services-icon">
-                                    <img src="{{ asset('visitor/flixta/images/icon/service-icon-08.png') }}" alt="image">
+                                    <img src="{{ asset('visitor/flixta/images/icon/service-icon-08.png') }}"
+                                        alt="image">
                                 </div>
                                 <div class="rs-services-description">
                                     <p> We are helping client to create UI websites.</p>
@@ -159,7 +164,8 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">Pricing Plan
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                    alt="image">Pricing Plan
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">Pricing My Work</h2>
                         </div>
@@ -180,7 +186,7 @@
                                     </h2>
                                 </div>
                                 <div class="rs-pricing-btn">
-                                    <a class="rs-btn w-100 has-white has-radius height-50" href="contact.html">Get Start
+                                    <a class="rs-btn w-100 has-white has-radius height-50" href="{{ route('visitor.contact.index') }}">Get Start
                                         Now
                                     </a>
                                 </div>
@@ -211,7 +217,7 @@
                                     </h2>
                                 </div>
                                 <div class="rs-pricing-btn">
-                                    <a class="rs-btn w-100 has-white has-radius height-50" href="contact.html">Get Start
+                                    <a class="rs-btn w-100 has-white has-radius height-50" href="{{ route('visitor.contact.index') }}">Get Start
                                         Now
                                     </a>
                                 </div>
@@ -242,7 +248,7 @@
                                     </h2>
                                 </div>
                                 <div class="rs-pricing-btn">
-                                    <a class="rs-btn w-100 has-white has-radius height-50" href="contact.html">Get Start
+                                    <a class="rs-btn w-100 has-white has-radius height-50" href="{{ route('visitor.contact.index') }}">Get Start
                                         Now
                                     </a>
                                 </div>
@@ -273,7 +279,8 @@
                             data-wow-duration="1s">
                             <div class="rs-section-title-wrapper section-title-space">
                                 <span class="rs-section-subtitle justify-content-start">
-                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">Faq
+                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                        alt="image">Faq
                                 </span>
                                 <h2 class="rs-section-title rs-split-text-enable split-in-fade">Let's Talk Any Question
                                 </h2>

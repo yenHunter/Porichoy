@@ -5,20 +5,20 @@
             <div class="col-xl-6">
                 <div class="rs-footer-widget footer-1-col-1">
                     <div class="rs-footer-widget-logo text-center">
-                        <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
+                        <a class="logo-black" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
                                 alt="logo"></a>
-                        <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
+                        <a class="logo-white" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
                                 alt="logo"></a>
                     </div>
                     <div class="rs-footer-widget-content">
                         <div class="rs-footer-list-wrapper">
                             <ul class="rs-footer-list">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="services.html">Services</a></li>
-                                <li><a href="portfolio.html">Portfolio</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{{ route('visitor.index') }}">Home</a></li>
+                                <li><a href="{{ route('visitor.about') }}">About</a></li>
+                                <li><a href="{{ route('visitor.service.index') }}">Services</a></li>
+                                <li><a href="{{ route('visitor.project.index') }}">Portfolio</a></li>
+                                <li><a href="{{ route('visitor.blog.index') }}">Blog</a></li>
+                                <li><a href="{{ route('visitor.contact.index') }}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
