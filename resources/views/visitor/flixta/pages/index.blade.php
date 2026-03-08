@@ -6,7 +6,7 @@
     <!-- Body main wrapper start -->
     <main>
         <!-- banner area start -->
-        <section class="rs-banner-area rs-banner-one p-relative">
+        <section id="home" class="rs-banner-area rs-banner-one p-relative">
             <div class="rs-banner-bg bg-white" data-background="{{ asset('visitor/flixta/images/bg/banner-bg-01.png') }}">
             </div>
             <div class="rs-banner-bg bg-black"

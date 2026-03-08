@@ -14,7 +14,7 @@
                 <div class="rs-header-menu">
                     <nav id="mobile-menu" class="main-menu">
                         <ul class="onepage-menu">
-                            <li> <a href="#">Home</a></li>
+                            <li> <a href="#home">Home</a></li>
                             <li><a href="#homeabout">About</a></li>
                             <li> <a href="#homeservices">Services</a></li>
                             <li> <a href="#homeportfolio">Portfolio</a> </li>
