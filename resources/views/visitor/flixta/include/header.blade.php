@@ -5,9 +5,9 @@
             <div class="rs-header-inner">
                 <div class="rs-header-left">
                     <div class="rs-header-logo">
-                        <a class="logo-black" href="index.html"><img src="assets/images/logo/logo-black.png"
+                        <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
                                 alt="logo"></a>
-                        <a class="logo-white" href="index.html"><img src="assets/images/logo/logo-white.png"
+                        <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
                                 alt="logo"></a>
                     </div>
                 </div>
@@ -63,8 +63,8 @@
                 <div class="offcanvas-content">
                     <div class="offcanvas-top d-flex justify-content-between align-items-center mb-25">
                         <div class="offcanvas-logo">
-                            <a class="logo-black" href="index.html"><img src="assets/images/logo/logo-black.png" alt="logo"></a>
-                            <a class="logo-white" href="index.html"><img src="assets/images/logo/logo-white.png" alt="logo"></a>
+                            <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}" alt="logo"></a>
+                            <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}" alt="logo"></a>
                         </div>
                         <div class="offcanvas-close">
                             <button class="offcanvas-close-icon animation--flip">

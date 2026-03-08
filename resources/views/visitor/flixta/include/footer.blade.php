@@ -5,9 +5,9 @@
             <div class="col-xl-6">
                 <div class="rs-footer-widget footer-1-col-1">
                     <div class="rs-footer-widget-logo text-center">
-                        <a class="logo-black" href="index.html"><img src="assets/images/logo/logo-black.png"
+                        <a class="logo-black" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
                                 alt="logo"></a>
-                        <a class="logo-white" href="index.html"><img src="assets/images/logo/logo-white.png"
+                        <a class="logo-white" href="index.html"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
                                 alt="logo"></a>
                     </div>
                     <div class="rs-footer-widget-content">
