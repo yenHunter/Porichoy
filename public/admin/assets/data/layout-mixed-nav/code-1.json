@@ -1,4 +1,0 @@
-@extends('layout.default', [
-  'appTopNav' => true, 
-  'appClass' => 'app-with-top-nav'
-])

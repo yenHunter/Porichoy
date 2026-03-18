@@ -1,7 +1,0 @@
-.app {
-	padding-top: $app-header-height;
-	
-	@include media-breakpoint-down(md) {
-		padding-top: $app-header-height;
-	}
-}

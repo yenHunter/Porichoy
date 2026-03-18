@@ -1,3 +1,0 @@
-@@extends('layout.default', [
-  'appClass' => 'app-content-full-height'
-])
