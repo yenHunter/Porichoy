@@ -1,3 +1,3 @@
-@include('layouts.partials/sidenav')
+@include('admin.layouts.partials.sidenav')
 
-@include('layouts.partials/topbar')
+@include('admin.layouts.partials.topbar')

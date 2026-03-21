@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Dashboard 2'])
+@extends('admin.layouts.base', ['title' => 'Dashboard 2'])
 
 @section('css')
     @vite(['node_modules/jsvectormap/dist/jsvectormap.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'Dashboard 2'])
+    @include('admin.layouts.partials.menu')
 
     <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 g-3 align-items-center">
         <div class="col">

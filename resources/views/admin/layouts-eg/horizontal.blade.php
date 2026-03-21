@@ -1,10 +1,10 @@
-@extends('layouts.horizontal', ['title' => 'Horizontal Menu'])
+@extends('admin.layouts.horizontal', ['title' => 'Horizontal Menu'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'Horizontal'])
+    @include('admin.layouts.partials.page-title', ['title' => 'Horizontal'])
     
     <div class="row">
         <div class="col-12">

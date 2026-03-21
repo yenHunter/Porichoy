@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Boxed Layout'])
+@extends('admin.layouts.vertical', ['title' => 'Boxed Layout'])
 
 @section('html_attribute')
 data-layout-width="boxed" data-sidenav-size="on-hover"
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'Boxed'])
+    @include('admin.layouts.partials.page-title', ['title' => 'Boxed'])
 
     <div class="row">
         <div class="col-12">

@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => 'One Page Landing'])
+@extends('admin.layouts.base', ['title' => 'One Page Landing'])
 
 @section('css')
 @endsection

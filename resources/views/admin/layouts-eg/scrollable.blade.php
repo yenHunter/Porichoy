@@ -1,4 +1,4 @@
-@extends('layouts.vertical', ['title' => 'Scrollable Layout'])
+@extends('admin.layouts.vertical', ['title' => 'Scrollable Layout'])
 
 @section('html_attribute')
  data-layout-position="scrollable"
@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'Scrollable'])
+    @include('admin.layouts.partials.page-title', ['title' => 'Scrollable'])
 
     <div class="row">
         <div class="col-12">

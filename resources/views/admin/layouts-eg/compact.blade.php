@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => 'Compact Layout'])
+@extends('admin.layouts.base', ['title' => 'Compact Layout'])
 
 @section('css')
 @endsection
@@ -6,7 +6,7 @@
 @section('content')
     <div class="wrapper">
 
-        @include('layouts.partials/menu')
+        @include('admin.layouts.partials.menu')
 
         <!-- ============================================================== -->
         <!-- Start Main Content -->
@@ -14,7 +14,7 @@
 
         <div class="content-page">
             <div class="container-fluid">
-                @include('layouts.partials/page-title', ['title' => 'Compact'])
+                @include('admin.layouts.partials.page-title', ['title' => 'Compact'])
             </div>
             <!-- container -->
 
@@ -46,7 +46,7 @@
 
             </div>
 
-            @include('layouts.partials/footer')
+            @include('admin.layouts.partials.footer')
 
         </div>
 

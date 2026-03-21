@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Preloader Layout'])
+@extends('admin.layouts.vertical', ['title' => 'Preloader Layout'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'Preloader'])
+    @include('admin.layouts.partials.page-title', ['title' => 'Preloader'])
 
     <!-- Preloader -->
     <div id="preloader">
