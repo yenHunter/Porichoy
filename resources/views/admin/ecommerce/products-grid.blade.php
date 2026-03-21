@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Products Grid'])
+@extends('admin.layouts.vertical', ['title' => 'Products Grid'])
 
 @section('css')
     @vite(['node_modules/nouislider/dist/nouislider.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Ecommerce', 'title' => 'Products Grid'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Ecommerce', 'title' => 'Products Grid'])
 
     <div class="row mb-2">
         <div class="col-lg-12">

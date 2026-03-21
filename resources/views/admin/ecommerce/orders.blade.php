@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Orders'])
+@extends('admin.layouts.vertical', ['title' => 'Orders'])
 
 @section('css')
 @vite(['node_modules/flatpickr/dist/flatpickr.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Ecommerce', 'title' => 'Orders'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Ecommerce', 'title' => 'Orders'])
 
     <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 align-items-center g-1">
         <div class="col">

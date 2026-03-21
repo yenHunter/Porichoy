@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Order Details'])
+@extends('admin.layouts.vertical', ['title' => 'Order Details'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Ecommerce', 'title' => 'Order Details'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Ecommerce', 'title' => 'Order Details'])
 
     <div class="row">
         <div class="col-xxl-12">
@@ -260,7 +260,8 @@
                                 </div>
                                 <div>
                                     <h5 class="mb-1 d-flex align-items-center">
-                                        <a class="link-reset" href="{{ route('second', ['users', 'profile']) }}">Sophia Carter</a>
+                                        <a class="link-reset" href="{{ route('second', ['users', 'profile']) }}">Sophia
+                                            Carter</a>
                                         <img alt="UK" class="ms-2 rounded-circle" height="16"
                                             src="/images/flags/gb.svg" />
                                     </h5>
@@ -329,8 +330,9 @@
                         </div> <!-- end card-header -->
                         <div class="card-body">
                             <iframe
-                                src="https://www.google.com/maps/embed/v1/place?q=New+York+University&amp;key=AIzaSyBSFRN6WWGYwmFi498qXXsD2UwkbmD74v4"
-                                style="width: 100%; height: 180px; overflow:hidden; border:0;"></iframe>
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2933.951966644499!2d88.65048872903094!3d25.61329715002765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fb53002f032e3d%3A0xe1519b63f0a46e73!2sDinajpur%20Medical%20College%20%26%20Hospital!5e1!3m2!1sen!2sbd!4v1774101884933!5m2!1sen!2sbd"
+                                width="100%" height="180px" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
                             <div class="d-flex align-items-start my-3">
                                 <div class="flex-grow-1">
                                     <h5 class="mb-2">John Doe</h5>

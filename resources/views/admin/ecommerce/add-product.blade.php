@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Create New Products'])
+@extends('admin.layouts.vertical', ['title' => 'Create New Products'])
 
 @section('css')
 @vite(['node_modules/dropzone/dist/dropzone.css', 'node_modules/quill/dist/quill.core.css', 'node_modules/quill/dist/quill.snow.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Ecommerce', 'title' => 'Add Product'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Ecommerce', 'title' => 'Add Product'])
 
     <div class="row">
         <div class="col-12">

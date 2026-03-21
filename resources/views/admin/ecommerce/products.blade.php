@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Products'])
+@extends('admin.layouts.vertical', ['title' => 'Products'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Ecommerce', 'title' => 'Products'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Ecommerce', 'title' => 'Products'])
 
     <div class="row">
         <div class="col-12">
