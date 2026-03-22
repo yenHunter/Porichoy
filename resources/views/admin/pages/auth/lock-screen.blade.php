@@ -1,4 +1,4 @@
-@extends('admin.layouts.base', ['title' => 'Sign In'])
+@extends('layouts.base', ['title' => 'Lock Screen'])
 
 @section('css')
 @endsection
@@ -101,23 +101,19 @@
                         </div>
                         <div class="mt-auto">
                             <p class="text-muted text-center auth-sub-text mx-auto">Let’s get you signed in. Enter your
-                                email and password to continue.</p>
+                                password to continue.</p>
+                            <div class="text-center mb-4">
+                                <img alt="thumbnail" class="rounded-circle img-thumbnail avatar-xxl mb-2"
+                                    src="/images/users/user-1.jpg" />
+                                <h5 class="fs-md">Geneva K.</h5>
+                            </div>
                             <form class="mt-4">
-                                <div class="mb-3">
-                                    <label class="form-label" for="userEmail">Email address <span
-                                            class="text-danger">*</span></label>
-                                    <div class="app-search">
-                                        <input class="form-control" id="userEmail" placeholder="you@example.com"
-                                            required="" type="email" />
-                                        <i class="app-search-icon text-muted" data-lucide="circle-user"></i>
-                                    </div>
-                                </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="userPassword">Password <span
                                             class="text-danger">*</span></label>
                                     <div class="app-search">
-                                        <input class="form-control" id="userPassword" placeholder="••••••••"
-                                            required="" type="password" />
+                                        <input class="form-control" id="userPassword" placeholder="••••••••" required=""
+                                            type="password" />
                                         <i class="app-search-icon text-muted" data-lucide="key-round"></i>
                                     </div>
                                 </div>
@@ -136,8 +132,8 @@
                             </form>
                         </div>
                         <p class="text-muted text-center mt-4 mb-0">
-                            New here? <a class="text-decoration-underline link-offset-3 fw-semibold"
-                                href="{{ route('second', ['auth', '2-sign-up']) }}">Create an account</a>
+                            Not you? Return to <a class="text-decoration-underline link-offset-3 fw-semibold"
+                                href="{{ route('second', ['auth', '2-sign-in']) }}">Sign in</a>
                         </p>
                         <p class="text-center text-muted mt-auto mb-0">
                             ©

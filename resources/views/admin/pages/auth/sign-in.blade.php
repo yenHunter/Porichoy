@@ -6,6 +6,12 @@
 @section('content')
     <div class="auth-box p-0 w-100">
         <div class="row w-100 g-0">
+            <div class="col">
+                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden">
+                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
+                    </div>
+                </div>
+            </div>
             <div class="col-md-auto">
                 <!--Auth Box content -->
                 <div class="card auth-box-form border-0 mb-0">
@@ -93,10 +99,10 @@
                     <div class="card-body min-vh-100 d-flex flex-column justify-content-center">
                         <div class="auth-brand mb-0 text-center">
                             <a class="logo-dark" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="dark logo" height="28" src="/images/logo-black.png" />
+                                <img alt="dark logo" height="48" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
                             <a class="logo-light" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="logo" height="28" src="/images/logo.png" />
+                                <img alt="logo" height="48" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
                         </div>
                         <div class="mt-auto">
@@ -146,12 +152,6 @@
                     </div>
                 </div>
                 <!-- End Auth Box Content -->
-            </div>
-            <div class="col">
-                <div class="h-100 position-relative card-side-img rounded-0 overflow-hidden">
-                    <div class="p-4 card-img-overlay auth-overlay d-flex align-items-end justify-content-center">
-                    </div>
-                </div>
             </div>
         </div>
     </div>

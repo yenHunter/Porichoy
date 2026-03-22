@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function login_view(): View
     {
         return view(
-            'admin.auth.page-login'
+            'admin.pages.auth.sign-in'
         );
     }
 

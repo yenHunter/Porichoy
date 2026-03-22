@@ -1,4 +1,4 @@
-@extends('admin.layouts.base', ['title' => 'Sign In'])
+@extends('layouts.base', ['title' => 'Create New Account'])
 
 @section('css')
 @endsection
@@ -100,19 +100,28 @@
                             </a>
                         </div>
                         <div class="mt-auto">
-                            <p class="text-muted text-center auth-sub-text mx-auto">Let’s get you signed in. Enter your
-                                email and password to continue.</p>
+                            <p class="text-muted text-center auth-sub-text mx-auto">Create your account by entering the form
+                                below.</p>
                             <form class="mt-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="userName">Full Name <span
+                                            class="text-danger">*</span></label>
+                                    <div class="app-search">
+                                        <input class="form-control" id="userName" placeholder="Geneva Denian"
+                                            required="" type="text" />
+                                        <i class="app-search-icon text-muted" data-lucide="circle-user"></i>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="userEmail">Email address <span
                                             class="text-danger">*</span></label>
                                     <div class="app-search">
                                         <input class="form-control" id="userEmail" placeholder="you@example.com"
                                             required="" type="email" />
-                                        <i class="app-search-icon text-muted" data-lucide="circle-user"></i>
+                                        <i class="app-search-icon text-muted" data-lucide="mail"></i>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3" data-password="bar">
                                     <label class="form-label" for="userPassword">Password <span
                                             class="text-danger">*</span></label>
                                     <div class="app-search">
@@ -120,24 +129,27 @@
                                             required="" type="password" />
                                         <i class="app-search-icon text-muted" data-lucide="key-round"></i>
                                     </div>
+                                    <div class="password-bar my-2"></div>
+                                    <p class="text-muted fs-xs mb-0">Use 8+ characters with letters, numbers &amp; symbols.
+                                    </p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div class="form-check">
-                                        <input checked="" class="form-check-input form-check-input-light fs-14"
-                                            id="rememberMe" type="checkbox" />
-                                        <label class="form-check-label" for="rememberMe">Keep me signed in</label>
+                                        <input class="form-check-input form-check-input-light fs-14" id="termAndPolicy"
+                                            type="checkbox" />
+                                        <label class="form-check-label" for="termAndPolicy">Agree the Terms &amp;
+                                            Policy</label>
                                     </div>
-                                    <a class="text-decoration-underline link-offset-3 text-muted"
-                                        href="{{ route('second', ['auth', '2-reset-pass']) }}">Forgot Password?</a>
                                 </div>
                                 <div class="d-grid">
-                                    <button class="btn btn-primary fw-bold py-2" type="submit">Sign In</button>
+                                    <button class="btn btn-primary fw-semibold py-2" type="submit">Create
+                                        Account</button>
                                 </div>
                             </form>
                         </div>
                         <p class="text-muted text-center mt-4 mb-0">
-                            New here? <a class="text-decoration-underline link-offset-3 fw-semibold"
-                                href="{{ route('second', ['auth', '2-sign-up']) }}">Create an account</a>
+                            Already have an account? <a class="text-decoration-underline link-offset-3 fw-semibold"
+                                href="{{ route('second', ['auth', '2-sign-in']) }}">Login</a>
                         </p>
                         <p class="text-center text-muted mt-auto mb-0">
                             ©
@@ -158,4 +170,5 @@
 @endsection
 
 @section('scripts')
+    @vite(['resources/js/pages/auth-password.js'])
 @endsection

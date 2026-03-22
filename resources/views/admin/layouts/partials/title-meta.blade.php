@@ -1,12 +1,10 @@
 <meta charset="utf-8" />
-<title>{{ $title }} | UBold - Responsive Bootstrap 5 Admin Dashboard</title>
+<title>{{ $title }} | Porichoy</title>
 <meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="Let Them Know" name="description" />
 <meta
-    content="UBold is a modern, responsive admin dashboard available on ThemeForest. Ideal for building CRM, CMS, project management tools, and custom web applications with a clean UI, flexible layouts, and rich features."
-    name="description" />
-<meta
-    content="UBold, admin dashboard, ThemeForest, Bootstrap 5 admin, responsive admin, CRM dashboard, CMS admin, web app UI, admin theme, premium admin template"
+    content="personal, portfolio new, html, one page, bootstrap, new html template, design, creative, onepage, clean, modern"
     name="keywords" />
-<meta content="Coderthemes" name="author" />
+<meta content="yenHunter" name="author" />
 <!-- App favicon -->
-<link href="/images/favicon.ico" rel="shortcut icon" />
+<link href="{{ asset('static/favicon.png') }}" rel="shortcut icon" />
