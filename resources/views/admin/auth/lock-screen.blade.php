@@ -1,66 +1,54 @@
-@extends('admin.layout.empty')
+@extends('layouts.base', ['title' => 'Lock Screen'])
 
-@section('title', 'Look Screen')
-
-@section('page_head')
-    <!-- ================== Google reCaptcha ================== -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}">
-    </script>
+@section('css')
 @endsection
 
 @section('content')
-    <!-- BEGIN login -->
-    <div class="login">
-        <!-- BEGIN login-content -->
-        <div class="login-content">
-            <form action="{{ route('unlock.screen') }}" method="POST" id="lock-form">
-                @csrf
-                <div class="text-center">
-                    @if (isset($user_info->profile_picture))
-                        <img class="text-center" width="150px" src="{{ asset('storage/' . $user_info->profile_picture) }}"
-                            alt="Profile Picture">
-                    @else
-                        <img class="text-center" width="150px" src="{{ asset('static/user.png') }}" alt="Profile Picture">
-                    @endif
-                </div>
-                <h3 class="text-center">{{ $user_info->first_name . ' ' . $user_info->last_name }}</h3>
-                <div class="text-muted text-center mb-4">
-                    Please enter your password to unlock the screen.
-                </div>
-                @if (session('status'))
-                    <div class="alert alert-success text-center mb-2">
-                        {{ session('status') }}
+    <div class="auth-box overflow-hidden align-items-center d-flex">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-4 col-md-6 col-sm-8">
+                    <div class="card p-4">
+                        <div class="auth-brand text-center mb-3">
+                            <a class="logo-dark" href="{{ route('second', ['dashboard', 'index']) }}">
+                                <img alt="dark logo" height="28" src="/images/logo-black.png" />
+                            </a>
+                            <a class="logo-light" href="{{ route('second', ['dashboard', 'index']) }}">
+                                <img alt="logo" height="28" src="/images/logo.png" />
+                            </a>
+                        </div>
+                        <div class="text-center mb-4">
+                            <img alt="thumbnail" class="rounded-circle img-thumbnail avatar-xxl mb-2"
+                                src="/images/users/user-1.jpg" />
+                            <h5 class="fs-md">Geneva D.</h5>
+                        </div>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="userPassword">Password <span
+                                        class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input class="form-control" id="userPassword" placeholder="••••••••" required=""
+                                        type="password" />
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary fw-semibold py-2" type="submit">Unlock</button>
+                            </div>
+                        </form>
+                        <p class="text-muted text-center mt-4 mb-0">
+                            Not you? Return to <a class="text-decoration-underline link-offset-3 fw-semibold"
+                                href="{{ route('second', ['auth', 'sign-in']) }}">Sign in</a>
+                        </p>
                     </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger text-center mb-2">
-                        @foreach ($errors->all() as $error)
-                            {{ $error }}<br>
-                        @endforeach
-                    </div>
-                @endif
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control form-control-lg fs-15px" name="password"
-                        placeholder="Enter your password">
+                    <p class="text-center text-muted mt-4 mb-0">
+                        © UBold — by <span class="fw-semibold">Coderthemes</span>
+                    </p>
                 </div>
-                <button type="submit" class="btn btn-theme btn-lg d-block w-100 fw-500 mb-3 g-recaptcha"
-                    data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}" data-callback="onSubmit" data-action="submit">
-                    Unlock
-                </button>
-            </form>
+            </div>
         </div>
-        <!-- END login-content -->
     </div>
-    <!-- END login -->
+    <!-- end auth-fluid-->
 @endsection
-{{-- Page Script Start --}}
-@section('page_script')
-    <script>
-        function onSubmit(token) {
-            document.getElementById("lock-form").submit();
-        }
-    </script>
+
+@section('scripts')
 @endsection
-{{-- Page Script End --}}

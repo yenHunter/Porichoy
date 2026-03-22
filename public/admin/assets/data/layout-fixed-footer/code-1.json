@@ -1,4 +1,0 @@
-@@extends('layout.default', [
-  'appFooter' => true, 
-  'appClass' => 'app-footer-fixed'
-])

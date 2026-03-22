@@ -1,3 +1,0 @@
-@@extends('layout.default', [
-  'appClass' => 'app-sidebar-minified'
-])
