@@ -68,3 +68,11 @@ class PasswordAuth {
 document.addEventListener("DOMContentLoaded", () => {
     new PasswordAuth().init()
 })
+
+function onSubmit(token) {
+    document.getElementById("register_form").submit();
+}
+
+document.getElementById('termAndPolicy').addEventListener('change', function () {
+    document.getElementById('submit_button').disabled = !this.checked;
+});

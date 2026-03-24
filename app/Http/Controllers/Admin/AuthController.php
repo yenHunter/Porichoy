@@ -35,7 +35,7 @@ class AuthController extends Controller
     public function register_view(): View
     {
         return view(
-            'admin.auth.page-register'
+            'admin.pages.auth.sign-up'
         );
     }
 
