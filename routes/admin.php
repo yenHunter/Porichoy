@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\ResearchController;
 use App\Http\Controllers\Admin\TrainingController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\RoutingController;
 
 Route::group(['prefix' => 'admin'], function () {
@@ -83,6 +84,16 @@ Route::middleware('auth')->group(function () {
 			Route::get('delete/{experience_id}', [TrainingController::class, 'delete'])->name('delete');
 			Route::post('update-sequence', [TrainingController::class, 'update_sequence'])->name('sequence');
 			Route::put('settings-update', [TrainingController::class, 'settings_update'])->name('settings.update');
+		});
+
+		Route::prefix('blog')->name('blog.')->group(function () {
+			Route::get('', [BlogController::class, 'view'])->name('view');
+			Route::post('store', [BlogController::class, 'store'])->name('store');
+			Route::get('edit/{blog_id}', [BlogController::class, 'edit'])->name('edit');
+			Route::put('update', [BlogController::class, 'update'])->name('update');
+			Route::get('delete/{blog_id}', [BlogController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [BlogController::class, 'update_sequence'])->name('sequence');
+			Route::put('settings-update', [BlogController::class, 'settings_update'])->name('settings.update');
 		});
 	});
 
