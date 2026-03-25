@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Search Results'])
+@extends('admin.layouts.vertical', ['title' => 'Search Results'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'Search Results'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Search Results'])
 
     <div class="row">
         <div class="col-12">

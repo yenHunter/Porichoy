@@ -1,14 +1,14 @@
 <!-- Sidenav Menu Start -->
 <div class="sidenav-menu">
     <!-- Brand Logo -->
-    <a class="logo" href="{{ route('second', ['dashboard', 'index']) }}">
+    <a class="logo" href="{{ route('home') }}">
         <span class="logo logo-light">
-            <span class="logo-lg"><img alt="logo" src="/images/logo.png" /></span>
-            <span class="logo-sm"><img alt="small logo" src="/images/logo-sm.png" /></span>
+            <span class="logo-lg"><img alt="logo" src="{{ asset('static/Porichoy.png') }}" /></span>
+            <span class="logo-sm"><img alt="small logo" src="{{ asset('static/porichoy-main.png') }}" /></span>
         </span>
         <span class="logo logo-dark">
-            <span class="logo-lg"><img alt="dark logo" src="/images/logo-black.png" /></span>
-            <span class="logo-sm"><img alt="small logo" src="/images/logo-sm.png" /></span>
+            <span class="logo-lg"><img alt="dark logo" src="{{ asset('static/Porichoy.png') }}" /></span>
+            <span class="logo-sm"><img alt="small logo" src="{{ asset('static/porichoy-main.png') }}" /></span>
         </span>
     </a>
     <!-- Sidebar Hover Menu Toggle Button -->

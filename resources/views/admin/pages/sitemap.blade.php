@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Sitemap'])
+@extends('admin.layouts.vertical', ['title' => 'Sitemap'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'Sitemap'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Sitemap'])
 
     <div class="row">
         <!-- Column 1: Dashboard & Pages -->

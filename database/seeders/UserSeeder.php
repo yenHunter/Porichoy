@@ -15,11 +15,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user_info = new User();
-        $user_info->first_name = 'Cyberjatra';
-        $user_info->last_name = 'Ltd.';
-        $user_info->email = 'admin@cyberjatra.com';
+        $user_info->first_name = 'Super';
+        $user_info->last_name = 'Admin';
+        $user_info->email = 'admin@yenhunter.com';
         $user_info->password = Hash::make('Admin#123');
-        $user_info->profile_picture = 'static/cj-logo.png';
+        $user_info->profile_picture = 'static/logo.png';
         $user_info->status = 1;
         $user_info->save();
     }

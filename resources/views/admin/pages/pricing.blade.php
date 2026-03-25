@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Pricing'])
+@extends('admin.layouts.vertical', ['title' => 'Pricing'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'Pricing'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Pricing'])
 
 
     <div class="row mb-4">

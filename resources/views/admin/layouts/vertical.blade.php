@@ -10,7 +10,7 @@
 <body>
     <div class="wrapper">
 
-        @include('admin.layouts.partials.sidenav')
+        @include('admin.layouts.partials.menu')
 
         <div class="content-page">
 

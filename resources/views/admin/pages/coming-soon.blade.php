@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => 'Coming Soon!'])
+@extends('admin.layouts.base', ['title' => 'Coming Soon!'])
 
 @section('css')
 @endsection

@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'FAQs'])
+@extends('admin.layouts.vertical', ['title' => 'FAQs'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'FAQs'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'FAQs'])
 
     <div class="row justify-content-center">
         <div class="col-xxl-10">

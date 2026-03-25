@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Terms & Conditions'])
+@extends('admin.layouts.vertical', ['title' => 'Terms & Conditions'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'Terms & Conditions'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Terms & Conditions'])
 
     <div class="row">
         <div class="col-12">

@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function login_view(): View
     {
         return view(
-            'admin.pages.auth.sign-in'
+            'admin.auth.sign-in'
         );
     }
 
@@ -35,7 +35,7 @@ class AuthController extends Controller
     public function register_view(): View
     {
         return view(
-            'admin.pages.auth.sign-up'
+            'admin.auth.sign-up'
         );
     }
 

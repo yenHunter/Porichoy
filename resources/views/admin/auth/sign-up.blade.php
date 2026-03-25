@@ -1,6 +1,9 @@
-@extends('layouts.base', ['title' => 'Create New Account'])
+@extends('admin.layouts.base', ['title' => 'Sign Up'])
 
 @section('css')
+    <!-- ================== Google reCaptcha ================== -->
+    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}">
+    </script>
 @endsection
 
 @section('content')
@@ -92,35 +95,60 @@
                         </div>
                         <div class="auth-brand text-center mb-4">
                             <a class="logo-dark" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="dark logo" height="28" src="/images/logo-black.png" />
+                                <img alt="dark logo" height="64" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
                             <a class="logo-light" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="logo" height="28" src="/images/logo.png" />
+                                <img alt="logo" height="64" src="{{ asset('static/logo.png') }}" />
                             </a>
-                            <p class="text-muted w-lg-75 mt-3 mx-auto">Let’s get you started. Create your account by
-                                entering your details below.</p>
                         </div>
-                        <form>
+                        @if (session('status'))
+                            <div class="alert alert-success text-center mb-2">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger text-center mb-2">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}<br>
+                                @endforeach
+                            </div>
+                        @endif
+                        <form action="{{ route('register.attempt') }}" method="POST" id="register_form">
+                            @csrf
                             <div class="mb-3">
-                                <label class="form-label" for="userName">Name <span class="text-danger">*</span></label>
+                                <label class="form-label" for="first_name">First Name
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <input class="form-control" id="userName" placeholder="Geneva K." required=""
-                                        type="text" />
+                                    <input class="form-control" id="first_name" placeholder="Geneva" required
+                                        type="text" value="{{ old('first_name') }}" />
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="userEmail">Email address <span
-                                        class="text-danger">*</span></label>
+                                <label class="form-label" for="last_name">Last Name
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <input class="form-control" id="userEmail" placeholder="you@example.com"
-                                        required="" type="email" />
+                                    <input class="form-control" id="last_name" placeholder="Doe" required
+                                        type="text" value="{{ old('last_name') }}" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email address
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <input class="form-control" id="email" placeholder="you@example.com"
+                                        required type="email" value="{{ old('email') }}" />
                                 </div>
                             </div>
                             <div class="mb-3" data-password="bar">
-                                <label class="form-label" for="userPassword">Password <span
-                                        class="text-danger">*</span></label>
+                                <label class="form-label" for="password">Password
+                                    <span class="text-danger">*</span>
+                                </label>
                                 <div class="input-group">
-                                    <input class="form-control" id="userPassword" placeholder="••••••••" required=""
+                                    <input class="form-control" id="password" placeholder="••••••••" required
                                         type="password" />
                                 </div>
                                 <div class="password-bar my-2"></div>
@@ -129,22 +157,25 @@
                             <div class="mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input form-check-input-light fs-14" id="termAndPolicy"
-                                        type="checkbox" />
+                                        type="checkbox" checked />
                                     <label class="form-check-label" for="termAndPolicy">Agree the Terms &amp;
                                         Policy</label>
                                 </div>
                             </div>
                             <div class="d-grid">
-                                <button class="btn btn-primary fw-semibold py-2" type="submit">Create Account</button>
+                                <button class="btn btn-primary fw-semibold py-2 g-recaptcha" id="submit_button"
+                                    data-sitekey="{{ config('services.recaptcha.site_key') }}" data-callback="onSubmit"
+                                    data-action="submit" type="submit">Create Account</button>
                             </div>
                         </form>
                         <p class="text-muted text-center mt-4 mb-0">
                             Already have an account? <a class="text-decoration-underline link-offset-3 fw-semibold"
-                                href="{{ route('second', ['auth', 'sign-in']) }}">Login</a>
+                                href="{{ route('login.view') }}">Login</a>
                         </p>
                     </div>
                     <p class="text-center text-muted mt-4 mb-0">
-                        © UBold — by <span class="fw-semibold">Coderthemes</span>
+                        © {{ now()->year }} Porichoy — by <a class="fw-semibold" href="https://github.com/yenHunter"
+                            target="_blank">yenHunter</a>
                     </p>
                 </div>
             </div>
