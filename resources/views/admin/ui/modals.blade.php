@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Modals'])
+@extends('admin.layouts.vertical', ['title' => 'Modals'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'UI', 'title' => 'Modals'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'UI', 'title' => 'Modals'])
 
     <div class="row">
         <div class="col-xl-12">

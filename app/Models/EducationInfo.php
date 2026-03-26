@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class EducationInfo extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'education_infos';
 
@@ -19,17 +20,16 @@ class EducationInfo extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'slug',
-        'degree',
-        'subject',
-        'institute',
+        'education_degree',
+        'education_subject',
+        'education_institute',
         'institute_logo',
         'institute_address',
         'start_date',
         'end_date',
-        'result',
-        'details',
-        'status',
+        'education_result',
+        'education_details',
+        'education_status',
         'sequence',
         'updated_by',
     ];
@@ -38,25 +38,20 @@ class EducationInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'status'        => 'boolean', 
-        'sequence'      => 'integer',
-        'start_date'    => 'date',
-        'end_date'      => 'date',
+        'education_status'  => 'boolean',
+        'sequence'          => 'integer',
+        'start_date'        => 'date',
+        'end_date'          => 'date',
     ];
 
     /*
     |--------------------------------------------------------------------------
-    | Boot Logic (Auto-Slug)
+    | Boot Logic (Auto-handling)
     |--------------------------------------------------------------------------
     */
     protected static function booted()
     {
         static::creating(function ($model) {
-            // Generate slug from title
-            if (empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->degree);
-            }
-
             // Auto User ID
             if (Auth::check()) {
                 $model->updated_by = Auth::id();
@@ -69,11 +64,6 @@ class EducationInfo extends Model
         });
 
         static::updating(function ($model) {
-            // Generate slug from title
-            if ($model->isDirty('degree') && empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->degree,$model->id);
-            }
-
             // Auto User ID
             if (Auth::check()) {
                 $model->updated_by = Auth::id();
@@ -101,8 +91,8 @@ class EducationInfo extends Model
     protected function logoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->institute_logo 
-                ? asset('storage/' . $this->institute_logo) 
+            get: fn() => $this->institute_logo
+                ? asset('storage/' . $this->institute_logo)
                 : asset('static/logo/education.png')
         );
     }
@@ -119,7 +109,7 @@ class EducationInfo extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('education_status', true);
     }
 
     /**
@@ -129,21 +119,5 @@ class EducationInfo extends Model
     public function scopeSorted($query)
     {
         return $query->orderBy('sequence', 'asc');
-    }
-
-    /**
-     * Custom function to generate unique slugs
-     */
-    public static function generateUniqueSlug($title, $ignoreId = null)
-    {
-        $originalSlug = Str::slug($title);
-        $slug = $originalSlug;
-        $count = 1;
-        while (static::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
-            $count++;
-        }
-
-        return $slug;
     }
 }

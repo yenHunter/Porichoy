@@ -145,9 +145,79 @@
             <li class="side-nav-title mt-2" data-lang="management">Management</li>
             <li class="side-nav-item">
                 <a class="side-nav-link" href="#">
-                    <span class="menu-icon"><i data-lucide="settings"></i></span>
-                    <span class="menu-text" data-lang="settings">Settings</span>
+                    <span class="menu-icon"><i data-lucide="user-cog"></i></span>
+                    <span class="menu-text" data-lang="sidebar-management-user">User</span>
                 </a>
+            </li>
+            <li class="side-nav-item">
+                <a class="side-nav-link" href="#">
+                    <span class="menu-icon"><i data-lucide="mail-question-mark"></i></span>
+                    <span class="menu-text" data-lang="sidebar-management-contact-request">Contact Request</span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a aria-controls="settings" aria-expanded="false" class="side-nav-link"
+                    data-bs-toggle="collapse" href="#settings">
+                    <span class="menu-icon"><i data-lucide="settings"></i></span>
+                    <span class="menu-text" data-lang="sidebar-title-settings">Settings</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="settings">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-company">Personal Information</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-userlog">User Log</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-systemlog">System Log</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-backup-db">Backup Database</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="side-nav-item">
+                <a aria-controls="configuration" aria-expanded="false" class="side-nav-link"
+                    data-bs-toggle="collapse" href="#configuration">
+                    <span class="menu-icon"><i data-lucide="columns-3-cog"></i></span>
+                    <span class="menu-text" data-lang="sidebar-title-settings">Configuration</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="configuration">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-company">Theme</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-userlog">Research Source</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-systemlog">Location Type</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-backup-db">Employment Type</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>

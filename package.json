@@ -37,12 +37,14 @@
         "filepond": "^4.32.8",
         "filepond-plugin-file-encode": "^2.1.14",
         "filepond-plugin-file-validate-size": "^2.2.8",
+        "filepond-plugin-file-validate-type": "^1.2.9",
         "filepond-plugin-image-exif-orientation": "^1.0.11",
         "filepond-plugin-image-preview": "^4.6.12",
         "flatpickr": "^4.6.13",
         "handlebars": "^4.7.8",
         "inputmask": "^5.0.9",
         "jquery": "^3.7.1",
+        "jquery-ui-dist": "^1.13.3",
         "jstree": "^3.3.17",
         "jsvectormap": "^1.7.0",
         "jszip": "^3.10.1",
@@ -59,7 +61,8 @@
         "summernote": "^0.9.1",
         "sweetalert2": "^11.22.4",
         "typeahead.js": "^0.11.1",
-        "wnumb": "^1.2.0"
+        "wnumb": "^1.2.0",
+        "ziggy-js": "^2.6.0"
     },
     "devDependencies": {
         "axios": "^1.11.0",

@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Custom Tables'])
+@extends('admin.layouts.vertical', ['title' => 'Custom Tables'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Pages', 'title' => 'Custom Tables'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Pages', 'title' => 'Custom Tables'])
 
     <div class="row">
         <div class="col-12">

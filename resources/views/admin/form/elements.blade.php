@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Form Elements'])
+@extends('admin.layouts.vertical', ['title' => 'Form Elements'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Basic Elements'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Basic Elements'])
 
     <div class="row">
         <div class="col-xl-12">

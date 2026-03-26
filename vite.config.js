@@ -123,7 +123,9 @@ export default defineConfig({
                 "resources/js/pages/misc-sweetalerts.js",
                 "resources/js/pages/misc-tour.js",
                 "resources/js/pages/misc-treeview.js",
-                "resources/js/pages/datatables-basic.js"
+                "resources/js/pages/datatables-basic.js",
+                // Page specific js
+                "resources/js/pages/module-education.js",
             ],
             refresh: true,
         }),

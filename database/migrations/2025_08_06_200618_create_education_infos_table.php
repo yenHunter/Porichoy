@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('education_infos', function (Blueprint $table) {
             $table->id();
-            $table->string('slug')->unique();
-            $table->string('degree');
-            $table->string('subject')->nullable();
-            $table->string('institute');
+            $table->uuid('uuid')->unique();
+            $table->string('education_degree');
+            $table->string('education_subject')->nullable();
+            $table->string('education_institute');
             $table->string('institute_logo')->nullable();
             $table->string('institute_address')->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->string('result')->nullable();
-            $table->longText('details')->nullable();
-            $table->boolean('status')->default(1);
+            $table->string('education_result')->nullable();
+            $table->longText('education_details')->nullable();
+            $table->boolean('education_status')->default(1);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
