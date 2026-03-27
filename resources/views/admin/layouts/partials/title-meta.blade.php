@@ -8,3 +8,5 @@
 <meta content="yenHunter" name="author" />
 <!-- App favicon -->
 <link href="{{ asset('static/favicon.png') }}" rel="shortcut icon" />
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@routes

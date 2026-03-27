@@ -18,10 +18,9 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
-document.addEventListener('DOMContentLoaded', function () {
-    
-    // 1. Setup Icons (Your Custom Design)
-    // We wrap this in a try-catch to prevent it from breaking the whole script if versions differ
+let myQuill;
+
+$(document).ready(function () {
     try {
         const icons = Quill.import('ui/icons');
         icons['bold'] = '<i class="ti ti-bold fs-lg"></i>';
@@ -49,50 +48,34 @@ document.addEventListener('DOMContentLoaded', function () {
         icons['header']['1'] = '<i class="ti ti-h-1 fs-lg"></i>';
         icons['header']['2'] = '<i class="ti ti-h-2 fs-lg"></i>';
         icons['header']['3'] = '<i class="ti ti-h-3 fs-lg"></i>';
-        icons['header'][''] = '<i class="ti ti-letter-t fs-lg"></i>';
+        icons['header'][''] = '<i class="ti ti-letter-t fs-lg"></i>'; // Normal text
     } catch (e) {
         console.warn('Quill Icon customization failed:', e);
     }
 
-    // 2. Reusable Function to Initialize Editor
-    const initQuill = (editorSelector, inputSelector) => {
-        const editorEl = document.querySelector(editorSelector);
-        const inputEl = document.querySelector(inputSelector);
-
-        if (editorEl) {
-            const quill = new Quill(editorEl, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        [{ 'font': [] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'script': 'super' }, { 'script': 'sub' }],
-                        [{ 'header': [false, 1, 2, 3, 4, 5, 6] }],
-                        ['blockquote', 'code-block'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-                        [{ 'align': [] }],
-                        ['link', 'image', 'video'],
-                        ['clean']
-                    ]
-                }
-            });
-
-            // Sync data to hidden input on change
-            quill.on('text-change', () => {
-                if(inputEl) inputEl.value = quill.root.innerHTML;
-            });
-            
-            // Initial sync (if DB has value, ensure input has it too)
-            // Note: HTML normally populates the div, but this ensures the input is ready
-            if(inputEl && !inputEl.value) {
-                inputEl.value = quill.root.innerHTML;
+    if (document.getElementById('education-details-editor')) {
+        myQuill = new Quill('#education-details-editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'font': [] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'script': 'super' }, { 'script': 'sub' }],
+                    [{ 'header': [false, 1, 2, 3, 4, 5, 6] }],
+                    ['blockquote', 'code-block'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                    [{ 'align': [] }],
+                    ['link', 'image', 'video'],
+                    ['clean']
+                ]
             }
-        }
-    }; 
+        });
 
-    // 3. Initialize specific editors
-    initQuill('#education-details-editor', '#education_details_hidden');
+        myQuill.on('text-change', function () {
+            document.getElementById('education_details_hidden').value = myQuill.root.innerHTML;
+        });
+    }
 });
 
 new DataTable('[data-tables="basic"]', {
@@ -136,11 +119,11 @@ document.getElementById('current_degree').addEventListener('change', function ()
 });
 
 $(function () {
-    $("#sortable-client").sortable({
+    $("#sortable-education").sortable({
         handle: '.ti-arrows-move',
         update: function (event, ui) {
             const order = [];
-            $('#sortable-client tr').each(function (index, element) {
+            $('#sortable-education tr').each(function (index, element) {
                 order.push({
                     id: $(element).data('id'),
                     sequence: index + 1
@@ -149,9 +132,10 @@ $(function () {
 
             // Get CSRF token from meta tag (set in blade layout)
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            console.log('New order:', order);
 
             // Send via Axios
-            axios.post(route('client.sequence'), {
+            axios.post(route('module.education.sequence'), {
                 order: order
             }, {
                 headers: {
@@ -160,7 +144,7 @@ $(function () {
                 }
             })
                 .then(response => {
-                    Swal.fire('Updated!', 'Client order updated successfully.', 'success');
+                    Swal.fire('Updated!', 'Education order updated successfully.', 'success');
                 })
                 .catch(error => {
                     console.error(error);
@@ -171,24 +155,32 @@ $(function () {
 });
 
 $(document).on('click', '.btn-edit', function () {
-    const client_id = $(this).data('client_id');
+    const education_id = $(this).data('education_id');
 
-    axios.get(route('client.edit', client_id))
+    axios.get(route('module.education.edit', education_id))
         .then(response => {
             const data = response.data;
 
             // Fill form fields
-            $('#client_id').val(data.id);
-            $('#client_title').val(data.client_title);
-            $('#client_website').val(data.client_website);
-            $('#client_details').val(data.client_details);
-            $('#client_status').val(data.client_status == 1 ? 1 : 0);
+            $('#education_id').val(data.id);
+            $('#education_degree').val(data.education_degree);
+            $('#education_subject').val(data.education_subject);
+            $('#education_institute').val(data.education_institute);
+            $('#institute_address').val(data.institute_address);
+            $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
+            $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
+            $('#education_result').val(data.education_result);
+            $('#education_status').val(data.education_status == 1 ? 1 : 0);
+
+            const htmlContent = data.education_details || '';
+            myQuill.root.innerHTML = htmlContent;
+            $('#education_details_hidden').val(htmlContent);
 
             // Update form
             const form = document.getElementById('create_update_form');
-            form.action = route('client.update');
+            form.action = route('module.education.update');
             document.getElementById('create_update_form_method').value = 'PUT';
-            document.getElementById('create_update_modal_title').innerHTML = 'Update client info';
+            document.getElementById('create_update_modal_title').innerHTML = 'Update education info';
 
             // Show modal
             const modalElement = document.getElementById('create_update_modal');
@@ -196,23 +188,25 @@ $(document).on('click', '.btn-edit', function () {
             modal.show();
         })
         .catch(error => {
-            console.error("Failed to load client data:", error);
-            Swal.fire('Error!', 'Could not fetch client data.', 'error');
+            console.error("Failed to load education data:", error);
+            Swal.fire('Error!', 'Could not fetch education data.', 'error');
         });
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('client.store'));
+    $('#create_update_form').attr('action', route('module.education.store'));
     $('#create_update_form_method').val('POST');
-    $('#client_id').val('');
-    document.getElementById('create_update_modal_title').innerHTML = 'Create client info';
+    $('#education_id').val('');
+    myQuill.root.innerHTML = '';
+    $('#education_details_hidden').val('');
+    document.getElementById('create_update_modal_title').innerHTML = 'Create education info';
 });
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
-            const client_id = this.getAttribute('data-client_id');
+            const education_id = this.getAttribute('data-education_id');
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -226,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href =
-                        route('client.delete', client_id);
+                        route('module.education.delete', education_id);
 
                 }
             });

@@ -47,16 +47,16 @@ class EducationController extends Controller
         try {
             // Validation
             $request->validate([
-                'degree'                => 'required|string|max:255',
-                'subject'               => 'nullable|string|max:255',
-                'institute'             => 'required|string|max:255',
-                'institute_logo'        => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-                'institute_address'     => 'nullable|string|max:255',
-                'start_date'            => 'required|date',
-                'end_date'              => 'nullable|date|after_or_equal:start_date',
-                'result'                => 'nullable|string|max:255',
-                'details'               => 'nullable|string',
-                'status'                => 'required|boolean',
+                'education_degree'                  => 'required|string|max:255',
+                'education_subject'                 => 'nullable|string|max:255',
+                'education_institute'               => 'required|string|max:255',
+                'institute_logo'                    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'institute_address'                 => 'nullable|string|max:255',
+                'start_date'                        => 'required|date',
+                'end_date'                          => 'nullable|date|after_or_equal:start_date',
+                'education_result'                  => 'nullable|string|max:255',
+                'education_details'                 => 'nullable|string',
+                'education_status'                  => 'nullable|boolean',
             ]);
 
             // Store file in storage
@@ -72,16 +72,16 @@ class EducationController extends Controller
 
             // Save education info in DB
             $education = new EducationInfo();
-            $education->degree = $request->degree;
-            $education->subject = $request->subject;
-            $education->institute = $request->institute;
+            $education->education_degree = $request->education_degree;
+            $education->education_subject = $request->education_subject;
+            $education->education_institute = $request->education_institute;
             $education->institute_logo = $path;
             $education->institute_address = $request->institute_address;
             $education->start_date = $request->start_date;
             $education->end_date = $request->end_date;
-            $education->result = $request->result;
-            $education->details = $request->details;
-            $education->status = $request->status;
+            $education->education_result = $request->education_result;
+            $education->education_details = $request->education_details;
+            $education->education_status = $request->education_status;
             $education->save();
             $this->logUserActivity('Education', 'Created a new Education info');
             return back()->with('success', 'Education info created');
@@ -120,17 +120,17 @@ class EducationController extends Controller
         try {
             // Validation
             $validated = $request->validate([
-                'education_id'          => 'required|integer|exists:education_infos,id',
-                'degree'                => 'required|string|max:255',
-                'subject'               => 'nullable|string|max:255',
-                'institute'             => 'required|string|max:255',
-                'institute_logo'        => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-                'institute_address'     => 'nullable|string|max:255',
-                'start_date'            => 'required|date',
-                'end_date'              => 'nullable|date|after_or_equal:start_date',
-                'result'                => 'nullable|string|max:255',
-                'details'               => 'nullable|string',
-                'status'                => 'required|boolean',
+                'education_id'                      => 'required|exists:education_infos,id',
+                'education_degree'                  => 'required|string|max:255',
+                'education_subject'                 => 'nullable|string|max:255',
+                'education_institute'               => 'required|string|max:255',
+                'institute_logo'                    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
+                'institute_address'                 => 'nullable|string|max:255',
+                'start_date'                        => 'required|date',
+                'end_date'                          => 'nullable|date|after_or_equal:start_date',
+                'education_result'                  => 'nullable|string|max:255',
+                'education_details'                 => 'nullable|string',
+                'education_status'                  => 'nullable|boolean',
             ]);
 
             $education = EducationInfo::findOrFail($request->education_id);
@@ -151,15 +151,15 @@ class EducationController extends Controller
 
             // Save education info in DB
             $education->fill([
-                'degree'                => $request->degree,
-                'subject'               => $request->subject,
-                'institute'             => $request->institute,
-                'institute_address'     => $request->institute_address,
-                'start_date'            => $request->start_date,
-                'end_date'              => $request->end_date,
-                'result'                => $request->result,
-                'details'               => $request->details,
-                'status'                => $request->status,
+                'education_degree'                => $request->education_degree,
+                'education_subject'               => $request->education_subject,
+                'education_institute'             => $request->education_institute,
+                'institute_address'               => $request->institute_address,
+                'start_date'                      => $request->start_date,
+                'end_date'                        => $request->end_date,
+                'education_result'                => $request->education_result,
+                'education_details'               => $request->education_details,
+                'education_status'                => $request->education_status,
             ]);
             $education->save();
             $this->logUserActivity('Education', 'Updated Education info');
@@ -205,7 +205,7 @@ class EducationController extends Controller
         try {
             $order = $request->input('order');
             foreach ($order as $item) {
-                EducationInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+                EducationInfo::where('id', $item['id'])->update(['education_sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
         } catch (\Throwable $th) {

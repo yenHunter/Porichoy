@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    @include('admin.layouts.partials.page-title', ['subtitle' => 'Tables', 'title' => 'Basic'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Module', 'title' => 'Education'])
 
     <div class="row">
         <div class="col-12">
@@ -61,7 +61,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-education">
                             @foreach ($education_list as $item)
                                 <tr data-id="{{ $item->id }}">
                                     <td>
@@ -72,27 +72,28 @@
                                             alt="institute-logo">
                                     </td>
                                     <td>
-                                        {{ $item->degree }}<br>
-                                        <small>{{ $item->subject }}</small>
+                                        {{ $item->education_degree }}<br>
+                                        <small>{{ $item->education_subject }}</small>
                                     </td>
                                     <td>
-                                        {{ $item->institute }}<br>
+                                        {{ $item->education_institute }}<br>
                                         <small>{{ $item->institute_address }}</small>
                                     </td>
                                     <td>
-                                        @if ($item->status === 1)
+                                        @if ($item->education_status === true)
                                             <span class="badge bg-success">Active</span>
                                         @else
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <button class="btn btn-warning btn-sm btn-edit"
+                                        <button class="btn btn-warning btn-icon btn-sm btn-edit"
                                             data-education_id="{{ $item->id }}">
-                                            <i class="fas fa-pencil"></i> edit
+                                            <i class="ti ti-edit fs-lg"></i>
                                         </button>
-                                        <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $item->id }}">
-                                            <i class="fas fa-trash"></i> delete
+                                        <button class="btn btn-danger btn-icon btn-sm btn-delete"
+                                            data-education_id="{{ $item->id }}">
+                                            <i class="ti ti-trash fs-lg"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -107,7 +108,7 @@
         enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="_method" id="create_update_form_method" value="POST">
-        <input type="hidden" name="client_id" id="client_id">
+        <input type="hidden" name="education_id" id="education_id">
         <div aria-hidden="true" aria-labelledby="scrollableModalTitle" class="modal fade" id="create_update_modal"
             role="dialog" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
@@ -121,7 +122,8 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input class="form-control" placeholder="Bachelor of Science (BSc)"
-                                        value="{{ old('education_degree') }}" name="education_degree" id="education_degree" type="text" />
+                                        value="{{ old('education_degree') }}" name="education_degree" id="education_degree"
+                                        type="text" />
                                     <label for="education_degree">Degree
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
@@ -130,7 +132,8 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input class="form-control" placeholder="Computer Engineering"
-                                        value="{{ old('education_subject') }}" name="education_subject" id="education_subject" type="text" />
+                                        value="{{ old('education_subject') }}" name="education_subject"
+                                        id="education_subject" type="text" />
                                     <label for="education_subject">Subject
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
@@ -139,8 +142,8 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input class="form-control" placeholder="Cambridge University"
-                                        value="{{ old('education_institute') }}" name="education_institute" id="education_institute"
-                                        type="text" />
+                                        value="{{ old('education_institute') }}" name="education_institute"
+                                        id="education_institute" type="text" />
                                     <label for="education_institute">Institute
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
@@ -174,7 +177,9 @@
                                             <input class="form-control" placeholder="Start Date"
                                                 value="{{ old('start_date') }}" name="start_date" id="start_date"
                                                 type="date">
-                                            <label for="start_date">Start Date</label>
+                                            <label for="start_date">Start Date
+                                                <span class="badge badge-soft-danger">required</span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -188,8 +193,8 @@
                                     <div class="col-lg-4">
                                         <div class="form-floating">
                                             <input class="form-control" placeholder="CGPA 3.75"
-                                                value="{{ old('education_result') }}" name="education_result" id="education_result"
-                                                type="text">
+                                                value="{{ old('education_result') }}" name="education_result"
+                                                id="education_result" type="text">
                                             <label for="education_result">Result</label>
                                         </div>
                                     </div>
@@ -198,7 +203,7 @@
                             <div class="col-lg-12">
                                 <label for="details">Details</label>
                                 <div id="education-details-editor" style="height: 300px;"></div>
-                                <input type="hidden" name="details" id="education_details_hidden">
+                                <input type="hidden" name="education_details" id="education_details_hidden">
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">

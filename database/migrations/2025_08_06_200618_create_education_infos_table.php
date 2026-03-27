@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('education_infos', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid')->unique();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->string('education_degree');
             $table->string('education_subject')->nullable();
             $table->string('education_institute');
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->string('education_result')->nullable();
             $table->longText('education_details')->nullable();
-            $table->boolean('education_status')->default(1);
-            $table->integer('sequence')->default(0);
+            $table->boolean('education_status')->nullable()->default(true);
+            $table->integer('education_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

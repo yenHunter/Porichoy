@@ -15,6 +15,8 @@ class EducationInfo extends Model
     use HasFactory, HasUuids;
 
     protected $table = 'education_infos';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +32,7 @@ class EducationInfo extends Model
         'education_result',
         'education_details',
         'education_status',
-        'sequence',
+        'education_sequence',
         'updated_by',
     ];
 
@@ -38,10 +40,10 @@ class EducationInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'education_status'  => 'boolean',
-        'sequence'          => 'integer',
-        'start_date'        => 'date',
-        'end_date'          => 'date',
+        'education_status'              => 'boolean',
+        'education_sequence'            => 'integer',
+        'start_date'                    => 'date',
+        'end_date'                      => 'date',
     ];
 
     /*
@@ -57,9 +59,14 @@ class EducationInfo extends Model
                 $model->updated_by = Auth::id();
             }
 
+            // Auto Status
+            if (is_null($model->education_status)) {
+                $model->education_status = true;
+            }
+
             // Auto Sequence
-            if (is_null($model->sequence)) {
-                $model->sequence = static::max('sequence') + 1;
+            if (is_null($model->education_sequence)) {
+                $model->education_sequence = static::max('education_sequence') + 1;
             }
         });
 
@@ -105,7 +112,7 @@ class EducationInfo extends Model
 
     /**
      * Get only active ones.
-     * Usage: ClientInfo::active()->get();
+     * Usage: EducationInfo::active()->get();
      */
     public function scopeActive($query)
     {
@@ -114,10 +121,10 @@ class EducationInfo extends Model
 
     /**
      * Order by sequence.
-     * Usage: ClientInfo::sorted()->get();
+     * Usage: EducationInfo::sorted()->get();
      */
     public function scopeSorted($query)
     {
-        return $query->orderBy('sequence', 'asc');
+        return $query->orderBy('education_sequence', 'asc');
     }
 }
