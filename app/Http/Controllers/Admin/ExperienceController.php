@@ -125,70 +125,94 @@ class ExperienceController extends Controller
         try {
             // Validation
             $request->validate([
-                'position'                      => 'required',
-                'employment_type'               => 'required',
-                'organization'                  => 'required',
-                'start_date'                    => 'required',
-                'organization_logo'             => 'image|mimes:jpeg,png,jpg,gif,webp|max:10240', // max size 10MB
+                'experience_id'                             => 'required|exists:experience_infos,id',
+                'employment_position'                       => 'required|string|max:255',
+                'employment_type'                           => 'required|integer|exists:select_types,id',
+                'employment_department'                     => 'nullable|string|max:255',
+                'employment_organization'                   => 'required|string|max:255',
+                'organization_logo'                         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // max size 10MB
+                'start_date'                                => 'required|date|before:end_date',
+                'end_date'                                  => 'nullable|date|after:start_date',
+                'location_type'                             => 'nullable|integer|exists:select_types,id',
+                'employment_details'                        => 'nullable|string',
+                'employment_status'                         => 'nullable|boolean',
             ]);
 
-            $object = ExperienceInfo::where('id', $request->experience_id)->first();
+            $experience = ExperienceInfo::findOrFail($request->experience_id);
             // Store file in storage
-            $path = $object->organization_logo;
             if ($request->hasFile('organization_logo')) {
-                if (Storage::disk('public')->exists($path)) {
-                    Storage::disk('public')->delete($path);
+                // Check if old file exists and is not null
+                if ($experience->organization_logo && Storage::disk('public')->exists($experience->organization_logo)) {
+                    Storage::disk('public')->delete($experience->organization_logo);
                 }
                 $file = $request->file('organization_logo');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/uploads/experience', $filename); // stored in storage/app/public/uploads
+                $filename = Str::uuid() . '.webp';
                 $path = 'uploads/experience/' . $filename;
+                $img = Image::read($file);
+                $img->scale(width: 300);
+                Storage::disk('public')->put($path, $img->toWebp(80));
+                $experience->organization_logo = $path;
             }
 
             // Save experience info in DB
-            $object->position = $request->position;
-            $object->employment_type = $request->employment_type;
-            $object->department = $request->department;
-            $object->organization = $request->organization;
-            $object->organization_logo = $path;
-            $object->organization_address = $request->organization_address;
-            $object->start_date = $request->start_date;
-            $object->end_date = $request->end_date;
-            $object->location_type = $request->location_type;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->updated_by = Auth::id();
-            $object->save();
+            $experience->fill([
+                'employment_position'           => $request->employment_position,
+                'employment_type'               => $request->employment_type,
+                'employment_department'         => $request->employment_department,
+                'employment_organization'       => $request->employment_organization,
+                'organization_address'          => $request->organization_address,
+                'start_date'                    => $request->start_date,
+                'end_date'                      => $request->end_date,
+                'location_type'                 => $request->location_type,
+                'employment_details'            => $request->employment_details,
+                'employment_status'             => $request->employment_status,
+            ]);
+            $experience->save();
+
             $this->logUserActivity('Experience', 'Updated Experience info');
             return back()->with('success', 'Experience info updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong'])->withInput();
         }
     }
 
-    public function delete($experience_id)
+    /**
+     * Remove an existing experience info from storage.
+     *
+     * @param int $experience_id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
+    public function delete($experience_id): RedirectResponse
     {
         try {
             $object = ExperienceInfo::where('id', $experience_id)->first();
-            if (!empty($object->organization_logo) && Storage::disk('public')->exists($object->organization_logo)) {
+            if ($object->organization_logo != null && Storage::disk('public')->exists($object->organization_logo)) {
                 Storage::disk('public')->delete($object->organization_logo);
             }
             $object->delete();
             $this->logUserActivity('Experience', 'Removed Experience info');
             return back()->with('success', 'Experience info removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
         }
     }
 
-    public function update_sequence(Request $request)
+    /**
+     * Update the employment sequence for multiple experience info records
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function update_sequence(Request $request): JsonResponse
     {
         try {
             $order = $request->input('order');
             foreach ($order as $item) {
-                ExperienceInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+                ExperienceInfo::where('id', $item['id'])->update(['employment_sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
         } catch (\Exception $exception) {

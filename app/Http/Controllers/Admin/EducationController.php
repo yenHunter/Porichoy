@@ -162,6 +162,7 @@ class EducationController extends Controller
                 'education_status'                => $request->education_status,
             ]);
             $education->save();
+            
             $this->logUserActivity('Education', 'Updated Education info');
             return back()->with('success', 'Education info updated');
         } catch (\Throwable $th) {
