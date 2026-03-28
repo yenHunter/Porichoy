@@ -126,6 +126,7 @@ export default defineConfig({
                 "resources/js/pages/datatables-basic.js",
                 // Page specific js
                 "resources/js/pages/module-education.js",
+                "resources/js/pages/module-experience.js",
             ],
             refresh: true,
         }),

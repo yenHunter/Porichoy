@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class EducationInfo extends Model
 {
@@ -95,7 +94,7 @@ class EducationInfo extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function logoUrl(): Attribute
+    protected function instituteLogoUrl(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->institute_logo

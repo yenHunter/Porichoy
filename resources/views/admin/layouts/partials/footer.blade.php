@@ -6,7 +6,8 @@
                 ©
                 <script>
                     document.write(new Date().getFullYear())
-                </script> UBold By <span class="fw-semibold">Coderthemes</span>
+                </script>
+                Porichoy By <a href="https://github.com/yenHunter" target="_blank" class="fw-semibold">yenHunter</a>
             </div>
         </div>
     </div>

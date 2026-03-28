@@ -12,19 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('experience_infos', function (Blueprint $table) {
-            $table->id();
-            $table->string('position');
+            $table->uuid('id')->primary();
+            $table->string('employment_position');
             $table->string('employment_type');
-            $table->string('department')->nullable();
-            $table->string('organization');
+            $table->string('employment_department')->nullable();
+            $table->string('employment_organization');
             $table->string('organization_logo')->nullable();
             $table->string('organization_address')->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->integer('location_type')->nullable();
-            $table->longText('details')->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->longText('employment_details')->nullable();
+            $table->boolean('employment_status')->nullable()->default(true);
+            $table->integer('employment_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

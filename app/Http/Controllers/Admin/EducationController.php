@@ -221,24 +221,24 @@ class EducationController extends Controller
      * @return RedirectResponse
      * @throws \Throwable
      */
-    public function settings_update(Request $request): RedirectResponse
-    {
-        $education_settings = ColumnSettings::where('module', 'education')->get();
-        try {
-            foreach ($education_settings as $value) {
-                if ($request->has($value->column_name)) {
-                    $value->visibility = 1;
-                    $value->save();
-                } else {
-                    $value->visibility = 0;
-                    $value->save();
-                }
-            }
-            $this->logUserActivity('Education', 'Updated Education settings');
-            return back()->with('success', 'Education settings updated');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
-    }
+    // public function settings_update(Request $request): RedirectResponse
+    // {
+    //     $education_settings = ColumnSettings::where('module', 'education')->get();
+    //     try {
+    //         foreach ($education_settings as $value) {
+    //             if ($request->has($value->column_name)) {
+    //                 $value->visibility = 1;
+    //                 $value->save();
+    //             } else {
+    //                 $value->visibility = 0;
+    //                 $value->save();
+    //             }
+    //         }
+    //         $this->logUserActivity('Education', 'Updated Education settings');
+    //         return back()->with('success', 'Education settings updated');
+    //     } catch (\Throwable $th) {
+    //         Log::error($th->getMessage());
+    //         return back()->withErrors(['error' => 'Something went wrong']);
+    //     }
+    // }
 }
