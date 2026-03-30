@@ -106,7 +106,7 @@ class SelectSeeder extends Seeder
             [
                 'use_for'               => 'research_source',
                 'value'                 => 'Proceedings of the National Academy of Sciences',
-                'details'               => 'static/settings/research-source/1754808757.png',
+                'details'               => 'static/settings/research-source/proceedings-of-the-national-academy-of-sciences.png',
                 'status'                => 1,
                 'created_at'            => Carbon::now()->toDateTimeString(),
                 'updated_at'            => Carbon::now()->toDateTimeString()

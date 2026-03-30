@@ -127,6 +127,7 @@ export default defineConfig({
                 // Page specific js
                 "resources/js/pages/module-education.js",
                 "resources/js/pages/module-experience.js",
+                "resources/js/pages/module-research.js",
             ],
             refresh: true,
         }),

@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('research_infos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('source_id')->constrained('select_types')->cascadeOnDelete();
-            $table->string('category');
-            $table->string('title');
-            $table->date('published')->nullable();
-            $table->string('role')->nullable();
-            $table->string('authors')->nullable();
-            $table->string('link')->nullable();
-            $table->text('details')->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->uuid('id')->primary();
+            $table->foreignId('research_source')->constrained('select_types')->cascadeOnDelete();
+            $table->string('research_category');
+            $table->string('research_title');
+            $table->date('published_date')->nullable();
+            $table->string('research_role')->nullable();
+            $table->string('research_authors')->nullable();
+            $table->string('research_link')->nullable();
+            $table->text('research_details')->nullable();
+            $table->boolean('research_status')->nullable()->default(true);
+            $table->integer('research_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

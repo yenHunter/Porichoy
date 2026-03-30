@@ -20,9 +20,7 @@ class ResearchController extends Controller
         return view(
             'admin.pages.module.research',
             [
-                'research_list'           => ResearchInfo::with('source')->whereHas('source', function ($query) {
-                    $query->where('use_for', 'research_source');
-                })->orderBy('sequence', 'asc')->get(),
+                'research_list'           => ResearchInfo::with('source')->whereRelation('source', 'use_for', 'research_source')->sorted()->get(),
                 'research_settings'       => ColumnSettings::where('module', 'research')->get(),
                 'research_source'         => SelectType::where('use_for', 'research_source')->get()
             ]
@@ -34,28 +32,33 @@ class ResearchController extends Controller
         try {
             // Validation
             $request->validate([
-                'source_id'                 => 'required',
-                'category'                  => 'required',
-                'title'                     => 'required'
+                'research_source'                       => 'required|integer|exists:select_types,id',
+                'research_category'                     => 'required|string|max:255',
+                'research_title'                        => 'required|string|max:255',
+                'published_date'                        => 'nullable|date',
+                'research_role'                         => 'nullable|string|max:8',
+                'research_authors'                      => 'nullable|string|max:255',
+                'research_link'                         => 'nullable|string|max:255',
+                'research_details'                      => 'nullable|string',
+                'research_status'                       => 'nullable|boolean'
             ]);
 
-            // Save experience info in DB
+            // Save research info in DB
             $object = new ResearchInfo();
-            $object->source_id = $request->source_id;
-            $object->category = $request->category;
-            $object->title = $request->title;
-            $object->published = $request->published;
-            $object->role = $request->role;
-            $object->authors = $request->authors;
-            $object->link = $request->link;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->sequence = ResearchInfo::max('sequence') + 1;
+            $object->research_source = $request->research_source;
+            $object->research_category = $request->research_category;
+            $object->research_title = $request->research_title;
+            $object->published_date = $request->published_date;
+            $object->research_role = $request->research_role;
+            $object->research_authors = $request->research_authors;
+            $object->research_link = $request->research_link;
+            $object->research_details = $request->research_details;
+            $object->research_status = $request->research_status;
             $object->save();
-            $this->logUserActivity('Research', 'Created a new Research info');
+            $this->logUserActivity('Research', 'New record created');
             return back()->with('success', 'Research info created');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong'])->withInput();
         }
     }
@@ -75,25 +78,32 @@ class ResearchController extends Controller
         try {
             // Validation
             $request->validate([
-                'source_id'                 => 'required',
-                'category'                  => 'required',
-                'title'                     => 'required'
+                'research_id'                           => 'required|exists:research_infos,id',
+                'research_source'                       => 'required|integer|exists:select_types,id',
+                'research_category'                     => 'required|string|max:255',
+                'research_title'                        => 'required|string|max:255',
+                'published_date'                        => 'nullable|date',
+                'research_role'                         => 'nullable|string|max:8',
+                'research_authors'                      => 'nullable|string|max:255',
+                'research_link'                         => 'nullable|string|max:255',
+                'research_details'                      => 'nullable|string',
+                'research_status'                       => 'nullable|boolean'
             ]);
 
-            // Save experience info in DB
-            $object = ResearchInfo::where('id', $request->research_id)->first();
-            $object->source_id = $request->source_id;
-            $object->category = $request->category;
-            $object->title = $request->title;
-            $object->published = $request->published;
-            $object->role = $request->role;
-            $object->authors = $request->authors;
-            $object->link = $request->link;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->updated_by = Auth::id();
+            // Save research info in DB
+            $object = ResearchInfo::findOrFail($request->research_id);
+            $object->fill([
+                'research_source'                   => $request->research_source,
+                'research_category'                 => $request->research_category,
+                'research_title'                    => $request->research_title,
+                'research_role'                     => $request->research_role,
+                'research_authors'                  => $request->research_authors,
+                'research_link'                     => $request->research_link,
+                'research_details'                  => $request->research_details,
+                'research_status'                   => $request->research_status,
+            ]);
             $object->save();
-            $this->logUserActivity('Research', 'Updated Research info');
+            $this->logUserActivity('Research', 'Existing record updated');
             return back()->with('success', 'Research info updated');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -106,7 +116,7 @@ class ResearchController extends Controller
         try {
             $object = ResearchInfo::where('id', $research_id)->first();
             $object->delete();
-            $this->logUserActivity('Research', 'Removed Research info');
+            $this->logUserActivity('Research', 'Existing record removed');
             return back()->with('success', 'Research info removed');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -119,7 +129,7 @@ class ResearchController extends Controller
         try {
             $order = $request->input('order');
             foreach ($order as $item) {
-                ResearchInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+                ResearchInfo::where('id', $item['id'])->update(['research_sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
         } catch (\Exception $exception) {
