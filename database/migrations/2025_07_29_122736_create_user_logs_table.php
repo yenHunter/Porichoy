@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('user_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('model')->nullable();
+            $table->string('module')->nullable();
             $table->string('action')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('user_ip')->nullable();
+            $table->string('user_agent')->nullable();
             $table->timestamps();
         });
     }

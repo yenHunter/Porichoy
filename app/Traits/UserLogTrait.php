@@ -16,16 +16,15 @@ trait UserLogTrait
      * @param string $action
      * @return void
      */
-    public function logUserActivity(
-        string $model,
-        string $action
-    ) {
+    public function logUserActivity($model, $action)
+    {Log::error('I am here');
         try {
             UserLog::create([
-                'module_id' => $model,
-                'action'    => $action,
-                'user_id'   => Auth::id(),
-                'user_ip'   => Request::ip(),
+                'module'        => $model,
+                'action'        => $action,
+                'user_id'       => Auth::id(),
+                'user_ip'       => Request::ip(),
+                'user_agent'    => Request::userAgent()
             ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

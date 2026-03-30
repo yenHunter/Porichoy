@@ -6,17 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserLog extends Model
 {
+    protected $table = 'user_logs';
     protected $fillable = [
-        'module_id',
+        'module',
         'action',
         'user_id',
         'user_ip',
+        'user_agent'
     ];
-
-    public function module()
-    {
-        $this->belongsTo(Module::class, 'module_id');
-    }
 
     public function user()
     {

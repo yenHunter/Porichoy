@@ -11,7 +11,6 @@ use App\Models\ColumnSettings;
 use App\Models\ExperienceInfo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
@@ -56,7 +55,7 @@ class ExperienceController extends Controller
                 'employment_department'                     => 'nullable|string|max:255',
                 'employment_organization'                   => 'required|string|max:255',
                 'organization_logo'                         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // max size 10MB
-                'start_date'                                => 'required|date|before:end_date',
+                'start_date'                                => 'required|date',
                 'end_date'                                  => 'nullable|date|after:start_date',
                 'location_type'                             => 'nullable|integer|exists:select_types,id',
                 'employment_details'                        => 'nullable|string',
@@ -88,7 +87,7 @@ class ExperienceController extends Controller
             $object->employment_details = $request->employment_details;
             $object->employment_status = $request->employment_status;
             $object->save();
-            $this->logUserActivity('Experience', 'Created a new Experience info');
+            $this->logUserActivity('ExperienceInfo', 'A new record created');
             return back()->with('success', 'Experience info created');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -131,7 +130,7 @@ class ExperienceController extends Controller
                 'employment_department'                     => 'nullable|string|max:255',
                 'employment_organization'                   => 'required|string|max:255',
                 'organization_logo'                         => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240', // max size 10MB
-                'start_date'                                => 'required|date|before:end_date',
+                'start_date'                                => 'required|date',
                 'end_date'                                  => 'nullable|date|after:start_date',
                 'location_type'                             => 'nullable|integer|exists:select_types,id',
                 'employment_details'                        => 'nullable|string',
@@ -169,7 +168,7 @@ class ExperienceController extends Controller
             ]);
             $experience->save();
 
-            $this->logUserActivity('Experience', 'Updated Experience info');
+            $this->logUserActivity('ExperienceInfo', 'An existing record updated');
             return back()->with('success', 'Experience info updated');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -192,7 +191,7 @@ class ExperienceController extends Controller
                 Storage::disk('public')->delete($object->organization_logo);
             }
             $object->delete();
-            $this->logUserActivity('Experience', 'Removed Experience info');
+            $this->logUserActivity('Experience', 'An existing record removed');
             return back()->with('success', 'Experience info removed');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());

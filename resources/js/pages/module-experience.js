@@ -177,6 +177,11 @@ $(document).on('click', '.btn-edit', function () {
             myQuill.root.innerHTML = htmlContent;
             $('#employment_details_hidden').val(htmlContent);
 
+            if (data.end_date == null) {
+                document.getElementById('current_position').checked = true;
+                document.getElementById('end_date').disabled = true;
+            }
+
             // Update form
             const form = document.getElementById('create_update_form');
             form.action = route('module.experience.update');

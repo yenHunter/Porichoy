@@ -26,8 +26,6 @@
 
     </div>
 
-    @include('admin.layouts.partials.customizer')
-
     @include('admin.layouts.partials.footer-scripts')
 </body>
 
