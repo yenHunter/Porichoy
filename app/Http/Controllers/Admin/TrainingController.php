@@ -21,9 +21,7 @@ class TrainingController extends Controller
         return view(
             'admin.pages.module.training',
             [
-                'training_list'           => TrainingInfo::with('category')->whereHas('category', function ($query) {
-                    $query->where('use_for', 'training_category');
-                })->get(),
+                'training_list'           => TrainingInfo::with('category')->whereRelation('category', 'use_for', 'training_category')->sorted()->get(),
                 'training_settings'       => ColumnSettings::where('module', 'training')->get(),
                 'training_category'       => SelectType::where('use_for', 'training_category')->get()
             ]
