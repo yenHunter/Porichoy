@@ -17,6 +17,11 @@ class ResearchController extends Controller
 {
     use UserLogTrait;
 
+    /**
+     * Show the research management page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function view(): View
     {
         return view(
@@ -29,6 +34,14 @@ class ResearchController extends Controller
         );
     }
 
+    /**
+     * Store a new research info in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     *
+     * @throws \Throwable
+     */
     public function store(Request $request): RedirectResponse
     {
         try {
@@ -65,16 +78,30 @@ class ResearchController extends Controller
         }
     }
 
+    /**
+     * Get an existing research info by id.
+     *
+     * @param int $research_id Research id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
     public function edit($research_id): JsonResponse
     {
         try {
             return response()->json(ResearchInfo::where('id', $research_id)->first());
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return response()->json(['error' => 'Something went wrong'], 404);
         }
     }
 
+    /**
+     * Update an existing research info in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function update(Request $request): RedirectResponse
     {
         try {
@@ -107,12 +134,19 @@ class ResearchController extends Controller
             $object->save();
             $this->logUserActivity('Research', 'Existing record updated');
             return back()->with('success', 'Research info updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong'])->withInput();
         }
     }
 
+    /**
+     * Delete an existing research info by id.
+     *
+     * @param int $research_id Research id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function delete($research_id): RedirectResponse
     {
         try {
@@ -120,12 +154,19 @@ class ResearchController extends Controller
             $object->delete();
             $this->logUserActivity('Research', 'Existing record removed');
             return back()->with('success', 'Research info removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
         }
     }
 
+    /**
+     * Update the sequence of multiple research info records
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Throwable
+     */
     public function update_sequence(Request $request): JsonResponse
     {
         try {
@@ -134,8 +175,8 @@ class ResearchController extends Controller
                 ResearchInfo::where('id', $item['id'])->update(['research_sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return response()->json(['status' => 'error']);
         }
     }
