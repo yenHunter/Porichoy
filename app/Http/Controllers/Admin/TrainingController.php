@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Models\SelectType;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
 use App\Models\TrainingInfo;
 use App\Models\ColumnSettings;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 
 class TrainingController extends Controller
 {
     use UserLogTrait;
 
-    public function view()
+    public function view(): View
     {
         return view(
             'admin.pages.module.training',
@@ -28,7 +31,7 @@ class TrainingController extends Controller
         );
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -64,23 +67,23 @@ class TrainingController extends Controller
             $object->save();
             $this->logUserActivity('Training', 'Created a new Training info');
             return back()->with('success', 'Training info created');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong'])->withInput();
         }
     }
 
-    public function edit($training_id)
+    public function edit($training_id): JsonResponse
     {
         try {
             return response()->json(TrainingInfo::where('id', $training_id)->first());
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 404);
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -119,13 +122,13 @@ class TrainingController extends Controller
             $object->save();
             $this->logUserActivity('Training', 'Updated Training info');
             return back()->with('success', 'Training info updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong'])->withInput();
         }
     }
 
-    public function delete($training_id)
+    public function delete($training_id): RedirectResponse
     {
         try {
             $object = TrainingInfo::where('id', $training_id)->first();
@@ -135,13 +138,13 @@ class TrainingController extends Controller
             }
             $this->logUserActivity('Training', 'Removed Training info');
             return back()->with('success', 'Training info removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return back()->withErrors(['error' => 'Something went wrong']);
         }
     }
 
-    public function update_sequence(Request $request)
+    public function update_sequence(Request $request): JsonResponse
     {
         try {
             $order = $request->input('order');
@@ -149,30 +152,30 @@ class TrainingController extends Controller
                 TrainingInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return response()->json(['status' => 'error']);
         }
     }
 
-    public function settings_update(Request $request)
-    {
-        $training_settings = ColumnSettings::where('module', 'training')->get();
-        try {
-            foreach ($training_settings as $value) {
-                if ($request->has($value->column_name)) {
-                    $value->visibility = 1;
-                    $value->save();
-                } else {
-                    $value->visibility = 0;
-                    $value->save();
-                }
-            }
-            $this->logUserActivity('Training', 'Updated Training settings');
-            return back()->with('success', 'Training settings updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
-    }
+    // public function settings_update(Request $request)
+    // {
+    //     $training_settings = ColumnSettings::where('module', 'training')->get();
+    //     try {
+    //         foreach ($training_settings as $value) {
+    //             if ($request->has($value->column_name)) {
+    //                 $value->visibility = 1;
+    //                 $value->save();
+    //             } else {
+    //                 $value->visibility = 0;
+    //                 $value->save();
+    //             }
+    //         }
+    //         $this->logUserActivity('Training', 'Updated Training settings');
+    //         return back()->with('success', 'Training settings updated');
+    //     } catch (\Exception $exception) {
+    //         Log::error($exception->getMessage());
+    //         return back()->withErrors(['error' => 'Something went wrong']);
+    //     }
+    // }
 }
