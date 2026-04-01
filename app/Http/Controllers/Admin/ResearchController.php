@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Models\SelectType;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
 use App\Models\ResearchInfo;
 use App\Models\ColumnSettings;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class ResearchController extends Controller
 {
     use UserLogTrait;
 
-    public function view()
+    public function view(): View
     {
         return view(
             'admin.pages.module.research',
@@ -27,7 +29,7 @@ class ResearchController extends Controller
         );
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -63,17 +65,17 @@ class ResearchController extends Controller
         }
     }
 
-    public function edit($research_id)
+    public function edit($research_id): JsonResponse
     {
         try {
             return response()->json(ResearchInfo::where('id', $research_id)->first());
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
+            return response()->json(['error' => 'Something went wrong'], 404);
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         try {
             // Validation
@@ -111,7 +113,7 @@ class ResearchController extends Controller
         }
     }
 
-    public function delete($research_id)
+    public function delete($research_id): RedirectResponse
     {
         try {
             $object = ResearchInfo::where('id', $research_id)->first();
@@ -124,7 +126,7 @@ class ResearchController extends Controller
         }
     }
 
-    public function update_sequence(Request $request)
+    public function update_sequence(Request $request): JsonResponse
     {
         try {
             $order = $request->input('order');
@@ -135,27 +137,6 @@ class ResearchController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return response()->json(['status' => 'error']);
-        }
-    }
-
-    public function settings_update(Request $request)
-    {
-        $research_settings = ColumnSettings::where('module', 'research')->get();
-        try {
-            foreach ($research_settings as $value) {
-                if ($request->has($value->column_name)) {
-                    $value->visibility = 1;
-                    $value->save();
-                } else {
-                    $value->visibility = 0;
-                    $value->save();
-                }
-            }
-            $this->logUserActivity('Research', 'Updated Research settings');
-            return back()->with('success', 'Research settings updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
         }
     }
 }
