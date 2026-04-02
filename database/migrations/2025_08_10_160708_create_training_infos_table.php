@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('training_infos', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->foreignId('category_id')->constrained('select_types')->cascadeOnDelete();
-            $table->string('institute');
+            $table->uuid('id')->primary();
+            $table->string('training_title');
+            $table->foreignId('training_category')->constrained('select_types')->cascadeOnDelete();
+            $table->string('training_institute');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('location')->nullable();
-            $table->string('certificate')->nullable();
-            $table->text('details')->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->string('training_location')->nullable();
+            $table->string('training_certificate')->nullable();
+            $table->text('training_details')->nullable();
+            $table->boolean('training_status')->nullable()->default(true);
+            $table->integer('training_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });
