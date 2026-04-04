@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
@@ -94,7 +95,6 @@ class TrainingInfo extends Model
     | Attributes
     |--------------------------------------------------------------------------
     */
-
     protected function certificateUrl(): Attribute
     {
         return Attribute::get(function () {
@@ -113,6 +113,25 @@ class TrainingInfo extends Model
         });
     }
 
+    protected function dateRange(): Attribute
+    {
+        return Attribute::get(function () {
+            // Ensure start_date exists to avoid errors
+            if (!$this->start_date) {
+                return null;
+            }
+
+            $start = $this->start_date->format('d M Y');
+
+            // Check if end_date is null or in the future
+            $end = $this->end_date
+                ? $this->end_date->format('d M Y')
+                : 'Present';
+
+            return "{$start} — {$end}";
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
@@ -121,7 +140,7 @@ class TrainingInfo extends Model
 
     /**
      * Get only active ones.
-     * Usage: ExperienceInfo::active()->get();
+     * Usage: TrainingInfo::active()->get();
      */
     public function scopeActive($query)
     {
@@ -130,7 +149,7 @@ class TrainingInfo extends Model
 
     /**
      * Order by sequence.
-     * Usage: ExperienceInfo::sorted()->get();
+     * Usage: TrainingInfo::sorted()->get();
      */
     public function scopeSorted($query)
     {

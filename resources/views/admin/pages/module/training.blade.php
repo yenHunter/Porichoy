@@ -80,9 +80,9 @@
                                     </td>
                                     <td>
                                         {{ $item->training_institute }}<br>
-                                        <small>{{ \Carbon\Carbon::parse($item->start_date)->format('d-M-Y') }}
-                                            to
-                                            {{ \Carbon\Carbon::parse($item->end_date)->format('d-M-Y') }}</small>
+                                        <small>
+                                            {{ $item->date_range }}
+                                        </small>
                                     </td>
                                     <td>
                                         @if ($item->training_status === true)
@@ -96,7 +96,7 @@
                                             data-training_id="{{ $item->id }}">
                                             <i class="fas fa-pencil"></i> edit
                                         </button>
-                                        <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $item->id }}">
+                                        <button class="btn btn-danger btn-sm btn-delete" data-training_id="{{ $item->id }}">
                                             <i class="fas fa-trash"></i> delete
                                         </button>
                                     </td>
@@ -152,8 +152,8 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" placeholder="Cisco Networking Academy"
-                                        value="{{ old('training_institute') }}" name="training_institute" id="training_institute"
-                                        required>
+                                        value="{{ old('training_institute') }}" name="training_institute"
+                                        id="training_institute" required>
                                     <label for="training_institute">Institute
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
@@ -170,8 +170,8 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-floating">
-                                            <input class="form-control" value="{{ old('end_date') }}"
-                                                name="end_date" id="end_date" type="date">
+                                            <input class="form-control" value="{{ old('end_date') }}" name="end_date"
+                                                id="end_date" type="date">
                                             <label for="end_date">End date</label>
                                         </div>
                                     </div>
@@ -180,8 +180,8 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input class="form-control" value="{{ old('training_location') }}"
-                                        placeholder="Jingrui Yang, Longlong Xia, Kees Jan van Groenigen, Xu Zhao"
-                                        name="training_location" id="training_location" type="text">
+                                        placeholder="San Francisco, California, United States" name="training_location"
+                                        id="training_location" type="text">
                                     <label for="training_location">Location</label>
                                 </div>
                             </div>
@@ -200,8 +200,8 @@
                             <div class="col-lg-12" id="certificate-link-div">
                                 <div class="form-floating">
                                     <input class="form-control" value="{{ old('training_certificate') }}"
-                                        placeholder="https://www.netacad.com/courses/introduction-data-science" name="training_certificate"
-                                        id="training_certificate_link" type="text" />
+                                        placeholder="https://www.netacad.com/courses/introduction-data-science"
+                                        name="training_certificate" id="training_certificate_link" type="text" />
                                     <label for="training_certificate_link">Link</label>
                                 </div>
                             </div>

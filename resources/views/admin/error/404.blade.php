@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => '404 Error'])
+@extends('admin.layouts.base', ['title' => '404 Error'])
 
 @section('css')
 @endsection
@@ -91,11 +91,11 @@
                             </svg>
                         </div>
                         <div class="auth-brand text-center mb-2">
-                            <a class="logo-dark" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="dark logo" height="28" src="/images/logo-black.png" />
+                            <a class="logo-dark" href="{{ route('home') }}">
+                                <img alt="dark logo" height="64" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
-                            <a class="logo-light" href="{{ route('second', ['dashboard', 'index']) }}">
-                                <img alt="logo" height="28" src="/images/logo.png" />
+                            <a class="logo-light" href="{{ route('home') }}">
+                                <img alt="logo" height="64" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
                         </div>
                         <div class="p-4 text-center">
@@ -105,15 +105,13 @@
                                 The page you're looking for can't be found. It may be missing or the URL is incorrect.
                             </p>
                             <div class="mt-4 d-flex justify-content-center gap-1">
-                                <button class="btn btn-primary"
-                                    onclick="window.location.href="{{ route('second', ['dashboard', 'index']) }}"">Go
-                                    Home</button>
-                                <button class="btn btn-outline-info">Search Site</button>
+                                <a href="{{ route('home') }}" class="btn btn-primary">Go Home</a>
                             </div>
                         </div>
                     </div>
                     <p class="text-center text-muted mt-4 mb-0">
-                        © UBold — by <span class="fw-semibold">Coderthemes</span>
+                        © {{ now()->year }} Porichoy — by <a class="fw-semibold" href="https://github.com/yenHunter"
+                            target="_blank">yenHunter</a>
                     </p>
                 </div>
             </div>

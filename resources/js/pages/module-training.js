@@ -103,7 +103,7 @@ inputElement.forEach(input => {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
-        acceptedFileTypes: ['image/*'],
+        acceptedFileTypes: ['image/*', 'application/pdf'],
         instantUpload: false,
         storeAsFile: true,
     });
@@ -138,7 +138,7 @@ $(function () {
             console.log('New order:', order);
 
             // Send via Axios
-            axios.post(route('module.experience.sequence'), {
+            axios.post(route('module.training.sequence'), {
                 order: order
             }, {
                 headers: {
@@ -147,7 +147,7 @@ $(function () {
                 }
             })
                 .then(response => {
-                    Swal.fire('Updated!', 'Experience order updated successfully.', 'success');
+                    Swal.fire('Updated!', 'Training order updated successfully.', 'success');
                 })
                 .catch(error => {
                     console.error(error);
@@ -158,38 +158,43 @@ $(function () {
 });
 
 $(document).on('click', '.btn-edit', function () {
-    const experience_id = $(this).data('experience_id');
+    const training_id = $(this).data('training_id');
 
-    axios.get(route('module.experience.edit', experience_id))
+    axios.get(route('module.training.edit', training_id))
         .then(response => {
             const data = response.data;
 
             // Fill form fields
-            $('#experience_id').val(data.id);
-            $('#employment_position').val(data.employment_position);
-            $('#employment_type').val(data.employment_type);
-            $('#employment_department').val(data.employment_department);
-            $('#employment_organization').val(data.employment_organization);
-            $('#organization_address').val(data.organization_address);
+            $('#training_id').val(data.id);
+            $('#training_title').val(data.training_title);
+            $('#training_category').val(data.training_category);
+            $('#training_institute').val(data.training_institute);
             $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
             $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
-            $('#location_type').val(data.location_type);
-            $('#employment_status').val(data.employment_status == 1 ? 1 : 0);
+            $('#training_location').val(data.training_location);
+            $('#training_status').val(data.training_status == 1 ? 1 : 0);
 
-            const htmlContent = data.employment_details || '';
+            const htmlContent = data.training_details || '';
             myQuill.root.innerHTML = htmlContent;
-            $('#employment_details_hidden').val(htmlContent);
+            $('#training_details_hidden').val(htmlContent);
 
-            if (data.end_date == null) {
-                document.getElementById('current_position').checked = true;
-                document.getElementById('end_date').disabled = true;
+            if (data.training_certificate != null && !data.training_certificate.startsWith('http')) {
+                document.getElementById('isFile').checked = true;
+                document.getElementById('certificate-file-div').style.display = 'block';
+                document.getElementById('certificate-link-div').style.display = 'none';
+            }
+            else {
+                $('#training_certificate_link').val(data.training_certificate);
+                document.getElementById('isFile').checked = false;
+                document.getElementById('certificate-file-div').style.display = 'none';
+                document.getElementById('certificate-link-div').style.display = 'block';
             }
 
             // Update form
             const form = document.getElementById('create_update_form');
-            form.action = route('module.experience.update');
+            form.action = route('module.training.update');
             document.getElementById('create_update_form_method').value = 'PUT';
-            document.getElementById('create_update_modal_title').innerHTML = 'Update experience info';
+            document.getElementById('create_update_modal_title').innerHTML = 'Update training info';
 
             // Show modal
             const modalElement = document.getElementById('create_update_modal');
@@ -197,25 +202,28 @@ $(document).on('click', '.btn-edit', function () {
             modal.show();
         })
         .catch(error => {
-            console.error("Failed to load experience data:", error);
-            Swal.fire('Error!', 'Could not fetch experience data.', 'error');
+            console.error("Failed to load training data:", error);
+            Swal.fire('Error!', 'Could not fetch training data.', 'error');
         });
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('module.experience.store'));
+    $('#create_update_form').attr('action', route('module.training.store'));
     $('#create_update_form_method').val('POST');
-    $('#experience_id').val('');
+    $('#training_id').val('');
     myQuill.root.innerHTML = '';
-    $('#employment_details_hidden').val('');
-    document.getElementById('create_update_modal_title').innerHTML = 'Create experience info';
+    $('#training_details_hidden').val('');
+    document.getElementById('create_update_modal_title').innerHTML = 'Create training info';
+    document.getElementById('isFile').checked = false;
+    document.getElementById('certificate-file-div').style.display = 'none';
+    document.getElementById('certificate-link-div').style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
-            const experience_id = this.getAttribute('data-experience_id');
+            const training_id = this.getAttribute('data-training_id');
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -229,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href =
-                        route('module.experience.delete', experience_id);
+                        route('module.training.delete', training_id);
 
                 }
             });

@@ -17,7 +17,7 @@ trait UserLogTrait
      * @return void
      */
     public function logUserActivity($model, $action)
-    {Log::error('I am here');
+    {
         try {
             UserLog::create([
                 'module'        => $model,
