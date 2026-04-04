@@ -27,15 +27,20 @@ class ExperienceController extends Controller
      */
     public function view(): View
     {
-        return view(
-            'admin.pages.module.experience',
-            [
-                'experience_list'           => ExperienceInfo::sorted()->get(),
-                'experience_settings'       => ColumnSettings::where('module', 'experience')->get(),
-                'employment_type'           => SelectType::where('use_for', 'employment_type')->get(),
-                'location_type'             => SelectType::where('use_for', 'location_type')->get()
-            ]
-        );
+        try {
+            return view(
+                'admin.pages.module.experience',
+                [
+                    'experience_list'           => ExperienceInfo::sorted()->get(),
+                    'experience_settings'       => ColumnSettings::where('module', 'experience')->get(),
+                    'employment_type'           => SelectType::where('use_for', 'employment_type')->get(),
+                    'location_type'             => SelectType::where('use_for', 'location_type')->get()
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return view('admin.error.404');
+        }
     }
 
     /**

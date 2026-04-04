@@ -26,13 +26,18 @@ class EducationController extends Controller
      */
     public function view(): View
     {
-        return view(
-            'admin.pages.module.education',
-            [
-                'education_list'            => EducationInfo::sorted()->get(),
-                'education_settings'        => ColumnSettings::where('module', 'education')->get()
-            ]
-        );
+        try {
+            return view(
+                'admin.pages.module.education',
+                [
+                    'education_list'            => EducationInfo::sorted()->get(),
+                    'education_settings'        => ColumnSettings::where('module', 'education')->get()
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return view('admin.error.404');
+        }
     }
 
     /**
@@ -162,7 +167,7 @@ class EducationController extends Controller
                 'education_status'                => $request->education_status,
             ]);
             $education->save();
-            
+
             $this->logUserActivity('Education', 'Updated Education info');
             return back()->with('success', 'Education info updated');
         } catch (\Throwable $th) {

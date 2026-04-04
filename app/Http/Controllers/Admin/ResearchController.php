@@ -24,14 +24,19 @@ class ResearchController extends Controller
      */
     public function view(): View
     {
-        return view(
-            'admin.pages.module.research',
-            [
-                'research_list'           => ResearchInfo::with('source')->whereRelation('source', 'use_for', 'research_source')->sorted()->get(),
-                'research_settings'       => ColumnSettings::where('module', 'research')->get(),
-                'research_source'         => SelectType::where('use_for', 'research_source')->get()
-            ]
-        );
+        try {
+            return view(
+                'admin.pages.module.research',
+                [
+                    'research_list'           => ResearchInfo::with('source')->whereRelation('source', 'use_for', 'research_source')->sorted()->get(),
+                    'research_settings'       => ColumnSettings::where('module', 'research')->get(),
+                    'research_source'         => SelectType::where('use_for', 'research_source')->get()
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return view('admin.error.404');
+        }
     }
 
     /**

@@ -192,6 +192,13 @@ class TrainingController extends Controller
         }
     }
 
+    /**
+     * Delete an existing training info from storage.
+     *
+     * @param int $training_id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function delete($training_id): RedirectResponse
     {
         try {
@@ -208,6 +215,13 @@ class TrainingController extends Controller
         }
     }
 
+    /**
+     * Update the sequence of multiple training info records
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Throwable
+     */
     public function update_sequence(Request $request): JsonResponse
     {
         try {
