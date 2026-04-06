@@ -11,7 +11,6 @@ use App\Models\TrainingInfo;
 use App\Models\ColumnSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
@@ -85,7 +84,6 @@ class TrainingController extends Controller
             if ($request->hasFile('training_certificate')) {
                 $file = $request->file('training_certificate');
                 $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                // $file->storeAs('public/uploads/training', $filename);
                 Storage::disk('public')->putFileAs('uploads/training', $file, $filename);
                 $path = 'uploads/training/' . $filename;
             }
