@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Range Slider'])
+@extends('admin.layouts.vertical', ['title' => 'Range Slider'])
 
 @section('css')
     @vite(['node_modules/nouislider/dist/nouislider.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Range Slider'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Range Slider'])
 
 
     <div class="row">

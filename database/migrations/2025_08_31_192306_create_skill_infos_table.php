@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('skill_infos', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('logo')->nullable();
-            $table->double('score')->default(100);
-            $table->text('details')->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->uuid('id')->primary();
+            $table->string('skill_title');
+            $table->string('skill_logo')->nullable();
+            $table->double('skill_score', 10, 2)->default(100);
+            $table->text('skill_details')->nullable();
+            $table->boolean('skill_status')->nullable()->default(true);
+            $table->integer('skill_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

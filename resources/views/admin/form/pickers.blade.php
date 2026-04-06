@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Form Picker'])
+@extends('admin.layouts.vertical', ['title' => 'Form Picker'])
 
 @section('css')
     @vite(['node_modules/flatpickr/dist/flatpickr.min.css', 'node_modules/daterangepicker/daterangepicker.css', 'node_modules/@simonwep/pickr/dist/themes/classic.min.css', 'node_modules/@simonwep/pickr/dist/themes/monolith.min.css', 'node_modules/@simonwep/pickr/dist/themes/nano.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Pickers'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Pickers'])
 
     <div class="row">
         <div class="col-lg-12">

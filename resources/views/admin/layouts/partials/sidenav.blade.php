@@ -137,7 +137,7 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a class="side-nav-link" href="#">
+                <a class="side-nav-link" href="{{ route('element.skill.view') }}">
                     <span class="menu-icon"><i data-lucide="crown"></i></span>
                     <span class="menu-text" data-lang="skills"> Skills </span>
                 </a>

@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Other Plugins'])
+@extends('admin.layouts.vertical', ['title' => 'Other Plugins'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Other Plugins'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Other Plugins'])
 
     <div class="row">
         <div class="col-12">

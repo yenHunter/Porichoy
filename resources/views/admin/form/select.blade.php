@@ -1,11 +1,11 @@
-@extends('layouts.vertical', ['title' => 'Form Select'])
+@extends('admin.layouts.vertical', ['title' => 'Form Select'])
 
 @section('css')
     @vite(['node_modules/choices.js/public/assets/styles/choices.min.css', 'node_modules/select2/dist/css/select2.min.css'])
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Select'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Select'])
 
     <div class="row justify-content-center">
         <div class="col-12">
