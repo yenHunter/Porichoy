@@ -12,18 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('service_infos', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('slug')->unique();
-            $table->string('title');
+            $table->string('service_title');
             $table->string('sub_title');
-            $table->smallInteger('projects');
-            $table->string('icon')->nullable();
+            $table->string('service_icon')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('profile_image')->nullable();
-            $table->longText('details')->nullable();
-            $table->json('skills')->nullable();
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->longText('service_details')->nullable();
+            $table->json('service_skills')->nullable();
+            $table->boolean('service_status')->nullable()->default(true);
+            $table->integer('service_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });

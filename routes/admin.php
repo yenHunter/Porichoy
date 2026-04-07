@@ -100,8 +100,8 @@ Route::middleware('auth')->group(function () {
 
 	Route::prefix('element')->name('element.')->group(function () {
 		Route::prefix('skill')->name('skill.')->group(function () {
-			Route::get('', [SkillController::class, 'skill_view'])->name('view');
-			Route::post('store', [SkillController::class, 'skill_store'])->name('store');
+			Route::get('', [SkillController::class, 'view'])->name('view');
+			Route::post('store', [SkillController::class, 'store'])->name('store');
 			Route::get('edit/{skill_id}', [SkillController::class, 'edit'])->name('edit');
 			Route::put('update', [SkillController::class, 'update'])->name('update');
 			Route::get('delete/{skill_id}', [SkillController::class, 'delete'])->name('delete');

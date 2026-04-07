@@ -18,7 +18,7 @@ class SkillController extends Controller
 {
     use UserLogTrait;
 
-    public function skill_view()
+    public function view(): View
     {
         try {
             return view(
@@ -33,7 +33,7 @@ class SkillController extends Controller
         }
     }
 
-    public function skill_store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             // Validation
