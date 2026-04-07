@@ -135,11 +135,11 @@ inputElement.forEach(input => {
 });
 
 $(function () {
-    $("#sortable-education").sortable({
+    $("#sortable-skill").sortable({
         handle: '.ti-arrows-move',
         update: function (event, ui) {
             const order = [];
-            $('#sortable-education tr').each(function (index, element) {
+            $('#sortable-skill tr').each(function (index, element) {
                 order.push({
                     id: $(element).data('id'),
                     sequence: index + 1
@@ -151,7 +151,7 @@ $(function () {
             console.log('New order:', order);
 
             // Send via Axios
-            axios.post(route('module.education.sequence'), {
+            axios.post(route('element.skill.sequence'), {
                 order: order
             }, {
                 headers: {
@@ -160,7 +160,7 @@ $(function () {
                 }
             })
                 .then(response => {
-                    Swal.fire('Updated!', 'Education order updated successfully.', 'success');
+                    Swal.fire('Updated!', 'Skill order updated successfully.', 'success');
                 })
                 .catch(error => {
                     console.error(error);
@@ -171,32 +171,34 @@ $(function () {
 });
 
 $(document).on('click', '.btn-edit', function () {
-    const education_id = $(this).data('education_id');
+    const skill_id = $(this).data('skill_id');
 
-    axios.get(route('module.education.edit', education_id))
+    axios.get(route('element.skill.edit', skill_id))
         .then(response => {
             const data = response.data;
 
             // Fill form fields
-            $('#education_id').val(data.id);
-            $('#education_degree').val(data.education_degree);
-            $('#education_subject').val(data.education_subject);
-            $('#education_institute').val(data.education_institute);
-            $('#institute_address').val(data.institute_address);
-            $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
-            $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
-            $('#education_result').val(data.education_result);
-            $('#education_status').val(data.education_status == 1 ? 1 : 0);
+            $('#skill_id').val(data.id);
+            $('#skill_title').val(data.skill_title);
+            $('#skill_logo').val(data.skill_logo);
+            $('#skill_details_hidden').val(data.skill_details);
+            $('#skill_status').val(data.skill_status == 1 ? 1 : 0);
 
-            const htmlContent = data.education_details || '';
+            // Update the Slider position
+            if (mySlider && data.skill_score !== undefined) {
+                mySlider.set(data.skill_score); 
+            }
+            $('#skill_score').val(data.skill_score);
+
+            const htmlContent = data.skill_details || '';
             myQuill.root.innerHTML = htmlContent;
-            $('#education_details_hidden').val(htmlContent);
+            $('#skill_details_hidden').val(htmlContent);
 
             // Update form
             const form = document.getElementById('create_update_form');
-            form.action = route('module.education.update');
+            form.action = route('element.skill.update');
             document.getElementById('create_update_form_method').value = 'PUT';
-            document.getElementById('create_update_modal_title').innerHTML = 'Update education info';
+            document.getElementById('create_update_modal_title').innerHTML = 'Update skill info';
 
             // Show modal
             const modalElement = document.getElementById('create_update_modal');
@@ -204,25 +206,25 @@ $(document).on('click', '.btn-edit', function () {
             modal.show();
         })
         .catch(error => {
-            console.error("Failed to load education data:", error);
-            Swal.fire('Error!', 'Could not fetch education data.', 'error');
+            console.error("Failed to load skill data:", error);
+            Swal.fire('Error!', 'Could not fetch skill data.', 'error');
         });
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('module.education.store'));
+    $('#create_update_form').attr('action', route('element.skill.store'));
     $('#create_update_form_method').val('POST');
-    $('#education_id').val('');
+    $('#skill_id').val('');
     myQuill.root.innerHTML = '';
-    $('#education_details_hidden').val('');
-    document.getElementById('create_update_modal_title').innerHTML = 'Create education info';
+    $('#skill_details_hidden').val('');
+    document.getElementById('create_update_modal_title').innerHTML = 'Create skill info';
 });
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
-            const education_id = this.getAttribute('data-education_id');
+            const skill_id = this.getAttribute('data-skill_id');
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -236,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href =
-                        route('module.education.delete', education_id);
+                        route('element.skill.delete', skill_id);
 
                 }
             });

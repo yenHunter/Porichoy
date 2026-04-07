@@ -71,8 +71,8 @@
                                             alt="skill-logo">
                                     </td>
                                     <td>
-                                        {{ $item->skill_name }}<br>
-                                        <small>{{ $item->skill_score }}</small>
+                                        {{ $item->skill_title }}<br>
+                                        <small>{{ $item->skill_score ? $item->skill_score . '%' : '' }}</small>
                                     </td>
                                     <td>
                                         @if ($item->skill_status === true)
@@ -115,9 +115,8 @@
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <input class="form-control" placeholder="Python"
-                                        value="{{ old('skill_title') }}" name="skill_title" id="skill_title"
-                                        type="text" />
+                                    <input class="form-control" placeholder="Python" value="{{ old('skill_title') }}"
+                                        name="skill_title" id="skill_title" type="text" />
                                     <label for="skill_title">Skill Title
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>

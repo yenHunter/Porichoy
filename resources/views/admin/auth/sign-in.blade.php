@@ -94,10 +94,10 @@
                             </svg>
                         </div>
                         <div class="auth-brand text-center mb-4">
-                            <a class="logo-dark" href="{{ route('login.view') }}">
+                            <a class="logo-dark" href="{{ route('login') }}">
                                 <img alt="dark logo" height="64" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
-                            <a class="logo-light" href="{{ route('login.view') }}">
+                            <a class="logo-light" href="{{ route('login') }}">
                                 <img alt="logo" height="64" src="{{ asset('static/Porichoy.png') }}" />
                             </a>
                         </div>

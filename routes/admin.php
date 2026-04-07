@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\ResearchController;
 use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\RoutingController;
 
 Route::group(['prefix' => 'admin'], function () {
@@ -21,7 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::middleware('guest')->group(function () {
-	Route::get('login', [AuthController::class, 'login_view'])->name('login.view');
+	Route::get('login', [AuthController::class, 'login_view'])->name('login');
 	Route::get('register', [AuthController::class, 'register_view'])->name('register.view');
 	Route::post('login', [AuthController::class, 'login'])->name('login.attempt');
 	Route::post('register', [AuthController::class, 'register'])->name('register.attempt');
@@ -99,12 +100,12 @@ Route::middleware('auth')->group(function () {
 
 	Route::prefix('element')->name('element.')->group(function () {
 		Route::prefix('skill')->name('skill.')->group(function () {
-			Route::get('', [HomeController::class, 'skill_view'])->name('view');
-			Route::post('store', [HomeController::class, 'skill_store'])->name('store');
-			Route::get('edit/{experience_id}', [HomeController::class, 'edit'])->name('edit');
-			Route::put('update', [HomeController::class, 'update'])->name('update');
-			Route::get('delete/{experience_id}', [HomeController::class, 'delete'])->name('delete');
-			Route::post('update-sequence', [HomeController::class, 'update_sequence'])->name('sequence');
+			Route::get('', [SkillController::class, 'skill_view'])->name('view');
+			Route::post('store', [SkillController::class, 'skill_store'])->name('store');
+			Route::get('edit/{skill_id}', [SkillController::class, 'edit'])->name('edit');
+			Route::put('update', [SkillController::class, 'update'])->name('update');
+			Route::get('delete/{skill_id}', [SkillController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [SkillController::class, 'update_sequence'])->name('sequence');
 		});
 	});
 

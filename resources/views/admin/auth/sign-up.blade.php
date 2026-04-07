@@ -170,7 +170,7 @@
                         </form>
                         <p class="text-muted text-center mt-4 mb-0">
                             Already have an account? <a class="text-decoration-underline link-offset-3 fw-semibold"
-                                href="{{ route('login.view') }}">Login</a>
+                                href="{{ route('login') }}">Login</a>
                         </p>
                     </div>
                     <p class="text-center text-muted mt-4 mb-0">
