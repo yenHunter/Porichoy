@@ -99,6 +99,25 @@ class ExperienceInfo extends Model
         );
     }
 
+    protected function dateRange(): Attribute
+    {
+        return Attribute::get(function () {
+            // Ensure start_date exists to avoid errors
+            if (!$this->start_date) {
+                return null;
+            }
+
+            $start = $this->start_date->format('M Y');
+
+            // Check if end_date is null or in the future
+            $end = $this->end_date
+                ? $this->end_date->format('M Y')
+                : 'Present';
+
+            return "{$start} — {$end}";
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Scopes

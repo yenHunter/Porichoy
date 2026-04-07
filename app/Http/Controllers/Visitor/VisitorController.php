@@ -33,20 +33,27 @@ class VisitorController extends Controller
         return view(
             'pages.index',
             [
-                'profile_info' => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
-                'service_list' => ServiceInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(4)->get(),
-                'project_list' => ProjectInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(6)->get(),
-                'skill_list' => SkillInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(8)->get(),
-                'education_list' => EducationInfo::sorted()->active()->get(),
-                'experience_list' => ExperienceInfo::sorted()->active()->get(),
-                'client_list' => $rows,
+                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
+                'service_list'          => ServiceInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(4)->get(),
+                'project_list'          => ProjectInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(6)->get(),
+                'skill_list'            => SkillInfo::active()->sorted()->limit(8)->get(),
+                'education_list'        => EducationInfo::sorted()->active()->get(),
+                'experience_list'       => ExperienceInfo::sorted()->active()->get(),
+                'client_list'           => $rows,
             ]
         );
     }
 
     public function about()
     {
-        return view('pages.about');
+        return view(
+            'pages.about',
+            [
+                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
+                'education_list'        => EducationInfo::sorted()->active()->get(),
+                'experience_list'       => ExperienceInfo::sorted()->active()->get(),
+            ]
+        );
     }
 
     public function services()

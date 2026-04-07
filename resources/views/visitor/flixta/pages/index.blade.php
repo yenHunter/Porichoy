@@ -151,119 +151,154 @@
         <section class="rs-skill-area rs-skill-one section-space-bottom secondary-bg">
             <div class="container">
                 <div class="row g-5">
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/figma.png') }}" alt="image">
+                    @forelse ($skill_list as $item)
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset($item->skill_logo_url) }}" alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">{{ $item->skill_title }}</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">Figma</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> I have had the opportunity to work on several projects.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 90%"
-                                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            {!! $item->skill_details !!}
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar"
+                                                        style="width: {{ $item->skill_score }}%"
+                                                        aria-valuenow="{{ $item->skill_score }}" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">{{ $item->skill_score }}%</span>
                                                 </div>
-                                                <span class="progress-number">90%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/wordpress.png') }}"
-                                            alt="image">
+                    @empty
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/figma.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">Figma</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">WordPress</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> We are helping client to create UI websites.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 95%"
-                                                    aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> I have had the opportunity to work on several projects.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 90%"
+                                                        aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">90%</span>
                                                 </div>
-                                                <span class="progress-number">95%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/react.png') }}" alt="image">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/wordpress.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">WordPress</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">React</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> Contrary the popular belief Lorem Ipsum not simply.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 80%"
-                                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> We are helping client to create UI websites.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 95%"
+                                                        aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">95%</span>
                                                 </div>
-                                                <span class="progress-number">80%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/html.png') }}" alt="image">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/react.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">React</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">HTML</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> Excepteur sint occaecat sunt in culpa qui officia.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 85%"
-                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> Contrary the popular belief Lorem Ipsum not simply.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 80%"
+                                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">80%</span>
                                                 </div>
-                                                <span class="progress-number">85%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/html.png') }}" alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">HTML</h5>
+                                    </div>
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> Excepteur sint occaecat sunt in culpa qui officia.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 85%"
+                                                        aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">85%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -276,8 +311,8 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">MY
-                                SERVICES
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">
+                                MY SERVICES
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">I'm Specialized In</h2>
                         </div>
@@ -288,8 +323,9 @@
                         <div class="rs-services-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="rs-services-item">
                                 <h5 class="rs-services-title">
-                                    <a href="{{ route('visitor.service.details', ['service' => 'web-development']) }}">Web
-                                        <br> Development</a>
+                                    <a href="{{ route('visitor.service.details', ['service' => 'web-development']) }}">
+                                        Web <br> Development
+                                    </a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-01.png') }}"
@@ -304,7 +340,9 @@
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="rs-services-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'digital-marketing']) }}">Digital <br> Marketing</a>
+                                <h5 class="rs-services-title"> <a
+                                        href="{{ route('visitor.service.details', ['service' => 'digital-marketing']) }}">Digital
+                                        <br> Marketing</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-02.png') }}"
@@ -319,7 +357,9 @@
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="rs-services-wrapper wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'brand-strategy']) }}">Brand <br> Strategy</a>
+                                <h5 class="rs-services-title"> <a
+                                        href="{{ route('visitor.service.details', ['service' => 'brand-strategy']) }}">Brand
+                                        <br> Strategy</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-03.png') }}"
@@ -334,7 +374,9 @@
                     <div class="col-xl-3 col-lg-4 col-md-6">
                         <div class="rs-services-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
                             <div class="rs-services-item">
-                                <h5 class="rs-services-title"> <a href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App <br> Development</a>
+                                <h5 class="rs-services-title"> <a
+                                        href="{{ route('visitor.service.details', ['service' => 'app-development']) }}">App
+                                        <br> Development</a>
                                 </h5>
                                 <div class="rs-services-icon">
                                     <img src="{{ asset('visitor/flixta/images/icon/service-icon-04.png') }}"
@@ -365,7 +407,8 @@
                                         </path>
                                     </svg>
                                 </a>
-                                <a class="rs-btn rs-btn-primary" href="{{ route('visitor.service.index') }}">View All Services</a>
+                                <a class="rs-btn rs-btn-primary" href="{{ route('visitor.service.index') }}">View All
+                                    Services</a>
                                 <a class="rs-btn rs-btn-circle" href="{{ route('visitor.service.index') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                         <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
@@ -395,138 +438,173 @@
                     </div>
                 </div>
                 <div class="row g-5">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                            <div class="rs-experience-item">
-                                <div class="rs-experience-top">
-                                    <div class="rs-experience-designation-wrapper">
-                                        <span class="rs-circle-shape"></span>
-                                        <h5 class="rs-experience-designation">Web Developer</h5>
+                    @forelse ($experience_list as $item)
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
+                                <div class="rs-experience-item">
+                                    <div class="rs-experience-top">
+                                        <div class="rs-experience-designation-wrapper">
+                                            <span class="rs-circle-shape"></span>
+                                            <h5 class="rs-experience-designation">{{ $item->employment_position }}</h5>
+                                        </div>
+                                        <span class="rs-experience-meta">
+                                            {{ $item->date_range }}
+                                        </span>
                                     </div>
-                                    <span class="rs-experience-meta">
-                                        2022 - 24 (Present)
-                                    </span>
-                                </div>
-                                <div class="rs-experience-bottom">
-                                    <div class="rs-experience-brand-thumb">
-                                        <img class="has-white"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-01.png') }}"
-                                            alt="image">
-                                        <img class="has-black"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-01.png') }}"
-                                            alt="image">
-                                    </div>
-                                    <div class="rs-experience-content">
-                                        <h6 class="rs-experience-place">Chase Intercom </h6>
-                                        <div class="rs-experience-description">
-                                            <p>I'm winner of the world's most prestigious web designthat has more-or-less
-                                                normal
-                                                awards in the fields.</p>
+                                    <div class="rs-experience-bottom">
+                                        <div class="rs-experience-brand-thumb">
+                                            <img class="has-white" src="{{ $item->organization_logo_url }}"
+                                                alt="image">
+                                            <img class="has-black" src="{{ $item->organization_logo_url }}"
+                                                alt="image">
+                                        </div>
+                                        <div class="rs-experience-content">
+                                            <h6 class="rs-experience-place">{{ $item->employment_organization }}</h6>
+                                            <div class="rs-experience-description">
+                                                {!! $item->employment_details !!}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
-                            <div class="rs-experience-item">
-                                <div class="rs-experience-top">
-                                    <div class="rs-experience-designation-wrapper">
-                                        <span class="rs-circle-shape"></span>
-                                        <h5 class="rs-experience-designation">UI/UX Designer</h5>
+                    @empty
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
+                                <div class="rs-experience-item">
+                                    <div class="rs-experience-top">
+                                        <div class="rs-experience-designation-wrapper">
+                                            <span class="rs-circle-shape"></span>
+                                            <h5 class="rs-experience-designation">Web Developer</h5>
+                                        </div>
+                                        <span class="rs-experience-meta">
+                                            2022 - 24 (Present)
+                                        </span>
                                     </div>
-                                    <span class="rs-experience-meta">
-                                        2017 - 2018
-                                    </span>
-                                </div>
-                                <div class="rs-experience-bottom">
-                                    <div class="rs-experience-brand-thumb">
-                                        <img class="has-white"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-02.png') }}"
-                                            alt="image">
-                                        <img class="has-black"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-02.png') }}"
-                                            alt="image">
-                                    </div>
-                                    <div class="rs-experience-content">
-                                        <h6 class="rs-experience-place">Allianz Technology </h6>
-                                        <div class="rs-experience-description">
-                                            <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined
-                                                chunks as
-                                                necessary.</p>
+                                    <div class="rs-experience-bottom">
+                                        <div class="rs-experience-brand-thumb">
+                                            <img class="has-white"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-01.png') }}"
+                                                alt="image">
+                                            <img class="has-black"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-01.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <div class="rs-experience-content">
+                                            <h6 class="rs-experience-place">Chase Intercom </h6>
+                                            <div class="rs-experience-description">
+                                                <p>I'm winner of the world's most prestigious web designthat has
+                                                    more-or-less
+                                                    normal
+                                                    awards in the fields.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
-                            <div class="rs-experience-item">
-                                <div class="rs-experience-top">
-                                    <div class="rs-experience-designation-wrapper">
-                                        <span class="rs-circle-shape"></span>
-                                        <h5 class="rs-experience-designation">Sr. Developer</h5>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
+                                <div class="rs-experience-item">
+                                    <div class="rs-experience-top">
+                                        <div class="rs-experience-designation-wrapper">
+                                            <span class="rs-circle-shape"></span>
+                                            <h5 class="rs-experience-designation">UI/UX Designer</h5>
+                                        </div>
+                                        <span class="rs-experience-meta">
+                                            2017 - 2018
+                                        </span>
                                     </div>
-                                    <span class="rs-experience-meta">
-                                        2019 - 2021
-                                    </span>
-                                </div>
-                                <div class="rs-experience-bottom">
-                                    <div class="rs-experience-brand-thumb">
-                                        <img class="has-white"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
-                                            alt="image">
-                                        <img class="has-black"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-03.png') }}"
-                                            alt="image">
-                                    </div>
-                                    <div class="rs-experience-content">
-                                        <h6 class="rs-experience-place">Spectrum Marketing </h6>
-                                        <div class="rs-experience-description">
-                                            <p>If you are going to use a passage of Lorem Ipsum, you need to be sure there
-                                                isn't
-                                                anything.</p>
+                                    <div class="rs-experience-bottom">
+                                        <div class="rs-experience-brand-thumb">
+                                            <img class="has-white"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-02.png') }}"
+                                                alt="image">
+                                            <img class="has-black"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-02.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <div class="rs-experience-content">
+                                            <h6 class="rs-experience-place">Allianz Technology </h6>
+                                            <div class="rs-experience-description">
+                                                <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined
+                                                    chunks as
+                                                    necessary.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
-                            <div class="rs-experience-item">
-                                <div class="rs-experience-top">
-                                    <div class="rs-experience-designation-wrapper">
-                                        <span class="rs-circle-shape"></span>
-                                        <h5 class="rs-experience-designation">Product Designer</h5>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
+                                <div class="rs-experience-item">
+                                    <div class="rs-experience-top">
+                                        <div class="rs-experience-designation-wrapper">
+                                            <span class="rs-circle-shape"></span>
+                                            <h5 class="rs-experience-designation">Sr. Developer</h5>
+                                        </div>
+                                        <span class="rs-experience-meta">
+                                            2019 - 2021
+                                        </span>
                                     </div>
-                                    <span class="rs-experience-meta">
-                                        2014 - 2016
-                                    </span>
-                                </div>
-                                <div class="rs-experience-bottom">
-                                    <div class="rs-experience-brand-thumb">
-                                        <img class="has-white"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-04.png') }}"
-                                            alt="image">
-                                        <img class="has-black"
-                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-04.png') }}"
-                                            alt="image">
-                                    </div>
-                                    <div class="rs-experience-content">
-                                        <h6 class="rs-experience-place">Toyota International </h6>
-                                        <div class="rs-experience-description">
-                                            <p>Making this the first true generator on the Internet. It uses a dictionary of
-                                                over
-                                                200 Latin words.</p>
+                                    <div class="rs-experience-bottom">
+                                        <div class="rs-experience-brand-thumb">
+                                            <img class="has-white"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
+                                                alt="image">
+                                            <img class="has-black"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-03.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <div class="rs-experience-content">
+                                            <h6 class="rs-experience-place">Spectrum Marketing </h6>
+                                            <div class="rs-experience-description">
+                                                <p>If you are going to use a passage of Lorem Ipsum, you need to be sure
+                                                    there
+                                                    isn't
+                                                    anything.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="rs-experience-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
+                                <div class="rs-experience-item">
+                                    <div class="rs-experience-top">
+                                        <div class="rs-experience-designation-wrapper">
+                                            <span class="rs-circle-shape"></span>
+                                            <h5 class="rs-experience-designation">Product Designer</h5>
+                                        </div>
+                                        <span class="rs-experience-meta">
+                                            2014 - 2016
+                                        </span>
+                                    </div>
+                                    <div class="rs-experience-bottom">
+                                        <div class="rs-experience-brand-thumb">
+                                            <img class="has-white"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-04.png') }}"
+                                                alt="image">
+                                            <img class="has-black"
+                                                src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-04.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <div class="rs-experience-content">
+                                            <h6 class="rs-experience-place">Toyota International </h6>
+                                            <div class="rs-experience-description">
+                                                <p>Making this the first true generator on the Internet. It uses a
+                                                    dictionary of
+                                                    over
+                                                    200 Latin words.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -555,14 +633,17 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">
+                                        <a
+                                            href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-01.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">Document Manager Application</a>
+                                            <a
+                                                href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">Document
+                                                Manager Application</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -575,14 +656,17 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">
+                                        <a
+                                            href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-02.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">Digital Marketing</a>
+                                            <a
+                                                href="{{ route('visitor.project.details', ['project' => 'digital-marketing']) }}">Digital
+                                                Marketing</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -595,14 +679,17 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">
+                                        <a
+                                            href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-03.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">Creative Portfolio</a>
+                                            <a
+                                                href="{{ route('visitor.project.details', ['project' => 'creative-portfolio']) }}">Creative
+                                                Portfolio</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -615,14 +702,17 @@
                             <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                 <div class="rs-portfolio-item content-overlay ">
                                     <div class="rs-portfolio-thumb">
-                                        <a href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">
+                                        <a
+                                            href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">
                                             <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-thumb-01.png') }}"
                                                 alt="image">
                                         </a>
                                     </div>
                                     <div class="rs-portfolio-content">
                                         <h5 class="rs-portfolio-title">
-                                            <a href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">Mobile App Development</a>
+                                            <a
+                                                href="{{ route('visitor.project.details', ['project' => 'mobile-app-development']) }}">Mobile
+                                                App Development</a>
                                         </h5>
                                         <span class="rs-portfolio-tag">Web Development</span>
                                     </div>
@@ -897,7 +987,8 @@
                                             </path>
                                         </svg>
                                     </a>
-                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me Now</a>
+                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me
+                                        Now</a>
                                     <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                             <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
@@ -935,15 +1026,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-01.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-01.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}"> App Development</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">
+                                                        App Development</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">Do you want to
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">Do
+                                                        you want to
                                                         become a
                                                         professional</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -953,7 +1049,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">January 12,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">January
+                                                                12,
                                                                 2024</a></span>
                                                     </div>
                                                 </div>
@@ -965,15 +1063,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-02.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-02.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}"> Creative Branding</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">
+                                                        Creative Branding</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Do you want to
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Do
+                                                        you want to
                                                         become a
                                                         professional</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -983,7 +1086,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">January 12,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">January
+                                                                12,
                                                                 2024</a></span>
                                                     </div>
                                                 </div>
@@ -995,15 +1100,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-03.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-03.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}"> Product Design</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">
+                                                        Product Design</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Strengthen the
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Strengthen
+                                                        the
                                                         foundations to
                                                         scale your business</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -1013,7 +1123,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">May 25,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">May
+                                                                25,
                                                                 2024</a></span>
                                                     </div>
                                                 </div>
@@ -1025,15 +1137,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-04.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-04.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}"> Product Design</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">
+                                                        Product Design</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">If you are new here
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">If
+                                                        you are new here
                                                         then these
                                                         will work</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -1043,7 +1160,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">June 12,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">June
+                                                                12,
                                                                 2023</a></span>
                                                     </div>
                                                 </div>
@@ -1055,15 +1174,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-05.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-05.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}"> App Development</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">
+                                                        App Development</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">If you are new here
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">If
+                                                        you are new here
                                                         then these
                                                         will work</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -1073,7 +1197,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">June 12,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">June
+                                                                12,
                                                                 2023</a></span>
                                                     </div>
                                                 </div>
@@ -1085,15 +1211,20 @@
                                     <div class="rs-blog-wrapper">
                                         <div class="rs-blog-item">
                                             <div class="rs-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}"> <img
-                                                        src="{{ asset('visitor/flixta/images/blog/blog-thumb-06.png') }}"
+                                                <a
+                                                    href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">
+                                                    <img src="{{ asset('visitor/flixta/images/blog/blog-thumb-06.png') }}"
                                                         alt="image"></a>
                                                 <div class="rs-blog-tag">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}"> Web Development</a>
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">
+                                                        Web Development</a>
                                                 </div>
                                             </div>
                                             <div class="rs-blog-content">
-                                                <h5 class="rs-blog-title"><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Do you want to
+                                                <h5 class="rs-blog-title"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Do
+                                                        you want to
                                                         become a
                                                         professional</a></h5>
                                                 <div class="rs-blog-meta-list">
@@ -1103,7 +1234,9 @@
                                                                 flixta</a></span>
                                                     </div>
                                                     <div class="rs-blog-meta-item">
-                                                        <span class="rs-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">June 12,
+                                                        <span class="rs-meta-text"><a
+                                                                href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">June
+                                                                12,
                                                                 2023</a></span>
                                                     </div>
                                                 </div>
@@ -1126,7 +1259,8 @@
                                         </path>
                                     </svg>
                                 </a>
-                                <a class="rs-btn rs-btn-primary" href="{{ route('visitor.blog.index') }}">View All Post</a>
+                                <a class="rs-btn rs-btn-primary" href="{{ route('visitor.blog.index') }}">View All
+                                    Post</a>
                                 <a class="rs-btn rs-btn-circle" href="{{ route('visitor.blog.index') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                         <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
