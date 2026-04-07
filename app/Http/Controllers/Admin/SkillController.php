@@ -132,7 +132,7 @@ class SkillController extends Controller
     {
         try {
             $object = SkillInfo::findOrFail($skill_id);
-            if ($object->skill_logo) {
+            if ($object->skill_logo != null && Storage::disk('public')->exists($object->skill_logo)) {
                 Storage::disk('public')->delete($object->skill_logo);
             }
             $object->delete();

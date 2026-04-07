@@ -155,7 +155,7 @@ class ResearchController extends Controller
     public function delete($research_id): RedirectResponse
     {
         try {
-            $object = ResearchInfo::where('id', $research_id)->first();
+            $object = ResearchInfo::findOrFail($research_id);
             $object->delete();
             $this->logUserActivity('Research', 'Existing record removed');
             return back()->with('success', 'Research info removed');

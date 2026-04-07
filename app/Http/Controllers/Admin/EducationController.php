@@ -186,7 +186,7 @@ class EducationController extends Controller
     public function delete($education_id): RedirectResponse
     {
         try {
-            $object = EducationInfo::where('id', $education_id)->first();
+            $object = EducationInfo::findOrFail($education_id);
             if ($object->institute_logo != null && Storage::disk('public')->exists($object->institute_logo)) {
                 Storage::disk('public')->delete($object->institute_logo);
             }

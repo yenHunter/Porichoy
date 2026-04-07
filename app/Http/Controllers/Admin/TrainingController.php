@@ -200,7 +200,7 @@ class TrainingController extends Controller
     public function delete($training_id): RedirectResponse
     {
         try {
-            $object = TrainingInfo::where('id', $training_id)->first();
+            $object = TrainingInfo::findOrFail($training_id);
             if (!empty($object->training_certificate) && Storage::disk('public')->exists($object->training_certificate)) {
                 Storage::disk('public')->delete($object->training_certificate);
             }

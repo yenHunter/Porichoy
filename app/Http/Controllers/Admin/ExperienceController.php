@@ -191,7 +191,7 @@ class ExperienceController extends Controller
     public function delete($experience_id): RedirectResponse
     {
         try {
-            $object = ExperienceInfo::where('id', $experience_id)->first();
+            $object = ExperienceInfo::findOrFail($experience_id);
             if ($object->organization_logo != null && Storage::disk('public')->exists($object->organization_logo)) {
                 Storage::disk('public')->delete($object->organization_logo);
             }
