@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('slug')->unique();
             $table->string('service_title');
-            $table->string('sub_title');
+            $table->string('service_subtitle')->nullable();
             $table->string('service_icon')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('profile_image')->nullable();

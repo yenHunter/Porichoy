@@ -18,6 +18,11 @@ class SkillController extends Controller
 {
     use UserLogTrait;
 
+    /**
+     * Display the listing of the resource
+     *
+     * @return \Illuminate\View\View
+     */
     public function view(): View
     {
         try {
@@ -33,6 +38,13 @@ class SkillController extends Controller
         }
     }
 
+    /**
+     * Store a newly created skill info in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function store(Request $request): RedirectResponse
     {
         try {
@@ -72,6 +84,13 @@ class SkillController extends Controller
         }
     }
 
+    /**
+     * Get a skill info by id
+     *
+     * @param int $skill_id Skill id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
     public function edit($skill_id): JsonResponse
     {
         try {
@@ -82,6 +101,13 @@ class SkillController extends Controller
         }
     }
 
+    /**
+     * Update an existing skill info in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function update(Request $request): RedirectResponse
     {
         try {
@@ -128,6 +154,13 @@ class SkillController extends Controller
         }
     }
 
+    /**
+     * Delete an existing skill info from storage.
+     *
+     * @param int $skill_id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
+     */
     public function delete($skill_id): RedirectResponse
     {
         try {
@@ -144,6 +177,13 @@ class SkillController extends Controller
         }
     }
 
+    /**
+     * Update the sequence of multiple skill info records
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Throwable
+     */
     public function update_sequence(Request $request)
     {
         try {
