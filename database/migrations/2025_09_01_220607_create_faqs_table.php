@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('question');
             $table->text('answer');
             $table->boolean('status')->default(true);

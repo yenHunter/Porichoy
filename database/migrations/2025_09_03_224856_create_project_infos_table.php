@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_infos', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('slug')->unique();
             $table->string('title');
             $table->longText('details')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('client_id')->nullable()->constrained('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->foreignId('service_id')->nullable()->constrained('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid('service_id')->nullable();
             $table->string('location')->nullable();
             $table->text('background')->nullable();
             $table->text('challenges')->nullable();
@@ -30,6 +30,7 @@ return new class extends Migration
             $table->smallInteger('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
+            $table->foreign('service_id')->references('id')->on('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

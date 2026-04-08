@@ -12,13 +12,14 @@ use App\Http\Controllers\Admin\ResearchController;
 use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\RoutingController;
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('', [RoutingController::class, 'index'])->name('root');
-    Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
-    Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
-    Route::get('{any}', [RoutingController::class, 'root'])->name('any');
+	Route::get('', [RoutingController::class, 'index'])->name('root');
+	Route::get('{first}/{second}/{third}', [RoutingController::class, 'thirdLevel'])->name('third');
+	Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
+	Route::get('{any}', [RoutingController::class, 'root'])->name('any');
 });
 
 Route::middleware('guest')->group(function () {
@@ -99,6 +100,15 @@ Route::middleware('auth')->group(function () {
 	});
 
 	Route::prefix('element')->name('element.')->group(function () {
+		Route::prefix('service')->name('service.')->group(function () {
+			Route::get('', [ServiceController::class, 'view'])->name('view');
+			Route::post('store', [ServiceController::class, 'store'])->name('store');
+			Route::get('edit/{service_id}', [ServiceController::class, 'edit'])->name('edit');
+			Route::put('update', [ServiceController::class, 'update'])->name('update');
+			Route::get('delete/{service_id}', [ServiceController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [ServiceController::class, 'update_sequence'])->name('sequence');
+		});
+
 		Route::prefix('skill')->name('skill.')->group(function () {
 			Route::get('', [SkillController::class, 'view'])->name('view');
 			Route::post('store', [SkillController::class, 'store'])->name('store');
@@ -118,7 +128,7 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [SettingsController::class, 'updateResearchSource'])->name('update');
 			Route::get('detete/{research_source_id}', [SettingsController::class, 'deleteResearchSource'])->name('delete');
 		});
-		
+
 		Route::prefix('location-type')->name('location_type.')->group(function () {
 			Route::get('', [SettingsController::class, 'viewLocationType'])->name('view');
 			Route::post('store', [SettingsController::class, 'storeLocationType'])->name('store');
@@ -126,7 +136,7 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [SettingsController::class, 'updateLocationType'])->name('update');
 			Route::get('detete/{location_type_id}', [SettingsController::class, 'deleteLocationType'])->name('delete');
 		});
-		
+
 		Route::prefix('employment-type')->name('employment_type.')->group(function () {
 			Route::get('', [SettingsController::class, 'viewEmploymentType'])->name('view');
 			Route::post('store', [SettingsController::class, 'storeEmploymentType'])->name('store');

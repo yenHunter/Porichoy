@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gallery_infos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('project_id')->constrained('project_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid('id')->primary();
+            $table->uuid('project_id');
+            $table->foreign('project_id')->references('id')->on('project_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('image');
             $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);

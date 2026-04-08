@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('testimonial_infos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('service_id')->constrained('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid('id')->primary();
+            $table->uuid('service_id');
             $table->foreignId('client_id')->constrained('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('details');
             $table->tinyInteger('review');
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
+            $table->foreign('service_id')->references('id')->on('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

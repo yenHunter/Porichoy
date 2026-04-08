@@ -21,7 +21,7 @@ class ServiceInfo extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'slug',
+        'service_slug',
         'service_title',
         'service_subtitle',
         'service_icon',
@@ -50,8 +50,8 @@ class ServiceInfo extends Model
     {
         static::creating(function ($model) {
             // Generate slug from title
-            if (empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->service_title);
+            if (empty($model->service_slug)) {
+                $model->service_slug = static::generateUniqueSlug($model->service_title);
             }
 
             // Auto User ID
@@ -63,12 +63,17 @@ class ServiceInfo extends Model
             if (is_null($model->service_sequence)) {
                 $model->service_sequence = static::max('service_sequence') + 1;
             }
+
+            // Auto Status
+            if (is_null($model->service_status)) {
+                $model->service_status = true;
+            }
         });
 
         static::updating(function ($model) {
             // Generate slug from title
-            if ($model->isDirty('service_title') && empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->service_title, $model->id);
+            if ($model->isDirty('service_title') && empty($model->service_slug)) {
+                $model->service_slug = static::generateUniqueSlug($model->service_title, $model->id);
             }
 
             // Auto User ID
@@ -154,7 +159,7 @@ class ServiceInfo extends Model
         $originalSlug = Str::slug($title);
         $slug = $originalSlug;
         $count = 1;
-        while (static::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
+        while (static::where('service_slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
             $slug = $originalSlug . '-' . $count;
             $count++;
         }

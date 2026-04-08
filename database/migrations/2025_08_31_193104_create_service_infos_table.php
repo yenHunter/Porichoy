@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_infos', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('slug')->unique();
+            $table->string('service_slug')->unique();
             $table->string('service_title');
             $table->string('service_subtitle')->nullable();
             $table->string('service_icon')->nullable();

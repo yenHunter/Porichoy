@@ -125,7 +125,7 @@
             </li>
             <li class="side-nav-title mt-2" data-lang="elements">Elements</li>
             <li class="side-nav-item">
-                <a class="side-nav-link" href="#">
+                <a class="side-nav-link" href="{{ route('element.service.view') }}">
                     <span class="menu-icon"><i data-lucide="wrench"></i></span>
                     <span class="menu-text" data-lang="services"> Services </span>
                 </a>
