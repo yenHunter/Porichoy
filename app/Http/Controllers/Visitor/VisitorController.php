@@ -34,7 +34,7 @@ class VisitorController extends Controller
             'pages.index',
             [
                 'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
-                'service_list'          => ServiceInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(4)->get(),
+                'service_list'          => ServiceInfo::sorted()->active()->limit(4)->get(),
                 'project_list'          => ProjectInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(6)->get(),
                 'skill_list'            => SkillInfo::active()->sorted()->limit(8)->get(),
                 'education_list'        => EducationInfo::sorted()->active()->get(),
