@@ -132,7 +132,6 @@ $(function () {
 
             // Get CSRF token from meta tag (set in blade layout)
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            console.log('New order:', order);
 
             // Send via Axios
             axios.post(route('module.education.sequence'), {
