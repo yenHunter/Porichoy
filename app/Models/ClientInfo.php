@@ -2,76 +2,71 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ClientInfo extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'client_infos';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'slug',
-        'name',
-        'email',
-        'mobile',
-        'picture',
-        'designation',
-        'organization',
-        'address',
-        'logo',
-        'website',
-        'status',
-        'sequence',
-        'updated_by',
+        'client_name',
+        'client_email',
+        'client_mobile',
+        'client_picture',
+        'client_designation',
+        'client_organization',
+        'client_address',
+        'organization_logo',
+        'organization_website',
+        'client_status',
+        'client_sequence',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'status'   => 'boolean', 
-        'sequence' => 'integer',
+        'client_status'     => 'boolean',
+        'client_sequence'   => 'integer',
     ];
 
     /*
     |--------------------------------------------------------------------------
-    | Boot Logic (Auto-Slug)
+    | Boot Logic (Auto-handling)
     |--------------------------------------------------------------------------
     */
     protected static function booted()
     {
         static::creating(function ($model) {
-            // Generate slug from title
-            if (empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->name);
-            }
-
             // Auto User ID
             if (Auth::check()) {
                 $model->updated_by = Auth::id();
             }
 
+            // Auto Status
+            if (is_null($model->client_status)) {
+                $model->client_status = true;
+            }
+
             // Auto Sequence
-            if (is_null($model->sequence)) {
-                $model->sequence = static::max('sequence') + 1;
+            if (is_null($model->client_sequence)) {
+                $model->client_sequence = static::max('client_sequence') + 1;
             }
         });
 
         static::updating(function ($model) {
-            // Generate slug from title
-            if ($model->isDirty('name') && empty($model->slug)) {
-                $model->slug = static::generateUniqueSlug($model->name,$model->id);
-            }
-
             // Auto User ID
             if (Auth::check()) {
                 $model->updated_by = Auth::id();
@@ -96,26 +91,21 @@ class ClientInfo extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Get full image URL.
-     * Usage: $member->image_url
-     */
-
-    protected function pictureUrl(): Attribute
+    protected function clientPictureUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->picture 
-                ? asset('storage/' . $this->picture) 
-                : asset('static/client-picture.png')
+            get: fn() => $this->client_picture
+                ? asset('storage/' . $this->client_picture)
+                : asset('static/logo/client.png')
         );
     }
 
-    protected function logoUrl(): Attribute
+    protected function organizationLogoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->logo 
-                ? asset('storage/' . $this->logo) 
-                : asset('static/client-logo.png')
+            get: fn() => $this->organization_logo
+                ? asset('storage/' . $this->organization_logo)
+                : asset('static/logo/organization.png')
         );
     }
 
@@ -131,7 +121,7 @@ class ClientInfo extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('client_status', true);
     }
 
     /**
@@ -140,22 +130,6 @@ class ClientInfo extends Model
      */
     public function scopeSorted($query)
     {
-        return $query->orderBy('sequence', 'asc');
-    }
-
-    /**
-     * Custom function to generate unique slugs
-     */
-    public static function generateUniqueSlug($title, $ignoreId = null)
-    {
-        $originalSlug = Str::slug($title);
-        $slug = $originalSlug;
-        $count = 1;
-        while (static::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
-            $count++;
-        }
-
-        return $slug;
+        return $query->orderBy('client_sequence', 'asc');
     }
 }

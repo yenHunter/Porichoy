@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ResearchController;
 use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -126,6 +127,15 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [SkillController::class, 'update'])->name('update');
 			Route::get('delete/{skill_id}', [SkillController::class, 'delete'])->name('delete');
 			Route::post('update-sequence', [SkillController::class, 'update_sequence'])->name('sequence');
+		});
+
+		Route::prefix('client')->name('client.')->group(function () {
+			Route::get('', [ClientController::class, 'view'])->name('view');
+			Route::post('store', [ClientController::class, 'store'])->name('store');
+			Route::get('edit/{client_id}', [ClientController::class, 'edit'])->name('edit');
+			Route::put('update', [ClientController::class, 'update'])->name('update');
+			Route::get('delete/{client_id}', [ClientController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [ClientController::class, 'update_sequence'])->name('sequence');
 		});
 	});
 
