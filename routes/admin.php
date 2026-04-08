@@ -1,19 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoutingController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\EducationController;
-use App\Http\Controllers\Admin\ExperienceController;
-use App\Http\Controllers\Admin\ResearchController;
-use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ServiceController;
-use App\Http\Controllers\RoutingController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ResearchController;
+use App\Http\Controllers\Admin\TrainingController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\EducationController;
+use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\ConfigurationController;
 
 Route::group(['prefix' => 'admin'], function () {
 	Route::get('', [RoutingController::class, 'index'])->name('root');
@@ -107,6 +108,15 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [ServiceController::class, 'update'])->name('update');
 			Route::get('delete/{service_id}', [ServiceController::class, 'delete'])->name('delete');
 			Route::post('update-sequence', [ServiceController::class, 'update_sequence'])->name('sequence');
+		});
+
+		Route::prefix('project')->name('project.')->group(function () {
+			Route::get('', [ProjectController::class, 'view'])->name('view');
+			Route::post('store', [ProjectController::class, 'store'])->name('store');
+			Route::get('edit/{project_id}', [ProjectController::class, 'edit'])->name('edit');
+			Route::put('update', [ProjectController::class, 'update'])->name('update');
+			Route::get('delete/{project_id}', [ProjectController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [ProjectController::class, 'update_sequence'])->name('sequence');
 		});
 
 		Route::prefix('skill')->name('skill.')->group(function () {
