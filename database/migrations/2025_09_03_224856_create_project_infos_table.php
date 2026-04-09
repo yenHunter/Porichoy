@@ -18,7 +18,8 @@ return new class extends Migration
             $table->longText('project_details')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('cover_image')->nullable();
-            $table->foreignId('client_id')->nullable()->constrained('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid('client_id')->nullable();
+            $table->foreign('client_id')->references('id')->on('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->uuid('service_id')->nullable();

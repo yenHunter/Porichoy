@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('testimonial_infos', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('service_id');
-            $table->foreignId('client_id')->constrained('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('service_id')->references('id')->on('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->uuid('client_id');
+            $table->foreign('client_id')->references('id')->on('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('details');
             $table->tinyInteger('review');
             $table->boolean('status')->default(true);
             $table->integer('sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
-            $table->foreign('service_id')->references('id')->on('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

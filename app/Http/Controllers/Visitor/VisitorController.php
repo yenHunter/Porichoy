@@ -16,7 +16,7 @@ class VisitorController extends Controller
 {
     public function index()
     {
-        $client_list = ClientInfo::where('status', 1)->orderBy('sequence', 'asc')->get();
+        $client_list = ClientInfo::sorted()->active()->get();
         if ($client_list->count() > 0) {
             if ($client_list->count() <= 5) {
                 $rows = [$client_list];
@@ -35,7 +35,7 @@ class VisitorController extends Controller
             [
                 'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
                 'service_list'          => ServiceInfo::sorted()->active()->limit(4)->get(),
-                'project_list'          => ProjectInfo::where('status', 1)->orderBy('sequence', 'asc')->limit(6)->get(),
+                'project_list'          => ProjectInfo::sorted()->active()->limit(6)->get(),
                 'skill_list'            => SkillInfo::active()->sorted()->limit(8)->get(),
                 'education_list'        => EducationInfo::sorted()->active()->get(),
                 'experience_list'       => ExperienceInfo::sorted()->active()->get(),
