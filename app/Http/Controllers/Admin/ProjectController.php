@@ -31,9 +31,9 @@ class ProjectController extends Controller
             return view(
                 'admin.pages.element.project',
                 [
-                    'project_list' => ProjectInfo::sorted()->get(),
-                    'client_list' => ClientInfo::all(),
-                    'service_list' => ServiceInfo::sorted()->get()
+                    'project_list'          => ProjectInfo::sorted()->get(),
+                    'client_list'           => ClientInfo::all(),
+                    'service_list'          => ServiceInfo::sorted()->get()
                 ]
             );
         } catch (\Throwable $th) {

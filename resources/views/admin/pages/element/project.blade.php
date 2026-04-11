@@ -119,15 +119,41 @@
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row g-3">
+                        <div class="row">
                             <div class="col-lg-12">
+                                {{-- <div class="form-floating"> --}}
+                                <label for="project_title">Project Title
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control" placeholder="Project Title" value="{{ old('project_title') }}"
+                                    name="project_title" id="project_title" type="text" />
+                                {{-- </div> --}}
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="form-floating">
-                                    <input class="form-control" placeholder="Project Title"
-                                        value="{{ old('project_title') }}" name="project_title" id="project_title"
-                                        type="text" />
-                                    <label for="project_title">Project Title
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                    <select aria-label="Select Client" class="form-select" name="client_id" id="client_id">
+                                        <option value="">Select Client</option>
+                                        @forelse ($client_list as $client)
+                                            <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                        @empty
+                                            <option disabled>No clients available</option>
+                                        @endforelse
+                                    </select>
+                                    <label for="client_id">Client</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating">
+                                    <select aria-label="Select Service" class="form-select" name="service_id"
+                                        id="service_id">
+                                        <option value="">Select Service</option>
+                                        @forelse ($service_list as $service)
+                                            <option value="{{ $service->id }}">{{ $service->service_title }}</option>
+                                        @empty
+                                            <option disabled>No services available</option>
+                                        @endforelse
+                                    </select>
+                                    <label for="service_id">Service</label>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -144,34 +170,6 @@
                                     <input class="form-control" placeholder="End Date" value="{{ old('end_date') }}"
                                         name="end_date" id="end_date" type="date" />
                                     <label for="end_date">End Date</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select class="form-select" name="client_id" id="client_id"
-                                        data-choices data-choices-search-true>
-                                        <option value="">Select Client</option>
-                                        @forelse ($client_list as $client)
-                                            <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                        @empty
-                                            <option disabled>No clients available</option>
-                                        @endforelse
-                                    </select>
-                                    <label for="client_id">Client</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select class="form-select" name="service_id" id="service_id"
-                                        data-choices data-choices-search-true>
-                                        <option value="">Select Service</option>
-                                        @forelse ($service_list as $service)
-                                            <option value="{{ $service->id }}">{{ $service->service_title }}</option>
-                                        @empty
-                                            <option disabled>No services available</option>
-                                        @endforelse
-                                    </select>
-                                    <label for="service_id">Service</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -200,19 +198,25 @@
                                 <input type="hidden" name="project_details" id="project_details_hidden">
                             </div>
                             <div class="col-lg-12">
-                                <label for="project_background">Background</label>
-                                <textarea class="form-control" name="project_background" id="project_background"
-                                    style="height: 100px;" placeholder="Project background...">{{ old('project_background') }}</textarea>
+                                <div class="form-floating">
+                                    <label for="project_background">Background</label>
+                                    <textarea class="form-control" name="project_background" id="project_background"
+                                        placeholder="Project background...">{{ old('project_background') }}</textarea>
+                                </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="project_challenges">Challenges</label>
-                                <textarea class="form-control" name="project_challenges" id="project_challenges"
-                                    style="height: 100px;" placeholder="Project challenges...">{{ old('project_challenges') }}</textarea>
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="project_challenges" id="project_challenges"
+                                        placeholder="Project challenges...">{{ old('project_challenges') }}</textarea>
+                                    <label for="project_challenges">Challenges</label>
+                                </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="project_solution">Solution</label>
-                                <textarea class="form-control" name="project_solution" id="project_solution"
-                                    style="height: 100px;" placeholder="Project solution...">{{ old('project_solution') }}</textarea>
+                                <div class="form-floating">
+                                    <label for="project_solution">Solution</label>
+                                    <textarea class="form-control" name="project_solution" id="project_solution" style="height: 100px;"
+                                        placeholder="Project solution...">{{ old('project_solution') }}</textarea>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">

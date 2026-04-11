@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Visitor;
 
+use App\Models\BlogInfo;
 use App\Models\SkillInfo;
 use App\Models\ClientInfo;
 use App\Models\ProfileInfo;
@@ -58,7 +59,12 @@ class VisitorController extends Controller
 
     public function services()
     {
-        return view('pages.services');
+        return view(
+            'pages.services',
+            [
+                'service_list'          => ServiceInfo::sorted()->active()->get(),
+            ]
+        );
     }
 
     public function service_details($service)
@@ -68,7 +74,11 @@ class VisitorController extends Controller
 
     public function projects()
     {
-        return view('pages.projects');
+        return view(
+            'pages.projects',
+            [
+                'project_list'          => ProjectInfo::sorted()->active()->get(),
+            ]);
     }
 
     public function project_details($project)
@@ -78,7 +88,11 @@ class VisitorController extends Controller
 
     public function blogs()
     {
-        return view('pages.blogs');
+        return view(
+            'pages.blogs',
+            [
+                'blog_list'          => BlogInfo::sorted()->active()->get(),
+            ]);
     }
 
     public function blog_details($blog)
