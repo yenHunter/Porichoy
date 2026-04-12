@@ -43,7 +43,10 @@
             @endif
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Project Management <code>create update delete all in here</code> </h4>
+                    <div>
+                        <h4 class="card-title mb-1">Project Management</h4>
+                        <p class="small mb-0 text-info">Manage all your projects here. Create new projects, edit existing ones, or remove outdated entries.</p>
+                    </div>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
                         <i class="ti ti-plus bi align-middle fs-lg"></i>
@@ -119,114 +122,142 @@
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row g-3">
                             <div class="col-lg-12">
-                                {{-- <div class="form-floating"> --}}
-                                <label for="project_title">Project Title
+                                <label class="form-label" for="project_title">Title
                                     <span class="badge badge-soft-danger">required</span>
                                 </label>
-                                <input class="form-control" placeholder="Project Title" value="{{ old('project_title') }}"
-                                    name="project_title" id="project_title" type="text" />
-                                {{-- </div> --}}
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <select aria-label="Select Client" class="form-select" name="client_id" id="client_id">
-                                        <option value="">Select Client</option>
-                                        @forelse ($client_list as $client)
-                                            <option value="{{ $client->id }}">{{ $client->name }}</option>
-                                        @empty
-                                            <option disabled>No clients available</option>
-                                        @endforelse
-                                    </select>
-                                    <label for="client_id">Client</label>
+                                <input class="form-control @error('project_title') is-invalid @enderror"
+                                    placeholder="e.g., Personal Portfolio Website Design" value="{{ old('project_title') }}" name="project_title"
+                                    id="project_title" type="text" required />
+                                <div class="invalid-feedback">
+                                    @error('project_title')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <select aria-label="Select Service" class="form-select" name="service_id"
-                                        id="service_id">
-                                        <option value="">Select Service</option>
-                                        @forelse ($service_list as $service)
-                                            <option value="{{ $service->id }}">{{ $service->service_title }}</option>
-                                        @empty
-                                            <option disabled>No services available</option>
-                                        @endforelse
-                                    </select>
-                                    <label for="service_id">Service</label>
+                                <label class="form-label" for="client_id">Client</label>
+                                <select aria-label="Select Client"
+                                    class="form-select @error('client_id') is-invalid @enderror" name="client_id"
+                                    id="client_id">
+                                    <option value="">Select a client</option>
+                                    @forelse ($client_list as $client)
+                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                    @empty
+                                        <option disabled>No clients available</option>
+                                    @endforelse
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('client_id')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Start Date" value="{{ old('start_date') }}"
-                                        name="start_date" id="start_date" type="date" />
-                                    <label for="start_date">Start Date
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="service_id">Service</label>
+                                <select aria-label="Select Service"
+                                    class="form-select @error('service_id') is-invalid @enderror" name="service_id"
+                                    id="service_id">
+                                    <option value="">Select a service</option>
+                                    @forelse ($service_list as $service)
+                                        <option value="{{ $service->id }}">{{ $service->service_title }}</option>
+                                    @empty
+                                        <option disabled>No services available</option>
+                                    @endforelse
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('service_id')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="End Date" value="{{ old('end_date') }}"
-                                        name="end_date" id="end_date" type="date" />
-                                    <label for="end_date">End Date</label>
+                                <label class="form-label" for="start_date">Start Date
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('start_date') is-invalid @enderror"
+                                    placeholder="e.g., 2024-01-15" value="{{ old('start_date') }}" name="start_date"
+                                    id="start_date" type="date" required />
+                                <div class="invalid-feedback">
+                                    @error('start_date')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label" for="end_date">End Date</label>
+                                <input class="form-control @error('end_date') is-invalid @enderror" placeholder="e.g., 2024-06-30 (leave empty if ongoing)"
+                                    value="{{ old('end_date') }}" name="end_date" id="end_date" type="date" />
+                                <div class="invalid-feedback">
+                                    @error('end_date')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="profile_image" type="file" />
-                                    <label for="profile_image">Profile Image</label>
+                                <div class="filepond-uploader">
+                                    <label class="form-label" for="profile_image">Profile Image</label>
+                                    <input class="filepond @error('profile_image') is-invalid @enderror"
+                                        name="profile_image" type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="cover_image" type="file" />
-                                    <label for="cover_image">Cover Image</label>
+                                <div class="filepond-uploader">
+                                    <label class="form-label" for="cover_image">Cover Image</label>
+                                    <input class="filepond @error('cover_image') is-invalid @enderror" name="cover_image"
+                                        type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Project Location"
-                                        value="{{ old('project_location') }}" name="project_location"
-                                        id="project_location" type="text" />
-                                    <label for="project_location">Project Location</label>
+                                <label class="form-label" for="project_location">Location</label>
+                                <input class="form-control @error('project_location') is-invalid @enderror"
+                                    placeholder="e.g., GitHub, Figma, Live URL, or deployment platform" value="{{ old('project_location') }}"
+                                    name="project_location" id="project_location" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('project_location')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="details">Project Details</label>
+                                <label class="form-label" for="details">Details</label>
                                 <div id="project-details-editor" style="height: 300px;"></div>
                                 <input type="hidden" name="project_details" id="project_details_hidden">
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <label for="project_background">Background</label>
-                                    <textarea class="form-control" name="project_background" id="project_background"
-                                        placeholder="Project background...">{{ old('project_background') }}</textarea>
+                                <label class="form-label" for="project_background">Background</label>
+                                <textarea class="form-control @error('project_background') is-invalid @enderror" name="project_background"
+                                    id="project_background" placeholder="e.g., Client needed a modern e-commerce solution to increase online sales...">{{ old('project_background') }}</textarea>
+                                <div class="invalid-feedback">
+                                    @error('project_background')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control" name="project_challenges" id="project_challenges"
-                                        placeholder="Project challenges...">{{ old('project_challenges') }}</textarea>
-                                    <label for="project_challenges">Challenges</label>
+                                <label class="form-label" for="project_solution">Solution</label>
+                                <textarea class="form-control @error('project_solution') is-invalid @enderror" name="project_solution"
+                                    id="project_solution" placeholder="e.g., Built with React, Node.js, and MongoDB. Implemented features like product catalog, checkout, and admin dashboard...">{{ old('project_solution') }}</textarea>
+                                <div class="invalid-feedback">
+                                    @error('project_solution')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <label for="project_solution">Solution</label>
-                                    <textarea class="form-control" name="project_solution" id="project_solution" style="height: 100px;"
-                                        placeholder="Project solution...">{{ old('project_solution') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="project_status"
-                                        id="project_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                    <label for="project_status">Status</label>
+                                <label class="form-label" for="project_status">Status</label>
+                                <select aria-label="Select Status"
+                                    class="form-select @error('project_status') is-invalid @enderror"
+                                    name="project_status" id="project_status">
+                                    <option selected disabled>Choose a status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('project_status')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                         </div>

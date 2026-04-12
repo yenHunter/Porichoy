@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Form Validation'])
+@extends('admin.layouts.vertical', ['title' => 'Form Validation'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Forms', 'title' => 'Validation'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Forms', 'title' => 'Validation'])
 
 
     <div class="row">
