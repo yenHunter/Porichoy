@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'Lucide Icons'])
+@extends('admin.layouts.vertical', ['title' => 'Lucide Icons'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['subtitle' => 'Icons', 'title' => 'Lucide'])
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Icons', 'title' => 'Lucide'])
 
     <div class="row">
         <div class="col-12">

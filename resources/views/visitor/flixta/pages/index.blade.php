@@ -658,8 +658,7 @@
                                         <div class="rs-portfolio-thumb">
                                             <a
                                                 href="{{ route('visitor.project.details', ['project' => $item->project_slug]) }}">
-                                                <img src="{{ asset($item->project_profile_image_url) }}"
-                                                    alt="image">
+                                                <img src="{{ asset($item->project_profile_image_url) }}" alt="image">
                                             </a>
                                         </div>
                                         <div class="rs-portfolio-content">
@@ -914,86 +913,105 @@
                     <div class="col-xl-12">
                         <div class="swiper brand_active_one wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="rs-brand-wrapper">
-                                        <div class="rs-brand-item text-center">
-                                            <div class="rs-brand-thumb">
-                                                <a href="#">
-                                                    <img class="has-white"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-01.png') }}"
-                                                        alt="image">
-                                                    <img class="has-black"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-01.png') }}"
-                                                        alt="image">
-                                                </a>
+                                @forelse ($client_list as $item)
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset($item->client_org_logo_url) }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset($item->client_org_logo_url) }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-brand-wrapper">
-                                        <div class="rs-brand-item text-center">
-                                            <div class="rs-brand-thumb">
-                                                <a href="#">
-                                                    <img class="has-white"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-02.png') }}"
-                                                        alt="image">
-                                                    <img class="has-black"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-02.png') }}"
-                                                        alt="image">
-                                                </a>
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-01.png') }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-01.png') }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-brand-wrapper">
-                                        <div class="rs-brand-item text-center">
-                                            <div class="rs-brand-thumb">
-                                                <a href="#">
-                                                    <img class="has-white"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
-                                                        alt="image">
-                                                    <img class="has-black"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-03.png') }}"
-                                                        alt="image">
-                                                </a>
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-02.png') }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-02.png') }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-brand-wrapper">
-                                        <div class="rs-brand-item text-center">
-                                            <div class="rs-brand-thumb">
-                                                <a href="#">
-                                                    <img class="has-white"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-04.png') }}"
-                                                        alt="image">
-                                                    <img class="has-black"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-04.png') }}"
-                                                        alt="image">
-                                                </a>
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-03.png') }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-brand-wrapper">
-                                        <div class="rs-brand-item text-center">
-                                            <div class="rs-brand-thumb">
-                                                <a href="#">
-                                                    <img class="has-white"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
-                                                        alt="image">
-                                                    <img class="has-black"
-                                                        src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-05.png') }}"
-                                                        alt="image">
-                                                </a>
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-04.png') }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-04.png') }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="swiper-slide">
+                                        <div class="rs-brand-wrapper">
+                                            <div class="rs-brand-item text-center">
+                                                <div class="rs-brand-thumb">
+                                                    <a href="#">
+                                                        <img class="has-white"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-03.png') }}"
+                                                            alt="image">
+                                                        <img class="has-black"
+                                                            src="{{ asset('visitor/flixta/images/brand/brand-thumb-dark-05.png') }}"
+                                                            alt="image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
                     </div>

@@ -40,7 +40,7 @@ class VisitorController extends Controller
                 'skill_list'            => SkillInfo::active()->sorted()->limit(8)->get(),
                 'education_list'        => EducationInfo::sorted()->active()->get(),
                 'experience_list'       => ExperienceInfo::sorted()->active()->get(),
-                'client_list'           => $rows,
+                'client_list'           => ClientInfo::sorted()->active()->get(),
             ]
         );
     }

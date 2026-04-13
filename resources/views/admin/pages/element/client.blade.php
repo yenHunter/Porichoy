@@ -139,6 +139,16 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                <label class="form-label" for="client_designation">Client Designation</label>
+                                <input class="form-control @error('client_designation') is-invalid @enderror" placeholder="e.g., Project Manager, CEO, Marketing Director" value="{{ old('client_designation') }}"
+                                    name="client_designation" id="client_designation" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('client_designation')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <label class="form-label" for="client_email">Client Email
                                     <span class="badge badge-soft-danger">required</span>
                                 </label>
@@ -156,16 +166,6 @@
                                     name="client_mobile" id="client_mobile" type="text" />
                                 <div class="invalid-feedback">
                                     @error('client_mobile')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-label" for="client_designation">Client Designation</label>
-                                <input class="form-control @error('client_designation') is-invalid @enderror" placeholder="e.g., Project Manager, CEO, Marketing Director" value="{{ old('client_designation') }}"
-                                    name="client_designation" id="client_designation" type="text" />
-                                <div class="invalid-feedback">
-                                    @error('client_designation')
                                         {{ $message }}
                                     @enderror
                                 </div>
