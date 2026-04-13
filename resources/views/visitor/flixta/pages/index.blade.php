@@ -325,7 +325,7 @@
                                 <div class="rs-services-item">
                                     <h5 class="rs-services-title">
                                         <a
-                                            href="{{ route('visitor.service.details', ['service' => $item->slug]) }}">
+                                            href="{{ route('visitor.service.details', ['service' => $item->service_slug]) }}">
                                             {{ $item->service_title }}
                                         </a>
                                     </h5>

@@ -125,21 +125,27 @@
             </li>
             <li class="side-nav-title mt-2" data-lang="elements">Elements</li>
             <li class="side-nav-item">
+                <a class="side-nav-link" href="{{ route('element.skill.view') }}">
+                    <span class="menu-icon"><i data-lucide="crown"></i></span>
+                    <span class="menu-text" data-lang="skills"> Skills </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
                 <a class="side-nav-link" href="{{ route('element.service.view') }}">
                     <span class="menu-icon"><i data-lucide="wrench"></i></span>
                     <span class="menu-text" data-lang="services"> Services </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a class="side-nav-link" href="{{ route('element.project.view') }}">
+                <a class="side-nav-link" href="{{ route('element.client.view') }}">
                     <span class="menu-icon"><i data-lucide="chart-pie"></i></span>
-                    <span class="menu-text" data-lang="projects"> Projects </span>
+                    <span class="menu-text" data-lang="clients"> Clients </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a class="side-nav-link" href="{{ route('element.skill.view') }}">
-                    <span class="menu-icon"><i data-lucide="crown"></i></span>
-                    <span class="menu-text" data-lang="skills"> Skills </span>
+                <a class="side-nav-link" href="{{ route('element.project.view') }}">
+                    <span class="menu-icon"><i data-lucide="chart-pie"></i></span>
+                    <span class="menu-text" data-lang="projects"> Projects </span>
                 </a>
             </li>
             <li class="side-nav-title mt-2" data-lang="management">Management</li>

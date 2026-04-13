@@ -43,7 +43,10 @@
             @endif
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Service Management <code>create update delete all in here</code> </h4>
+                    <div>
+                        <h4 class="card-title mb-1">Service Management</h4>
+                        <p class="small mb-0 text-info">Manage all your services here. Create new services, edit existing ones, or remove outdated entries.</p>
+                    </div>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
                         <i class="ti ti-plus bi align-middle fs-lg"></i>
@@ -116,66 +119,82 @@
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Web Development"
-                                        value="{{ old('service_title') }}" name="service_title" id="service_title"
-                                        type="text" />
-                                    <label for="service_title">Service Title
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="service_title">Service Title
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('service_title') is-invalid @enderror"
+                                    placeholder="e.g., Web Development, UI/UX Design, Mobile App Development" value="{{ old('service_title') }}" name="service_title" id="service_title"
+                                    type="text" required />
+                                <div class="invalid-feedback">
+                                    @error('service_title')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Professional web solutions"
-                                        value="{{ old('service_subtitle') }}" name="service_subtitle" id="service_subtitle"
-                                        type="text" />
-                                    <label for="service_subtitle">Service Subtitle</label>
+                                <label class="form-label" for="service_subtitle">Service Subtitle</label>
+                                <input class="form-control @error('service_subtitle') is-invalid @enderror"
+                                    placeholder="e.g., Professional web solutions, Creative design approach, Fast & scalable apps"
+                                    value="{{ old('service_subtitle') }}" name="service_subtitle" id="service_subtitle"
+                                    type="text" />
+                                <div class="invalid-feedback">
+                                    @error('service_subtitle')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="service_icon" type="file" />
-                                    <label for="service_icon">Service Icon</label>
+                                <label class="form-label" for="service_icon">Service Icon</label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('service_icon') is-invalid @enderror" name="service_icon" type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="profile_image" type="file" />
-                                    <label for="profile_image">Profile Image</label>
+                                <label class="form-label" for="profile_image">Profile Image</label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('profile_image') is-invalid @enderror" name="profile_image" type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="cover_image" type="file" />
-                                    <label for="cover_image">Cover Image</label>
+                                <label class="form-label" for="cover_image">Cover Image</label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('cover_image') is-invalid @enderror" name="cover_image" type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="details">Details</label>
+                                <label class="form-label" for="service_details">Details & Description</label>
                                 <div id="service-details-editor" style="height: 300px;"></div>
                                 <input type="hidden" name="service_details" id="service_details_hidden">
                             </div>
                             <div class="col-lg-12">
-                                <label for="service_skills">Skills</label>
-                                <select class="form-select" id="service_skills" name="service_skills[]" multiple>
-                                    <option selected="" value="0" disabled>Select Skills</option>
+                                <label class="form-label" for="service_skills">Skills</label>
+                                <select class="form-select @error('service_skills') is-invalid @enderror" id="service_skills" name="service_skills[]" multiple>
+                                    <option selected="" value="0" disabled>Select skills related to this service</option>
                                     @forelse ($skill_list as $skill)
                                         <option value="{{ $skill->id }}">{{ $skill->skill_title }}</option>
                                     @empty
                                         <option disabled>No skills available</option>
                                     @endforelse
                                 </select>
+                                <div class="invalid-feedback">
+                                    @error('service_skills')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="service_status"
-                                        id="service_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                    <label for="service_status">Status</label>
+                                <label class="form-label" for="service_status">Status</label>
+                                <select aria-label="Select Status"
+                                    class="form-select @error('service_status') is-invalid @enderror" name="service_status"
+                                    id="service_status" required>
+                                    <option selected disabled>Choose a status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('service_status')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                         </div>

@@ -70,7 +70,7 @@ class ServiceController extends Controller
             if ($request->hasFile('service_icon')) {
                 $file = $request->file('service_icon');
                 $filename = Str::uuid() . '.webp';
-                $iconPath = 'uploads/service/' . $filename;
+                $iconPath = 'uploads/service/icon/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($iconPath, $img->toWebp(80));
@@ -79,7 +79,7 @@ class ServiceController extends Controller
             if ($request->hasFile('profile_image')) {
                 $file = $request->file('profile_image');
                 $filename = Str::uuid() . '.webp';
-                $profilePath = 'uploads/service/' . $filename;
+                $profilePath = 'uploads/service/profile/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($profilePath, $img->toWebp(80));
@@ -88,7 +88,7 @@ class ServiceController extends Controller
             if ($request->hasFile('cover_image')) {
                 $file = $request->file('cover_image');
                 $filename = Str::uuid() . '.webp';
-                $coverPath = 'uploads/service/' . $filename;
+                $coverPath = 'uploads/service/cover/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 1200);
                 Storage::disk('public')->put($coverPath, $img->toWebp(80));
@@ -167,7 +167,7 @@ class ServiceController extends Controller
                 }
                 $file = $request->file('service_icon');
                 $filename = Str::uuid() . '.webp';
-                $iconPath = 'uploads/service/' . $filename;
+                $iconPath = 'uploads/service/icon/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($iconPath, $img->toWebp(80));
@@ -180,7 +180,7 @@ class ServiceController extends Controller
                 }
                 $file = $request->file('profile_image');
                 $filename = Str::uuid() . '.webp';
-                $profilePath = 'uploads/service/' . $filename;
+                $profilePath = 'uploads/service/profile/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($profilePath, $img->toWebp(80));
@@ -193,7 +193,7 @@ class ServiceController extends Controller
                 }
                 $file = $request->file('cover_image');
                 $filename = Str::uuid() . '.webp';
-                $coverPath = 'uploads/service/' . $filename;
+                $coverPath = 'uploads/service/cover/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 1200);
                 Storage::disk('public')->put($coverPath, $img->toWebp(80));
