@@ -45,7 +45,8 @@
                 <div class="card-header justify-content-between">
                     <div>
                         <h4 class="card-title mb-1">Project Management</h4>
-                        <p class="small mb-0 text-info">Manage all your projects here. Create new projects, edit existing ones, or remove outdated entries.</p>
+                        <p class="small mb-0 text-info">Manage all your projects here. Create new projects, edit existing
+                            ones, or remove outdated entries.</p>
                     </div>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
@@ -57,10 +58,10 @@
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
                                 <th>Order</th>
+                                <th>Image</th>
                                 <th>Title</th>
                                 <th>Client</th>
-                                <th>Service</th>
-                                <th>Start Date</th>
+                                <th>Duration</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -72,16 +73,20 @@
                                         <i class="ti ti-arrows-move fs-42"></i>
                                     </td>
                                     <td>
+                                        <img alt="Project Image" class="avatar-lg rounded"
+                                            src="{{ $item->project_profile_image_url }}">
+                                    </td>
+                                    <td>
                                         {{ $item->project_title }}
+                                        <br>
+                                        <small>{{ $item->service?->service_title ?? 'N/A' }}</small>
                                     </td>
                                     <td>
-                                        {{ $item->client?->name ?? 'N/A' }}
+                                        <img class="avatar-sm rounded-circle me-2" src="{{ $item->client?->client_picture_url }}" alt="">
+                                        {{ $item->client?->client_name ?? 'N/A' }}
                                     </td>
                                     <td>
-                                        {{ $item->service?->service_title ?? 'N/A' }}
-                                    </td>
-                                    <td>
-                                        {{ $item->start_date?->format('Y-m-d') ?? 'N/A' }}
+                                        {{ $item->project_date_range }}
                                     </td>
                                     <td>
                                         @if ($item->project_status === true)
@@ -128,8 +133,9 @@
                                     <span class="badge badge-soft-danger">required</span>
                                 </label>
                                 <input class="form-control @error('project_title') is-invalid @enderror"
-                                    placeholder="e.g., Personal Portfolio Website Design" value="{{ old('project_title') }}" name="project_title"
-                                    id="project_title" type="text" required />
+                                    placeholder="e.g., Personal Portfolio Website Design"
+                                    value="{{ old('project_title') }}" name="project_title" id="project_title"
+                                    type="text" required />
                                 <div class="invalid-feedback">
                                     @error('project_title')
                                         {{ $message }}
@@ -143,7 +149,7 @@
                                     id="client_id">
                                     <option value="">Select a client</option>
                                     @forelse ($client_list as $client)
-                                        <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                        <option value="{{ $client->id }}">{{ $client->client_name }}</option>
                                     @empty
                                         <option disabled>No clients available</option>
                                     @endforelse
@@ -187,8 +193,9 @@
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label" for="end_date">End Date</label>
-                                <input class="form-control @error('end_date') is-invalid @enderror" placeholder="e.g., 2024-06-30 (leave empty if ongoing)"
-                                    value="{{ old('end_date') }}" name="end_date" id="end_date" type="date" />
+                                <input class="form-control @error('end_date') is-invalid @enderror"
+                                    placeholder="e.g., 2024-06-30 (leave empty if ongoing)" value="{{ old('end_date') }}"
+                                    name="end_date" id="end_date" type="date" />
                                 <div class="invalid-feedback">
                                     @error('end_date')
                                         {{ $message }}
@@ -212,8 +219,9 @@
                             <div class="col-lg-12">
                                 <label class="form-label" for="project_location">Location</label>
                                 <input class="form-control @error('project_location') is-invalid @enderror"
-                                    placeholder="e.g., GitHub, Figma, Live URL, or deployment platform" value="{{ old('project_location') }}"
-                                    name="project_location" id="project_location" type="text" />
+                                    placeholder="e.g., GitHub, Figma, Live URL, or deployment platform"
+                                    value="{{ old('project_location') }}" name="project_location" id="project_location"
+                                    type="text" />
                                 <div class="invalid-feedback">
                                     @error('project_location')
                                         {{ $message }}
@@ -228,7 +236,8 @@
                             <div class="col-lg-12">
                                 <label class="form-label" for="project_background">Background</label>
                                 <textarea class="form-control @error('project_background') is-invalid @enderror" name="project_background"
-                                    id="project_background" placeholder="e.g., Client needed a modern e-commerce solution to increase online sales...">{{ old('project_background') }}</textarea>
+                                    id="project_background"
+                                    placeholder="e.g., Client needed a modern e-commerce solution to increase online sales...">{{ old('project_background') }}</textarea>
                                 <div class="invalid-feedback">
                                     @error('project_background')
                                         {{ $message }}
@@ -238,7 +247,8 @@
                             <div class="col-lg-12">
                                 <label class="form-label" for="project_solution">Solution</label>
                                 <textarea class="form-control @error('project_solution') is-invalid @enderror" name="project_solution"
-                                    id="project_solution" placeholder="e.g., Built with React, Node.js, and MongoDB. Implemented features like product catalog, checkout, and admin dashboard...">{{ old('project_solution') }}</textarea>
+                                    id="project_solution"
+                                    placeholder="e.g., Built with React, Node.js, and MongoDB. Implemented features like product catalog, checkout, and admin dashboard...">{{ old('project_solution') }}</textarea>
                                 <div class="invalid-feedback">
                                     @error('project_solution')
                                         {{ $message }}

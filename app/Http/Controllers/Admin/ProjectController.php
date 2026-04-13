@@ -76,18 +76,18 @@ class ProjectController extends Controller
             if ($request->hasFile('profile_image')) {
                 $file = $request->file('profile_image');
                 $filename = Str::uuid() . '.webp';
-                $profilePath = 'uploads/project/' . $filename;
+                $profilePath = 'uploads/project/profile/' . $filename;
                 $img = Image::read($file);
-                $img->scale(width: 300);
+                $img->scale(width: 768);
                 Storage::disk('public')->put($profilePath, $img->toWebp(80));
             }
 
             if ($request->hasFile('cover_image')) {
                 $file = $request->file('cover_image');
                 $filename = Str::uuid() . '.webp';
-                $coverPath = 'uploads/project/' . $filename;
+                $coverPath = 'uploads/project/cover/' . $filename;
                 $img = Image::read($file);
-                $img->scale(width: 1200);
+                $img->scale(width: 840);
                 Storage::disk('public')->put($coverPath, $img->toWebp(80));
             }
 
@@ -171,9 +171,9 @@ class ProjectController extends Controller
                 }
                 $file = $request->file('profile_image');
                 $filename = Str::uuid() . '.webp';
-                $profilePath = 'uploads/project/' . $filename;
+                $profilePath = 'uploads/project/profile/' . $filename;
                 $img = Image::read($file);
-                $img->scale(width: 300);
+                $img->scale(width: 768);
                 Storage::disk('public')->put($profilePath, $img->toWebp(80));
                 $object->profile_image = $profilePath;
             }
@@ -184,9 +184,9 @@ class ProjectController extends Controller
                 }
                 $file = $request->file('cover_image');
                 $filename = Str::uuid() . '.webp';
-                $coverPath = 'uploads/project/' . $filename;
+                $coverPath = 'uploads/project/cover/' . $filename;
                 $img = Image::read($file);
-                $img->scale(width: 1200);
+                $img->scale(width: 840);
                 Storage::disk('public')->put($coverPath, $img->toWebp(80));
                 $object->cover_image = $coverPath;
             }

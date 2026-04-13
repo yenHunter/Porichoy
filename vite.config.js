@@ -131,7 +131,8 @@ export default defineConfig({
                 "resources/js/pages/module-training.js",
                 "resources/js/pages/element-skill.js",
                 "resources/js/pages/element-service.js",
-                "resources/js/pages/element-project.js"
+                "resources/js/pages/element-project.js",
+                "resources/js/pages/element-client.js",
             ],
             refresh: true,
         }),

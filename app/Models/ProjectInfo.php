@@ -117,7 +117,7 @@ class ProjectInfo extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected function projectProfileUrl(): Attribute
+    protected function projectProfileImageUrl(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->profile_image
@@ -126,13 +126,32 @@ class ProjectInfo extends Model
         );
     }
 
-    protected function projectCoverUrl(): Attribute
+    protected function projectCoverImageUrl(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->cover_image
                 ? asset('storage/' . $this->cover_image)
                 : asset('static/logo/project.png')
         );
+    }
+
+    protected function projectDateRange(): Attribute
+    {
+        return Attribute::get(function () {
+            // Ensure start_date exists to avoid errors
+            if (!$this->start_date) {
+                return null;
+            }
+
+            $start = $this->start_date->format('d M Y');
+
+            // Check if end_date is null or in the future
+            $end = $this->end_date
+                ? $this->end_date->format('d M Y')
+                : 'Present';
+
+            return "{$start} — {$end}";
+        });
     }
 
     /*
