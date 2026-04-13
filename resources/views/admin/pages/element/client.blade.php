@@ -43,7 +43,10 @@
             @endif
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Client Management <code>create update delete all in here</code> </h4>
+                    <div>
+                        <h4 class="card-title mb-1">Client Management</h4>
+                        <p class="small mb-0 text-info">Manage all your clients here. Create new clients, edit existing ones, or remove outdated entries.</p>
+                    </div>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
                         <i class="ti ti-plus bi align-middle fs-lg"></i>
@@ -124,81 +127,105 @@
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="John Doe" value="{{ old('client_name') }}"
-                                        name="client_name" id="client_name" type="text" />
-                                    <label for="client_name">Client Name
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="client_name">Client Name
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('client_name') is-invalid @enderror" placeholder="e.g., John Doe, Sarah Smith" value="{{ old('client_name') }}"
+                                    name="client_name" id="client_name" type="text" required />
+                                <div class="invalid-feedback">
+                                    @error('client_name')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="john@example.com" value="{{ old('client_email') }}"
-                                        name="client_email" id="client_email" type="email" />
-                                    <label for="client_email">Client Email
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="client_email">Client Email
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('client_email') is-invalid @enderror" placeholder="e.g., john@example.com" value="{{ old('client_email') }}"
+                                    name="client_email" id="client_email" type="email" required />
+                                <div class="invalid-feedback">
+                                    @error('client_email')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="+1 (555) 000-0000" value="{{ old('client_mobile') }}"
-                                        name="client_mobile" id="client_mobile" type="text" />
-                                    <label for="client_mobile">Client Mobile</label>
+                                <label class="form-label" for="client_mobile">Client Mobile</label>
+                                <input class="form-control @error('client_mobile') is-invalid @enderror" placeholder="e.g., +1 (555) 000-0000 or +88 01700 000000" value="{{ old('client_mobile') }}"
+                                    name="client_mobile" id="client_mobile" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('client_mobile')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Senior Manager" value="{{ old('client_designation') }}"
-                                        name="client_designation" id="client_designation" type="text" />
-                                    <label for="client_designation">Client Designation</label>
+                                <label class="form-label" for="client_designation">Client Designation</label>
+                                <input class="form-control @error('client_designation') is-invalid @enderror" placeholder="e.g., Project Manager, CEO, Marketing Director" value="{{ old('client_designation') }}"
+                                    name="client_designation" id="client_designation" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('client_designation')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="ABC Corporation" value="{{ old('client_organization') }}"
-                                        name="client_organization" id="client_organization" type="text" />
-                                    <label for="client_organization">Client Organization</label>
+                                <label class="form-label" for="client_organization">Client Organization</label>
+                                <input class="form-control @error('client_organization') is-invalid @enderror" placeholder="e.g., Tech Innovations Inc., Digital Solutions Ltd." value="{{ old('client_organization') }}"
+                                    name="client_organization" id="client_organization" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('client_organization')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="123 Main Street, City, Country" value="{{ old('client_address') }}"
-                                        name="client_address" id="client_address" type="text" />
-                                    <label for="client_address">Client Address</label>
+                                <label class="form-label" for="client_address">Client Address</label>
+                                <input class="form-control @error('client_address') is-invalid @enderror" placeholder="e.g., 123 Main Street, New York, NY 10001" value="{{ old('client_address') }}"
+                                    name="client_address" id="client_address" type="text" />
+                                <div class="invalid-feedback">
+                                    @error('client_address')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="https://example.com" value="{{ old('organization_website') }}"
-                                        name="organization_website" id="organization_website" type="url" />
-                                    <label for="organization_website">Organization Website</label>
+                                <label class="form-label" for="organization_website">Organization Website</label>
+                                <input class="form-control @error('organization_website') is-invalid @enderror" placeholder="e.g., https://example.com" value="{{ old('organization_website') }}"
+                                    name="organization_website" id="organization_website" type="url" />
+                                <div class="invalid-feedback">
+                                    @error('organization_website')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="client_picture" type="file" accept="image/*" />
-                                    <label for="client_picture">Client Picture</label>
+                                <label class="form-label" for="client_picture">Client Picture</label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('client_picture') is-invalid @enderror" name="client_picture" type="file" accept="image/*" />
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="organization_logo" type="file" accept="image/*" />
-                                    <label for="organization_logo">Organization Logo
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="organization_logo">Organization Logo
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('organization_logo') is-invalid @enderror" name="organization_logo" type="file" accept="image/*" required />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="client_status"
-                                        id="client_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                    <label for="client_status">Status</label>
+                                <label class="form-label" for="client_status">Status</label>
+                                <select aria-label="Select Status" class="form-select @error('client_status') is-invalid @enderror" name="client_status"
+                                    id="client_status" required>
+                                    <option selected disabled>Choose a status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('client_status')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                         </div>
