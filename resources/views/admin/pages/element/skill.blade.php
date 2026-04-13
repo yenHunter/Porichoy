@@ -43,7 +43,10 @@
             @endif
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Skill Management <code>create update delete all in here</code> </h4>
+                    <div>
+                        <h4 class="card-title mb-1">Skill Management</h4>
+                        <p class="small mb-0 text-info">Manage all your skills here. Create new skills, edit existing ones, or remove outdated entries.</p>
+                    </div>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
                         <i class="ti ti-plus bi align-middle fs-lg"></i>
@@ -114,43 +117,47 @@
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <input class="form-control" placeholder="Python" value="{{ old('skill_title') }}"
-                                        name="skill_title" id="skill_title" type="text" />
-                                    <label for="skill_title">Skill Title
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                <label class="form-label" for="skill_title">Skill Title
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('skill_title') is-invalid @enderror"
+                                    placeholder="e.g., Python, JavaScript, UI Design" value="{{ old('skill_title') }}"
+                                    name="skill_title" id="skill_title" type="text" required />
+                                <div class="invalid-feedback">
+                                    @error('skill_title')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="skill_logo" type="file" />
-                                    <label for="skill_logo">Skill Logo</label>
+                                <label class="form-label" for="skill_logo">Skill Logo</label>
+                                <div class="filepond-uploader">
+                                    <input class="filepond @error('skill_logo') is-invalid @enderror" name="skill_logo" type="file" />
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label class="pb-3" for="skill_score">Skill Score</label>
-                                        <div id="slider-vertical-tooltip"></div>
-                                        <input type="hidden" id="skill_score" name="skill_score">
-                                    </div>
-                                </div>
+                                <label class="form-label pb-3" for="skill_score">Skill Score (Proficiency Level)</label>
+                                <div id="slider-vertical-tooltip"></div>
+                                <input type="hidden" id="skill_score" name="skill_score">
                             </div>
                             <div class="col-lg-12">
-                                <label for="details">Details</label>
+                                <label class="form-label" for="skill_details">Details & Description</label>
                                 <div id="skill-details-editor" style="height: 300px;"></div>
                                 <input type="hidden" name="skill_details" id="skill_details_hidden">
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="skill_status"
-                                        id="skill_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
-                                        <option value="0">Inactive</option>
-                                    </select>
-                                    <label for="skill_status">Status</label>
+                                <label class="form-label" for="skill_status">Status</label>
+                                <select aria-label="Select Status"
+                                    class="form-select @error('skill_status') is-invalid @enderror"
+                                    name="skill_status" id="skill_status" required>
+                                    <option selected disabled>Choose a status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('skill_status')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                         </div>
