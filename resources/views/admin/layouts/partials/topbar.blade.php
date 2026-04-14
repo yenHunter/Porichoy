@@ -361,7 +361,7 @@
                             <h6 class="text-overflow m-0">Welcome back 👋!</h6>
                         </div>
                         <!-- My Profile -->
-                        <a class="dropdown-item" href="{{ route('user.profile') }}">
+                        <a class="dropdown-item" href="#">
                             <i class="ti ti-user-circle me-1 fs-17 align-middle"></i>
                             <span class="align-middle">Profile</span>
                         </a>

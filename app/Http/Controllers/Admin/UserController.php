@@ -187,19 +187,4 @@ class UserController extends Controller
             return back()->withErrors(['error' => 'Something went wrong']);
         }
     }
-
-    /**
-     * Display the user profile view
-     *
-     * @return \Illuminate\View\View
-     */
-    public function profile_view(): View
-    {
-        try {
-            return view('admin.pages.profile');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return view('admin.error.404');
-        }
-    }
 }

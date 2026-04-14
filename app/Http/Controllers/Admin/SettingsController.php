@@ -2,17 +2,88 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Models\SelectType;
+use App\Models\ProfileInfo;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
 use App\Models\ColumnSettings;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 class SettingsController extends Controller
 {
     use UserLogTrait;
+
+    /**
+     * Display the portfolio profile management view with categorized data
+     *
+     * @return \Illuminate\View\View
+     */
+    public function profile_management(): View
+    {
+        try {
+            $profileData = [
+                'basic' => ProfileInfo::basicInfo()->active()->get()->toArray(),
+                'personal' => ProfileInfo::personalInfo()->active()->get()->toArray(),
+                'address' => ProfileInfo::addressInfo()->active()->get()->toArray(),
+                'social' => ProfileInfo::socialInfo()->active()->get()->toArray(),
+            ];
+
+            return view('admin.pages.management.profile', ['profileData' => $profileData]);
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return view('admin.error.404');
+        }
+    }
+
+    /**
+     * Update portfolio profile information
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function profile_update(Request $request): RedirectResponse
+    {
+        try {
+            // Update basic info
+            if ($request->has('basic')) {
+                foreach ($request->input('basic', []) as $id => $value) {
+                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                }
+            }
+
+            // Update personal info
+            if ($request->has('personal')) {
+                foreach ($request->input('personal', []) as $id => $value) {
+                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                }
+            }
+
+            // Update address info
+            if ($request->has('address')) {
+                foreach ($request->input('address', []) as $id => $value) {
+                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                }
+            }
+
+            // Update social info
+            if ($request->has('social')) {
+                foreach ($request->input('social', []) as $id => $value) {
+                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                }
+            }
+
+            $this->logUserActivity('ProfileInfo', 'Portfolio profile information updated');
+            return back()->with('success', 'Portfolio profile information updated successfully.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong while updating profile information.'])->withInput();
+        }
+    }
+
     // Functions for Research Source start
     public function viewResearchSource()
     {

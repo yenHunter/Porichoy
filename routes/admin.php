@@ -41,14 +41,6 @@ Route::middleware('auth')->group(function () {
 	Route::get('lock', [AuthController::class, 'session_lock'])->name('lock.screen');
 	Route::post('unlock', [AuthController::class, 'session_unlock'])->name('unlock.screen');
 
-	Route::prefix('user')->name('user.')->group(function () {
-		Route::get('list', [UserController::class, 'user_view'])->name('view');
-		Route::post('store', [UserController::class, 'user_store'])->name('store');
-		Route::put('update', [UserController::class, 'user_update'])->name('update');
-		Route::get('delete/{user_id}', [UserController::class, 'user_delete'])->name('delete');
-		Route::get('profile', [UserController::class, 'profile_view'])->name('profile');
-	});
-
 	Route::prefix('module')->name('module.')->group(function () {
 		Route::prefix('education')->name('education.')->group(function () {
 			Route::get('', [EducationController::class, 'view'])->name('view');
@@ -147,6 +139,13 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [UserController::class, 'update'])->name('update');
 			Route::get('delete/{user_id}', [UserController::class, 'delete'])->name('delete');
 			Route::post('update-sequence', [UserController::class, 'update_sequence'])->name('sequence');
+		});
+
+		Route::prefix('settings')->name('settings.')->group(function () {
+			Route::prefix('profile')->name('profile.')->group(function () {
+				Route::get('', [SettingsController::class, 'profile_management'])->name('view');
+				Route::post('update', [SettingsController::class, 'profile_update'])->name('update');
+			});
 		});
 	});
 

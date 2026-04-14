@@ -171,7 +171,7 @@
                 <div class="collapse" id="settings">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{ route('management.settings.profile.view') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-company">Personal Information</span>
                             </a>
                         </li>
