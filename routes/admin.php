@@ -139,6 +139,17 @@ Route::middleware('auth')->group(function () {
 		});
 	});
 
+	Route::prefix('management')->name('management.')->group(function () {
+		Route::prefix('user')->name('user.')->group(function () {
+			Route::get('', [UserController::class, 'view'])->name('view');
+			Route::post('store', [UserController::class, 'store'])->name('store');
+			Route::get('edit/{user_id}', [UserController::class, 'edit'])->name('edit');
+			Route::put('update', [UserController::class, 'update'])->name('update');
+			Route::get('delete/{user_id}', [UserController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [UserController::class, 'update_sequence'])->name('sequence');
+		});
+	});
+
 	Route::prefix('settings')->name('settings.')->group(function () {
 		Route::get('theme', [SettingsController::class, 'theme_view'])->name('theme');
 		Route::prefix('research-source')->name('research_source.')->group(function () {

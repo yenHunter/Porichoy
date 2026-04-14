@@ -133,6 +133,7 @@ export default defineConfig({
                 "resources/js/pages/element-service.js",
                 "resources/js/pages/element-project.js",
                 "resources/js/pages/element-client.js",
+                "resources/js/pages/management-user.js",
             ],
             refresh: true,
         }),

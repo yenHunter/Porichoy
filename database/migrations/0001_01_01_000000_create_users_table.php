@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('profile_picture')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->boolean('user_status')->default(0);
             $table->timestamps();
         });
 
