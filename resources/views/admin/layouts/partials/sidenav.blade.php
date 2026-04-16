@@ -172,7 +172,7 @@
                     <ul class="sub-menu">
                         <li class="side-nav-item">
                             <a class="side-nav-link" href="{{ route('management.settings.profile.view') }}">
-                                <span class="menu-text" data-lang="sidebar-settings-company">Personal Information</span>
+                                <span class="menu-text" data-lang="sidebar-settings-company">Profile</span>
                             </a>
                         </li>
                         <li class="side-nav-item">

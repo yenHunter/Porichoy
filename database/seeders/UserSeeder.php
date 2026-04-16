@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $user_info->email = 'admin@yenhunter.com';
         $user_info->password = Hash::make('Admin#123');
         $user_info->profile_picture = 'static/logo.png';
-        $user_info->status = 1;
+        $user_info->user_status = 1;
         $user_info->save();
     }
 }

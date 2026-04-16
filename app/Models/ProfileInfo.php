@@ -23,7 +23,7 @@ class ProfileInfo extends Model
         'column_title',
         'column_name',
         'column_value',
-        'status',
+        'column_status',
     ];
 
     /**
@@ -32,9 +32,9 @@ class ProfileInfo extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'status' => 'boolean',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'column_status'     => 'boolean',
+        'created_at'        => 'datetime',
+        'updated_at'        => 'datetime',
     ];
 
     /**
@@ -57,7 +57,7 @@ class ProfileInfo extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('column_status', true);
     }
 
     /**
@@ -102,5 +102,20 @@ class ProfileInfo extends Model
     public function scopeSocialInfo($query)
     {
         return $query->byCategory('social');
+    }
+
+    /**
+     * Get column value by column name for a specific category.
+     *
+     * @param string $category
+     * @param string $columnName
+     * @return string|null
+     */
+    public static function getValueByColumnName($category, $columnName)
+    {
+        return self::byCategory($category)
+            ->active()
+            ->where('column_name', $columnName)
+            ->value('column_value');
     }
 }

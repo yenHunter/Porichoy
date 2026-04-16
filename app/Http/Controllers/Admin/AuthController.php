@@ -64,7 +64,7 @@ class AuthController extends Controller
             }
 
             // Login Attempt
-            if ($user_info->status === 1) {
+            if ($user_info->user_status === true) {
                 if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
                     return redirect()->intended('home');
                 }
@@ -80,7 +80,7 @@ class AuthController extends Controller
     /**
      * Attempt to register a user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      *
      * @throws \Throwable
@@ -236,7 +236,7 @@ class AuthController extends Controller
      * This endpoint is used to unlock a user's session. When a user's session is unlocked,
      * they will be redirected to the home page.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Throwable
      */

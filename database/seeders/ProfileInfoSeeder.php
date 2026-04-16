@@ -14,45 +14,54 @@ class ProfileInfoSeeder extends Seeder
     {
         // Basic Information
         $basicInfoData = [
-            ['column_title' => 'Full Name', 'column_name' => 'full_name', 'column_value' => 'Jashim Uddin'],
-            ['column_title' => 'Professional Headline', 'column_name' => 'headline', 'column_value' => 'UI/UX Designer & Full-Stack Developer'],
-            ['column_title' => 'Email Address', 'column_name' => 'email', 'column_value' => 'hello@example.com'],
-            ['column_title' => 'Phone Number', 'column_name' => 'phone', 'column_value' => '+1-123-456-7890'],
-            ['column_title' => 'Website', 'column_name' => 'website', 'column_value' => 'https://www.example.dev'],
+            ['column_title' => 'Full Name', 'column_name' => 'full_name', 'column_value' => 'Mohammed Shahabuddin'],
+            ['column_title' => 'Professional Headline', 'column_name' => 'headline', 'column_value' => 'President of Bangladesh'],
+            ['column_title' => 'Email Address', 'column_name' => 'email', 'column_value' => 'president@bangabhaban.gov.bd'],
+            ['column_title' => 'Phone Number', 'column_name' => 'phone', 'column_value' => '+880123456789'],
+            ['column_title' => 'Website', 'column_name' => 'website', 'column_value' => 'https://bangabhaban.gov.bd/'],
+            ['column_title' => 'Profile Picture', 'column_name' => 'profile_picture', 'column_value' => 'static/profile.jpg'],
+            ['column_title' => 'Country Flag', 'column_name' => 'country_flag', 'column_value' => 'images/flags/bd.svg'],
         ];
 
         // Personal Information
         $personalInfoData = [
-            ['column_title' => 'Date of Birth', 'column_name' => 'date_of_birth', 'column_value' => '1990-05-15'],
+            ['column_title' => "Father's Name", 'column_name' => 'father_name', 'column_value' => 'Shahabuddin Ansari'],
+            ['column_title' => "Mother's Name", 'column_name' => 'mother_name', 'column_value' => 'Khairun Nesa'],
+            ['column_title' => 'Date of Birth', 'column_name' => 'date_of_birth', 'column_value' => '1949-12-10'],
             ['column_title' => 'Nationality', 'column_name' => 'nationality', 'column_value' => 'Bangladesh'],
-            ['column_title' => 'Languages', 'column_name' => 'languages', 'column_value' => 'English, Bengali, Hindi'],
-            ['column_title' => 'Bio', 'column_name' => 'bio', 'column_value' => 'I\'m an experienced UI/UX designer and full-stack developer passionate about creating beautiful and functional digital experiences.'],
+            ['column_title' => 'Gender', 'column_name' => 'gender', 'column_value' => 'Male'],
+            ['column_title' => 'Marital Status', 'column_name' => 'marital_status', 'column_value' => 'Married'],
+            ['column_title' => 'Spouse Name', 'column_name' => 'spouse_name', 'column_value' => 'Dr. Rebecca Sultana'],
+            ['column_title' => 'Languages', 'column_name' => 'languages', 'column_value' => 'English, Bengali'],
+            ['column_title' => 'Bio', 'column_name' => 'bio', 'column_value' => "I'm the President of Bangladesh, dedicated to serving my country and its people. With a background in law and politics, I have been committed to promoting democracy, economic development, and social welfare. I strive to foster unity and progress for all citizens of Bangladesh."],
         ];
 
         // Address Information
         $addressInfoData = [
-            ['column_title' => 'Street Address', 'column_name' => 'street_address', 'column_value' => '123 Main Street'],
-            ['column_title' => 'City', 'column_name' => 'city', 'column_value' => 'San Francisco'],
-            ['column_title' => 'State/Province', 'column_name' => 'state_province', 'column_value' => 'California'],
-            ['column_title' => 'Postal Code', 'column_name' => 'postal_code', 'column_value' => '94102'],
-            ['column_title' => 'Country', 'column_name' => 'country', 'column_value' => 'United States'],
+            ['column_title' => 'Street Address', 'column_name' => 'street_address', 'column_value' => "President's Office, Bangabhaban"],
+            ['column_title' => 'City', 'column_name' => 'city', 'column_value' => 'Dhaka'],
+            ['column_title' => 'State/Province', 'column_name' => 'state_province', 'column_value' => 'Dhaka'],
+            ['column_title' => 'Postal Code', 'column_name' => 'postal_code', 'column_value' => '1205'],
+            ['column_title' => 'Country', 'column_name' => 'country', 'column_value' => 'Bangladesh'],
         ];
 
         // Social Links
         $socialInfoData = [
-            ['column_title' => 'LinkedIn', 'column_name' => 'linkedin', 'column_value' => 'https://linkedin.com/in/jashim-uddin'],
-            ['column_title' => 'GitHub', 'column_name' => 'github', 'column_value' => 'https://github.com/jashim-uddin'],
-            ['column_title' => 'Twitter', 'column_name' => 'twitter', 'column_value' => 'https://twitter.com/jashim_uddin'],
-            ['column_title' => 'Instagram', 'column_name' => 'instagram', 'column_value' => 'https://instagram.com/jashim_uddin'],
-            ['column_title' => 'Facebook', 'column_name' => 'facebook', 'column_value' => 'https://facebook.com/jashim.uddin'],
-            ['column_title' => 'Dribbble', 'column_name' => 'dribbble', 'column_value' => 'https://dribbble.com/jashim-uddin'],
+            ['column_title' => 'LinkedIn', 'column_name' => 'linkedin', 'column_value' => 'https://linkedin.com/in/mohammed-shahabuddin'],
+            ['column_title' => 'GitHub', 'column_name' => 'github', 'column_value' => 'https://github.com/mohammed-shahabuddin'],
+            ['column_title' => 'Twitter', 'column_name' => 'twitter', 'column_value' => 'https://twitter.com/mohammed_shahabuddin'],
+            ['column_title' => 'Instagram', 'column_name' => 'instagram', 'column_value' => 'https://instagram.com/mohammed_shahabuddin'],
+            ['column_title' => 'Facebook', 'column_name' => 'facebook', 'column_value' => 'https://www.facebook.com/mohammed-shahabuddin/'],
+            ['column_title' => 'YouTube', 'column_name' => 'youtube', 'column_value' => 'https://youtube.com/mohammed-shahabuddin'],
+            ['column_title' => 'ResearchGate', 'column_name' => 'researchgate', 'column_value' => 'https://researchgate.net/profile/Mohammed_Shahabuddin'],
+            ['column_title' => 'WhatsApp', 'column_name' => 'whatsapp', 'column_value' => 'https://wa.me/8801712345678'],
         ];
 
         // Insert data for each category
         foreach ($basicInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
                 'use_for' => 'basic',
-                'status' => true,
+                'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
@@ -61,7 +70,7 @@ class ProfileInfoSeeder extends Seeder
         foreach ($personalInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
                 'use_for' => 'personal',
-                'status' => true,
+                'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
@@ -70,7 +79,7 @@ class ProfileInfoSeeder extends Seeder
         foreach ($addressInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
                 'use_for' => 'address',
-                'status' => true,
+                'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
@@ -79,7 +88,7 @@ class ProfileInfoSeeder extends Seeder
         foreach ($socialInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
                 'use_for' => 'social',
-                'status' => true,
+                'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));

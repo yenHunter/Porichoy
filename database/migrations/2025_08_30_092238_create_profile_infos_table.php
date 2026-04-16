@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('use_for');
             $table->string('column_title');
             $table->string('column_name');
-            $table->string('column_value');
-            $table->boolean('status')->default(true);
+            $table->text('column_value');
+            $table->boolean('column_status')->default(true);
             $table->timestamps();
         });
     }

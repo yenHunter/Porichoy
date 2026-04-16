@@ -11,14 +11,18 @@ use App\Models\ColumnSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\EducationInfo;
+use App\Models\ExperienceInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
+
 class SettingsController extends Controller
 {
     use UserLogTrait;
 
     /**
      * Display the portfolio profile management view with categorized data
+     * Data is indexed by column_name for easy access to column_value
      *
      * @return \Illuminate\View\View
      */
@@ -26,13 +30,15 @@ class SettingsController extends Controller
     {
         try {
             $profileData = [
-                'basic' => ProfileInfo::basicInfo()->active()->get()->toArray(),
-                'personal' => ProfileInfo::personalInfo()->active()->get()->toArray(),
-                'address' => ProfileInfo::addressInfo()->active()->get()->toArray(),
-                'social' => ProfileInfo::socialInfo()->active()->get()->toArray(),
+                'basic'         => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
+                'personal'      => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
+                'address'       => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
+                'social'        => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
+                'education'     => EducationInfo::active()->sorted()->first(),
+                'experience'    => ExperienceInfo::active()->sorted()->first(),
             ];
-
-            return view('admin.pages.management.profile', ['profileData' => $profileData]);
+            // dd($profileData);
+            return view('admin.pages.management.profile', ['profile_data' => $profileData]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return view('admin.error.404');
