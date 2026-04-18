@@ -18,7 +18,8 @@
                         <div>
                             <h5 class="mb-0 d-flex align-items-center">
                                 <a class="link-reset"
-                                    href="#!">{{ $profile_data['basic']['full_name']['column_value'] ?? 'Geneva Lee' }}</a>
+                                    href="#!">{{ $profile_data['basic']['first_name']['column_value'] ?? 'Geneva' }}
+                                    {{ $profile_data['basic']['last_name']['column_value'] ?? 'Lee' }}</a>
                                 <img alt="BD" class="ms-2 rounded-circle" height="16"
                                     src="{{ asset($profile_data['basic']['country_flag']['column_value']) ?? '/images/flags/bd.svg' }}" />
                             </h5>
@@ -140,8 +141,10 @@
                             <a href="{{ $profile_data['social']['github']['column_value'] ?? '#' }}" target="_blank">
                                 <img src="{{ asset('static/social/github.png') }}" alt="GitHub" width="36" />
                             </a>
-                            <a href="{{ $profile_data['social']['researchgate']['column_value'] ?? '#' }}" target="_blank">
-                                <img src="{{ asset('static/social/researchgate.png') }}" alt="ResearchGate" width="36" />
+                            <a href="{{ $profile_data['social']['researchgate']['column_value'] ?? '#' }}"
+                                target="_blank">
+                                <img src="{{ asset('static/social/researchgate.png') }}" alt="ResearchGate"
+                                    width="36" />
                             </a>
                         </div>
                     </div> <!-- -->
@@ -156,251 +159,107 @@
                     </div>
                     <ul class="nav nav-tabs card-header-tabs nav-bordered">
                         <li class="nav-item">
-                            <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab" href="#about-me">
+                            <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab" href="#basic-info">
                                 <i class="ti ti-home d-md-none d-block"></i>
-                                <span class="d-none d-md-block fw-bold">About Me</span>
+                                <span class="d-none d-md-block fw-bold">Basic</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a aria-expanded="true" class="nav-link" data-bs-toggle="tab" href="#timeline">
+                            <a aria-expanded="false" class="nav-link" data-bs-toggle="tab" href="#personal-info">
+                                <i class="ti ti-home d-md-none d-block"></i>
+                                <span class="d-none d-md-block fw-bold">Personal</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a aria-expanded="true" class="nav-link" data-bs-toggle="tab" href="#address-info">
                                 <i class="ti ti-user-circle d-md-none d-block"></i>
-                                <span class="d-none d-md-block fw-bold">Timeline</span>
+                                <span class="d-none d-md-block fw-bold">Address</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a aria-expanded="false" class="nav-link" data-bs-toggle="tab" href="#settings">
+                            <a aria-expanded="false" class="nav-link" data-bs-toggle="tab" href="#social-info">
                                 <i class="ti ti-settings d-md-none d-block"></i>
-                                <span class="d-none d-md-block fw-bold">Settings</span>
+                                <span class="d-none d-md-block fw-bold">Social</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane show active" id="about-me">
-                            <p>I'm an Admin Template Author dedicated to building clean, efficient, and highly
-                                customizable dashboards for developers and businesses. My goal is to create UI solutions
-                                that are modern, scalable, and easy to integrate.</p>
-                            <p>I specialize in crafting developer-friendly admin panels and UI kits using frameworks
-                                like Bootstrap, Tailwind CSS, React, Vue, Angular, Laravel, and Next.js. My templates
-                                are designed to accelerate development and provide a strong foundation for web apps,
-                                SaaS platforms, and enterprise tools.</p>
-                            <p class="mb-0">I focus on delivering well-structured, pixel-perfect layouts with a
-                                user-centric approach—ensuring responsive design, clean code, and seamless user
-                                experiences. Whether you're building a CRM, analytics dashboard, or backend system, my
-                                templates are made to help you build faster and smarter.</p>
-                            <h4 class="card-title my-3 text-uppercase fs-sm"><i class="ti ti-briefcase"></i>
-                                Professional Experience:</h4>
-                            <div class="timeline">
-                                <!-- Experience 1 -->
-                                <div class="timeline-item d-flex align-items-stretch">
-                                    <div class="timeline-time pe-3 text-muted">2023 – Present</div>
-                                    <div class="timeline-dot bg-primary"></div>
-                                    <div class="timeline-content ps-3 pb-4">
-                                        <h5 class="mb-1">Lead UI Developer</h5>
-                                        <p class="mb-1 text-muted">Developing scalable and reusable UI components for
-                                            SaaS dashboards using React, Tailwind CSS, and TypeScript.</p>
-                                        <span class="text-muted fw-semibold">at CraftCode Studio</span>
+                        <div class="tab-pane show active" id="basic-info">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="firstname">First Name</label>
+                                            <input class="form-control" id="firstname" placeholder="Enter first name"
+                                                type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="lastname">Last Name</label>
+                                            <input class="form-control" id="lastname" placeholder="Enter last name"
+                                                type="text" />
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Experience 2 -->
-                                <div class="timeline-item d-flex align-items-stretch">
-                                    <div class="timeline-time pe-3 text-muted">2021 – 2023</div>
-                                    <div class="timeline-dot bg-success"></div>
-                                    <div class="timeline-content ps-3 pb-4">
-                                        <h5 class="mb-1">Frontend Engineer</h5>
-                                        <p class="mb-1 text-muted">Built modern, responsive admin templates and UI kits
-                                            using Vue, Bootstrap 5, and Laravel Blade.</p>
-                                        <span class="text-muted fw-semibold">at CodeNova</span>
+                                <div class="mb-3">
+                                    <label class="form-label" for="jobtitle">Professional Headline</label>
+                                    <input class="form-control" id="jobtitle" placeholder="e.g. UI Developer, Designer"
+                                        type="text" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="firstname">Designation</label>
+                                            <input class="form-control" id="firstname" placeholder="Enter designation"
+                                                type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="lastname">Organization</label>
+                                            <input class="form-control" id="lastname" placeholder="Enter organization"
+                                                type="text" />
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Experience 3 -->
-                                <div class="timeline-item d-flex align-items-stretch">
-                                    <div class="timeline-time pe-3 text-muted">2019 – 2021</div>
-                                    <div class="timeline-dot bg-warning"></div>
-                                    <div class="timeline-content ps-3 pb-4">
-                                        <h5 class="mb-1">UI/UX Designer &amp; Developer</h5>
-                                        <p class="mb-1 text-muted">Designed and developed dashboard layouts and admin
-                                            panel concepts, focusing on accessibility and performance.</p>
-                                        <span class="text-muted fw-semibold">as Freelancer</span>
+                                <div class="mb-3">
+                                    <label class="form-label" for="userbio">Bio</label>
+                                    <textarea class="form-control" id="userbio" placeholder="Write something about yourself..." rows="4"></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="useremail">Email Address</label>
+                                            <input class="form-control" id="useremail" placeholder="Enter email"
+                                                type="email" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="userpassword">Mobile Number</label>
+                                            <input class="form-control" id="userpassword"
+                                                placeholder="Enter mobile number" type="text" />
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Experience 4 -->
-                                <div class="timeline-item d-flex align-items-stretch">
-                                    <div class="timeline-time pe-3 text-muted">2017 – 2019</div>
-                                    <div class="timeline-dot bg-info"></div>
-                                    <div class="timeline-content ps-3 pb-4">
-                                        <h5 class="mb-1">Web Designer</h5>
-                                        <p class="mb-1 text-muted">Created responsive HTML/CSS templates and themes for
-                                            clients in eCommerce and portfolio niches.</p>
-                                        <span class="text-muted fw-semibold">at PixelFrame Agency</span>
-                                    </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="profilephoto">Profile Photo</label>
+                                    <input class="form-control" id="profilephoto" type="file" />
                                 </div>
-                                <!-- Experience 5 -->
-                                <div class="timeline-item d-flex align-items-stretch">
-                                    <div class="timeline-time pe-3 text-muted">2015 – 2017</div>
-                                    <div class="timeline-dot bg-secondary"></div>
-                                    <div class="timeline-content ps-3">
-                                        <h5 class="mb-1">Junior Frontend Developer</h5>
-                                        <p class="mb-1 text-muted">Maintained and updated legacy UI projects, gaining
-                                            hands-on experience in HTML, CSS, jQuery, and Bootstrap 3.</p>
-                                        <span class="text-muted fw-semibold">at DevLaunch</span>
-                                    </div>
+                                <div class="text-end mt-4">
+                                    <button class="btn btn-success" type="submit"><i
+                                            class="ti ti-device-floppy me-1"></i> Save Changes</button>
                                 </div>
-                            </div>
-                            <h4 class="card-title my-3 text-uppercase fs-sm"><i class="ti ti-checklist"></i> Tasks
-                                Overview:</h4>
-                            <div class="table-responsive">
-                                <table class="table table-centered table-custom table-sm table-nowrap table-hover mb-0">
-                                    <thead class="bg-light bg-opacity-25 thead-sm">
-                                        <tr class="text-uppercase fs-xxs">
-                                            <th data-table-sort="task">Task</th>
-                                            <th data-table-sort="">Status</th>
-                                            <th data-table-sort="name">Assigned By</th>
-                                            <th data-table-sort="">Start Date</th>
-                                            <th data-table-sort="">Priority</th>
-                                            <th data-table-sort="">Progress</th>
-                                            <th data-table-sort="">Total Time Spent</th>
-                                            <th style="width: 30px;"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <h5 class="fs-sm my-1"><a class="text-body" href="#">Blazor
-                                                        Admin Theme – Final QA</a></h5>
-                                                <span class="text-muted fs-xs">Due in 3 days</span>
-                                            </td>
-                                            <td><span class="badge badge-soft-warning">In-progress</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar avatar-sm">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="/images/users/user-7.jpg" />
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="text-nowrap fs-sm mb-0">Jordan Walsh</h5>
-                                                        <p class="text-muted fs-xs mb-0">jordan@uxlabs.io</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Jul 20, 2025</td>
-                                            <td><span class="badge badge-soft-danger">High</span></td>
-                                            <td>60%</td>
-                                            <td>9h 10min</td>
-                                            <td><a class="text-muted fs-xxl" href="#"><i
-                                                        class="ti ti-pencil"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h5 class="fs-sm my-1"><a class="text-body" href="#">Vue 3 UI
-                                                        Kit Refactor</a></h5>
-                                                <span class="text-muted fs-xs">Due in 8 days</span>
-                                            </td>
-                                            <td><span class="badge badge-soft-success">Completed</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar avatar-sm">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="/images/users/user-8.jpg" />
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="text-nowrap fs-sm mb-0">Emily Foster</h5>
-                                                        <p class="text-muted fs-xs mb-0">emily@devspark.pro</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Jul 10, 2025</td>
-                                            <td><span class="badge badge-soft-success">Low</span></td>
-                                            <td>100%</td>
-                                            <td>27h 20min</td>
-                                            <td><a class="text-muted fs-xxl" href="#"><i
-                                                        class="ti ti-pencil"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h5 class="fs-sm my-1"><a class="text-body" href="#">HTML Email
-                                                        Templates Pack</a></h5>
-                                                <span class="text-muted fs-xs">Due in 1 day</span>
-                                            </td>
-                                            <td><span class="badge badge-soft-warning">In-progress</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar avatar-sm">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="/images/users/user-9.jpg" />
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="text-nowrap fs-sm mb-0">Ella Newman</h5>
-                                                        <p class="text-muted fs-xs mb-0">ella@mailgenius.app</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Jul 18, 2025</td>
-                                            <td><span class="badge badge-soft-primary">Medium</span></td>
-                                            <td>55%</td>
-                                            <td>5h 40min</td>
-                                            <td><a class="text-muted fs-xxl" href="#"><i
-                                                        class="ti ti-pencil"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h5 class="fs-sm my-1"><a class="text-body" href="#">Bootstrap
-                                                        5 Theme Migration</a></h5>
-                                                <span class="text-muted fs-xs">Due in 6 days</span>
-                                            </td>
-                                            <td><span class="badge badge-soft-dark">On Hold</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar avatar-sm">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="/images/users/user-10.jpg" />
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="text-nowrap fs-sm mb-0">Daniel Rhodes</h5>
-                                                        <p class="text-muted fs-xs mb-0">daniel@uideck.net</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Jul 16, 2025</td>
-                                            <td><span class="badge badge-soft-secondary">Low</span></td>
-                                            <td>25%</td>
-                                            <td>4h 15min</td>
-                                            <td><a class="text-muted fs-xxl" href="#"><i
-                                                        class="ti ti-pencil"></i></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <h5 class="fs-sm my-1"><a class="text-body" href="#">SaaS
-                                                        Dashboard: UX Testing</a></h5>
-                                                <span class="text-muted fs-xs">Due in 9 days</span>
-                                            </td>
-                                            <td><span class="badge badge-soft-danger">Outdated</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="avatar avatar-sm">
-                                                        <img alt="avatar" class="img-fluid rounded-circle"
-                                                            src="/images/users/user-2.jpg" />
-                                                    </div>
-                                                    <div>
-                                                        <h5 class="text-nowrap fs-sm mb-0">Leo Patterson</h5>
-                                                        <p class="text-muted fs-xs mb-0">leo@uxcore.studio</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>Jul 05, 2025</td>
-                                            <td><span class="badge badge-soft-danger">High</span></td>
-                                            <td>20%</td>
-                                            <td>12h 30min</td>
-                                            <td><a class="text-muted fs-xxl" href="#"><i
-                                                        class="ti ti-pencil"></i></a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="personal-info">
+
                         </div>
                         <!-- end About Me data-->
-                        <div class="tab-pane" id="timeline">
+                        <div class="tab-pane" id="address-info">
                             <!-- comment box -->
                             <form action="#" class="mb-3">
                                 <textarea class="form-control" placeholder="Write something..." rows="3"></textarea>
@@ -541,7 +400,7 @@
                             </div>
                         </div>
                         <!-- end timeline tabs data-->
-                        <div class="tab-pane" id="settings">
+                        <div class="tab-pane" id="social-info">
                             <form>
                                 <!-- Personal Info -->
                                 <h5

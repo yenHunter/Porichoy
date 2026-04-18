@@ -14,13 +14,17 @@ class ProfileInfoSeeder extends Seeder
     {
         // Basic Information
         $basicInfoData = [
-            ['column_title' => 'Full Name', 'column_name' => 'full_name', 'column_value' => 'Mohammed Shahabuddin'],
+            ['column_title' => 'First Name', 'column_name' => 'first_name', 'column_value' => 'Mohammed'],
+            ['column_title' => 'Last Name', 'column_name' => 'last_name', 'column_value' => 'Shahabuddin'],
             ['column_title' => 'Professional Headline', 'column_name' => 'headline', 'column_value' => 'President of Bangladesh'],
+            ['column_title' => 'Designation', 'column_name' => 'designation', 'column_value' => 'President'],
+            ['column_title' => 'Organization', 'column_name' => 'organization', 'column_value' => 'Government of Bangladesh'],
             ['column_title' => 'Email Address', 'column_name' => 'email', 'column_value' => 'president@bangabhaban.gov.bd'],
             ['column_title' => 'Phone Number', 'column_name' => 'phone', 'column_value' => '+880123456789'],
             ['column_title' => 'Website', 'column_name' => 'website', 'column_value' => 'https://bangabhaban.gov.bd/'],
             ['column_title' => 'Profile Picture', 'column_name' => 'profile_picture', 'column_value' => 'static/profile.jpg'],
             ['column_title' => 'Country Flag', 'column_name' => 'country_flag', 'column_value' => 'images/flags/bd.svg'],
+            ['column_title' => 'Bio', 'column_name' => 'bio', 'column_value' => "I'm the President of Bangladesh, dedicated to serving my country and its people. With a background in law and politics, I have been committed to promoting democracy, economic development, and social welfare. I strive to foster unity and progress for all citizens of Bangladesh."],
         ];
 
         // Personal Information
@@ -33,7 +37,6 @@ class ProfileInfoSeeder extends Seeder
             ['column_title' => 'Marital Status', 'column_name' => 'marital_status', 'column_value' => 'Married'],
             ['column_title' => 'Spouse Name', 'column_name' => 'spouse_name', 'column_value' => 'Dr. Rebecca Sultana'],
             ['column_title' => 'Languages', 'column_name' => 'languages', 'column_value' => 'English, Bengali'],
-            ['column_title' => 'Bio', 'column_name' => 'bio', 'column_value' => "I'm the President of Bangladesh, dedicated to serving my country and its people. With a background in law and politics, I have been committed to promoting democracy, economic development, and social welfare. I strive to foster unity and progress for all citizens of Bangladesh."],
         ];
 
         // Address Information
