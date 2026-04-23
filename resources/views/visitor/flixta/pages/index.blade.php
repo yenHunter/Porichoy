@@ -22,16 +22,16 @@
                             <h1 class="rs-banner-title wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">I'm
                                 <span class="cd-headline slide rs-title-slide">
                                     <span class="cd-words-wrapper">
-                                        <b class="is-hidden ">Marshall</b>
-                                        <b class="is-visible ">Marshall</b>
-                                        <b class="is-hidden ">Marshall</b>
+                                        <b class="is-hidden">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
+                                        <b class="is-visible">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
+                                        <b class="is-hidden">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
                                     </span>
                                 </span>
                                 <br>
                                 welcome to my portfolio
                             </h1>
                             <p class="rs-banner-description wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
-                                Freelance Designer &amp; Developer</p>
+                                {{ $profile_info['headline'] ?? 'Freelance Designer & Developer' }}</p>
                             <div class="rs-banner-btn">
                                 <div class="rs-btn-group wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1.1s">
                                     <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
@@ -57,10 +57,30 @@
                                 <img src="{{ asset('visitor/flixta/images/shape/arow.png') }}" alt="image">
                             </div>
                             <div class="rs-theme-social wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1.3s">
-                                <a href="#"><i class="ri-twitter-x-line"></i></a>
-                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                <a href="#"><i class="ri-linkedin-fill"></i></a>
-                                <a href="#"><i class="ri-instagram-line"></i></a>
+                                @if ($profile_info['twitter'] ?? null)
+                                    <a href="{{ $profile_info['twitter'] }}" target="_blank" title="Twitter"><i class="ri-twitter-x-line"></i></a>
+                                @endif
+                                @if ($profile_info['facebook'] ?? null)
+                                    <a href="{{ $profile_info['facebook'] }}" target="_blank" title="Facebook"><i class="ri-facebook-fill"></i></a>
+                                @endif
+                                @if ($profile_info['linkedin'] ?? null)
+                                    <a href="{{ $profile_info['linkedin'] }}" target="_blank" title="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+                                @endif
+                                @if ($profile_info['instagram'] ?? null)
+                                    <a href="{{ $profile_info['instagram'] }}" target="_blank" title="Instagram"><i class="ri-instagram-line"></i></a>
+                                @endif
+                                @if ($profile_info['github'] ?? null)
+                                    <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub"><i class="ri-github-fill"></i></a>
+                                @endif
+                                @if ($profile_info['youtube'] ?? null)
+                                    <a href="{{ $profile_info['youtube'] }}" target="_blank" title="YouTube"><i class="ri-youtube-fill"></i></a>
+                                @endif
+                                @if ($profile_info['researchgate'] ?? null)
+                                    <a href="{{ $profile_info['researchgate'] }}" target="_blank" title="ResearchGate"><i class="ri-book-fill"></i></a>
+                                @endif
+                                @if ($profile_info['whatsapp'] ?? null)
+                                    <a href="{{ $profile_info['whatsapp'] }}" target="_blank" title="WhatsApp"><i class="ri-whatsapp-fill"></i></a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -68,7 +88,16 @@
                         <div class="rs-banner-thumb-wrapper position-relative wow fadeInUp" data-wow-delay="1s"
                             data-wow-duration="1.5s">
                             <div class="rs-banner-thumb">
-                                <img src="{{ asset('visitor/flixta/images/banner/banner-thumb-01.png') }}" alt="image">
+                                @php
+                                    $profilePicPath = $profile_info['profile_picture'] ?? 'visitor/flixta/images/banner/banner-thumb-01.png';
+                                    // Check if it's a storage path
+                                    if (str_starts_with($profilePicPath, 'uploads/profile/')) {
+                                        $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
+                                    } else {
+                                        $imgSrc = asset($profilePicPath);
+                                    }
+                                @endphp
+                                <img src="{{ $imgSrc }}" alt="profile">
                                 <div class="rs-banner-exp gsap-move up-100 start-70">
                                     <h3 class="rs-banner-exp-title"><span data-purecounter-duration="1"
                                             data-purecounter-end="30" class="purecounter">30</span>+</h3>
@@ -134,12 +163,7 @@
                     </div>
                     <div class="col-xl-10">
                         <div class="rs-about-description wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                            <p>Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most
-                                prestigious
-                                web design awards in the fields of UI, UX, and innovation. With a diverse background in art
-                                direction, design leadership, website and app UI/UX design, 3D design, and branding, I bring
-                                a
-                                well-rounded skill set to every project I take on.</p>
+                            <p>{{ $profile_info['bio'] ?? "Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most prestigious web design awards in the fields of UI, UX, and innovation. With a diverse background in art direction, design leadership, website and app UI/UX design, 3D design, and branding, I bring a well-rounded skill set to every project I take on." }}</p>
                         </div>
                     </div>
                 </div>
@@ -1373,7 +1397,7 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Phone</span>
-                                        <h6><a href="tel:+12346691234"> +123-4669-1234 </a></h6>
+                                        <h6><a href="tel:{{ $profile_info['phone'] ?? '+123-4669-1234' }}"> {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -1392,7 +1416,7 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Email</span>
-                                        <h6><a href="mailto:hello@flixta.com">hello@flixta.com</a></h6>
+                                        <h6><a href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -1411,8 +1435,51 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Address</span>
-                                        <h6><a href="#"> 2096 New Market, New Road <br>
-                                                North Carolina, USA </a></h6>
+                                        <h6><a href="#">
+                                                {{ $profile_info['street_address'] ?? '2096 New Market, New Road' }} <br>
+                                                {{ $profile_info['city'] ?? 'North Carolina' }}, {{ $profile_info['country'] ?? 'USA' }}
+                                            </a></h6>
+                                    </div>
+                                </div>
+                                <div class="rs-contact-list-item">
+                                    <div class="rs-contact-icon">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="rs-contact-list-content">
+                                        <span>Follow Us</span>
+                                        <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">
+                                            @if ($profile_info['twitter'] ?? null)
+                                                <a href="{{ $profile_info['twitter'] }}" target="_blank" title="Twitter" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-twitter-x-line"></i></a>
+                                            @endif
+                                            @if ($profile_info['facebook'] ?? null)
+                                                <a href="{{ $profile_info['facebook'] }}" target="_blank" title="Facebook" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-facebook-fill"></i></a>
+                                            @endif
+                                            @if ($profile_info['linkedin'] ?? null)
+                                                <a href="{{ $profile_info['linkedin'] }}" target="_blank" title="LinkedIn" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-linkedin-fill"></i></a>
+                                            @endif
+                                            @if ($profile_info['instagram'] ?? null)
+                                                <a href="{{ $profile_info['instagram'] }}" target="_blank" title="Instagram" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-instagram-line"></i></a>
+                                            @endif
+                                            @if ($profile_info['github'] ?? null)
+                                                <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-github-fill"></i></a>
+                                            @endif
+                                            @if ($profile_info['youtube'] ?? null)
+                                                <a href="{{ $profile_info['youtube'] }}" target="_blank" title="YouTube" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-youtube-fill"></i></a>
+                                            @endif
+                                            @if ($profile_info['researchgate'] ?? null)
+                                                <a href="{{ $profile_info['researchgate'] }}" target="_blank" title="ResearchGate" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-book-fill"></i></a>
+                                            @endif
+                                            @if ($profile_info['whatsapp'] ?? null)
+                                                <a href="{{ $profile_info['whatsapp'] }}" target="_blank" title="WhatsApp" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-whatsapp-fill"></i></a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>

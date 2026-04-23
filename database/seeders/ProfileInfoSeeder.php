@@ -22,7 +22,7 @@ class ProfileInfoSeeder extends Seeder
             ['column_title' => 'Email Address', 'column_name' => 'email', 'column_value' => 'president@bangabhaban.gov.bd'],
             ['column_title' => 'Phone Number', 'column_name' => 'phone', 'column_value' => '+880123456789'],
             ['column_title' => 'Website', 'column_name' => 'website', 'column_value' => 'https://bangabhaban.gov.bd/'],
-            ['column_title' => 'Profile Picture', 'column_name' => 'profile_picture', 'column_value' => 'static/profile.jpg'],
+            ['column_title' => 'Profile Picture', 'column_name' => 'profile_picture', 'column_value' => 'static/profile.png'],
             ['column_title' => 'Country Flag', 'column_name' => 'country_flag', 'column_value' => 'images/flags/bd.svg'],
             ['column_title' => 'Bio', 'column_name' => 'bio', 'column_value' => "I'm the President of Bangladesh, dedicated to serving my country and its people. With a background in law and politics, I have been committed to promoting democracy, economic development, and social welfare. I strive to foster unity and progress for all citizens of Bangladesh."],
         ];
