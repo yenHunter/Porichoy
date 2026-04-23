@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModuleSeeder::class);
         $this->call(ColumnSeeder::class);
         $this->call(SelectSeeder::class);
+        $this->call(CountrySeeder::class);
         $this->call(ProfileInfoSeeder::class);
     }
 }

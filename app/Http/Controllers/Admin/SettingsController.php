@@ -5,16 +5,20 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\View\View;
 use App\Models\SelectType;
 use App\Models\ProfileInfo;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Traits\UserLogTrait;
+use Illuminate\Support\Str;
+use App\Models\EducationInfo;
+use App\Models\ExperienceInfo;
 use App\Models\ColumnSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\EducationInfo;
-use App\Models\ExperienceInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Http\UploadedFile;
 
 class SettingsController extends Controller
 {
@@ -29,6 +33,15 @@ class SettingsController extends Controller
     public function profile_management(): View
     {
         try {
+            // Get all active countries sorted by name
+            $availableFlags = Country::active()->sorted()->get()->map(function ($country) {
+                return [
+                    'name' => $country->name,
+                    'code' => $country->code,
+                    'path' => $country->flag_path,
+                ];
+            })->toArray();
+
             $profileData = [
                 'basic'         => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
                 'personal'      => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
@@ -38,7 +51,10 @@ class SettingsController extends Controller
                 'experience'    => ExperienceInfo::active()->sorted()->first(),
             ];
             // dd($profileData);
-            return view('admin.pages.management.profile', ['profile_data' => $profileData]);
+            return view('admin.pages.management.profile', [
+                'profile_data' => $profileData,
+                'available_flags' => $availableFlags,
+            ]);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return view('admin.error.404');
@@ -54,33 +70,42 @@ class SettingsController extends Controller
     public function profile_update(Request $request): RedirectResponse
     {
         try {
-            // Update basic info
-            if ($request->has('basic')) {
-                foreach ($request->input('basic', []) as $id => $value) {
-                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
-                }
-            }
+            // Helper function to process profile updates
+            $processProfileData = function ($category) use ($request) {
+                if ($request->has($category)) {
+                    $inputs = $request->all()[$category] ?? [];
+                    foreach ($inputs as $id => $value) {
+                        // Check if this field has a file upload
+                        if ($value instanceof UploadedFile && $value->isValid()) {
+                            // Get the current profile info
+                            $profileInfo = ProfileInfo::findOrFail($id);
 
-            // Update personal info
-            if ($request->has('personal')) {
-                foreach ($request->input('personal', []) as $id => $value) {
-                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
-                }
-            }
+                            // Delete old file if exists
+                            if ($profileInfo->column_value && Storage::disk('public')->exists($profileInfo->column_value)) {
+                                Storage::disk('public')->delete($profileInfo->column_value);
+                            }
 
-            // Update address info
-            if ($request->has('address')) {
-                foreach ($request->input('address', []) as $id => $value) {
-                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
-                }
-            }
+                            // Store new file
+                            $filename = Str::uuid() . '.webp';
+                            $path = 'uploads/profile/' . $filename;
+                            $img = Image::read($value);
+                            Storage::disk('public')->put($path, $img->toWebp(80));
 
-            // Update social info
-            if ($request->has('social')) {
-                foreach ($request->input('social', []) as $id => $value) {
-                    ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                            // Update with file path
+                            $profileInfo->update(['column_value' => $path]);
+                        } else if (!($value instanceof UploadedFile)) {
+                            // Regular text input (skip if it's an invalid file)
+                            ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
+                        }
+                    }
                 }
-            }
+            };
+
+            // Process all profile categories
+            $processProfileData('basic');
+            $processProfileData('personal');
+            $processProfileData('address');
+            $processProfileData('social');
 
             $this->logUserActivity('ProfileInfo', 'Portfolio profile information updated');
             return back()->with('success', 'Portfolio profile information updated successfully.');

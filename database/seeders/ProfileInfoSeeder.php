@@ -60,6 +60,8 @@ class ProfileInfoSeeder extends Seeder
             ['column_title' => 'WhatsApp', 'column_name' => 'whatsapp', 'column_value' => 'https://wa.me/8801712345678'],
         ];
 
+        DB::table('profile_infos')->truncate(); // Clear existing data
+
         // Insert data for each category
         foreach ($basicInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [

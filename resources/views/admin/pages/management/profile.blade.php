@@ -11,9 +11,16 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-4">
                         <div class="me-3 position-relative">
-                            <img alt="avatar" class="rounded-circle" height="72"
-                                src="{{ asset($profile_data['basic']['profile_picture']['column_value']) ?? '/images/users/user-1.jpg' }}"
-                                width="72" />
+                            @php
+                                $profilePicPath = $profile_data['basic']['profile_picture']['column_value'] ?? '/images/users/user-1.jpg';
+                                // Check if it's a storage path
+                                if (str_starts_with($profilePicPath, 'uploads/profile/')) {
+                                    $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
+                                } else {
+                                    $imgSrc = asset($profilePicPath);
+                                }
+                            @endphp
+                            <img alt="avatar" class="rounded-circle" height="72" width="72" src="{{ $imgSrc }}" />
                         </div>
                         <div>
                             <h5 class="mb-0 d-flex align-items-center">
@@ -187,71 +194,200 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane show active" id="basic-info">
-                            <form>
+                            <form action="{{ route('management.settings.profile.update') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                {{-- First Name and Last Name Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="firstname">First Name</label>
-                                            <input class="form-control" id="firstname" placeholder="Enter first name"
-                                                type="text" />
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['first_name']['id']) is-invalid @enderror"
+                                                id="firstname"
+                                                name="basic[{{ $profile_data['basic']['first_name']['id'] }}]"
+                                                placeholder="Enter first name" type="text"
+                                                value="{{ $profile_data['basic']['first_name']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['first_name']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label" for="lastname">Last Name</label>
-                                            <input class="form-control" id="lastname" placeholder="Enter last name"
-                                                type="text" />
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['last_name']['id']) is-invalid @enderror"
+                                                id="lastname"
+                                                name="basic[{{ $profile_data['basic']['last_name']['id'] }}]"
+                                                placeholder="Enter last name" type="text"
+                                                value="{{ $profile_data['basic']['last_name']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['last_name']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Professional Headline --}}
                                 <div class="mb-3">
-                                    <label class="form-label" for="jobtitle">Professional Headline</label>
-                                    <input class="form-control" id="jobtitle" placeholder="e.g. UI Developer, Designer"
-                                        type="text" />
+                                    <label class="form-label" for="headline">Professional Headline</label>
+                                    <input
+                                        class="form-control @error('basic.' . $profile_data['basic']['headline']['id']) is-invalid @enderror"
+                                        id="headline" name="basic[{{ $profile_data['basic']['headline']['id'] }}]"
+                                        placeholder="e.g. Senior Developer, UI Designer" type="text"
+                                        value="{{ $profile_data['basic']['headline']['column_value'] ?? '' }}" />
+                                    @error('basic.' . $profile_data['basic']['headline']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
+
+                                {{-- Designation and Organization Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="firstname">Designation</label>
-                                            <input class="form-control" id="firstname" placeholder="Enter designation"
-                                                type="text" />
+                                            <label class="form-label" for="designation">Designation</label>
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['designation']['id']) is-invalid @enderror"
+                                                id="designation"
+                                                name="basic[{{ $profile_data['basic']['designation']['id'] }}]"
+                                                placeholder="Enter designation" type="text"
+                                                value="{{ $profile_data['basic']['designation']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['designation']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="lastname">Organization</label>
-                                            <input class="form-control" id="lastname" placeholder="Enter organization"
-                                                type="text" />
+                                            <label class="form-label" for="organization">Organization</label>
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['organization']['id']) is-invalid @enderror"
+                                                id="organization"
+                                                name="basic[{{ $profile_data['basic']['organization']['id'] }}]"
+                                                placeholder="Enter organization" type="text"
+                                                value="{{ $profile_data['basic']['organization']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['organization']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="userbio">Bio</label>
-                                    <textarea class="form-control" id="userbio" placeholder="Write something about yourself..." rows="4"></textarea>
-                                </div>
+
+                                {{-- Email and Phone Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="useremail">Email Address</label>
-                                            <input class="form-control" id="useremail" placeholder="Enter email"
-                                                type="email" />
+                                            <label class="form-label" for="email">Email Address</label>
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['email']['id']) is-invalid @enderror"
+                                                id="email" name="basic[{{ $profile_data['basic']['email']['id'] }}]"
+                                                placeholder="Enter email address" type="email"
+                                                value="{{ $profile_data['basic']['email']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['email']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="userpassword">Mobile Number</label>
-                                            <input class="form-control" id="userpassword"
-                                                placeholder="Enter mobile number" type="text" />
+                                            <label class="form-label" for="phone">Phone Number</label>
+                                            <input
+                                                class="form-control @error('basic.' . $profile_data['basic']['phone']['id']) is-invalid @enderror"
+                                                id="phone" name="basic[{{ $profile_data['basic']['phone']['id'] }}]"
+                                                placeholder="Enter phone number" type="tel"
+                                                value="{{ $profile_data['basic']['phone']['column_value'] ?? '' }}" />
+                                            @error('basic.' . $profile_data['basic']['phone']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Website --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="website">Website</label>
+                                    <input
+                                        class="form-control @error('basic.' . $profile_data['basic']['website']['id']) is-invalid @enderror"
+                                        id="website" name="basic[{{ $profile_data['basic']['website']['id'] }}]"
+                                        placeholder="https://www.example.com" type="url"
+                                        value="{{ $profile_data['basic']['website']['column_value'] ?? '' }}" />
+                                    @error('basic.' . $profile_data['basic']['website']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Country Flag --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="countryFlag">Country Flag</label>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <select
+                                            class="form-select @error('basic.' . $profile_data['basic']['country_flag']['id']) is-invalid @enderror"
+                                            id="countryFlag"
+                                            name="basic[{{ $profile_data['basic']['country_flag']['id'] }}]">
+                                            <option value="">-- Select a country --</option>
+                                            @foreach($available_flags as $flag)
+                                                <option value="{{ $flag['path'] }}"
+                                                    @selected($profile_data['basic']['country_flag']['column_value'] === $flag['path'])>
+                                                    {{ $flag['name'] }} ({{ strtoupper($flag['code']) }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if ($profile_data['basic']['country_flag']['column_value'])
+                                            <img src="{{ asset($profile_data['basic']['country_flag']['column_value']) }}"
+                                                alt="Flag Preview" height="24" class="rounded" />
+                                        @endif
+                                    </div>
+                                    @error('basic.' . $profile_data['basic']['country_flag']['id'])
+                                        <span class="invalid-feedback d-block">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Bio --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="bio">Bio</label>
+                                    <textarea class="form-control @error('basic.' . $profile_data['basic']['bio']['id']) is-invalid @enderror"
+                                        id="bio" name="basic[{{ $profile_data['basic']['bio']['id'] }}]"
+                                        placeholder="Write something about yourself..." rows="4">{{ $profile_data['basic']['bio']['column_value'] ?? '' }}</textarea>
+                                    @error('basic.' . $profile_data['basic']['bio']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Profile Photo --}}
                                 <div class="mb-4">
                                     <label class="form-label" for="profilephoto">Profile Photo</label>
-                                    <input class="form-control" id="profilephoto" type="file" />
+                                    <div class="mb-2">
+                                        @if ($profile_data['basic']['profile_picture']['column_value'])
+                                            @php
+                                                $profilePicPath = $profile_data['basic']['profile_picture']['column_value'];
+                                                if (str_starts_with($profilePicPath, 'uploads/profile/')) {
+                                                    $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
+                                                } else {
+                                                    $imgSrc = asset($profilePicPath);
+                                                }
+                                            @endphp
+                                            <img src="{{ $imgSrc }}"
+                                                alt="Current Profile Picture" class="rounded-circle" width="80" height="80" />
+                                        @endif
+                                    </div>
+                                    <input
+                                        class="form-control @error('basic.' . $profile_data['basic']['profile_picture']['id']) is-invalid @enderror"
+                                        id="profilephoto"
+                                        name="basic[{{ $profile_data['basic']['profile_picture']['id'] }}]"
+                                        type="file" accept="image/*" />
+                                    <small class="form-text text-muted">Accepted formats: JPG, PNG, GIF, WebP (Max:
+                                        5MB)</small>
+                                    @error('basic.' . $profile_data['basic']['profile_picture']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
                                 </div>
+
+                                {{-- Submit Button --}}
                                 <div class="text-end mt-4">
-                                    <button class="btn btn-success" type="submit"><i
-                                            class="ti ti-device-floppy me-1"></i> Save Changes</button>
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="ti ti-device-floppy me-1"></i> Save Changes
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -612,4 +748,24 @@
 @endsection
 
 @section('scripts')
+    <script>
+        // Country flag dropdown with live preview
+        document.getElementById('countryFlag')?.addEventListener('change', function() {
+            const flagPath = this.value;
+            let preview = this.parentElement.querySelector('img');
+            
+            if (flagPath) {
+                if (!preview) {
+                    preview = document.createElement('img');
+                    preview.className = 'rounded';
+                    preview.height = 24;
+                    this.parentElement.appendChild(preview);
+                }
+                preview.src = "{{ asset('') }}" + flagPath;
+                preview.alt = 'Flag Preview';
+            } else if (preview) {
+                preview.remove();
+            }
+        });
+    </script>
 @endsection
