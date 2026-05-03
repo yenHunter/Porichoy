@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\ConfigurationController;
 
 Route::group(['prefix' => 'admin'], function () {
@@ -128,6 +129,15 @@ Route::middleware('auth')->group(function () {
 			Route::put('update', [ClientController::class, 'update'])->name('update');
 			Route::get('delete/{client_id}', [ClientController::class, 'delete'])->name('delete');
 			Route::post('update-sequence', [ClientController::class, 'update_sequence'])->name('sequence');
+		});
+
+		Route::prefix('testimonial')->name('testimonial.')->group(function () {
+			Route::get('', [TestimonialController::class, 'view'])->name('view');
+			Route::post('store', [TestimonialController::class, 'store'])->name('store');
+			Route::get('edit/{testimonial_id}', [TestimonialController::class, 'edit'])->name('edit');
+			Route::put('update', [TestimonialController::class, 'update'])->name('update');
+			Route::get('delete/{testimonial_id}', [TestimonialController::class, 'delete'])->name('delete');
+			Route::post('update-sequence', [TestimonialController::class, 'update_sequence'])->name('sequence');
 		});
 	});
 

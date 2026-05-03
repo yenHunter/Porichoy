@@ -111,7 +111,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create client info</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create skill information</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">

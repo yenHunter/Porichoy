@@ -148,6 +148,12 @@
                     <span class="menu-text" data-lang="projects"> Projects </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a class="side-nav-link" href="{{ route('element.testimonial.view') }}">
+                    <span class="menu-icon"><i data-lucide="message-square"></i></span>
+                    <span class="menu-text" data-lang="testimonials"> Testimonials </span>
+                </a>
+            </li>
             <li class="side-nav-title mt-2" data-lang="management">Management</li>
             <li class="side-nav-item">
                 <a class="side-nav-link" href="{{ route('management.user.view') }}">

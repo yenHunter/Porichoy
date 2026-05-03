@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('testimonial_infos', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('service_id');
-            $table->foreign('service_id')->references('id')->on('service_infos')->cascadeOnDelete()->cascadeOnUpdate();
             $table->uuid('client_id');
             $table->foreign('client_id')->references('id')->on('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->text('details');
-            $table->tinyInteger('review');
-            $table->boolean('status')->default(true);
-            $table->integer('sequence')->default(0);
+            $table->string('testimonial_title')->nullable();
+            $table->text('testimonial_details');
+            $table->tinyInteger('testimonial_review');
+            $table->boolean('testimonial_status')->default(true);
+            $table->integer('testimonial_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
         });
