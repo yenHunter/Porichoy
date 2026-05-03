@@ -395,9 +395,151 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="personal-info">
+                            <form action="{{ route('management.settings.profile.update') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                
+                                {{-- Father's Name and Mother's Name Row --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="fatherName">Father's Name</label>
+                                            <input
+                                                class="form-control @error('personal.' . $profile_data['personal']['father_name']['id']) is-invalid @enderror"
+                                                id="fatherName"
+                                                name="personal[{{ $profile_data['personal']['father_name']['id'] }}]"
+                                                placeholder="Enter father's name" type="text"
+                                                value="{{ $profile_data['personal']['father_name']['column_value'] ?? '' }}" />
+                                            @error('personal.' . $profile_data['personal']['father_name']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="motherName">Mother's Name</label>
+                                            <input
+                                                class="form-control @error('personal.' . $profile_data['personal']['mother_name']['id']) is-invalid @enderror"
+                                                id="motherName"
+                                                name="personal[{{ $profile_data['personal']['mother_name']['id'] }}]"
+                                                placeholder="Enter mother's name" type="text"
+                                                value="{{ $profile_data['personal']['mother_name']['column_value'] ?? '' }}" />
+                                            @error('personal.' . $profile_data['personal']['mother_name']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
 
+                                {{-- Date of Birth --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                                    <input
+                                        class="form-control @error('personal.' . $profile_data['personal']['date_of_birth']['id']) is-invalid @enderror"
+                                        id="dateOfBirth"
+                                        name="personal[{{ $profile_data['personal']['date_of_birth']['id'] }}]"
+                                        type="date"
+                                        value="{{ $profile_data['personal']['date_of_birth']['column_value'] ?? '' }}" />
+                                    @error('personal.' . $profile_data['personal']['date_of_birth']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Nationality and Gender Row --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="nationality">Nationality</label>
+                                            <input
+                                                class="form-control @error('personal.' . $profile_data['personal']['nationality']['id']) is-invalid @enderror"
+                                                id="nationality"
+                                                name="personal[{{ $profile_data['personal']['nationality']['id'] }}]"
+                                                placeholder="Enter nationality" type="text"
+                                                value="{{ $profile_data['personal']['nationality']['column_value'] ?? '' }}" />
+                                            @error('personal.' . $profile_data['personal']['nationality']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="gender">Gender</label>
+                                            <select
+                                                class="form-select @error('personal.' . $profile_data['personal']['gender']['id']) is-invalid @enderror"
+                                                id="gender"
+                                                name="personal[{{ $profile_data['personal']['gender']['id'] }}]">
+                                                <option value="">-- Select Gender --</option>
+                                                <option value="Male" @selected($profile_data['personal']['gender']['column_value'] === 'Male')>Male</option>
+                                                <option value="Female" @selected($profile_data['personal']['gender']['column_value'] === 'Female')>Female</option>
+                                                <option value="Other" @selected($profile_data['personal']['gender']['column_value'] === 'Other')>Other</option>
+                                            </select>
+                                            @error('personal.' . $profile_data['personal']['gender']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Marital Status and Spouse Name Row --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="maritalStatus">Marital Status</label>
+                                            <select
+                                                class="form-select @error('personal.' . $profile_data['personal']['marital_status']['id']) is-invalid @enderror"
+                                                id="maritalStatus"
+                                                name="personal[{{ $profile_data['personal']['marital_status']['id'] }}]">
+                                                <option value="">-- Select Status --</option>
+                                                <option value="Single" @selected($profile_data['personal']['marital_status']['column_value'] === 'Single')>Single</option>
+                                                <option value="Married" @selected($profile_data['personal']['marital_status']['column_value'] === 'Married')>Married</option>
+                                                <option value="Divorced" @selected($profile_data['personal']['marital_status']['column_value'] === 'Divorced')>Divorced</option>
+                                                <option value="Widowed" @selected($profile_data['personal']['marital_status']['column_value'] === 'Widowed')>Widowed</option>
+                                            </select>
+                                            @error('personal.' . $profile_data['personal']['marital_status']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="spouseName">Spouse Name</label>
+                                            <input
+                                                class="form-control @error('personal.' . $profile_data['personal']['spouse_name']['id']) is-invalid @enderror"
+                                                id="spouseName"
+                                                name="personal[{{ $profile_data['personal']['spouse_name']['id'] }}]"
+                                                placeholder="Enter spouse name (if married)" type="text"
+                                                value="{{ $profile_data['personal']['spouse_name']['column_value'] ?? '' }}" />
+                                            @error('personal.' . $profile_data['personal']['spouse_name']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Languages --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="languages">Languages</label>
+                                    <input
+                                        class="form-control @error('personal.' . $profile_data['personal']['languages']['id']) is-invalid @enderror"
+                                        id="languages"
+                                        name="personal[{{ $profile_data['personal']['languages']['id'] }}]"
+                                        placeholder="e.g. English, Bengali, Hindi" type="text"
+                                        value="{{ $profile_data['personal']['languages']['column_value'] ?? '' }}" />
+                                    <small class="form-text text-muted">Separate languages with commas</small>
+                                    @error('personal.' . $profile_data['personal']['languages']['id'])
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Submit Button --}}
+                                <div class="text-end mt-4">
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="ti ti-device-floppy me-1"></i> Save Changes
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <!-- end About Me data-->
+                        <!-- end Personal Info data-->
                         <div class="tab-pane" id="address-info">
                             <form action="{{ route('management.settings.profile.update') }}" method="POST"
                                 enctype="multipart/form-data">
@@ -477,205 +619,166 @@
                         </div>
                         <!-- end timeline tabs data-->
                         <div class="tab-pane" id="social-info">
-                            <form>
-                                <!-- Personal Info -->
-                                <h5
-                                    class="mb-3 text-uppercase bg-light-subtle p-1 border-dashed border rounded border-light text-center">
-                                    <i class="ti ti-user-circle me-1"></i> Personal Info
-                                </h5>
+                            <form action="{{ route('management.settings.profile.update') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                
+                                {{-- LinkedIn and GitHub Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="firstname">First Name</label>
-                                            <input class="form-control" id="firstname" placeholder="Enter first name"
-                                                type="text" />
+                                            <label class="form-label" for="linkedin">
+                                                <i class="ti ti-brand-linkedin text-primary"></i> LinkedIn
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['linkedin']['id']) is-invalid @enderror"
+                                                id="linkedin"
+                                                name="social[{{ $profile_data['social']['linkedin']['id'] }}]"
+                                                placeholder="https://linkedin.com/in/your-profile" type="url"
+                                                value="{{ $profile_data['social']['linkedin']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['linkedin']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="lastname">Last Name</label>
-                                            <input class="form-control" id="lastname" placeholder="Enter last name"
-                                                type="text" />
+                                            <label class="form-label" for="github">
+                                                <i class="ti ti-brand-github text-dark"></i> GitHub
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['github']['id']) is-invalid @enderror"
+                                                id="github"
+                                                name="social[{{ $profile_data['social']['github']['id'] }}]"
+                                                placeholder="https://github.com/your-username" type="url"
+                                                value="{{ $profile_data['social']['github']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['github']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+
+                                {{-- Twitter and Instagram Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="jobtitle">Job Title</label>
-                                            <input class="form-control" id="jobtitle"
-                                                placeholder="e.g. UI Developer, Designer" type="text" />
+                                            <label class="form-label" for="twitter">
+                                                <i class="ti ti-brand-twitter text-info"></i> Twitter
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['twitter']['id']) is-invalid @enderror"
+                                                id="twitter"
+                                                name="social[{{ $profile_data['social']['twitter']['id'] }}]"
+                                                placeholder="https://twitter.com/your-handle" type="url"
+                                                value="{{ $profile_data['social']['twitter']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['twitter']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="phone">Phone Number</label>
-                                            <input class="form-control" id="phone" placeholder="+1 234 567 8901"
-                                                type="text" />
+                                            <label class="form-label" for="instagram">
+                                                <i class="ti ti-brand-instagram text-danger"></i> Instagram
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['instagram']['id']) is-invalid @enderror"
+                                                id="instagram"
+                                                name="social[{{ $profile_data['social']['instagram']['id'] }}]"
+                                                placeholder="https://instagram.com/your-username" type="url"
+                                                value="{{ $profile_data['social']['instagram']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['instagram']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="userbio">Bio</label>
-                                    <textarea class="form-control" id="userbio" placeholder="Write something about yourself..." rows="4"></textarea>
-                                </div>
+
+                                {{-- Facebook and YouTube Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="useremail">Email Address</label>
-                                            <input class="form-control" id="useremail" placeholder="Enter email"
-                                                type="email" />
-                                            <span class="form-text fs-xs fst-italic text-muted"><a class="link-reset"
-                                                    href="#">Click here to change your email</a></span>
+                                            <label class="form-label" for="facebook">
+                                                <i class="ti ti-brand-facebook text-primary"></i> Facebook
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['facebook']['id']) is-invalid @enderror"
+                                                id="facebook"
+                                                name="social[{{ $profile_data['social']['facebook']['id'] }}]"
+                                                placeholder="https://www.facebook.com/your-profile" type="url"
+                                                value="{{ $profile_data['social']['facebook']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['facebook']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="userpassword">Password</label>
-                                            <input class="form-control" id="userpassword"
-                                                placeholder="Enter new password" type="password" />
-                                            <span class="form-text fs-xs fst-italic text-muted"><a class="link-reset"
-                                                    href="#">Click here to change your password</a></span>
+                                            <label class="form-label" for="youtube">
+                                                <i class="ti ti-brand-youtube text-danger"></i> YouTube
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['youtube']['id']) is-invalid @enderror"
+                                                id="youtube"
+                                                name="social[{{ $profile_data['social']['youtube']['id'] }}]"
+                                                placeholder="https://youtube.com/your-channel" type="url"
+                                                value="{{ $profile_data['social']['youtube']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['youtube']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mb-4">
-                                    <label class="form-label" for="profilephoto">Profile Photo</label>
-                                    <input class="form-control" id="profilephoto" type="file" />
-                                </div>
-                                <!-- Address Info -->
-                                <h5
-                                    class="mb-3 text-uppercase bg-light-subtle p-1 border-dashed border rounded border-light text-center">
-                                    <i class="ti ti-map-pin me-1"></i> Address Info
-                                </h5>
+
+                                {{-- ResearchGate and WhatsApp Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="address-line1">Address Line 1</label>
-                                            <input class="form-control" id="address-line1"
-                                                placeholder="Street, Apartment, Unit, etc." type="text" />
+                                            <label class="form-label" for="researchgate">
+                                                <i class="ti ti-world text-success"></i> ResearchGate
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['researchgate']['id']) is-invalid @enderror"
+                                                id="researchgate"
+                                                name="social[{{ $profile_data['social']['researchgate']['id'] }}]"
+                                                placeholder="https://researchgate.net/profile/your-profile" type="url"
+                                                value="{{ $profile_data['social']['researchgate']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['researchgate']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="address-line2">Address Line 2</label>
-                                            <input class="form-control" id="address-line2" placeholder="Optional"
-                                                type="text" />
+                                            <label class="form-label" for="whatsapp">
+                                                <i class="ti ti-brand-whatsapp text-success"></i> WhatsApp
+                                            </label>
+                                            <input
+                                                class="form-control @error('social.' . $profile_data['social']['whatsapp']['id']) is-invalid @enderror"
+                                                id="whatsapp"
+                                                name="social[{{ $profile_data['social']['whatsapp']['id'] }}]"
+                                                placeholder="https://wa.me/1234567890" type="url"
+                                                value="{{ $profile_data['social']['whatsapp']['column_value'] ?? '' }}" />
+                                            @error('social.' . $profile_data['social']['whatsapp']['id'])
+                                                <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="city">City</label>
-                                            <input class="form-control" id="city" placeholder="City"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="state">State / Province</label>
-                                            <input class="form-control" id="state" placeholder="State or Province"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="zipcode">Postal / ZIP Code</label>
-                                            <input class="form-control" id="zipcode" placeholder="Postal Code"
-                                                type="text" />
-                                        </div>
-                                    </div>
+
+                                {{-- Info Alert --}}
+                                <div class="alert alert-info alert-dismissible fade show mb-3" role="alert">
+                                    <strong><i class="ti ti-info-circle me-2"></i>Tip:</strong>
+                                    Enter complete URLs including the protocol (https://) for social media profiles. Leave blank to hide unused links.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="country">Country</label>
-                                            <input class="form-control" id="country" placeholder="Country"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Company Info -->
-                                <h5
-                                    class="mb-3 text-uppercase bg-light-subtle p-1 border-dashed border rounded border-light text-center">
-                                    <i class="ti ti-building-skyscraper me-1"></i> Company Info
-                                </h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="companyname">Company Name</label>
-                                            <input class="form-control" id="companyname" placeholder="Enter company name"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="cwebsite">Website</label>
-                                            <input class="form-control" id="cwebsite"
-                                                placeholder="https://yourcompany.com" type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Social -->
-                                <h5
-                                    class="mb-3 text-uppercase bg-light-subtle p-1 border-dashed border rounded border-light text-center">
-                                    <i class="ti ti-world me-1"></i> Social
-                                </h5>
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-fb">Facebook</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-facebook"></i></span>
-                                            <input class="form-control" id="social-fb" placeholder="Facebook URL"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-tw">Twitter X</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-x"></i></span>
-                                            <input class="form-control" id="social-tw" placeholder="@username"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-insta">Instagram</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-instagram"></i></span>
-                                            <input class="form-control" id="social-insta" placeholder="Instagram URL"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-lin">LinkedIn</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-linkedin"></i></span>
-                                            <input class="form-control" id="social-lin" placeholder="LinkedIn Profile"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-gh">GitHub</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-github"></i></span>
-                                            <input class="form-control" id="social-gh" placeholder="GitHub Username"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label" for="social-sky">Skype</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="ti ti-brand-skype"></i></span>
-                                            <input class="form-control" id="social-sky" placeholder="@username"
-                                                type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Submit -->
+
+                                {{-- Submit Button --}}
                                 <div class="text-end mt-4">
-                                    <button class="btn btn-success" type="submit"><i
-                                            class="ti ti-device-floppy me-1"></i> Save Changes</button>
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="ti ti-device-floppy me-1"></i> Save Changes
+                                    </button>
                                 </div>
                             </form>
                         </div>

@@ -50,10 +50,10 @@ class ProfileInfoSeeder extends Seeder
 
         // Permanent Address Information
         $permanentAddressData = [
-            ['column_title' => 'Street Address', 'column_name' => 'permanent_street_address', 'column_value' => 'Tangail, Bangladesh'],
-            ['column_title' => 'City', 'column_name' => 'permanent_city', 'column_value' => 'Tangail'],
-            ['column_title' => 'State/Province', 'column_name' => 'permanent_state_province', 'column_value' => 'Tangail'],
-            ['column_title' => 'Postal Code', 'column_name' => 'permanent_postal_code', 'column_value' => '1900'],
+            ['column_title' => 'Street Address', 'column_name' => 'permanent_street_address', 'column_value' => 'Shivrampur, Pabna Sadar'],
+            ['column_title' => 'City', 'column_name' => 'permanent_city', 'column_value' => 'Pabna'],
+            ['column_title' => 'State/Province', 'column_name' => 'permanent_state_province', 'column_value' => 'Rajshahi'],
+            ['column_title' => 'Postal Code', 'column_name' => 'permanent_postal_code', 'column_value' => '6600'],
             ['column_title' => 'Country', 'column_name' => 'permanent_country', 'column_value' => 'Bangladesh'],
         ];
 
