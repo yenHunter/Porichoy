@@ -105,6 +105,28 @@ class ProfileInfo extends Model
     }
 
     /**
+     * Scope for getting present address information.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePresentAddressInfo($query)
+    {
+        return $query->byCategory('present_address');
+    }
+
+    /**
+     * Scope for getting permanent address information.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePermanentAddressInfo($query)
+    {
+        return $query->byCategory('permanent_address');
+    }
+
+    /**
      * Get column value by column name for a specific category.
      *
      * @param string $category

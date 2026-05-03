@@ -39,13 +39,22 @@ class ProfileInfoSeeder extends Seeder
             ['column_title' => 'Languages', 'column_name' => 'languages', 'column_value' => 'English, Bengali'],
         ];
 
-        // Address Information
-        $addressInfoData = [
-            ['column_title' => 'Street Address', 'column_name' => 'street_address', 'column_value' => "President's Office, Bangabhaban"],
-            ['column_title' => 'City', 'column_name' => 'city', 'column_value' => 'Dhaka'],
-            ['column_title' => 'State/Province', 'column_name' => 'state_province', 'column_value' => 'Dhaka'],
-            ['column_title' => 'Postal Code', 'column_name' => 'postal_code', 'column_value' => '1205'],
-            ['column_title' => 'Country', 'column_name' => 'country', 'column_value' => 'Bangladesh'],
+        // Present Address Information
+        $presentAddressData = [
+            ['column_title' => 'Street Address', 'column_name' => 'present_street_address', 'column_value' => "President's Office, Bangabhaban"],
+            ['column_title' => 'City', 'column_name' => 'present_city', 'column_value' => 'Dhaka'],
+            ['column_title' => 'State/Province', 'column_name' => 'present_state_province', 'column_value' => 'Dhaka'],
+            ['column_title' => 'Postal Code', 'column_name' => 'present_postal_code', 'column_value' => '1205'],
+            ['column_title' => 'Country', 'column_name' => 'present_country', 'column_value' => 'Bangladesh'],
+        ];
+
+        // Permanent Address Information
+        $permanentAddressData = [
+            ['column_title' => 'Street Address', 'column_name' => 'permanent_street_address', 'column_value' => 'Tangail, Bangladesh'],
+            ['column_title' => 'City', 'column_name' => 'permanent_city', 'column_value' => 'Tangail'],
+            ['column_title' => 'State/Province', 'column_name' => 'permanent_state_province', 'column_value' => 'Tangail'],
+            ['column_title' => 'Postal Code', 'column_name' => 'permanent_postal_code', 'column_value' => '1900'],
+            ['column_title' => 'Country', 'column_name' => 'permanent_country', 'column_value' => 'Bangladesh'],
         ];
 
         // Social Links
@@ -81,9 +90,18 @@ class ProfileInfoSeeder extends Seeder
             ]));
         }
 
-        foreach ($addressInfoData as $data) {
+        foreach ($presentAddressData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'address',
+                'use_for' => 'present_address',
+                'column_status' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
+        }
+
+        foreach ($permanentAddressData as $data) {
+            DB::table('profile_infos')->insert(array_merge($data, [
+                'use_for' => 'permanent_address',
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

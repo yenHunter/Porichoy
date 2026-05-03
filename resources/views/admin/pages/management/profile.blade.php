@@ -75,7 +75,7 @@
                             </div>
                             <p class="mb-0 fs-sm">Lives in
                                 <span class="text-dark fw-semibold">
-                                    {{ $profile_data['address']['city']['column_value'] . ', ' . $profile_data['address']['country']['column_value'] ?? 'San Francisco, CA' }}
+                                    {{ ($profile_data['present_address']['present_city']['column_value'] ?? '') . ', ' . ($profile_data['present_address']['present_country']['column_value'] ?? '') ?: 'San Francisco, CA' }}
                                 </span>
                             </p>
                         </div>
@@ -356,7 +356,10 @@
 
                                 {{-- Profile Photo --}}
                                 <div class="mb-4">
-                                    <label class="form-label" for="profilephoto">Profile Photo</label>
+                                    <label class="form-label" for="profilephoto">
+                                        Profile Photo
+                                        <code>(Transparent Background)</code>
+                                    </label>
                                     <div class="mb-2">
                                         @if ($profile_data['basic']['profile_picture']['column_value'])
                                             @php
@@ -396,144 +399,81 @@
                         </div>
                         <!-- end About Me data-->
                         <div class="tab-pane" id="address-info">
-                            <!-- comment box -->
-                            <form action="#" class="mb-3">
-                                <textarea class="form-control" placeholder="Write something..." rows="3"></textarea>
-                                <div class="d-flex py-2 justify-content-between">
-                                    <div>
-                                        <a class="btn btn-sm btn-icon btn-light" href="#"><i
-                                                class="ti ti-user fs-md"></i></a>
-                                        <a class="btn btn-sm btn-icon btn-light" href="#"><i
-                                                class="ti ti-map-pin fs-md"></i></a>
-                                        <a class="btn btn-sm btn-icon btn-light" href="#"><i
-                                                class="ti ti-camera fs-md"></i></a>
-                                        <a class="btn btn-sm btn-icon btn-light" href="#"><i
-                                                class="ti ti-mood-smile fs-md"></i></a>
+                            <form action="{{ route('management.settings.profile.update') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                
+                                <!-- Present Address Section -->
+                                <h5 class="mb-3 fw-semibold">Present Address</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Street Address</label>
+                                        <input type="text" class="form-control" name="present_address[{{ $profile_data['present_address']['present_street_address']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['present_address']['present_street_address']['column_value'] ?? '' }}" />
                                     </div>
-                                    <button class="btn btn-sm btn-dark" type="submit">Post</button>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-control" name="present_address[{{ $profile_data['present_address']['present_city']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['present_address']['present_city']['column_value'] ?? '' }}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">State/Province</label>
+                                        <input type="text" class="form-control" name="present_address[{{ $profile_data['present_address']['present_state_province']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['present_address']['present_state_province']['column_value'] ?? '' }}" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" name="present_address[{{ $profile_data['present_address']['present_postal_code']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['present_address']['present_postal_code']['column_value'] ?? '' }}" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Country</label>
+                                    <input type="text" class="form-control" name="present_address[{{ $profile_data['present_address']['present_country']['id'] ?? '' }}]"
+                                        value="{{ $profile_data['present_address']['present_country']['column_value'] ?? '' }}" />
+                                </div>
+
+                                <hr class="my-4" />
+
+                                <!-- Permanent Address Section -->
+                                <h5 class="mb-3 fw-semibold">Permanent Address</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Street Address</label>
+                                        <input type="text" class="form-control" name="permanent_address[{{ $profile_data['permanent_address']['permanent_street_address']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['permanent_address']['permanent_street_address']['column_value'] ?? '' }}" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-control" name="permanent_address[{{ $profile_data['permanent_address']['permanent_city']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['permanent_address']['permanent_city']['column_value'] ?? '' }}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">State/Province</label>
+                                        <input type="text" class="form-control" name="permanent_address[{{ $profile_data['permanent_address']['permanent_state_province']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['permanent_address']['permanent_state_province']['column_value'] ?? '' }}" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" name="permanent_address[{{ $profile_data['permanent_address']['permanent_postal_code']['id'] ?? '' }}]"
+                                            value="{{ $profile_data['permanent_address']['permanent_postal_code']['column_value'] ?? '' }}" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Country</label>
+                                    <input type="text" class="form-control" name="permanent_address[{{ $profile_data['permanent_address']['permanent_country']['id'] ?? '' }}]"
+                                        value="{{ $profile_data['permanent_address']['permanent_country']['column_value'] ?? '' }}" />
+                                </div>
+
+                                {{-- Submit Button --}}
+                                <div class="text-end mt-4">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
-                            <!-- end comment box -->
-                            <!-- Story Box-->
-                            <div class="border border-light border-dashed rounded p-2 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img alt="Generic placeholder image" class="me-2 avatar-md rounded-circle"
-                                        src="/images/users/user-3.jpg" />
-                                    <div class="w-100">
-                                        <h5 class="m-0">Jeremy Tomlinson</h5>
-                                        <p class="text-muted mb-0"><small>about 2 minutes ago</small></p>
-                                    </div>
-                                </div>
-                                <p>Story based around the idea of time lapse, animation to post soon!</p>
-                                <img alt="post-img" class="rounded me-1" height="60" src="/images/stock/small-1.jpg">
-                                <img alt="post-img" class="rounded me-1" height="60" src="/images/stock/small-2.jpg">
-                                <img alt="post-img" class="rounded" height="60" src="/images/stock/small-3.jpg">
-                                <div class="mt-2">
-                                    <a class="btn btn-sm btn-link text-muted" href="javascript: void(0);"><i
-                                            class="ti ti-arrow-back-up fs-sm me-1"></i> Reply</a>
-                                    <a class="btn btn-sm btn-link text-muted" href="javascript: void(0);"><i
-                                            class="ti ti-heart fs-sm me-1"></i> Like</a>
-                                    <a class="btn btn-sm btn-link text-muted" href="javascript: void(0);"><i
-                                            class="ti ti-share-3 fs-sm me-1"></i> Share</a>
-                                </div>
-                                </img></img></img>
-                            </div>
-                            <!-- Story Box-->
-                            <div class="border border-light border-dashed rounded p-2 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img alt="Generic placeholder image" class="me-2 avatar-sm rounded-circle"
-                                        src="/images/users/user-4.jpg" />
-                                    <div class="w-100">
-                                        <h5 class="m-0">Sophia Martinez</h5>
-                                        <p class="text-muted mb-0"><small>about 30 minutes ago</small></p>
-                                    </div>
-                                </div>
-                                <div class="fs-16 text-center mt-3 mb-4 fst-italic">
-                                    <i class="ti ti-quote fs-20"></i>
-                                    Just finished a weekend project! Built a small weather app using React and
-                                    OpenWeather API.
-                                    Feeling excited to share the results with everyone soon. 🚀
-                                </div>
-                                <div class="bg-light-subtle m-n2 p-2 border-top border-bottom border-dashed">
-                                    <div class="d-flex align-items-start">
-                                        <img alt="Generic placeholder image" class="me-2 avatar-sm rounded-circle"
-                                            src="/images/users/user-1.jpg" />
-                                        <div class="w-100">
-                                            <h5 class="mt-0 mb-1">
-                                                Liam Johnson <small class="text-muted">10 minutes ago</small>
-                                            </h5>
-                                            That sounds awesome! Can't wait to see how you designed the UI.
-                                            <br />
-                                            <a class="text-muted font-13 d-inline-block mt-2" href="javascript:void(0);">
-                                                <i class="ti ti-arrow-back-up"></i> Reply
-                                            </a>
-                                            <div class="d-flex align-items-start mt-3">
-                                                <a class="pe-2" href="#">
-                                                    <img alt="Generic placeholder image" class="avatar-sm rounded-circle"
-                                                        src="/images/users/user-2.jpg" />
-                                                </a>
-                                                <div class="w-100">
-                                                    <h5 class="mt-0 mb-1">
-                                                        Olivia Carter <small class="text-muted">15 minutes ago</small>
-                                                    </h5>
-                                                    I recently built something similar with Vue. Let's collaborate
-                                                    sometime!
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-start mt-2">
-                                        <a class="pe-2" href="#">
-                                            <img alt="Generic placeholder image" class="rounded-circle" height="31"
-                                                src="/images/users/user-3.jpg" />
-                                        </a>
-                                        <div class="w-100">
-                                            <input class="form-control form-control-sm" id="simpleinput"
-                                                placeholder="Add a comment..." type="text" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <a class="btn btn-sm btn-link text-danger" href="javascript:void(0);">
-                                        <i class="ti ti-heart me-1 fs-sm"></i> Like (45)
-                                    </a>
-                                    <a class="btn btn-sm btn-link text-muted" href="javascript:void(0);">
-                                        <i class="ti ti-share-3 me-1 fs-sm"></i> Share
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- Story Box -->
-                            <div class="border border-light border-dashed rounded p-2 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img alt="Profile photo of Anika Roy" class="me-2 avatar-sm rounded-circle"
-                                        src="/images/users/user-2.jpg" />
-                                    <div class="w-100">
-                                        <h5 class="m-0">Anika Roy</h5>
-                                        <p class="text-muted mb-0"><small>2 hours ago</small></p>
-                                    </div>
-                                </div>
-                                <p>Sharing a couple of timelapses from my recent Iceland trip. Let me know which one you
-                                    like most!</p>
-                                <div class="row g-2">
-                                    <div class="col-md-6">
-                                        <div class="ratio ratio-16x9 rounded overflow-hidden">
-                                            <iframe allowfullscreen=""
-                                                src="https://player.vimeo.com/video/1084537"></iframe>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="ratio ratio-16x9 rounded overflow-hidden">
-                                            <iframe allowfullscreen=""
-                                                src="https://player.vimeo.com/video/76979871"></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center gap-2 p-3">
-                                <strong>Loading...</strong>
-                                <div aria-hidden="true" class="spinner-border spinner-border-sm text-danger"
-                                    role="status"></div>
-                            </div>
                         </div>
                         <!-- end timeline tabs data-->
                         <div class="tab-pane" id="social-info">

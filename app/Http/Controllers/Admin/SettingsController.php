@@ -43,12 +43,14 @@ class SettingsController extends Controller
             })->toArray();
 
             $profileData = [
-                'basic'         => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
-                'personal'      => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
-                'address'       => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
-                'social'        => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
-                'education'     => EducationInfo::active()->sorted()->first(),
-                'experience'    => ExperienceInfo::active()->sorted()->first(),
+                'basic'             => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
+                'personal'          => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
+                'address'           => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
+                'present_address'   => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
+                'permanent_address' => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
+                'social'            => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
+                'education'         => EducationInfo::active()->sorted()->first(),
+                'experience'        => ExperienceInfo::active()->sorted()->first(),
             ];
             // dd($profileData);
             return view('admin.pages.management.profile', [
@@ -105,6 +107,8 @@ class SettingsController extends Controller
             $processProfileData('basic');
             $processProfileData('personal');
             $processProfileData('address');
+            $processProfileData('present_address');
+            $processProfileData('permanent_address');
             $processProfileData('social');
 
             $this->logUserActivity('ProfileInfo', 'Portfolio profile information updated');
