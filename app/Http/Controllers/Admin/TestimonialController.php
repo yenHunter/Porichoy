@@ -49,20 +49,20 @@ class TestimonialController extends Controller
         try {
             // Validation
             $request->validate([
-                'client_id'         => 'required|exists:client_infos,id',
-                'title'             => 'nullable|string|max:255',
-                'details'           => 'required|string',
-                'review'            => 'required|integer|min:1|max:5',
-                'status'            => 'nullable|boolean',
+                'client_id'                     => 'required|exists:client_infos,id',
+                'testimonial_title'             => 'required|string|max:255',
+                'testimonial_details'           => 'required|string',
+                'testimonial_review'            => 'required|integer|min:1|max:5',
+                'testimonial_status'            => 'nullable|boolean',
             ]);
 
             // Save testimonial info in DB
             $testimonial = new TestimonialInfo();
             $testimonial->client_id = $request->client_id;
-            $testimonial->title = $request->title;
-            $testimonial->details = $request->details;
-            $testimonial->review = $request->review;
-            $testimonial->status = $request->status;
+            $testimonial->testimonial_title = $request->testimonial_title;
+            $testimonial->testimonial_details = $request->testimonial_details;
+            $testimonial->testimonial_review = $request->testimonial_review;
+            $testimonial->testimonial_status = $request->testimonial_status;
             $testimonial->save();
             $this->logUserActivity('Testimonial', 'New record created');
             return back()->with('success', 'Testimonial added successfully.');
@@ -101,12 +101,12 @@ class TestimonialController extends Controller
         try {
             // Validation
             $request->validate([
-                'testimonial_id'    => 'required|exists:testimonial_infos,id',
-                'client_id'         => 'required|exists:client_infos,id',
-                'title'             => 'nullable|string|max:255',
-                'details'           => 'required|string',
-                'review'            => 'required|integer|min:1|max:5',
-                'status'            => 'nullable|boolean'
+                'testimonial_id'                => 'required|exists:testimonial_infos,id',
+                'client_id'                     => 'required|exists:client_infos,id',
+                'testimonial_title'             => 'required|string|max:255',
+                'testimonial_details'           => 'required|string',
+                'testimonial_review'            => 'required|integer|min:1|max:5',
+                'testimonial_status'            => 'nullable|boolean'
             ]);
 
             // Find the testimonial by ID
@@ -115,10 +115,10 @@ class TestimonialController extends Controller
             // Update testimonial info in DB
             $object->fill([
                 'client_id' => $request->client_id,
-                'title' => $request->title,
-                'details' => $request->details,
-                'review' => $request->review,
-                'status' => $request->status,
+                'testimonial_title' => $request->testimonial_title,
+                'testimonial_details' => $request->testimonial_details,
+                'testimonial_review' => $request->testimonial_review,
+                'testimonial_status' => $request->testimonial_status,
             ]);
             $object->save();
             $this->logUserActivity('Testimonial', 'Existing record updated');
@@ -161,7 +161,7 @@ class TestimonialController extends Controller
         try {
             $order = $request->input('order');
             foreach ($order as $item) {
-                TestimonialInfo::where('id', $item['id'])->update(['sequence' => $item['sequence']]);
+                TestimonialInfo::where('id', $item['id'])->update(['testimonial_sequence' => $item['sequence']]);
             }
             return response()->json(['status' => 'success']);
         } catch (\Throwable $th) {

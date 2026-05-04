@@ -66,45 +66,42 @@
                             </tr>
                         </thead>
                         <tbody id="sortable-testimonial">
-                            @foreach ($testimonial_list as $testimonial)
-                                <tr data-id="{{ $testimonial->id }}">
+                            @foreach ($testimonial_list as $item)
+                                <tr data-id="{{ $item->id }}">
                                     <td>
-                                        <i class="ti ti-arrows-move cursor-grab"></i>
+                                        <i class="ti ti-arrows-move fs-42"></i>
                                     </td>
                                     <td>
-                                        <span class="badge bg-light text-dark">
-                                            {{ $testimonial->client?->client_name ?? 'N/A' }}
-                                        </span>
+                                        {{ $item->client?->client_name ?? 'N/A' }}
+                                        <br>
+                                        <small>{{ $item->client?->client_designation ?? 'N/A' }}</small>
                                     </td>
                                     <td>
-                                        <span class="text-truncate">{{ $testimonial->title ?? 'Untitled' }}</span>
+                                        <span
+                                            class="text-truncate">{{ $item->testimonial_title ?? 'Untitled' }}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center gap-1">
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $testimonial->review)
-                                                    <i class="ti ti-star-filled text-warning"></i>
-                                                @else
-                                                    <i class="ti ti-star text-muted"></i>
-                                                @endif
+                                            @for ($i = 1; $i <= $item->testimonial_review; $i++)
+                                                <i class="ti ti-star text-warning"></i>
                                             @endfor
                                         </div>
                                     </td>
                                     <td>
-                                        @if ($testimonial->status)
+                                        @if ($item->testimonial_status === true)
                                             <span class="badge bg-success">Active</span>
                                         @else
                                             <span class="badge bg-danger">Inactive</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <button class="btn btn-icon btn-sm btn-edit"
-                                            data-testimonial_id="{{ $testimonial->id }}" title="Edit">
-                                            <i class="ti ti-edit"></i>
+                                        <button class="btn btn-warning btn-icon btn-sm btn-edit"
+                                            data-testimonial_id="{{ $item->id }}">
+                                            <i class="ti ti-edit fs-lg"></i>
                                         </button>
-                                        <button class="btn btn-icon btn-sm btn-delete"
-                                            data-testimonial_id="{{ $testimonial->id }}" title="Delete">
-                                            <i class="ti ti-trash text-danger"></i>
+                                        <button class="btn btn-danger btn-icon btn-sm btn-delete"
+                                            data-testimonial_id="{{ $item->id }}">
+                                            <i class="ti ti-trash fs-lg"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -116,10 +113,11 @@
         </div>
     </div>
 
-    <form action="{{ route('element.skill.store') }}" method="POST" id="create_update_form" enctype="multipart/form-data">
+    <form action="{{ route('element.testimonial.store') }}" method="POST" id="create_update_form"
+        enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="_method" id="create_update_form_method" value="POST">
-        <input type="hidden" name="skill_id" id="skill_id">
+        <input type="hidden" name="testimonial_id" id="testimonial_id">
         <div aria-hidden="true" aria-labelledby="scrollableModalTitle" class="modal fade" id="create_update_modal"
             role="dialog" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
@@ -148,33 +146,54 @@
                                 @enderror
                             </div>
                             <div class="col-lg-12">
-                                <label class="form-label" for="skill_logo">Skill Logo</label>
-                                <div class="filepond-uploader">
-                                    <input class="filepond @error('skill_logo') is-invalid @enderror" name="skill_logo"
-                                        type="file" />
+                                <label class="form-label" for="testimonial_title">
+                                    Title
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <input class="form-control @error('testimonial_title') is-invalid @enderror"
+                                    id="testimonial_title" name="testimonial_title" type="text"
+                                    placeholder="Enter testimonial title" value="{{ old('testimonial_title') }}"
+                                    required>
+                                @error('testimonial_title')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="form-label" for="testimonial_review">
+                                    Review Rating
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <div class="input-group" data-touchspin="">
+                                    <button class="btn btn-light floating" data-minus="" type="button"><i
+                                            class="ti ti-minus"></i></button>
+                                    <input class="form-control form-control-sm border-0" max="5" type="number"
+                                        value="0" required name="testimonial_review" id="testimonial_review" />
+                                    <button class="btn btn-light floating" data-plus="" type="button"><i
+                                            class="ti ti-plus"></i></button>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label class="form-label pb-3" for="skill_score">Skill Score (Proficiency Level)</label>
-                                <div id="slider-vertical-tooltip"></div>
-                                <input type="hidden" id="skill_score" name="skill_score">
+                                <label class="form-label" for="testimonial_details">
+                                    Details & Description
+                                    <span class="badge badge-soft-danger">required</span>
+                                </label>
+                                <textarea class="form-control @error('testimonial_details') is-invalid @enderror" name="testimonial_details"
+                                    id="testimonial_details" placeholder="Enter testimonial details" required>{{ old('testimonial_details') }}</textarea>
+                                @error('testimonial_details')
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-lg-12">
-                                <label class="form-label" for="skill_details">Details & Description</label>
-                                <div id="skill-details-editor" style="height: 300px;"></div>
-                                <input type="hidden" name="skill_details" id="skill_details_hidden">
-                            </div>
-                            <div class="col-lg-12">
-                                <label class="form-label" for="skill_status">Status</label>
+                                <label class="form-label" for="testimonial_status">Status</label>
                                 <select aria-label="Select Status"
-                                    class="form-select @error('skill_status') is-invalid @enderror" name="skill_status"
-                                    id="skill_status" required>
+                                    class="form-select @error('testimonial_status') is-invalid @enderror"
+                                    name="testimonial_status" id="testimonial_status" required>
                                     <option selected disabled>Choose a status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    @error('skill_status')
+                                    @error('testimonial_status')
                                         {{ $message }}
                                     @enderror
                                 </div>
@@ -189,91 +208,8 @@
             </div><!-- /.modal-dialog -->
         </div>
     </form>
-
-    <!-- Create/Update Modal -->
-    <div class="modal fade" id="create_update_modall" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="create_update_modal_title">Create Testimonial</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="create_update_form" method="POST" action="{{ route('element.testimonial.store') }}">
-                    @csrf
-                    <input type="hidden" name="_method" id="create_update_form_method" value="POST" />
-                    <input type="hidden" name="testimonial_id" id="testimonial_id" />
-
-                    <div class="modal-body">
-                        <!-- Client Selection -->
-                        <div class="mb-3">
-                            <label class="form-label" for="client_id">Client <span class="text-danger">*</span></label>
-                            <select class="form-select @error('client_id') is-invalid @enderror" id="client_id"
-                                name="client_id" required>
-                                <option selected disabled>Choose a client</option>
-                                @foreach ($client_list as $client)
-                                    <option value="{{ $client->id }}">
-                                        {{ $client->client_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('client_id')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Title -->
-                        <div class="mb-3">
-                            <label class="form-label" for="title">Title</label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                id="title" name="title" placeholder="e.g. Amazing Service" />
-                            @error('title')
-                                <span class="invalid-feedback">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Review Rating -->
-                        <div class="mb-3">
-                            <label class="form-label" for="review">Rating <span class="text-danger">*</span></label>
-                            <div class="rating-stars">
-                                <div id="slider-review"></div>
-                                <div class="mt-2">
-                                    <span id="review-display" class="badge bg-warning">★★★★★</span>
-                                    <input type="hidden" id="review" name="review" value="5" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonial Details -->
-                        <div class="mb-3">
-                            <label class="form-label" for="testimonial-details-editor">Testimonial <span
-                                    class="text-danger">*</span></label>
-                            <div id="testimonial-details-editor"></div>
-                            <textarea id="details_hidden" name="details" hidden></textarea>
-                            @error('details')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Status -->
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="status" name="status"
-                                    value="1" checked />
-                                <label class="form-check-label" for="status">Active</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')
-    @vite(['resources/js/pages/element-skill.js'])
+    @vite(['resources/js/pages/element-testimonial.js'])
 @endsection

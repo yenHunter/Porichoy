@@ -150,7 +150,7 @@
             </li>
             <li class="side-nav-item">
                 <a class="side-nav-link" href="{{ route('element.testimonial.view') }}">
-                    <span class="menu-icon"><i data-lucide="message-square"></i></span>
+                    <span class="menu-icon"><i data-lucide="star"></i></span>
                     <span class="menu-text" data-lang="testimonials"> Testimonials </span>
                 </a>
             </li>

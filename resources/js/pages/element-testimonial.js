@@ -144,20 +144,10 @@ $(document).on('click', '.btn-edit', function () {
             // Fill form fields
             $('#testimonial_id').val(data.id);
             $('#client_id').val(data.client_id);
-            $('#title').val(data.title);
-            $('#details_hidden').val(data.details);
-            $('#status').prop('checked', data.status == 1);
-
-            // Update the Slider position
-            if (mySlider && data.review !== undefined) {
-                mySlider.set(data.review);
-                updateReviewDisplay(data.review);
-            }
-            $('#review').val(data.review);
-
-            const htmlContent = data.details || '';
-            myQuill.root.innerHTML = htmlContent;
-            $('#details_hidden').val(htmlContent);
+            $('#testimonial_title').val(data.testimonial_title);
+            $('#testimonial_review').val(data.testimonial_review);
+            $('#testimonial_details').val(data.testimonial_details);
+            $('#testimonial_status').val(data.testimonial_status == 1 ? 1 : 0);
 
             // Update form
             const form = document.getElementById('create_update_form');

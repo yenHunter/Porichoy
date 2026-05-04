@@ -22,20 +22,20 @@ class TestimonialInfo extends Model
      */
     protected $fillable = [
         'client_id',
-        'title',
-        'details',
-        'review',
-        'status',
-        'sequence',
+        'testimonial_title',
+        'testimonial_details',
+        'testimonial_review',
+        'testimonial_status',
+        'testimonial_sequence',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'status'                => 'boolean',
-        'review'                => 'integer',
-        'sequence'              => 'integer',
+        'testimonial_status'    => 'boolean',
+        'testimonial_review'    => 'integer',
+        'testimonial_sequence'  => 'integer',
         'created_at'            => 'datetime',
         'updated_at'            => 'datetime',
     ];
@@ -54,13 +54,13 @@ class TestimonialInfo extends Model
             }
 
             // Auto Status
-            if (is_null($model->status)) {
-                $model->status = true;
+            if (is_null($model->testimonial_status)) {
+                $model->testimonial_status = true;
             }
 
             // Auto Sequence
-            if (is_null($model->sequence)) {
-                $model->sequence = static::max('sequence') + 1;
+            if (is_null($model->testimonial_sequence)) {
+                $model->testimonial_sequence = static::max('testimonial_sequence') + 1;
             }
         });
 
@@ -132,7 +132,7 @@ class TestimonialInfo extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('testimonial_status', true);
     }
 
     /**
@@ -141,7 +141,7 @@ class TestimonialInfo extends Model
      */
     public function scopeSorted($query)
     {
-        return $query->orderBy('sequence', 'asc');
+        return $query->orderBy('testimonial_sequence', 'asc');
     }
 
     /**
@@ -159,7 +159,7 @@ class TestimonialInfo extends Model
      */
     public function scopeMinReview($query, $minRating)
     {
-        return $query->where('review', '>=', $minRating);
+        return $query->where('testimonial_review', '>=', $minRating);
     }
 
     /**
@@ -168,6 +168,6 @@ class TestimonialInfo extends Model
      */
     public function scopeWithReview($query, $rating)
     {
-        return $query->where('review', $rating);
+        return $query->where('testimonial_review', $rating);
     }
 }

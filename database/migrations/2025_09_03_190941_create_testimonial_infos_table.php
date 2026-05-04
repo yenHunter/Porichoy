@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('client_id');
             $table->foreign('client_id')->references('id')->on('client_infos')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('testimonial_title')->nullable();
+            $table->string('testimonial_title');
             $table->text('testimonial_details');
             $table->tinyInteger('testimonial_review');
             $table->boolean('testimonial_status')->default(true);

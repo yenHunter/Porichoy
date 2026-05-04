@@ -67,7 +67,7 @@ class ClientController extends Controller
             if ($request->hasFile('client_picture')) {
                 $file = $request->file('client_picture');
                 $filename = Str::uuid() . '.webp';
-                $picture_path = 'uploads/client/' . $filename;
+                $picture_path = 'uploads/client/image/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($picture_path, $img->toWebp(80));
@@ -78,7 +78,7 @@ class ClientController extends Controller
             if ($request->hasFile('organization_logo')) {
                 $file = $request->file('organization_logo');
                 $filename = Str::uuid() . '.webp';
-                $logo_path = 'uploads/organization-logo/' . $filename;
+                $logo_path = 'uploads/client/organization/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($logo_path, $img->toWebp(80));
@@ -157,7 +157,7 @@ class ClientController extends Controller
                 }
                 $file = $request->file('client_picture');
                 $filename = Str::uuid() . '.webp';
-                $picture_path = 'uploads/client/' . $filename;
+                $picture_path = 'uploads/client/image/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($picture_path, $img->toWebp(80));
@@ -171,7 +171,7 @@ class ClientController extends Controller
                 }
                 $file = $request->file('organization_logo');
                 $filename = Str::uuid() . '.webp';
-                $logo_path = 'uploads/organization-logo/' . $filename;
+                $logo_path = 'uploads/client/organization/' . $filename;
                 $img = Image::read($file);
                 $img->scale(width: 300);
                 Storage::disk('public')->put($logo_path, $img->toWebp(80));
