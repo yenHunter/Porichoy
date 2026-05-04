@@ -11,6 +11,7 @@ use App\Models\ServiceInfo;
 use Illuminate\Http\Request;
 use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
+use App\Models\TestimonialInfo;
 use App\Http\Controllers\Controller;
 
 class VisitorController extends Controller
@@ -41,6 +42,7 @@ class VisitorController extends Controller
                 'education_list'        => EducationInfo::sorted()->active()->get(),
                 'experience_list'       => ExperienceInfo::sorted()->active()->get(),
                 'client_list'           => ClientInfo::sorted()->active()->get(),
+                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
             ]
         );
     }

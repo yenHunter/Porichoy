@@ -58,28 +58,36 @@
                             </div>
                             <div class="rs-theme-social wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1.3s">
                                 @if ($profile_info['twitter'] ?? null)
-                                    <a href="{{ $profile_info['twitter'] }}" target="_blank" title="Twitter"><i class="ri-twitter-x-line"></i></a>
+                                    <a href="{{ $profile_info['twitter'] }}" target="_blank" title="Twitter"><i
+                                            class="ri-twitter-x-line"></i></a>
                                 @endif
                                 @if ($profile_info['facebook'] ?? null)
-                                    <a href="{{ $profile_info['facebook'] }}" target="_blank" title="Facebook"><i class="ri-facebook-fill"></i></a>
+                                    <a href="{{ $profile_info['facebook'] }}" target="_blank" title="Facebook"><i
+                                            class="ri-facebook-fill"></i></a>
                                 @endif
                                 @if ($profile_info['linkedin'] ?? null)
-                                    <a href="{{ $profile_info['linkedin'] }}" target="_blank" title="LinkedIn"><i class="ri-linkedin-fill"></i></a>
+                                    <a href="{{ $profile_info['linkedin'] }}" target="_blank" title="LinkedIn"><i
+                                            class="ri-linkedin-fill"></i></a>
                                 @endif
                                 @if ($profile_info['instagram'] ?? null)
-                                    <a href="{{ $profile_info['instagram'] }}" target="_blank" title="Instagram"><i class="ri-instagram-line"></i></a>
+                                    <a href="{{ $profile_info['instagram'] }}" target="_blank" title="Instagram"><i
+                                            class="ri-instagram-line"></i></a>
                                 @endif
                                 @if ($profile_info['github'] ?? null)
-                                    <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub"><i class="ri-github-fill"></i></a>
+                                    <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub"><i
+                                            class="ri-github-fill"></i></a>
                                 @endif
                                 @if ($profile_info['youtube'] ?? null)
-                                    <a href="{{ $profile_info['youtube'] }}" target="_blank" title="YouTube"><i class="ri-youtube-fill"></i></a>
+                                    <a href="{{ $profile_info['youtube'] }}" target="_blank" title="YouTube"><i
+                                            class="ri-youtube-fill"></i></a>
                                 @endif
                                 @if ($profile_info['researchgate'] ?? null)
-                                    <a href="{{ $profile_info['researchgate'] }}" target="_blank" title="ResearchGate"><i class="ri-book-fill"></i></a>
+                                    <a href="{{ $profile_info['researchgate'] }}" target="_blank" title="ResearchGate"><i
+                                            class="ri-book-fill"></i></a>
                                 @endif
                                 @if ($profile_info['whatsapp'] ?? null)
-                                    <a href="{{ $profile_info['whatsapp'] }}" target="_blank" title="WhatsApp"><i class="ri-whatsapp-fill"></i></a>
+                                    <a href="{{ $profile_info['whatsapp'] }}" target="_blank" title="WhatsApp"><i
+                                            class="ri-whatsapp-fill"></i></a>
                                 @endif
                             </div>
                         </div>
@@ -89,9 +97,11 @@
                             data-wow-duration="1.5s">
                             <div class="rs-banner-thumb">
                                 @php
-                                    $profilePicPath = $profile_info['profile_picture'] ?? 'visitor/flixta/images/banner/banner-thumb-01.png';
+                                    $profilePicPath =
+                                        $profile_info['profile_picture'] ??
+                                        'visitor/flixta/images/banner/banner-thumb-01.png';
                                     // Check if it's a storage path
-                                    if (str_starts_with($profilePicPath, 'uploads/profile/')) {
+if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                         $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
                                     } else {
                                         $imgSrc = asset($profilePicPath);
@@ -118,8 +128,8 @@
                     <div class="col-xl-4 col-lg-4">
                         <div class="counter-content-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="counter-content-inner">
-                                <h3 class="counter-text-title"><span data-purecounter-duration="1" data-purecounter-end="10"
-                                        class="purecounter">10.</span>
+                                <h3 class="counter-text-title"><span data-purecounter-duration="1"
+                                        data-purecounter-end="10" class="purecounter">10.</span>
                                     <span class="prefix"> .5k </span>
                                     <span class="prefix-two"> + </span>
                                 </h3>
@@ -132,8 +142,8 @@
                     <div class="col-xl-4 col-lg-4">
                         <div class="counter-content-wrapper wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
                             <div class="counter-content-inner">
-                                <h3 class="counter-text-title"><span data-purecounter-duration="1" data-purecounter-end="1"
-                                        class="purecounter">1.</span>
+                                <h3 class="counter-text-title"><span data-purecounter-duration="1"
+                                        data-purecounter-end="1" class="purecounter">1.</span>
                                     <span class="prefix"> .2k </span>
                                     <span class="prefix-two"> + </span>
                                 </h3>
@@ -163,7 +173,8 @@
                     </div>
                     <div class="col-xl-10">
                         <div class="rs-about-description wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                            <p>{{ $profile_info['bio'] ?? "Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most prestigious web design awards in the fields of UI, UX, and innovation. With a diverse background in art direction, design leadership, website and app UI/UX design, 3D design, and branding, I bring a well-rounded skill set to every project I take on." }}</p>
+                            <p>{{ $profile_info['bio'] ?? "Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most prestigious web design awards in the fields of UI, UX, and innovation. With a diverse background in art direction, design leadership, website and app UI/UX design, 3D design, and branding, I bring a well-rounded skill set to every project I take on." }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -818,108 +829,145 @@
                         <div class="swiper testimonial_active_one wow fadeInUp" data-wow-delay=".3s"
                             data-wow-duration="1s">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Advice</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @forelse ($collection as $item)
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Advice</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
-                                                    <span class="rs-testimonial-avater-designation">Clients</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
+                                                        <span class="rs-testimonial-avater-designation">Clients</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Design Quality</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Advice</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
-                                                    <span class="rs-testimonial-avater-designation">Jackson S.</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
+                                                        <span class="rs-testimonial-avater-designation">Clients</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Solution</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Design Quality</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
-                                                    <span class="rs-testimonial-avater-designation">Ceo</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
+                                                        <span class="rs-testimonial-avater-designation">Jackson S.</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Solution</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
+                                                        <span class="rs-testimonial-avater-designation">Ceo</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
                             <!-- If we need pagination -->
                             <div class="rs-pagination justify-content-center mt-50"></div>
@@ -944,11 +992,9 @@
                                                 <div class="rs-brand-thumb">
                                                     <a href="#">
                                                         <img class="has-white"
-                                                            src="{{ asset($item->client_org_logo_url) }}"
-                                                            alt="image">
+                                                            src="{{ asset($item->client_org_logo_url) }}" alt="image">
                                                         <img class="has-black"
-                                                            src="{{ asset($item->client_org_logo_url) }}"
-                                                            alt="image">
+                                                            src="{{ asset($item->client_org_logo_url) }}" alt="image">
                                                     </a>
                                                 </div>
                                             </div>
@@ -1397,7 +1443,8 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Phone</span>
-                                        <h6><a href="tel:{{ $profile_info['phone'] ?? '+123-4669-1234' }}"> {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
+                                        <h6><a href="tel:{{ $profile_info['phone'] ?? '+123-4669-1234' }}">
+                                                {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -1416,7 +1463,9 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Email</span>
-                                        <h6><a href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a></h6>
+                                        <h6><a
+                                                href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a>
+                                        </h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -1437,18 +1486,23 @@
                                         <span>Address</span>
                                         <h6><a href="#">
                                                 {{ $profile_info['street_address'] ?? '2096 New Market, New Road' }} <br>
-                                                {{ $profile_info['city'] ?? 'North Carolina' }}, {{ $profile_info['country'] ?? 'USA' }}
+                                                {{ $profile_info['city'] ?? 'North Carolina' }},
+                                                {{ $profile_info['country'] ?? 'USA' }}
                                             </a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
                                     <div class="rs-contact-icon">
                                         <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2">
                                                 <circle cx="12" cy="12" r="10"></circle>
                                                 <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                                <line x1="9" y1="9" x2="9.01" y2="9">
+                                                </line>
+                                                <line x1="15" y1="9" x2="15.01" y2="9">
+                                                </line>
                                             </svg>
                                         </span>
                                     </div>
@@ -1456,28 +1510,51 @@
                                         <span>Follow Us</span>
                                         <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">
                                             @if ($profile_info['twitter'] ?? null)
-                                                <a href="{{ $profile_info['twitter'] }}" target="_blank" title="Twitter" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-twitter-x-line"></i></a>
+                                                <a href="{{ $profile_info['twitter'] }}" target="_blank"
+                                                    title="Twitter"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-twitter-x-line"></i></a>
                                             @endif
                                             @if ($profile_info['facebook'] ?? null)
-                                                <a href="{{ $profile_info['facebook'] }}" target="_blank" title="Facebook" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-facebook-fill"></i></a>
+                                                <a href="{{ $profile_info['facebook'] }}" target="_blank"
+                                                    title="Facebook"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-facebook-fill"></i></a>
                                             @endif
                                             @if ($profile_info['linkedin'] ?? null)
-                                                <a href="{{ $profile_info['linkedin'] }}" target="_blank" title="LinkedIn" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-linkedin-fill"></i></a>
+                                                <a href="{{ $profile_info['linkedin'] }}" target="_blank"
+                                                    title="LinkedIn"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-linkedin-fill"></i></a>
                                             @endif
                                             @if ($profile_info['instagram'] ?? null)
-                                                <a href="{{ $profile_info['instagram'] }}" target="_blank" title="Instagram" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-instagram-line"></i></a>
+                                                <a href="{{ $profile_info['instagram'] }}" target="_blank"
+                                                    title="Instagram"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-instagram-line"></i></a>
                                             @endif
                                             @if ($profile_info['github'] ?? null)
-                                                <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-github-fill"></i></a>
+                                                <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-github-fill"></i></a>
                                             @endif
                                             @if ($profile_info['youtube'] ?? null)
-                                                <a href="{{ $profile_info['youtube'] }}" target="_blank" title="YouTube" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-youtube-fill"></i></a>
+                                                <a href="{{ $profile_info['youtube'] }}" target="_blank"
+                                                    title="YouTube"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-youtube-fill"></i></a>
                                             @endif
                                             @if ($profile_info['researchgate'] ?? null)
-                                                <a href="{{ $profile_info['researchgate'] }}" target="_blank" title="ResearchGate" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-book-fill"></i></a>
+                                                <a href="{{ $profile_info['researchgate'] }}" target="_blank"
+                                                    title="ResearchGate"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-book-fill"></i></a>
                                             @endif
                                             @if ($profile_info['whatsapp'] ?? null)
-                                                <a href="{{ $profile_info['whatsapp'] }}" target="_blank" title="WhatsApp" style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i class="ri-whatsapp-fill"></i></a>
+                                                <a href="{{ $profile_info['whatsapp'] }}" target="_blank"
+                                                    title="WhatsApp"
+                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
+                                                        class="ri-whatsapp-fill"></i></a>
                                             @endif
                                         </div>
                                     </div>
@@ -1492,7 +1569,8 @@
                                 <div class="row g-5">
                                     <div class="col-md-6">
                                         <div class="rs-contact-input">
-                                            <input id="name" name="name" type="text" placeholder="Full Name">
+                                            <input id="name" name="name" type="text"
+                                                placeholder="Full Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
