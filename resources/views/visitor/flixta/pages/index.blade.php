@@ -829,32 +829,30 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                         <div class="swiper testimonial_active_one wow fadeInUp" data-wow-delay=".3s"
                             data-wow-duration="1s">
                             <div class="swiper-wrapper">
-                                @forelse ($collection as $item)
+                                @forelse ($testimonial_list as $item)
                                     <div class="swiper-slide">
                                         <div class="rs-testimonial-wrapper">
                                             <div class="rs-testimonial-item">
                                                 <div class="rs-testimonial-content">
                                                     <div class="rs-testimonial-top">
-                                                        <h5 class="rs-testimonial-title">Great Advice</h5>
+                                                        <h5 class="rs-testimonial-title">{{ $item->testimonial_title }}
+                                                        </h5>
                                                         <div class="rs-rating">
-                                                            <span><i class="ri-star-fill"></i></span>
-                                                            <span><i class="ri-star-fill"></i></span>
-                                                            <span><i class="ri-star-fill"></i></span>
-                                                            <span><i class="ri-star-fill"></i></span>
-                                                            <span><i class="ri-star-fill"></i></span>
+                                                            @for ($i = 0; $i < $item->testimonial_review; $i++)
+                                                                <span><i class="ri-star-fill"></i></span>
+                                                            @endfor
                                                         </div>
                                                     </div>
                                                     <div class="rs-testimonial-description">
-                                                        <p> The standard chunk of lorem Ipsum used since the some music
-                                                            reproduced below
-                                                            for
-                                                            those interested.</p>
+                                                        <p>{{ $item->testimonial_details }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="rs-testimonial-bottom">
                                                     <div class="rs-testimonial-avater-info">
-                                                        <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
-                                                        <span class="rs-testimonial-avater-designation">Clients</span>
+                                                        <h6 class="rs-testimonial-avater-title">
+                                                            {{ $item->client?->client_name }}</h6>
+                                                        <span
+                                                            class="rs-testimonial-avater-designation">{{ $item->client?->client_designation }}</span>
                                                     </div>
                                                     <div class="rs-testimonial-icon">
                                                         <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
@@ -1098,7 +1096,8 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                 <div class="row align-items-center g-5">
                     <div class="col-xl-4 col-lg-4">
                         <div class="rs-cta-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            <img src="{{ asset('visitor/flixta/images/cta/cta-thumb-01.png') }}" alt="image">
+                            <img src="{{ asset($profile_info['profile_picture'] ?? 'visitor/flixta/images/cta/cta-thumb-01.png') }}"
+                                alt="image">
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8">
@@ -1113,7 +1112,9 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:contact@flixta.com">contact@flixta.com</a>
+                                <a href="mailto:{{ $profile_info['email'] ?? 'contact@flixta.com' }}">
+                                    {{ $profile_info['email'] ?? 'contact@flixta.com' }}
+                                </a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">
@@ -1485,78 +1486,10 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                     <div class="rs-contact-list-content">
                                         <span>Address</span>
                                         <h6><a href="#">
-                                                {{ $profile_info['street_address'] ?? '2096 New Market, New Road' }} <br>
-                                                {{ $profile_info['city'] ?? 'North Carolina' }},
-                                                {{ $profile_info['country'] ?? 'USA' }}
+                                                {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }} <br>
+                                                {{ $profile_info['present_city'] ?? 'North Carolina' }},
+                                                {{ $profile_info['present_country'] ?? 'USA' }}
                                             </a></h6>
-                                    </div>
-                                </div>
-                                <div class="rs-contact-list-item">
-                                    <div class="rs-contact-icon">
-                                        <span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                                                <line x1="9" y1="9" x2="9.01" y2="9">
-                                                </line>
-                                                <line x1="15" y1="9" x2="15.01" y2="9">
-                                                </line>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="rs-contact-list-content">
-                                        <span>Follow Us</span>
-                                        <div style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;">
-                                            @if ($profile_info['twitter'] ?? null)
-                                                <a href="{{ $profile_info['twitter'] }}" target="_blank"
-                                                    title="Twitter"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-twitter-x-line"></i></a>
-                                            @endif
-                                            @if ($profile_info['facebook'] ?? null)
-                                                <a href="{{ $profile_info['facebook'] }}" target="_blank"
-                                                    title="Facebook"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-facebook-fill"></i></a>
-                                            @endif
-                                            @if ($profile_info['linkedin'] ?? null)
-                                                <a href="{{ $profile_info['linkedin'] }}" target="_blank"
-                                                    title="LinkedIn"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-linkedin-fill"></i></a>
-                                            @endif
-                                            @if ($profile_info['instagram'] ?? null)
-                                                <a href="{{ $profile_info['instagram'] }}" target="_blank"
-                                                    title="Instagram"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-instagram-line"></i></a>
-                                            @endif
-                                            @if ($profile_info['github'] ?? null)
-                                                <a href="{{ $profile_info['github'] }}" target="_blank" title="GitHub"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-github-fill"></i></a>
-                                            @endif
-                                            @if ($profile_info['youtube'] ?? null)
-                                                <a href="{{ $profile_info['youtube'] }}" target="_blank"
-                                                    title="YouTube"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-youtube-fill"></i></a>
-                                            @endif
-                                            @if ($profile_info['researchgate'] ?? null)
-                                                <a href="{{ $profile_info['researchgate'] }}" target="_blank"
-                                                    title="ResearchGate"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-book-fill"></i></a>
-                                            @endif
-                                            @if ($profile_info['whatsapp'] ?? null)
-                                                <a href="{{ $profile_info['whatsapp'] }}" target="_blank"
-                                                    title="WhatsApp"
-                                                    style="color: #6D6D6D; font-size: 18px; transition: color 0.3s;"><i
-                                                        class="ri-whatsapp-fill"></i></a>
-                                            @endif
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1589,11 +1522,10 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                         <div class="rs-contact-input">
                                             <div class="rs-contact-input">
                                                 <select id="subject" name="subject">
-                                                    <option>Choose Service</option>
-                                                    <option value="one">Web Development</option>
-                                                    <option value="two">Digital Marketing</option>
-                                                    <option value="three">Brand Strategy</option>
-                                                    <option value="four">App Development</option>
+                                                    <option selected disabled>Choose Service</option>
+                                                    @foreach ($service_list as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->service_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

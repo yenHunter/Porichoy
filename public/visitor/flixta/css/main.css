@@ -17964,7 +17964,7 @@ only screen and (min-width: 576px) and (max-width: 767px),
 }
 
 .rs-contact-one .rs-contact-list {
-  max-width: 370px;
+  max-width: 100%;
 }
 
 .rs-contact-one .rs-contact-list-item {
