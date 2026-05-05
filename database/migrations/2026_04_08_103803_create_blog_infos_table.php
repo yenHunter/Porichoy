@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('blog_infos', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('blog_slug')->unique();
             $table->string('blog_title');
             $table->string('blog_subtitle')->nullable();
             $table->string('blog_category')->nullable();
             $table->longText('blog_content')->nullable();
-            $table->string('cover_image')->nullable();
-            $table->string('profile_image')->nullable();
+            $table->string('blog_image')->nullable();
             $table->boolean('blog_status')->nullable()->default(true);
             $table->integer('blog_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
