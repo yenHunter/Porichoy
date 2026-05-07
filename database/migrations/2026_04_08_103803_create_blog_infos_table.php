@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('blog_infos', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('blog_slug')->unique();
             $table->string('blog_title');
-            $table->string('blog_subtitle')->nullable();
-            $table->string('blog_category')->nullable();
+            $table->text('blog_excerpt')->nullable();
             $table->longText('blog_content')->nullable();
+            $table->string('blog_featured_image')->nullable();
             $table->string('blog_image')->nullable();
-            $table->boolean('blog_status')->nullable()->default(true);
+            $table->string('keywords')->nullable();
+            $table->foreignUuid('category_id')->nullable()->constrained('blog_categories')->onDelete('set null');
+            $table->integer('view_count')->default(0);
+            $table->dateTime('blog_published')->nullable();
+            $table->boolean('blog_status')->default(true);
             $table->integer('blog_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->timestamps();
