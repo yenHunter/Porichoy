@@ -22,9 +22,9 @@
                             <h1 class="rs-banner-title wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".7s">I'm
                                 <span class="cd-headline slide rs-title-slide">
                                     <span class="cd-words-wrapper">
-                                        <b class="is-hidden">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
-                                        <b class="is-visible">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
-                                        <b class="is-hidden">{{ $profile_info['first_name'] ?? 'Marshall' }}</b>
+                                        <b class="is-hidden">{{ $profile_info['last_name'] ?? 'Marshall' }}</b>
+                                        <b class="is-visible">{{ $profile_info['last_name'] ?? 'Marshall' }}</b>
+                                        <b class="is-hidden">{{ $profile_info['last_name'] ?? 'Marshall' }}</b>
                                     </span>
                                 </span>
                                 <br>
@@ -107,7 +107,7 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                         $imgSrc = asset($profilePicPath);
                                     }
                                 @endphp
-                                <img src="{{ $imgSrc }}" alt="profile">
+                                <img src="{{ asset($imgSrc) }}" alt="profile">
                                 <div class="rs-banner-exp gsap-move up-100 start-70">
                                     <h3 class="rs-banner-exp-title"><span data-purecounter-duration="1"
                                             data-purecounter-end="30" class="purecounter">30</span>+</h3>
@@ -1096,7 +1096,7 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                 <div class="row align-items-center g-5">
                     <div class="col-xl-4 col-lg-4">
                         <div class="rs-cta-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            <img src="{{ asset($profile_info['profile_picture'] ?? 'visitor/flixta/images/cta/cta-thumb-01.png') }}"
+                            <img src="{{ asset($imgSrc ?? 'visitor/flixta/images/cta/cta-thumb-01.png') }}"
                                 alt="image">
                         </div>
                     </div>

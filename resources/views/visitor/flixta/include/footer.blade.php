@@ -5,10 +5,10 @@
             <div class="col-xl-6">
                 <div class="rs-footer-widget footer-1-col-1">
                     <div class="rs-footer-widget-logo text-center">
-                        <a class="logo-black" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}"
-                                alt="logo"></a>
-                        <a class="logo-white" href="{{ route('visitor.index') }}"><img src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}"
-                                alt="logo"></a>
+                        <a class="logo-black" href="{{ route('visitor.index') }}"><img
+                                src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}" alt="logo"></a>
+                        <a class="logo-white" href="{{ route('visitor.index') }}"><img
+                                src="{{ asset('visitor/flixta/images/logo/logo-white.png') }}" alt="logo"></a>
                     </div>
                     <div class="rs-footer-widget-content">
                         <div class="rs-footer-list-wrapper">
@@ -31,7 +31,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-12">
                     <div class="rs-footer-copyright text-center">
-                        <p>© <span id="year"></span> Flixta. Designed by <a href="https://rstheme.com">RSTheme</a>
+                        <p>© <span id="year"></span> Porichoy. Designed by <a
+                                href="https://github.com/yenHunter">yenHunter</a>
                         </p>
                     </div>
                 </div>
