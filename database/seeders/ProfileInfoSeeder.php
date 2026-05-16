@@ -17,8 +17,6 @@ class ProfileInfoSeeder extends Seeder
             ['column_title' => 'First Name', 'column_name' => 'first_name', 'column_value' => 'Mohammed'],
             ['column_title' => 'Last Name', 'column_name' => 'last_name', 'column_value' => 'Shahabuddin'],
             ['column_title' => 'Professional Headline', 'column_name' => 'headline', 'column_value' => 'President of Bangladesh'],
-            ['column_title' => 'Designation', 'column_name' => 'designation', 'column_value' => 'President'],
-            ['column_title' => 'Organization', 'column_name' => 'organization', 'column_value' => 'Government of Bangladesh'],
             ['column_title' => 'Email Address', 'column_name' => 'email', 'column_value' => 'president@bangabhaban.gov.bd'],
             ['column_title' => 'Phone Number', 'column_name' => 'phone', 'column_value' => '+880123456789'],
             ['column_title' => 'Website', 'column_name' => 'website', 'column_value' => 'https://bangabhaban.gov.bd/'],

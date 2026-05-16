@@ -242,38 +242,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Designation and Organization Row --}}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="designation">Designation</label>
-                                            <input
-                                                class="form-control @error('basic.' . $profile_data['basic']['designation']['id']) is-invalid @enderror"
-                                                id="designation"
-                                                name="basic[{{ $profile_data['basic']['designation']['id'] }}]"
-                                                placeholder="Enter designation" type="text"
-                                                value="{{ $profile_data['basic']['designation']['column_value'] ?? '' }}" />
-                                            @error('basic.' . $profile_data['basic']['designation']['id'])
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="organization">Organization</label>
-                                            <input
-                                                class="form-control @error('basic.' . $profile_data['basic']['organization']['id']) is-invalid @enderror"
-                                                id="organization"
-                                                name="basic[{{ $profile_data['basic']['organization']['id'] }}]"
-                                                placeholder="Enter organization" type="text"
-                                                value="{{ $profile_data['basic']['organization']['column_value'] ?? '' }}" />
-                                            @error('basic.' . $profile_data['basic']['organization']['id'])
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
                                 {{-- Email and Phone Row --}}
                                 <div class="row">
                                     <div class="col-md-6">
