@@ -13,7 +13,8 @@
         "intervention/image-laravel": "^1.5",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "tightenco/ziggy": "^2.6"
+        "tightenco/ziggy": "^2.6",
+        "yenhunter/laravel-website-analytics": "^1.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
