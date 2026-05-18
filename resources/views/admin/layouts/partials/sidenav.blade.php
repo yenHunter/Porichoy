@@ -183,17 +183,29 @@
                         </li>
                         <li class="side-nav-item">
                             <a class="side-nav-link" href="#">
+                                <span class="menu-text" data-lang="sidebar-settings-backup-db">Backup Database</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="side-nav-item">
+                <a aria-controls="system" aria-expanded="false" class="side-nav-link"
+                    data-bs-toggle="collapse" href="#system">
+                    <span class="menu-icon"><i data-lucide="activity"></i></span>
+                    <span class="menu-text" data-lang="sidebar-title-system">System</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="system">
+                    <ul class="sub-menu">
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="{{ route('management.system.user-log') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-userlog">User Log</span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{ route('management.system.application-log') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-systemlog">System Log</span>
-                            </a>
-                        </li>
-                        <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
-                                <span class="menu-text" data-lang="sidebar-settings-backup-db">Backup Database</span>
                             </a>
                         </li>
                     </ul>

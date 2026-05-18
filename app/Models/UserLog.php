@@ -17,6 +17,21 @@ class UserLog extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Order by sequence.
+     * Usage: UserLog::sorted()->get();
+     */
+    public function scopeSorted($query)
+    {
+        return $query->orderBy('updated_at', 'desc');
     }
 }

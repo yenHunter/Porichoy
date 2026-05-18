@@ -7,9 +7,10 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ResearchController;
 use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -156,6 +157,11 @@ Route::middleware('auth')->group(function () {
 				Route::get('', [SettingsController::class, 'profile_management'])->name('view');
 				Route::post('update', [SettingsController::class, 'profile_update'])->name('update');
 			});
+		});
+
+		Route::prefix('system')->name('system.')->group(function () {
+			Route::get('user-log', [SystemController::class, 'userLog'])->name('user-log');
+			Route::get('application-log', [SystemController::class, 'applicationLog'])->name('application-log');
 		});
 	});
 

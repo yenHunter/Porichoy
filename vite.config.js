@@ -135,6 +135,7 @@ export default defineConfig({
                 "resources/js/pages/element-client.js",
                 "resources/js/pages/element-testimonial.js",
                 "resources/js/pages/management-user.js",
+                "resources/js/pages/management-user-log.js",
             ],
             refresh: true,
         }),

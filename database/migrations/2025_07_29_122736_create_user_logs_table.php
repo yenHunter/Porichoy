@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('module')->nullable();
             $table->string('action')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('user_ip')->nullable();
             $table->string('user_agent')->nullable();
             $table->timestamps();
