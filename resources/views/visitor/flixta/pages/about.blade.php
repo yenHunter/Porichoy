@@ -7,8 +7,10 @@
     <main>
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-01.png')}}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png')}}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
@@ -31,6 +33,16 @@
         </section>
         <!-- breadcrumb area end -->
 
+        @php
+            $profilePicPath = $profile_info['profile_picture'] ?? 'visitor/flixta/images/banner/banner-thumb-01.png';
+            // Check if it's a storage path
+if (str_starts_with($profilePicPath, 'uploads/profile/')) {
+                $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
+            } else {
+                $imgSrc = asset($profilePicPath);
+            }
+        @endphp
+
         <!-- about area start -->
         <section class="rs-about-area section-space rs-about-fourteen primary-bg">
             <div class="container">
@@ -38,7 +50,7 @@
                     <div class="col-xl-5 col-lg-5">
                         <div class="rs-about-thumb-wrapper position-relative wow fadeInLeft" data-wow-delay=".3s">
                             <div class="rs-about-thumb">
-                                <img src="{{asset('visitor/flixta/images/about/about-thumb-10.png')}}" alt="image">
+                                <img src="{{ asset($imgSrc) }}" alt="image">
                                 <div class="rs-about-exp gsap-move up-100 start-70">
                                     <h3 class="rs-about-exp-title"><span data-purecounter-duration="1"
                                             data-purecounter-end="30" class="purecounter">30</span>+</h3>
@@ -51,12 +63,15 @@
                         <div class="rs-about-content-wrapper wow fadeInRight" data-wow-delay=".3s">
                             <div class="rs-section-title-wrapper">
                                 <span class="rs-section-subtitle justify-content-start">
-                                    <img src="{{asset('visitor/flixta/images/shape/small-arrow.png')}}" alt="image">
+                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">
                                     About Me
                                 </span>
-                                <h2 class="rs-section-title mb-15 rs-split-text-enable split-in-fade">My Name is <span
-                                        class="rs-text-primary">Marshall</span> </h2>
-                                <p class="rs-about-designation">Freelance Designer &amp; Developer</p>
+                                <h2 class="rs-section-title mb-15 rs-split-text-enable split-in-fade">My Name is
+                                    <br>
+                                    <span
+                                        class="rs-text-primary">{{ $profile_info['first_name'] . ' ' . $profile_info['last_name'] ?? 'John Doe' }}</span>
+                                </h2>
+                                <p class="rs-about-designation">{{ $profile_info['headline'] ?? 'Freelance Designer & Developer' }}</p>
                                 <p class="rs-about-description">Hello there, My name is Marshall. I’m a freelancer, I’m
                                     winner
                                     of the world’s most prestigious web design awards in the fields of UI, UX, and
@@ -100,7 +115,8 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{asset('visitor/flixta/images/shape/small-arrow.png')}}" alt="image">Expertise
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                    alt="image">Expertise
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">My Soft Skills</h2>
                         </div>
@@ -112,7 +128,7 @@
                             <div class="rs-skill-item">
                                 <div class="rs-skill-top">
                                     <div class="rs-skill-icon">
-                                        <img src="{{asset('visitor/flixta/images/icon/figma.png')}}" alt="image">
+                                        <img src="{{ asset('visitor/flixta/images/icon/figma.png') }}" alt="image">
                                     </div>
                                     <h5 class="rs-skill-title">Figma</h5>
                                 </div>
@@ -140,7 +156,7 @@
                             <div class="rs-skill-item">
                                 <div class="rs-skill-top">
                                     <div class="rs-skill-icon">
-                                        <img src="{{asset('visitor/flixta/images/icon/wordpress.png')}}" alt="image">
+                                        <img src="{{ asset('visitor/flixta/images/icon/wordpress.png') }}" alt="image">
                                     </div>
                                     <h5 class="rs-skill-title">WordPress</h5>
                                 </div>
@@ -168,7 +184,7 @@
                             <div class="rs-skill-item">
                                 <div class="rs-skill-top">
                                     <div class="rs-skill-icon">
-                                        <img src="{{asset('visitor/flixta/images/icon/react.png')}}" alt="image">
+                                        <img src="{{ asset('visitor/flixta/images/icon/react.png') }}" alt="image">
                                     </div>
                                     <h5 class="rs-skill-title">React</h5>
                                 </div>
@@ -196,7 +212,7 @@
                             <div class="rs-skill-item">
                                 <div class="rs-skill-top">
                                     <div class="rs-skill-icon">
-                                        <img src="{{asset('visitor/flixta/images/icon/html.png')}}" alt="image">
+                                        <img src="{{ asset('visitor/flixta/images/icon/html.png') }}" alt="image">
                                     </div>
                                     <h5 class="rs-skill-title">HTML</h5>
                                 </div>
@@ -231,7 +247,8 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{asset('visitor/flixta/images/shape/small-arrow.png')}}" alt="image">Qualification
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                    alt="image">Qualification
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">Work Experience</h2>
                         </div>
@@ -297,14 +314,16 @@
 
         <!-- testimonial area start -->
         <section class="rs-testimonial-area rs-testimonial-one section-space p-relative secondary-bg">
-            <div class="rs-testimonial-bg" data-background="{{asset('visitor/flixta/images/bg/testimonial-bg-01.png')}}">
+            <div class="rs-testimonial-bg"
+                data-background="{{ asset('visitor/flixta/images/bg/testimonial-bg-01.png') }}">
             </div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{asset('visitor/flixta/images/shape/small-arrow.png')}}" alt="image">TESTIMONIAL
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                    alt="image">TESTIMONIAL
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">What My Clients Say</h2>
                         </div>
@@ -341,7 +360,8 @@
                                                     <span class="rs-testimonial-avater-designation">Clients</span>
                                                 </div>
                                                 <div class="rs-testimonial-icon">
-                                                    <img src="{{asset('visitor/flixta/images/shape/quote-shape.png')}}" alt="image">
+                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                        alt="image">
                                                 </div>
                                             </div>
                                         </div>
@@ -374,7 +394,8 @@
                                                     <span class="rs-testimonial-avater-designation">Jackson S.</span>
                                                 </div>
                                                 <div class="rs-testimonial-icon">
-                                                    <img src="{{asset('visitor/flixta/images/shape/quote-shape.png')}}" alt="image">
+                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                        alt="image">
                                                 </div>
                                             </div>
                                         </div>
@@ -407,7 +428,8 @@
                                                     <span class="rs-testimonial-avater-designation">Ceo</span>
                                                 </div>
                                                 <div class="rs-testimonial-icon">
-                                                    <img src="{{asset('visitor/flixta/images/shape/quote-shape.png')}}" alt="image">
+                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                        alt="image">
                                                 </div>
                                             </div>
                                         </div>
@@ -424,7 +446,7 @@
 
         <!-- cta area start -->
         <section class="rs-cta-area section-space rs-cta-four p-relative primary-bg">
-            <div class="rs-cta-bg" data-background="{{asset('visitor/flixta/images/bg/cta-bg-01.png')}}">
+            <div class="rs-cta-bg" data-background="{{ asset('visitor/flixta/images/bg/cta-bg-01.png') }}">
             </div>
             <div class="container">
                 <div class="row align-items-center justify-content-center g-5">
@@ -434,7 +456,7 @@
                                 <h2 class="rs-cta-large-title">Hello</h2>
                             </div>
                             <div class="rs-cta-shape">
-                                <img src="{{asset('visitor/flixta/images/shape/hand-shape.png')}}" alt="image">
+                                <img src="{{ asset('visitor/flixta/images/shape/hand-shape.png') }}" alt="image">
                             </div>
                             <h2 class="rs-cta-title rs-split-text-enable split-in-fade">If you have any project in mind?
                             </h2>
@@ -450,7 +472,8 @@
                                             </path>
                                         </svg>
                                     </a>
-                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me Now</a>
+                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me
+                                        Now</a>
                                     <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                             <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">
