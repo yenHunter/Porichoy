@@ -33,16 +33,6 @@
         </section>
         <!-- breadcrumb area end -->
 
-        @php
-            $profilePicPath = $profile_info['profile_picture'] ?? 'visitor/flixta/images/banner/banner-thumb-01.png';
-            // Check if it's a storage path
-if (str_starts_with($profilePicPath, 'uploads/profile/')) {
-                $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
-            } else {
-                $imgSrc = asset($profilePicPath);
-            }
-        @endphp
-
         <!-- about area start -->
         <section class="rs-about-area section-space rs-about-fourteen primary-bg">
             <div class="container">
@@ -50,10 +40,17 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                     <div class="col-xl-5 col-lg-5">
                         <div class="rs-about-thumb-wrapper position-relative wow fadeInLeft" data-wow-delay=".3s">
                             <div class="rs-about-thumb">
-                                <img src="{{ asset($imgSrc) }}" alt="image">
+                                @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                                    <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
+                                @else
+                                    <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"
+                                        alt="Profile Image">
+                                @endif
                                 <div class="rs-about-exp gsap-move up-100 start-70">
-                                    <h3 class="rs-about-exp-title"><span data-purecounter-duration="1"
-                                            data-purecounter-end="30" class="purecounter">30</span>+</h3>
+                                    <h3 class="rs-about-exp-title">
+                                        <span data-purecounter-duration="1" data-purecounter-end="30"
+                                            class="purecounter">30</span>+
+                                    </h3>
                                     <p>Years of Experience</p>
                                 </div>
                             </div>
@@ -69,35 +66,27 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                 <h2 class="rs-section-title mb-15 rs-split-text-enable split-in-fade">My Name is
                                     <br>
                                     <span
-                                        class="rs-text-primary">{{ $profile_info['first_name'] . ' ' . $profile_info['last_name'] ?? 'John Doe' }}</span>
+                                        class="rs-text-primary">{{ $profile_info['first_name'] . ' ' . $profile_info['last_name'] }}</span>
                                 </h2>
-                                <p class="rs-about-designation">{{ $profile_info['headline'] ?? 'Freelance Designer & Developer' }}</p>
-                                <p class="rs-about-description">Hello there, My name is Marshall. I’m a freelancer, I’m
-                                    winner
-                                    of the world’s most prestigious web design awards in the fields of UI, UX, and
-                                    innovation.
-                                    With a diverse background in art direction, design leadership, website and app UI/UX
-                                    design,
-                                    3D design, and branding, I bring a well-rounded skill set to every project I take on.
+                                <p class="rs-about-designation">
+                                    {{ $profile_info['headline'] }}</p>
+                                <p class="rs-about-description">
+                                    {{ $profile_info['bio'] }}
                                 </p>
                             </div>
                             <div class="rs-about-bio">
                                 <ul>
                                     <li>
                                         Age
-                                        <span>30 Years</span>
+                                        <span>{{ \Carbon\Carbon::parse($profile_info['date_of_birth'])->age }} Years</span>
                                     </li>
                                     <li>
-                                        Bron In
-                                        <span>Los Angeles, USA</span>
-                                    </li>
-                                    <li>
-                                        Phone
-                                        <span><a href="tel:+12346691234"> +123-4669-1234 </a></span>
+                                        Lives In
+                                        <span>{{ $profile_info['present_city'] . ', ' . $profile_info['present_country'] }}</span>
                                     </li>
                                     <li>
                                         Email
-                                        <span><a href="mailto:marshal@gmail.com">marshal@gmail.com</a></span>
+                                        <span><a href="mailto:{{ $profile_info['email'] }}"> {{ $profile_info['email'] }} </a></span>
                                     </li>
                                 </ul>
                             </div>

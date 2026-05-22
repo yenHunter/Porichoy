@@ -96,18 +96,12 @@
                         <div class="rs-banner-thumb-wrapper position-relative wow fadeInUp" data-wow-delay="1s"
                             data-wow-duration="1.5s">
                             <div class="rs-banner-thumb">
-                                @php
-                                    $profilePicPath =
-                                        $profile_info['profile_picture'] ??
-                                        'visitor/flixta/images/banner/banner-thumb-01.png';
-                                    // Check if it's a storage path
-if (str_starts_with($profilePicPath, 'uploads/profile/')) {
-                                        $imgSrc = \Illuminate\Support\Facades\Storage::url($profilePicPath);
-                                    } else {
-                                        $imgSrc = asset($profilePicPath);
-                                    }
-                                @endphp
-                                <img src="{{ asset($imgSrc) }}" alt="profile">
+                                @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                                    <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
+                                @else
+                                    <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"
+                                        alt="Profile Image">
+                                @endif
                                 <div class="rs-banner-exp gsap-move up-100 start-70">
                                     <h3 class="rs-banner-exp-title"><span data-purecounter-duration="1"
                                             data-purecounter-end="30" class="purecounter">30</span>+</h3>
@@ -1096,8 +1090,12 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                 <div class="row align-items-center g-5">
                     <div class="col-xl-4 col-lg-4">
                         <div class="rs-cta-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            <img src="{{ asset($imgSrc ?? 'visitor/flixta/images/cta/cta-thumb-01.png') }}"
-                                alt="image">
+                            @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                                <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
+                            @else
+                                <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"
+                                    alt="Profile Image">
+                            @endif
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8">
@@ -1486,7 +1484,8 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                     <div class="rs-contact-list-content">
                                         <span>Address</span>
                                         <h6><a href="#">
-                                                {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }} <br>
+                                                {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }}
+                                                <br>
                                                 {{ $profile_info['present_city'] ?? 'North Carolina' }},
                                                 {{ $profile_info['present_country'] ?? 'USA' }}
                                             </a></h6>
@@ -1502,8 +1501,7 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                 <div class="row g-5">
                                     <div class="col-md-6">
                                         <div class="rs-contact-input">
-                                            <input id="name" name="name" type="text"
-                                                placeholder="Full Name">
+                                            <input id="name" name="name" type="text" placeholder="Full Name">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -1524,7 +1522,8 @@ if (str_starts_with($profilePicPath, 'uploads/profile/')) {
                                                 <select id="subject" name="subject">
                                                     <option selected disabled>Choose Service</option>
                                                     @foreach ($service_list as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->service_name }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->service_name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
