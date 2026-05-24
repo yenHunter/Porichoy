@@ -55,6 +55,8 @@ class VisitorController extends Controller
                 'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
                 'education_list'        => EducationInfo::sorted()->active()->get(),
                 'experience_list'       => ExperienceInfo::sorted()->active()->get(),
+                'skill_list'            => SkillInfo::active()->sorted()->get(),
+                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
             ]
         );
     }

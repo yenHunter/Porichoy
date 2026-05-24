@@ -86,7 +86,8 @@
                                     </li>
                                     <li>
                                         Email
-                                        <span><a href="mailto:{{ $profile_info['email'] }}"> {{ $profile_info['email'] }} </a></span>
+                                        <span><a href="mailto:{{ $profile_info['email'] }}"> {{ $profile_info['email'] }}
+                                            </a></span>
                                     </li>
                                 </ul>
                             </div>
@@ -112,118 +113,153 @@
                     </div>
                 </div>
                 <div class="row g-5">
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/figma.png') }}" alt="image">
+                    @forelse ($skill_list as $item)
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset($item->skill_logo_url) }}" alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">{{ $item->skill_title }}</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">Figma</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> I have had the opportunity to work on several projects.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 90%"
-                                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            {!! $item->skill_details !!}
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar"
+                                                        style="width: {{ $item->skill_score }}%"
+                                                        aria-valuenow="{{ $item->skill_score }}" aria-valuemin="0"
+                                                        aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">{{ $item->skill_score }}%</span>
                                                 </div>
-                                                <span class="progress-number">90%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".5s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/wordpress.png') }}" alt="image">
+                    @empty
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".3s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/figma.png') }}" alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">Figma</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">WordPress</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> We are helping client to create UI websites.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 95%"
-                                                    aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> I have had the opportunity to work on several projects.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 90%"
+                                                        aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">90%</span>
                                                 </div>
-                                                <span class="progress-number">95%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".7s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/react.png') }}" alt="image">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".5s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/wordpress.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">WordPress</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">React</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> Contrary the popular belief Lorem Ipsum not simply.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 80%"
-                                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> We are helping client to create UI websites.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 95%"
+                                                        aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">95%</span>
                                                 </div>
-                                                <span class="progress-number">80%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6">
-                        <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".9s">
-                            <div class="rs-skill-item">
-                                <div class="rs-skill-top">
-                                    <div class="rs-skill-icon">
-                                        <img src="{{ asset('visitor/flixta/images/icon/html.png') }}" alt="image">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".7s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/react.png') }}"
+                                                alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">React</h5>
                                     </div>
-                                    <h5 class="rs-skill-title">HTML</h5>
-                                </div>
-                                <div class="rs-skill-bottom">
-                                    <div class="rs-skill-description">
-                                        <p> Excepteur sint occaecat sunt in culpa qui officia.</p>
-                                    </div>
-                                    <div class="rs-skill-progress">
-                                        <div class="single-progress">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
-                                                    data-wow-delay=".3s" role="progressbar" style="width: 85%"
-                                                    aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> Contrary the popular belief Lorem Ipsum not simply.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 80%"
+                                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">80%</span>
                                                 </div>
-                                                <span class="progress-number">85%</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="rs-skill-wrapper wow fadeInUp" data-wow-delay=".9s">
+                                <div class="rs-skill-item">
+                                    <div class="rs-skill-top">
+                                        <div class="rs-skill-icon">
+                                            <img src="{{ asset('visitor/flixta/images/icon/html.png') }}" alt="image">
+                                        </div>
+                                        <h5 class="rs-skill-title">HTML</h5>
+                                    </div>
+                                    <div class="rs-skill-bottom">
+                                        <div class="rs-skill-description">
+                                            <p> Excepteur sint occaecat sunt in culpa qui officia.</p>
+                                        </div>
+                                        <div class="rs-skill-progress">
+                                            <div class="single-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s"
+                                                        data-wow-delay=".3s" role="progressbar" style="width: 85%"
+                                                        aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                                    </div>
+                                                    <span class="progress-number">85%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -246,54 +282,98 @@
                 <div class="row justify-content-center g-5">
                     <div class="col-xl-9 col-lg-10">
                         <div class="rs-qualification-content">
-                            <div class="rs-qualification-item">
-                                <div class="left-part wow fadeInLeft" data-wow-delay=".3s">
-                                    <h6 class="rs-qualification-title">Web Developer</h6>
-                                    <span class="rs-qualification-meta">2021 - 20023 (Present)</span>
+                            @forelse ($experience_list as $index => $experience)
+                                @if ($index % 2 == 0)
+                                    <div class="rs-qualification-item">
+                                        <div class="left-part wow fadeInLeft"
+                                            data-wow-delay=".{{ (($index % 4) + 1) * 2 }}s">
+                                            <h6 class="rs-qualification-title">{{ $experience->employment_position }}</h6>
+                                            <span class="rs-qualification-meta">
+                                                {{ $experience->employment_department }}
+                                            </span>
+                                            <br>
+                                            <span class="rs-qualification-meta">{{ $experience->date_range }}</span>
+                                        </div>
+                                        <div class="rs-divider"></div>
+                                        <div class="right-part wow fadeInRight"
+                                            data-wow-delay=".{{ (($index % 4) + 1) * 2 }}s">
+                                            <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
+                                            </h6>
+                                            <span class="rs-qualification-meta">{!! $experience->employment_details !!}</span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="rs-qualification-item">
+                                        <div class="left-part wow fadeInLeft"
+                                            data-wow-delay="..{{ (($index % 4) + 1) * 2 }}s">
+                                            <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
+                                            </h6>
+                                            <span class="rs-qualification-meta">{!! $experience->employment_details !!}</span>
+                                        </div>
+                                        <div class="rs-divider"></div>
+                                        <div class="right-part wow fadeInRight"
+                                            data-wow-delay="..{{ (($index % 4) + 1) * 2 }}s">
+                                            <h6 class="rs-qualification-title">{{ $experience->employment_position }}</h6>
+                                            <span class="rs-qualification-meta">
+                                                {{ $experience->employment_department }}
+                                            </span>
+                                            <br>
+                                            <span class="rs-qualification-meta">{{ $experience->date_range }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+                            @empty
+                                <div class="rs-qualification-item">
+                                    <div class="left-part wow fadeInLeft" data-wow-delay=".3s">
+                                        <h6 class="rs-qualification-title">Web Developer</h6>
+                                        <span class="rs-qualification-meta">2021 - 2023 (Present)</span>
+                                    </div>
+                                    <div class="rs-divider"></div>
+                                    <div class="right-part wow fadeInRight" data-wow-delay=".3s">
+                                        <h6 class="rs-qualification-title">Envato Marketplace</h6>
+                                        <span class="rs-qualification-meta">I'm winner of the world's most prestigious web
+                                            design awards in the fields.</span>
+                                    </div>
                                 </div>
-                                <div class="rs-divider"></div>
-                                <div class="right-part wow fadeInRight" data-wow-delay=".3s">
-                                    <h6 class="rs-qualification-title">Envato Marketplace</h6>
-                                    <span class="rs-qualification-meta">I'm winner of the world's most prestigious web
-                                        design awards in the fields.</span>
+                                <div class="rs-qualification-item">
+                                    <div class="left-part wow fadeInLeft" data-wow-delay=".5s">
+                                        <h6 class="rs-qualification-title">Online Marketing</h6>
+                                        <span class="rs-qualification-meta">Many desktop publishing packages and web page
+                                            editors now use Lorem Ipsum</span>
+                                    </div>
+                                    <div class="rs-divider"></div>
+                                    <div class="right-part wow fadeInRight" data-wow-delay=".5s">
+                                        <h6 class="rs-qualification-title">Sr. Developer</h6>
+                                        <span class="rs-qualification-meta">2019 - 2020</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="rs-qualification-item">
-                                <div class="left-part wow fadeInLeft" data-wow-delay=".5s">
-                                    <h6 class="rs-qualification-title">Online Marketing</h6>
-                                    <span class="rs-qualification-meta">Many desktop publishing packages and web page
-                                        editors now use Lorem Ipsum</span>
+                                <div class="rs-qualification-item">
+                                    <div class="left-part wow fadeInLeft" data-wow-delay=".7s">
+                                        <h6 class="rs-qualification-title">UI/UX Designer</h6>
+                                        <span class="rs-qualification-meta">2018 - 2019</span>
+                                    </div>
+                                    <div class="rs-divider"></div>
+                                    <div class="right-part wow fadeInRight" data-wow-delay=".7s">
+                                        <h6 class="rs-qualification-title">Dribbble</h6>
+                                        <span class="rs-qualification-meta">All the Lorem Ipsum generators on the Internet
+                                            tend
+                                            to repeat predefined chunks.</span>
+                                    </div>
                                 </div>
-                                <div class="rs-divider"></div>
-                                <div class="right-part wow fadeInRight" data-wow-delay=".5s">
-                                    <h6 class="rs-qualification-title">Sr. Developer</h6>
-                                    <span class="rs-qualification-meta">2019 - 2020</span>
+                                <div class="rs-qualification-item">
+                                    <div class="left-part wow fadeInLeft" data-wow-delay=".9s">
+                                        <h6 class="rs-qualification-title">Upwork Market</h6>
+                                        <span class="rs-qualification-meta">Making this the first true generator on the
+                                            uses a
+                                            dictionary of over 200</span>
+                                    </div>
+                                    <div class="rs-divider"></div>
+                                    <div class="right-part wow fadeInRight" data-wow-delay=".9s">
+                                        <h6 class="rs-qualification-title">Jr. Developer</h6>
+                                        <span class="rs-qualification-meta">2016 - 2017</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="rs-qualification-item">
-                                <div class="left-part wow fadeInLeft" data-wow-delay=".7s">
-                                    <h6 class="rs-qualification-title">UI/UX Designer</h6>
-                                    <span class="rs-qualification-meta">2018 - 2019</span>
-                                </div>
-                                <div class="rs-divider"></div>
-                                <div class="right-part wow fadeInRight" data-wow-delay=".7s">
-                                    <h6 class="rs-qualification-title">Dribbble</h6>
-                                    <span class="rs-qualification-meta">All the Lorem Ipsum generators on the Internet tend
-                                        to repeat predefined chunks.</span>
-                                </div>
-                            </div>
-                            <div class="rs-qualification-item">
-                                <div class="left-part wow fadeInLeft" data-wow-delay=".9s">
-                                    <h6 class="rs-qualification-title">Upwork Market</h6>
-                                    <span class="rs-qualification-meta">Making this the first true generator on the uses a
-                                        dictionary of over 200</span>
-                                </div>
-                                <div class="rs-divider"></div>
-                                <div class="right-part wow fadeInRight" data-wow-delay=".9s">
-                                    <h6 class="rs-qualification-title">Jr. Developer</h6>
-                                    <span class="rs-qualification-meta">2016 - 2017</span>
-                                </div>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -322,108 +402,140 @@
                     <div class="col-xl-12">
                         <div class="swiper testimonial_active_one wow fadeInUp" data-wow-delay=".3s">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Advice</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @forelse($testimonial_list as $testimonial)
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">{{ $testimonial->testimonial_title }}</h5>
+                                                        <div class="rs-rating">
+                                                            for ($i = 0; $i < $testimonial->testimonial_review; $i++)
+                                                                <span><i class="ri-star-fill"></i></span>
+                                                            endfor
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p>{!! $testimonial->testimonial_details !!}</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
-                                                    <span class="rs-testimonial-avater-designation">Clients</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">{{ $testimonial->client?->client_name }}</h6>
+                                                        <span class="rs-testimonial-avater-designation">{{ $testimonial->client?->client_designation }}</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Design Quality</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Advice</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
-                                                    <span class="rs-testimonial-avater-designation">Jackson S.</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
+                                                        <span class="rs-testimonial-avater-designation">Clients</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Solution</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Design Quality</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
-                                                    <span class="rs-testimonial-avater-designation">Ceo</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
-                                                        alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
+                                                        <span class="rs-testimonial-avater-designation">Jackson S.</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Solution</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
+                                                        <span class="rs-testimonial-avater-designation">Ceo</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
                             <div class="rs-pagination justify-content-center mt-50"></div>
                         </div>
@@ -451,7 +563,7 @@
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:contact@flixta.com">contact@flixta.com</a>
+                                <a href="mailto:{{ $profile_info['email'] }}">{{ $profile_info['email'] }}</a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">
