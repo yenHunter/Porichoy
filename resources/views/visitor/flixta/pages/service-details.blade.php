@@ -8,21 +8,24 @@
 
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
                         <div class="rs-breadcrumb-content-wrapper">
                             <div class="rs-breadcrumb-title-wrapper text-center">
-                                <h1 class="rs-breadcrumb-title">Services Details</h1>
+                                <h1 class="rs-breadcrumb-title">{{ $service_details->service_title ?? 'Services Details' }}
+                                </h1>
                             </div>
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
                                         <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span><a href="{{ route('visitor.service.index') }}">Services</a></span></li>
-                                        <li><span>Services Details</span></li>
+                                        <li><span>{{ $service_details->service_title ?? 'Services Details' }}</span></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -39,38 +42,54 @@
                 <div class="row g-5">
                     <div class="col-xl-12">
                         <div class="rs-services-details-thumb">
-                            <img src="{{ asset('visitor/flixta/images/services/services-details-thumb.jpg') }}" alt="image">
+                            <img src="{{ asset($service_details?->service_cover_url ?? 'visitor/flixta/images/services/services-details-thumb.jpg') }}"
+                                alt="image">
                         </div>
                     </div>
                 </div>
                 <div class="row g-5 section-space-medium">
                     <div class="col-xl-6 col-lg-6">
+                        <div class="mb-20">
+                            @forelse ($service_details?->skills ?? [] as $skill)
+                                <span class="badge bg-primary mr-5">{{ $skill->skill_name }}</span>
+                            @empty
+                                <span class="badge bg-primary mr-5">Figma</span>
+                                <span class="badge bg-primary mr-5">Laravel</span>
+                                <span class="badge bg-primary mr-5">React</span>
+                                <span class="badge bg-primary mr-5">WordPress</span>
+                            @endforelse
+                        </div>
                         <div class="rs-services-details-feature-section wow fadeInLeft" data-wow-delay=".3s"
                             data-wow-duration="1s">
-                            <h3 class="rs-section-details-title rs-split-text-enable split-in-fade mb-20">Transforming Your
-                                Brand Design Excellence</h3>
-                            <p class="description">Hello there, My name is Marshall. I'm a freelancer, I'm winner of the
-                                world's most prestigious
-                                web design awards in the fields of UI/UX, and innovation. With a diverse background in art
-                                direction, design leadership.</p>
+                            <h4 class="rs-section-details-title rs-split-text-enable split-in-fade mb-20">
+                                {{ $service_details?->service_subtitle ?? 'Transforming Your Brand Design Excellence' }}
+                            </h4>
+                            <img src="{{ asset($service_details?->service_profile_url ?? 'visitor/flixta/images/services/services-thumb-02.png') }}"
+                                alt="image">
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-services-details-feature-wrapper wow fadeInRight" data-wow-delay=".3s"
                             data-wow-duration="1s">
-                            <p>Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most
-                                prestigious
-                                web design awards in the fields of UI/UX, and innovation. With a diverse background in art
-                                direction, design leadership, website and app UI/UX design, 3D design, and branding, I bring
-                                a
-                                well-rounded skill set to every project I take on.</p>
-                            <div class="rs-services-details-feature-list">
-                                <ul>
-                                    <li>Will you provide website layout about design</li>
-                                    <li>Branding With Business Agency</li>
-                                    <li>Why should I work with an agency over a freelancer</li>
-                                </ul>
-                            </div>
+                            @if ($service_details?->service_details)
+                                {!! $service_details->service_details !!}
+                            @else
+                                <p>Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most
+                                    prestigious
+                                    web design awards in the fields of UI/UX, and innovation. With a diverse background in
+                                    art
+                                    direction, design leadership, website and app UI/UX design, 3D design, and branding, I
+                                    bring
+                                    a
+                                    well-rounded skill set to every project I take on.</p>
+                                <div class="rs-services-details-feature-list">
+                                    <ul>
+                                        <li>Will you provide website layout about design</li>
+                                        <li>Branding With Business Agency</li>
+                                        <li>Why should I work with an agency over a freelancer</li>
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -78,142 +97,16 @@
         </section>
         <!-- services area end -->
 
-        <!-- working step area start -->
-        <section class="rs-working-step-area section-space-bottom rs-work-step-one primary-bg">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-section-title-wrapper section-title-space">
-                            <h2 class="rs-section-title rs-split-text-enable split-in-fade">My Work Process</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-5 process-counts">
-                    <div class="col-xl-12">
-                        <div class="rs-work-step-wrapper">
-                            <div class="rs-work-step-item wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
-                                <div class="rs-work-step-shape">
-                                    <img class="has-white" src="{{ asset('visitor/flixta/images/shape/services-line-shape.png') }}" alt="image">
-                                    <img class="has-black" src="{{ asset('visitor/flixta/images/shape/services-line-shape-dark.png') }}"
-                                        alt="image">
-                                </div>
-                                <span class="rs-work-step-number">
-                                    01
-                                </span>
-                                <h5 class="rs-work-step-title">
-                                    Production
-                                </h5>
-                                <p class="rs-work-step-description">Conduct thorough market of the research fast target</p>
-                            </div>
-                            <div class="rs-work-step-item wow fadeInUp" data-wow-delay=".5s" data-wow-duration="1s">
-                                <div class="rs-work-step-shape">
-                                    <img class="has-white" src="{{ asset('visitor/flixta/images/shape/services-line-shape.png') }}" alt="image">
-                                    <img class="has-black" src="{{ asset('visitor/flixta/images/shape/services-line-shape-dark.png') }}"
-                                        alt="image">
-                                </div>
-                                <span class="rs-work-step-number">
-                                    02
-                                </span>
-                                <h5 class="rs-work-step-title">
-                                    Quality Assurance
-                                </h5>
-                                <p class="rs-work-step-description">Conduct thorough market of the research fast target</p>
-                            </div>
-                            <div class="rs-work-step-item wow fadeInUp" data-wow-delay=".7s" data-wow-duration="1s">
-                                <div class="rs-work-step-shape">
-                                    <img class="has-white" src="{{ asset('visitor/flixta/images/shape/services-line-shape.png') }}" alt="image">
-                                    <img class="has-black" src="{{ asset('visitor/flixta/images/shape/services-line-shape-dark.png') }}"
-                                        alt="image">
-                                </div>
-                                <span class="rs-work-step-number">
-                                    03
-                                </span>
-                                <h5 class="rs-work-step-title">
-                                    Quality Assurance
-                                </h5>
-                                <p class="rs-work-step-description">Conduct thorough market of the research fast target</p>
-                            </div>
-                            <div class="rs-work-step-item wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
-                                <div class="rs-work-step-shape">
-                                    <img class="has-white" src="{{ asset('visitor/flixta/images/shape/services-line-shape.png') }}" alt="image">
-                                    <img class="has-black" src="{{ asset('visitor/flixta/images/shape/services-line-shape-dark.png') }}"
-                                        alt="image">
-                                </div>
-                                <span class="rs-work-step-number">
-                                    04
-                                </span>
-                                <h5 class="rs-work-step-title">
-                                    Production
-                                </h5>
-                                <p class="rs-work-step-description">Conduct thorough market of the research fast target</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- working step area end -->
-
-        <!-- about area start -->
-        <section class="rs-about-area section-space-bottom primary-bg rs-about-fifteen">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-xl-6 col-lg-6">
-                        <div class="rs-about-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            <img src="{{ asset('visitor/flixta/images/about/about-thumb-11.jpg') }}" alt="image">
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 order-1 order-lg-0">
-                        <div class="rs-about-content wow fadeInRight" data-wow-delay=".3s" data-wow-duration="1s">
-                            <div class="rs-section-title-wrapper">
-                                <h2 class="rs-section-title mb-30 rs-split-text-enable split-in-fade">Transforming Your
-                                    Brand Design Excellence</h2>
-                                <p class="rs-section-paragraph">We denounce with righteous indignation and dislike men who
-                                    are
-                                    so beguiled and demor alized by the charms of pleas ure of the moment, so blinded by
-                                    desire.Neque qui is dolor emr ipsum quia dolor eque porro quisquam est.
-                                </p>
-                            </div>
-                            <div class="rs-about-feature-list">
-                                <ul>
-                                    <li>Will you provide website layout about design</li>
-                                    <li>Branding With Business Agency</li>
-                                    <li>Why should I work with an agency over a freelancer</li>
-                                </ul>
-                            </div>
-                            <div class="rs-about-counter-wrapper">
-                                <div class="counter-text">
-                                    <h2 class="counter-text-title"><span data-purecounter-duration="1"
-                                            data-purecounter-end="1650" class="purecounter">0</span>+
-                                    </h2>
-                                    <p>Complete Project</p>
-                                </div>
-                                <div class="counter-text">
-                                    <h2 class="counter-text-title"><span data-purecounter-duration="1"
-                                            data-purecounter-end="2000" class="purecounter">0</span>+
-                                    </h2>
-                                    <p>
-                                        Satisfied Customer
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- about area end -->
-
         <!-- faq area start -->
         <section class="primary-bg section-space-bottom">
             <div class="container">
                 <div class="row align-items-center g-5">
                     <div class="col-xl-6 col-lg-6">
-                        <div class="rs-faq-wrapper rs-faq-three wow fadeInLeft" data-wow-delay=".3s"
-                            data-wow-duration="1s">
+                        <div class="rs-faq-wrapper rs-faq-three wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="rs-section-title-wrapper section-title-space">
                                 <span class="rs-section-subtitle justify-content-start">
-                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">Faq
+                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                        alt="image">Faq
                                 </span>
                                 <h2 class="rs-section-title rs-split-text-enable split-in-fade">Let's Talk Any Question
                                 </h2>
@@ -395,7 +288,8 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-section-title-wrapper section-title-space text-center">
                             <span class="rs-section-subtitle">
-                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">TESTIMONIAL
+                                <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                    alt="image">TESTIMONIAL
                             </span>
                             <h2 class="rs-section-title rs-split-text-enable split-in-fade">What My Clients Say</h2>
                         </div>
@@ -405,105 +299,146 @@
                     <div class="col-xl-12">
                         <div class="swiper testimonial_active_one wow fadeInUp" data-wow-delay=".3s">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Advice</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @forelse ($testimonial_list as $testimonial)
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">
+                                                            {{ $testimonial->testimonial_title }}
+                                                        </h5>
+                                                        <div class="rs-rating">
+                                                            @for ($i = 0; $i < $testimonial->testimonial_review; $i++)
+                                                                <span><i class="ri-star-fill"></i></span>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p>{{ $testimonial->testimonial_details }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
-                                                    <span class="rs-testimonial-avater-designation">Clients</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}" alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">
+                                                            {{ $testimonial->client?->client_name }}
+                                                        </h6>
+                                                        <span class="rs-testimonial-avater-designation">
+                                                            {{ $testimonial->client?->client_designation }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Design Quality</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Advice</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
-                                                    <span class="rs-testimonial-avater-designation">Jackson S.</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}" alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Mel Gibson</h6>
+                                                        <span class="rs-testimonial-avater-designation">Clients</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="rs-testimonial-wrapper">
-                                        <div class="rs-testimonial-item">
-                                            <div class="rs-testimonial-content">
-                                                <div class="rs-testimonial-top">
-                                                    <h5 class="rs-testimonial-title">Great Solution</h5>
-                                                    <div class="rs-rating">
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
-                                                        <span><i class="ri-star-fill"></i></span>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Design Quality</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
                                                     </div>
                                                 </div>
-                                                <div class="rs-testimonial-description">
-                                                    <p> The standard chunk of lorem Ipsum used since the some music
-                                                        reproduced below
-                                                        for
-                                                        those interested.</p>
-                                                </div>
-                                            </div>
-                                            <div class="rs-testimonial-bottom">
-                                                <div class="rs-testimonial-avater-info">
-                                                    <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
-                                                    <span class="rs-testimonial-avater-designation">Ceo</span>
-                                                </div>
-                                                <div class="rs-testimonial-icon">
-                                                    <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}" alt="image">
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Tom Hanks</h6>
+                                                        <span class="rs-testimonial-avater-designation">Jackson S.</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="swiper-slide">
+                                        <div class="rs-testimonial-wrapper">
+                                            <div class="rs-testimonial-item">
+                                                <div class="rs-testimonial-content">
+                                                    <div class="rs-testimonial-top">
+                                                        <h5 class="rs-testimonial-title">Great Solution</h5>
+                                                        <div class="rs-rating">
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                            <span><i class="ri-star-fill"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rs-testimonial-description">
+                                                        <p> The standard chunk of lorem Ipsum used since the some music
+                                                            reproduced below
+                                                            for
+                                                            those interested.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="rs-testimonial-bottom">
+                                                    <div class="rs-testimonial-avater-info">
+                                                        <h6 class="rs-testimonial-avater-title">Johnny Depp</h6>
+                                                        <span class="rs-testimonial-avater-designation">Ceo</span>
+                                                    </div>
+                                                    <div class="rs-testimonial-icon">
+                                                        <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
+                                                            alt="image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforelse
                             </div>
                             <div class="rs-pagination justify-content-center mt-50"></div>
                         </div>
@@ -531,7 +466,7 @@
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:contact@flixta.com">contact@flixta.com</a>
+                                <a href="mailto:{{ $profile_info['email'] ?? 'contact@flixta.com' }}">{{ $profile_info['email'] ?? 'contact@flixta.com' }}</a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">
@@ -541,7 +476,8 @@
                                             </path>
                                         </svg>
                                     </a>
-                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me Now</a>
+                                    <a class="rs-btn rs-btn-primary" href="{{ route('visitor.contact.index') }}">Hire Me
+                                        Now</a>
                                     <a class="rs-btn rs-btn-circle" href="{{ route('visitor.contact.index') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                                             <path d="M31,0H15V2H28.59L.29,30.29l1.41,1.41L30,3.41V16h2V1A1,1,0,0,0,31,0Z">

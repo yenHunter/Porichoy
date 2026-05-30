@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
             $table->string('profile_image')->nullable();
             $table->longText('service_details')->nullable();
-            $table->json('service_skills')->nullable();
             $table->boolean('service_status')->nullable()->default(true);
             $table->integer('service_sequence')->default(0);
             $table->foreignId('updated_by')->nullable()->constrained('users');

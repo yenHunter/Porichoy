@@ -73,7 +73,14 @@ class VisitorController extends Controller
 
     public function service_details($service)
     {
-        return view('pages.service-details', compact('service'));
+        return view(
+            'pages.service-details',
+            [
+                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
+                'service_details'       => ServiceInfo::with('skills')->where('service_slug', $service)->first(),
+                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
+            ]
+        );
     }
 
     public function projects()
@@ -82,12 +89,18 @@ class VisitorController extends Controller
             'pages.projects',
             [
                 'project_list'          => ProjectInfo::sorted()->active()->get(),
-            ]);
+            ]
+        );
     }
 
     public function project_details($project)
     {
-        return view('pages.project-details', compact('project'));
+        return view(
+            'pages.project-details',
+            [
+                'project' => ProjectInfo::where('project_slug', $project)->first(),
+            ]
+        );
     }
 
     public function blogs()
@@ -96,7 +109,8 @@ class VisitorController extends Controller
             'pages.blogs',
             [
                 'blog_list'          => BlogInfo::sorted()->active()->get(),
-            ]);
+            ]
+        );
     }
 
     public function blog_details($blog)

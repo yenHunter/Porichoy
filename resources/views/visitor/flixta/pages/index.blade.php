@@ -829,7 +829,8 @@
                                             <div class="rs-testimonial-item">
                                                 <div class="rs-testimonial-content">
                                                     <div class="rs-testimonial-top">
-                                                        <h5 class="rs-testimonial-title">{{ $item->testimonial_title }}
+                                                        <h5 class="rs-testimonial-title">
+                                                            {{ $item->testimonial_title }}
                                                         </h5>
                                                         <div class="rs-rating">
                                                             @for ($i = 0; $i < $item->testimonial_review; $i++)
@@ -844,7 +845,8 @@
                                                 <div class="rs-testimonial-bottom">
                                                     <div class="rs-testimonial-avater-info">
                                                         <h6 class="rs-testimonial-avater-title">
-                                                            {{ $item->client?->client_name }}</h6>
+                                                            {{ $item->client?->client_name }}
+                                                        </h6>
                                                         <span
                                                             class="rs-testimonial-avater-designation">{{ $item->client?->client_designation }}</span>
                                                     </div>

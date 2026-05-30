@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ServiceInfo extends Model
 {
@@ -28,7 +29,6 @@ class ServiceInfo extends Model
         'profile_image',
         'cover_image',
         'service_details',
-        'service_skills',
         'service_status',
         'service_sequence'
     ];
@@ -89,6 +89,16 @@ class ServiceInfo extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(SkillInfo::class, 'service_skill');
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(ServiceInfo::class, 'service_skill');
+    }
+
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
@@ -123,7 +133,7 @@ class ServiceInfo extends Model
         return Attribute::make(
             get: fn() => $this->cover_image
                 ? asset('storage/' . $this->cover_image)
-                : asset('static/logo/service.png')
+                : ''
         );
     }
 

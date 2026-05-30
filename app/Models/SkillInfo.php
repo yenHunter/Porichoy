@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class SkillInfo extends Model
 {
@@ -74,6 +75,11 @@ class SkillInfo extends Model
     | Relationships
     |--------------------------------------------------------------------------
     */
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(ServiceInfo::class, 'service_skill');
+    }
 
     public function updatedBy(): BelongsTo
     {
