@@ -35,7 +35,8 @@
     <div id="pre-load">
         <div id="loader" class="loader">
             <div class="loader-container">
-                <div class="loader-icon"><img src="{{ asset('visitor/flixta/images/favicon.png') }}" alt="">
+                <div class="loader-icon">
+                    <img src="{{ asset('visitor/flixta/images/logo/logo-black.png') }}" alt="black-logo">
                 </div>
             </div>
         </div>

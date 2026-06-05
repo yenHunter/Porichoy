@@ -4846,7 +4846,7 @@ code {
   transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
-  border: 3px solid var(--rs-theme-primary);
+  /* border: 3px solid var(--rs-theme-primary); */
   border-radius: 50%;
 }
 
@@ -4859,7 +4859,7 @@ code {
   transform: translate(-50%, -50%);
   width: 100px;
   height: 100px;
-  border-top: 3px solid #ced5ff;
+  /* border-top: 3px solid #ced5ff; */
   border-radius: 50%;
   animation: loaderspin 1.8s infinite ease-in-out;
   -webkit-animation: loaderspin 1.8s infinite ease-in-out;
@@ -4870,13 +4870,13 @@ code {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px;
+  width: 300px;
   text-align: center;
 }
 
 .loader .loader-icon img {
   animation: loaderpulse alternate 900ms infinite;
-  width: 40px;
+  width: 300px;
 }
 
 @keyframes loaderspin {
