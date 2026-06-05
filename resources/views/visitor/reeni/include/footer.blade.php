@@ -7,8 +7,10 @@
                     <div class="single-footer-wrapper border-right mr--20">
                         <div class="logo">
                             <a href="{{ route('visitor.index') }}">
-                                <img src="{{ asset('visitor/reeni/images/logo/logo-white-3.png') }}"
-                                    alt="Reeni - Personal Portfolio HTML Template for developers and freelancers">
+                                <img class="logo-dark" src="{{ asset('visitor/reeni/images/logo/reeni-white-logo.png') }}"
+                                    alt="dark-logo">
+                                <img class="logo-white"
+                                    src="{{ asset('visitor/reeni/images/logo/reeni-dark-logo.png') }}" alt="white-logo">
                             </a>
                         </div>
                         <p class="description">The personal portfolio category includes websites or physical
@@ -78,7 +80,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="main-wrapper tmp-scroll-trigger animation-order-1">
-                    <p class="copy-right-para">Develop with <i class="fa-solid fa-heart text-success"></i> by <a href="https://github.com/yenHunter" target="_blank">yenHunter</a>
+                    <p class="copy-right-para">Develop with <i class="fa-solid fa-heart text-success"></i> by <a
+                            href="https://github.com/yenHunter" target="_blank">yenHunter</a>
                     </p>
                     <ul class="tmp-link-animation">
                         <li><a href="#">Trams & Condition</a></li>

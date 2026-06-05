@@ -12695,7 +12695,7 @@ body.sal-disabled [data-sal|=flip] {
 }
 
 .header-one .header-content .logo img {
-  max-width: max-content;
+  max-width: 165px;
 }
 
 @media only screen and (max-width: 767px) {
