@@ -96,7 +96,9 @@
                         <div class="rs-banner-thumb-wrapper position-relative wow fadeInUp" data-wow-delay="1s"
                             data-wow-duration="1.5s">
                             <div class="rs-banner-thumb">
-                                @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                                @if (!isset($profile_info['profile_picture']))
+                                    <img src="{{ asset('static/logo.png') }}" alt="Profile Image">
+                                @elseif (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
                                     <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
                                 @else
                                     <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"
@@ -192,7 +194,7 @@
                                     </div>
                                     <div class="rs-skill-bottom">
                                         <div class="rs-skill-description">
-                                            {!! $item->skill_details !!}
+                                            {{ $item->skill_details }}
                                         </div>
                                         <div class="rs-skill-progress">
                                             <div class="single-progress">
@@ -512,7 +514,7 @@
                                         <div class="rs-experience-content">
                                             <h6 class="rs-experience-place">{{ $item->employment_organization }}</h6>
                                             <div class="rs-experience-description">
-                                                {!! $item->employment_details !!}
+                                                {{ $item->employment_details }}
                                             </div>
                                         </div>
                                     </div>
@@ -1092,7 +1094,9 @@
                 <div class="row align-items-center g-5">
                     <div class="col-xl-4 col-lg-4">
                         <div class="rs-cta-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                            @if (!isset($profile_info['profile_picture']))
+                                <img src="{{ asset('static/logo.png') }}" alt="Profile Image">
+                            @elseif (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
                                 <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
                             @else
                                 <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"

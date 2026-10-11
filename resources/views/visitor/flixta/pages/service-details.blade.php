@@ -72,7 +72,7 @@
                         <div class="rs-services-details-feature-wrapper wow fadeInRight" data-wow-delay=".3s"
                             data-wow-duration="1s">
                             @if ($service_details?->service_details)
-                                {!! $service_details->service_details !!}
+                                {{ $service_details->service_details }}
                             @else
                                 <p>Hello there, My name is Marshall. I'm a freelancer, I'm winner of the world's most
                                     prestigious

@@ -744,7 +744,7 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>
-                                            {!! $item->details !!}
+                                            {{ $item->details }}
                                         </p>
                                     </div>
                                 </div>
@@ -851,7 +851,7 @@
                                     </div>
                                     <div class="timeline-body">
                                         <p>
-                                            {!! $item->details !!}
+                                            {{ $item->details }}
                                         </p>
                                     </div>
                                 </div>

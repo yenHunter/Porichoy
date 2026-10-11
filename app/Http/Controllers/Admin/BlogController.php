@@ -30,7 +30,7 @@ class BlogController extends Controller
             return view(
                 'admin.pages.module.blog',
                 [
-                    'blog_list'             => BlogInfo::with('category', 'author')->sorted()->get(),
+                    'blog_list'             => BlogInfo::with('category')->sorted()->get(),
                     'blog_categories'       => BlogCategory::active()->sorted()->get(),
                 ]
             );

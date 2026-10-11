@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Visitor;
 use App\Models\BlogInfo;
 use App\Models\SkillInfo;
 use App\Models\ClientInfo;
+use App\Rules\ReCaptcha;
 use App\Models\ProfileInfo;
 use App\Models\ProjectInfo;
 use App\Models\ServiceInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
 use App\Models\TestimonialInfo;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class VisitorController extends Controller
 {
@@ -121,5 +124,36 @@ class VisitorController extends Controller
     public function contact()
     {
         return view('pages.contact');
+    }
+
+    /**
+     * Handle the public contact form submission.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function contactStore(Request $request): RedirectResponse
+    {
+        try {
+            $request->validate([
+                'name'                  => ['required', 'string', 'min:2', 'max:60'],
+                'email'                 => ['required', 'email', 'max:255'],
+                'phone'                 => ['nullable', 'string', 'max:30'],
+                'comments'              => ['required', 'string', 'min:10', 'max:1000'],
+                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
+            ]);
+
+            Log::channel('contact')->info('New contact message received', [
+                'name'    => $request->input('name'),
+                'email'   => $request->input('email'),
+                'phone'   => $request->input('phone'),
+                'message' => $request->input('comments'),
+            ]);
+
+            return back()->with('success', 'Thank you for reaching out. Your message has been received.');
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
+        }
     }
 }

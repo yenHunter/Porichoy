@@ -103,7 +103,7 @@ class AuthController extends Controller
             $object->last_name = $request->last_name;
             $object->email = $request->email;
             $object->password = Hash::make($request->password);
-            $object->status = 0;
+            $object->user_status = false;
             $object->save();
             return redirect('login')->withErrors(['error' => 'Please contact admin for activation']);
         } catch (\Throwable $th) {

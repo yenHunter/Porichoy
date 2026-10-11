@@ -40,7 +40,9 @@
                     <div class="col-xl-5 col-lg-5">
                         <div class="rs-about-thumb-wrapper position-relative wow fadeInLeft" data-wow-delay=".3s">
                             <div class="rs-about-thumb">
-                                @if (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
+                                @if (!isset($profile_info['profile_picture']))
+                                    <img src="{{ asset('static/logo.png') }}" alt="Profile Image">
+                                @elseif (\Illuminate\Support\Str::contains($profile_info['profile_picture'], 'static/'))
                                     <img src="{{ asset($profile_info['profile_picture']) }}" alt="Profile Image">
                                 @else
                                     <img src="{{ asset('storage/' . $profile_info['profile_picture']) }}"
@@ -125,7 +127,7 @@
                                     </div>
                                     <div class="rs-skill-bottom">
                                         <div class="rs-skill-description">
-                                            {!! $item->skill_details !!}
+                                            {{ $item->skill_details }}
                                         </div>
                                         <div class="rs-skill-progress">
                                             <div class="single-progress">
@@ -299,7 +301,7 @@
                                             data-wow-delay=".{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
                                             </h6>
-                                            <span class="rs-qualification-meta">{!! $experience->employment_details !!}</span>
+                                            <span class="rs-qualification-meta">{{ $experience->employment_details }}</span>
                                         </div>
                                     </div>
                                 @else
@@ -308,7 +310,7 @@
                                             data-wow-delay="..{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
                                             </h6>
-                                            <span class="rs-qualification-meta">{!! $experience->employment_details !!}</span>
+                                            <span class="rs-qualification-meta">{{ $experience->employment_details }}</span>
                                         </div>
                                         <div class="rs-divider"></div>
                                         <div class="right-part wow fadeInRight"
@@ -416,7 +418,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="rs-testimonial-description">
-                                                        <p>{!! $testimonial->testimonial_details !!}</p>
+                                                        <p>{{ $testimonial->testimonial_details }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="rs-testimonial-bottom">
