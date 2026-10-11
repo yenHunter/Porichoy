@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Rules\ReCaptcha;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Password;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Services\Auth\AuthService;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\UnlockScreenRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
+    public function __construct(
+        private readonly AuthService $auth_service
+    ) {
+    }
+
     /**
      * Show the login page.
      *
@@ -40,79 +45,35 @@ class AuthController extends Controller
     }
 
     /**
-     * Attempt to login to the application.
+     * Attempt to log in.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Throwable
+     * @param  LoginRequest         $request  Validated login credentials
+     * @return RedirectResponse
      */
-    public function login(Request $request): RedirectResponse
+    public function login(LoginRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'email'                 => 'required',
-                'password'              => 'required',
-                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
-            ]);
+        $error = $this->auth_service->login($request);
 
-            $user_info = User::where('email', $request->email)->first();
-
-            if (!$user_info) {
-                return back()->withErrors(['error' => 'User not found'])->withInput();
-            }
-
-            // Login Attempt
-            if ($user_info->user_status === true) {
-                if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
-                    return redirect()->intended('home');
-                }
-                return back()->withErrors(['error' => 'Password incorrect'])->withInput();
-            }
-
-            return back()->withErrors(['error' => 'User not activated'])->withInput();
-        } catch (\Throwable $th) {
-            return back()->withErrors(['error' => $th->getMessage()]);
+        if ($error !== null) {
+            return back()->withErrors(['error' => $error])->withInput();
         }
+
+        return redirect()->intended('home');
     }
 
     /**
-     * Attempt to register a user.
+     * Register a new, inactive account.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Throwable
+     * @param  RegisterRequest      $request  Validated registration data
+     * @return RedirectResponse
      */
-    public function register(Request $request): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'first_name'                => 'required',
-                'last_name'                 => 'required',
-                'email'                     => 'required|unique:users|email',
-                'password'                  => 'required|confirmed',
-                'g-recaptcha-response'      => [new ReCaptcha()], // Validate reCAPTCHA
-            ]);
-
-            // Save user info in DB
-            $object = new User();
-            $object->first_name = $request->first_name;
-            $object->last_name = $request->last_name;
-            $object->email = $request->email;
-            $object->password = Hash::make($request->password);
-            $object->user_status = false;
-            $object->save();
-            return redirect('login')->withErrors(['error' => 'Please contact admin for activation']);
-        } catch (\Throwable $th) {
-            return back()->withErrors(['error' => $th->getMessage()])->withInput();
-        }
+        return $this->auth_service->register($request);
     }
 
     /**
-     * Forgot password view
+     * Show the forgot-password page.
      *
      * @return \Illuminate\Contracts\View\View
      */
@@ -124,98 +85,60 @@ class AuthController extends Controller
     }
 
     /**
-     * Forgot password.
+     * Send a password-reset link.
      *
-     * This endpoint is used to send a password reset link to a user.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Throwable
+     * @param  ForgotPasswordRequest $request Validated e-mail
+     * @return RedirectResponse
      */
-    public function forgot_password(Request $request): RedirectResponse
+    public function forgot_password(ForgotPasswordRequest $request): RedirectResponse
     {
-        try {
-            $request->validate(['email' => 'required|email']);
+        $status = $this->auth_service->sendResetLink($request);
 
-            $status = Password::sendResetLink(
-                $request->only('email')
-            );
-
-            return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)])->withInput();
-        } catch (\Throwable $th) {
-            return back()->withErrors(['error' => $th->getMessage()])->withInput();
-        }
+        return $status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)])->withInput();
     }
 
     /**
-     * Show the reset password page.
+     * Show the reset-password page (accessed via e-mail link).
      *
-     * @param string $token The password reset token.
+     * @param  string $token The password reset token.
      * @return \Illuminate\Contracts\View\View
      */
-    public function reset_password_view($token): View
+    public function reset_password_view(string $token): View
     {
         return view('admin.auth.reset-password', ['token' => $token]);
     }
 
     /**
-     * Resets the password for a user.
+     * Reset a password using a token from the reset e-mail.
      *
-     * This endpoint is used to reset a user's password.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Throwable
+     * @param  ResetPasswordRequest  $request Validated reset payload
+     * @return RedirectResponse
      */
-    public function reset_password(Request $request): RedirectResponse
+    public function reset_password(ResetPasswordRequest $request): RedirectResponse
     {
-        try {
-            $request->validate([
-                'token'         => 'required',
-                'email'         => 'required|email',
-                'password'      => 'required|confirmed',
-            ]);
+        $status = $this->auth_service->resetPassword($request);
 
-            $status = Password::reset(
-                $request->only('email', 'password', 'password_confirmation', 'token'),
-                function ($user, $password) {
-                    $user->password = Hash::make($password);
-                    $user->save();
-                }
-            );
-
-            return $status === Password::PASSWORD_RESET
-                ? redirect()->route('login.view')->with('status', __($status))
-                : back()->withErrors(['email' => [__($status)]]);
-        } catch (\Throwable $th) {
-            return back()->withErrors(['error' => $th->getMessage()])->withInput();
-        }
+        return $status === \Illuminate\Support\Facades\Password::PASSWORD_RESET
+            ? redirect()->route('login.view')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     }
 
     /**
-     * Logs a user out of the system.
+     * Logs the user out.
      *
-     * This endpoint is used to log a user out of the system.
-     *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function logout(): RedirectResponse
     {
         Session::flush();
-        Auth::logout();
-        return redirect('login');
+        auth()->logout();
+        return redirect()->route('login.view');
     }
 
     /**
-     * Locks the user's session.
-     *
-     * This endpoint is used to lock a user's session. When a user's session is locked,
-     * they will be redirected to the lock screen page where they will need to enter
-     * their password to unlock their session.
+     * Locks the session and shows the lock screen.
      *
      * @return \Illuminate\Contracts\View\View
      */
@@ -225,40 +148,24 @@ class AuthController extends Controller
         return view(
             'admin.auth.lock-screen',
             [
-                'user_info' => Auth::user()
+                'user_info' => auth()->user()
             ]
         );
     }
 
     /**
-     * Unlocks a user's session.
+     * Unlocks a locked session.
      *
-     * This endpoint is used to unlock a user's session. When a user's session is unlocked,
-     * they will be redirected to the home page.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  UnlockScreenRequest $request Validated unlock password
+     * @return RedirectResponse
      */
-    public function session_unlock(Request $request): RedirectResponse
+    public function session_unlock(UnlockScreenRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'password'              => 'required',
-                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
-            ]);
-
-            $user = Auth::user();
-
-            if (Hash::check($request->password, $user->password)) {
-                session()->forget('locked');
-                return redirect()->intended('home');
-            }
-
-            return back()->withErrors(['password' => 'Incorrect password']);
-        } catch (\Throwable $th) {
-            return back()->withErrors(['error' => $th->getMessage()])->withInput();
+        if ($this->auth_service->unlock($request)) {
+            session()->forget('locked');
+            return redirect()->route('home');
         }
+
+        return back()->withErrors(['password' => 'Incorrect password']);
     }
 }
