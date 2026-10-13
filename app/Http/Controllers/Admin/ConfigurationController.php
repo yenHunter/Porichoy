@@ -2,52 +2,49 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\RedirectResponse;
+use App\Services\Configuration\ConfigurationService;
 
 class ConfigurationController extends Controller
 {
-    public function view()
-    {
-        return view(
-            'admin.pages.configuration.index',
-            []
-        );
+    public function __construct(
+        private readonly ConfigurationService $configuration_service
+    ) {
     }
 
-    public function theme_view()
+    /**
+     * Display the configuration index view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function view(): View
     {
-        return view(
-            'admin.pages.configuration.themes.index',
-            []
-        );
+        return view('admin.pages.configuration.index');
     }
 
-    public function theme_update($theme)
+    /**
+     * Display the configuration theme view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function theme_view(): View
     {
-        try {
-            // Update the .env file
-            $envFile = base_path('.env');
-            if (file_exists($envFile)) {
-                $envContent = file_get_contents($envFile);
-                $updatedEnvContent = preg_replace(
-                    "/(APP_THEME=)[^]*/",
-                    "${1}{$theme}",
-                    $envContent
-                );
-                file_put_contents($envFile, $updatedEnvContent);
-            }
+        return view('admin.pages.configuration.themes.index');
+    }
 
-            // Optionally clear config cache if used
-            Artisan::call('config:clear');
+    /**
+     * Update the active theme (persists APP_THEME in .env).
+     *
+     * @param  string $theme Theme machine-name
+     * @return RedirectResponse
+     */
+    public function theme_update(string $theme): RedirectResponse
+    {
+        $this->configuration_service->setTheme($theme);
 
-            return back()->with('success', "Theme updated to {$theme}");
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', "Theme updated to {$theme}");
     }
 }

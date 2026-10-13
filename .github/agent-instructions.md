@@ -56,12 +56,12 @@ bootstrap/app.php           Middleware alias registration; TrackVisitor (analyti
 ```
 
 ### Controller + Service + Form Request architecture
-The codebase is being migrated from fat controllers to a layered pattern:
+The codebase is migrated to a layered pattern (all Admin/Auth/Visitor controllers):
 - **Form Request** (`app/Http/Requests/{Area}/{Action}Request.php`) owns ALL validation + `authorize()` (`auth()->check()` where only signed-in users may act). Error `attributes()` give human-readable names. `safe()->only([...])` for mass-fill.
 - **Service** (`app/Services/{Area}/{Area}Service.php`) owns business logic ONLY — pure DB/auth/queued side-effects; NEVER returns/uses HTTP (no sessions, no redirects, no HTTP exceptions thrown for control flow). Returns values/enum-ish constants (e.g. `AuthService::ERR_UNKNOWN_USER`) or plain booleans. Injected via controller constructor (`private readonly AuthService $auth_service`).
 - **Controller** (`app/Http/Controllers/{Area}/…`) handles HTTP only: maps service results to redirects/validation errors/views, and may stay inline for trivial views.
 Error-translation convention: services return a status/error string; the controller compares to the Password facade constants (`Password::RESET_LINK_SENT`) or a service constant, then builds the flash/error response.
-Reference implementation: `AuthService` + `App\Http\Requests\Auth\*` + `AuthController`.
+Reference implementations: `AuthService` + `App\Http\Requests\Auth\*` + `AuthController`, and the module services under `app/Services/{Education,Experience,Training,Research,Blog,Service,Skill,Client,Testimonial,User,Settings,Configuration,System}/` with request classes under `app/Http/Requests/Admin/<Module>/`. Shared-rule pattern: store/update requests keep rules in a `sharedRules()` static on the Store request; `Update*Request::rules()` merges the id rule via `+`. UserController: email uniqueness on update uses `Rule::unique(...)->ignore($id)`.
 
 ### Eloquent conventions
 - Models ending in `*Info` use **HasUuids** (`id` is string/UUID, `$incrementing = false`, `$keyType = 'string'`).
