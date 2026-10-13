@@ -2,126 +2,108 @@
 
 namespace App\Http\Controllers\Visitor;
 
-use App\Models\BlogInfo;
-use App\Models\SkillInfo;
-use App\Models\ClientInfo;
-use App\Rules\ReCaptcha;
-use App\Models\ProfileInfo;
-use App\Models\ProjectInfo;
-use App\Models\ServiceInfo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\EducationInfo;
-use App\Models\ExperienceInfo;
-use App\Models\TestimonialInfo;
+use Illuminate\View\View;
+use App\Services\Visitor\VisitorService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Visitor\StoreContactRequest;
 
 class VisitorController extends Controller
 {
-    public function index()
-    {
-        $client_list = ClientInfo::sorted()->active()->get();
-        if ($client_list->count() > 0) {
-            if ($client_list->count() <= 5) {
-                $rows = [$client_list];
-            } else {
-                $firstRowCount = (int) ceil($client_list->count() / 2);
-                $rows = [
-                    $client_list->take($firstRowCount),
-                    $client_list->skip($firstRowCount),
-                ];
-            }
-        } else {
-            $rows = $client_list;
-        }
-        return view(
-            'pages.index',
-            [
-                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
-                'service_list'          => ServiceInfo::sorted()->active()->get(),
-                'project_list'          => ProjectInfo::sorted()->active()->get(),
-                'skill_list'            => SkillInfo::active()->sorted()->get(),
-                'education_list'        => EducationInfo::sorted()->active()->get(),
-                'experience_list'       => ExperienceInfo::sorted()->active()->get(),
-                'client_list'           => ClientInfo::sorted()->active()->get(),
-                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
-            ]
-        );
+    public function __construct(
+        private readonly VisitorService $visitor_service
+    ) {
     }
 
-    public function about()
+    /**
+     * Display the storefront home page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index(): View
     {
-        return view(
-            'pages.about',
-            [
-                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
-                'education_list'        => EducationInfo::sorted()->active()->get(),
-                'experience_list'       => ExperienceInfo::sorted()->active()->get(),
-                'skill_list'            => SkillInfo::active()->sorted()->get(),
-                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
-            ]
-        );
+        return view('pages.index', $this->visitor_service->homeData());
     }
 
-    public function services()
+    /**
+     * Display the storefront about page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function about(): View
     {
-        return view(
-            'pages.services',
-            [
-                'service_list'          => ServiceInfo::sorted()->active()->get(),
-            ]
-        );
+        return view('pages.about', $this->visitor_service->aboutData());
     }
 
-    public function service_details($service)
+    /**
+     * Display the storefront services listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function services(): View
     {
-        return view(
-            'pages.service-details',
-            [
-                'profile_info'          => ProfileInfo::pluck('column_value', 'column_name')->toArray(),
-                'service_details'       => ServiceInfo::with('skills')->where('service_slug', $service)->first(),
-                'testimonial_list'      => TestimonialInfo::sorted()->active()->get(),
-            ]
-        );
+        return view('pages.services', $this->visitor_service->servicesData());
     }
 
-    public function projects()
+    /**
+     * Display a single service page.
+     *
+     * @param  string $service Service slug
+     * @return \Illuminate\View\View
+     */
+    public function service_details(string $service): View
     {
-        return view(
-            'pages.projects',
-            [
-                'project_list'          => ProjectInfo::sorted()->active()->get(),
-            ]
-        );
+        return view('pages.service-details', $this->visitor_service->serviceDetailsData($service));
     }
 
-    public function project_details($project)
+    /**
+     * Display the storefront projects listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function projects(): View
     {
-        return view(
-            'pages.project-details',
-            [
-                'project' => ProjectInfo::where('project_slug', $project)->first(),
-            ]
-        );
+        return view('pages.projects', $this->visitor_service->projectsData());
     }
 
-    public function blogs()
+    /**
+     * Display a single project page.
+     *
+     * @param  string $project Project slug
+     * @return \Illuminate\View\View
+     */
+    public function project_details(string $project): View
     {
-        return view(
-            'pages.blogs',
-            [
-                'blog_list'          => BlogInfo::sorted()->active()->get(),
-            ]
-        );
+        return view('pages.project-details', $this->visitor_service->projectDetailsData($project));
     }
 
-    public function blog_details($blog)
+    /**
+     * Display the storefront blog listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function blogs(): View
     {
-        return view('pages.blog-details', compact('blog'));
+        return view('pages.blogs', $this->visitor_service->blogsData());
     }
 
-    public function contact()
+    /**
+     * Display a single blog page.
+     *
+     * @param  string $blog Blog slug
+     * @return \Illuminate\View\View
+     */
+    public function blog_details(string $blog): View
+    {
+        return view('pages.blog-details', $this->visitor_service->blogDetailsData($blog));
+    }
+
+    /**
+     * Display the storefront contact page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function contact(): View
     {
         return view('pages.contact');
     }
@@ -129,31 +111,13 @@ class VisitorController extends Controller
     /**
      * Handle the public contact form submission.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param  StoreContactRequest  $request Validated payload
+     * @return RedirectResponse
      */
-    public function contactStore(Request $request): RedirectResponse
+    public function contactStore(StoreContactRequest $request): RedirectResponse
     {
-        try {
-            $request->validate([
-                'name'                  => ['required', 'string', 'min:2', 'max:60'],
-                'email'                 => ['required', 'email', 'max:255'],
-                'phone'                 => ['nullable', 'string', 'max:30'],
-                'comments'              => ['required', 'string', 'min:10', 'max:1000'],
-                'g-recaptcha-response'  => [new ReCaptcha()], // Validate reCAPTCHA
-            ]);
+        $this->visitor_service->storeContact($request);
 
-            Log::channel('contact')->info('New contact message received', [
-                'name'    => $request->input('name'),
-                'email'   => $request->input('email'),
-                'phone'   => $request->input('phone'),
-                'message' => $request->input('comments'),
-            ]);
-
-            return back()->with('success', 'Thank you for reaching out. Your message has been received.');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Thank you for reaching out. Your message has been received.');
     }
 }

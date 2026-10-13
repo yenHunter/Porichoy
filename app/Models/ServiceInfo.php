@@ -91,12 +91,12 @@ class ServiceInfo extends Model
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(SkillInfo::class, 'service_skill');
+        return $this->belongsToMany(SkillInfo::class, 'service_skill_infos', 'service_id', 'skill_id');
     }
 
     public function services(): BelongsToMany
     {
-        return $this->belongsToMany(ServiceInfo::class, 'service_skill');
+        return $this->belongsToMany(ServiceInfo::class, 'service_skill_infos', 'skill_id', 'service_id');
     }
 
     public function updatedBy(): BelongsTo

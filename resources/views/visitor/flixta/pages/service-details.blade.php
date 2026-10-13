@@ -51,7 +51,7 @@
                     <div class="col-xl-6 col-lg-6">
                         <div class="mb-20">
                             @forelse ($service_details?->skills ?? [] as $skill)
-                                <span class="badge bg-primary mr-5">{{ $skill->skill_name }}</span>
+                                <span class="badge bg-primary mr-5">{{ $skill->skill_title }}</span>
                             @empty
                                 <span class="badge bg-primary mr-5">Figma</span>
                                 <span class="badge bg-primary mr-5">Laravel</span>

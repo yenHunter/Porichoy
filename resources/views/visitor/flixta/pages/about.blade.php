@@ -68,27 +68,29 @@
                                 <h2 class="rs-section-title mb-15 rs-split-text-enable split-in-fade">My Name is
                                     <br>
                                     <span
-                                        class="rs-text-primary">{{ $profile_info['first_name'] . ' ' . $profile_info['last_name'] }}</span>
+                                        class="rs-text-primary">{{ trim(($profile_info['first_name'] ?? '') . ' ' . ($profile_info['last_name'] ?? '')) }}</span>
                                 </h2>
                                 <p class="rs-about-designation">
-                                    {{ $profile_info['headline'] }}</p>
+                                    {{ $profile_info['headline'] ?? '' }}</p>
                                 <p class="rs-about-description">
-                                    {{ $profile_info['bio'] }}
+                                    {{ $profile_info['bio'] ?? '' }}
                                 </p>
                             </div>
                             <div class="rs-about-bio">
                                 <ul>
-                                    <li>
-                                        Age
-                                        <span>{{ \Carbon\Carbon::parse($profile_info['date_of_birth'])->age }} Years</span>
-                                    </li>
+                                    @isset($profile_info['date_of_birth'])
+                                        <li>
+                                            Age
+                                            <span>{{ \Carbon\Carbon::parse($profile_info['date_of_birth'])->age }} Years</span>
+                                        </li>
+                                    @endisset
                                     <li>
                                         Lives In
-                                        <span>{{ $profile_info['present_city'] . ', ' . $profile_info['present_country'] }}</span>
+                                        <span>{{ trim(($profile_info['present_city'] ?? '') . ', ' . ($profile_info['present_country'] ?? ''), ', ') }}</span>
                                     </li>
                                     <li>
                                         Email
-                                        <span><a href="mailto:{{ $profile_info['email'] }}"> {{ $profile_info['email'] }}
+                                        <span><a href="mailto:{{ $profile_info['email'] ?? '' }}"> {{ $profile_info['email'] ?? '' }}
                                             </a></span>
                                     </li>
                                 </ul>
@@ -565,7 +567,7 @@
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:{{ $profile_info['email'] }}">{{ $profile_info['email'] }}</a>
+                                <a href="mailto:{{ $profile_info['email'] ?? '' }}">{{ $profile_info['email'] ?? '' }}</a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">

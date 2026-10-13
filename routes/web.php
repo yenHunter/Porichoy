@@ -8,7 +8,6 @@ require __DIR__ . '/admin.php';
 Route::middleware('visitor')->name('visitor.')->group(function () {
 	Route::get('/', [VisitorController::class, 'index'])->name('index');
 	Route::get('about', [VisitorController::class, 'about'])->name('about');
-	Route::get('education', [VisitorController::class, 'education'])->name('education');
 	Route::get('services', [VisitorController::class, 'services'])->name('service.index');
 	Route::get('service/{service}', [VisitorController::class, 'service_details'])->name('service.details');
 	Route::get('projects', [VisitorController::class, 'projects'])->name('project.index');
