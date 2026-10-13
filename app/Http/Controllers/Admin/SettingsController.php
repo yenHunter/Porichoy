@@ -3,384 +3,258 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\View\View;
-use App\Models\SelectType;
-use App\Models\ProfileInfo;
-use App\Models\Country;
-use Illuminate\Http\Request;
-use App\Traits\UserLogTrait;
-use Illuminate\Support\Str;
-use App\Models\EducationInfo;
-use App\Models\ExperienceInfo;
-use App\Models\ColumnSettings;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
+use App\Http\Requests\Admin\Settings\SelectTypeRequest;
+use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
+use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
+use App\Services\Settings\SettingsService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Models\SelectType;
 
 class SettingsController extends Controller
 {
-    use UserLogTrait;
+    public function __construct(
+        private readonly SettingsService $settings_service
+    ) {
+    }
 
     /**
-     * Display the portfolio profile management view with categorized data
-     * Data is indexed by column_name for easy access to column_value
+     * Display the portfolio profile management view.
      *
      * @return \Illuminate\View\View
      */
     public function profile_management(): View
     {
-        try {
-            // Get all active countries sorted by name
-            $availableFlags = Country::active()->sorted()->get()->map(function ($country) {
-                return [
-                    'name' => $country->name,
-                    'code' => $country->code,
-                    'path' => $country->flag_path,
-                ];
-            })->toArray();
-
-            $profileData = [
-                'basic'             => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
-                'personal'          => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
-                'address'           => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
-                'present_address'   => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
-                'permanent_address' => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
-                'social'            => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
-                'education'         => EducationInfo::active()->sorted()->first(),
-                'experience'        => ExperienceInfo::active()->sorted()->first(),
-            ];
-            // dd($profileData);
-            return view('admin.pages.management.profile', [
-                'profile_data' => $profileData,
-                'available_flags' => $availableFlags,
-            ]);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return view('admin.error.404');
-        }
-    }
-
-    /**
-     * Update portfolio profile information
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function profile_update(Request $request): RedirectResponse
-    {
-        try {
-            // Helper function to process profile updates
-            $processProfileData = function ($category) use ($request) {
-                if ($request->has($category)) {
-                    $inputs = $request->all()[$category] ?? [];
-                    foreach ($inputs as $id => $value) {
-                        // Check if this field has a file upload
-                        if ($value instanceof UploadedFile && $value->isValid()) {
-                            // Get the current profile info
-                            $profileInfo = ProfileInfo::findOrFail($id);
-
-                            // Delete old file if exists
-                            if ($profileInfo->column_value && Storage::disk('public')->exists($profileInfo->column_value)) {
-                                Storage::disk('public')->delete($profileInfo->column_value);
-                            }
-
-                            // Store new file
-                            $filename = Str::uuid() . '.webp';
-                            $path = 'uploads/profile/' . $filename;
-                            $img = Image::read($value);
-                            Storage::disk('public')->put($path, $img->toWebp(80));
-
-                            // Update with file path
-                            $profileInfo->update(['column_value' => $path]);
-                        } else if (!($value instanceof UploadedFile)) {
-                            // Regular text input (skip if it's an invalid file)
-                            ProfileInfo::findOrFail($id)->update(['column_value' => $value]);
-                        }
-                    }
-                }
-            };
-
-            // Process all profile categories
-            $processProfileData('basic');
-            $processProfileData('personal');
-            $processProfileData('address');
-            $processProfileData('present_address');
-            $processProfileData('permanent_address');
-            $processProfileData('social');
-
-            $this->logUserActivity('ProfileInfo', 'Portfolio profile information updated');
-            return back()->with('success', 'Portfolio profile information updated successfully.');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong while updating profile information.'])->withInput();
-        }
-    }
-
-    // Functions for Research Source start
-    public function viewResearchSource()
-    {
         return view(
-            'admin.pages.settings.research_source',
-            [
-                'research_source_list'          => SelectType::where('use_for', 'research_source')->orderBy('id', 'asc')->get(),
-                'research_source_settings'      => ColumnSettings::where('module', 'research_source')->get(),
-            ]
+            'admin.pages.management.profile',
+            $this->settings_service->profileViewData()
         );
     }
 
-    public function storeResearchSource(Request $request)
+    /**
+     * Update portfolio profile information.
+     *
+     * @param  ProfileUpdateRequest $request
+     * @return RedirectResponse
+     */
+    public function profile_update(ProfileUpdateRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required',
-                'thumbnail'                 => 'image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            ]);
+        $this->settings_service->updateProfile($request);
 
-            $path = $request->thumbnail;
-            if ($request->hasFile('thumbnail')) {
-                $file = $request->file('thumbnail');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/uploads/settings/research-source', $filename);
-                $path = 'uploads/settings/research-source/' . $filename;
-            }
-
-            // Save experience info in DB
-            $object = new SelectType();
-            $object->use_for = 'research_source';
-            $object->value = $request->title;
-            $object->details = $path;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Research Source', 'Created a new Research Source');
-            return back()->with('success', 'Research Source created');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Portfolio profile information updated successfully.');
     }
 
-    public function editResearchSource($research_source_id)
+    // ---------------------------------------------------------------------
+    // Research Source CRUD
+    // ---------------------------------------------------------------------
+
+    /**
+     * Display the research source listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function viewResearchSource(): View
     {
-        try {
-            return response()->json(SelectType::where('id', $research_source_id)->first());
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        return view(
+            'admin.pages.settings.research_source',
+            $this->settings_service->researchSourceViewData()
+        );
     }
 
-    public function updateResearchSource(Request $request)
+    /**
+     * Store a new research source.
+     *
+     * @param  StoreResearchSourceRequest $request
+     * @return RedirectResponse
+     */
+    public function storeResearchSource(StoreResearchSourceRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required',
-                'thumbnail'                 => 'image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-            ]);
+        $this->settings_service->storeResearchSource($request);
 
-            $object = SelectType::where('id', $request->research_source_id)->first();
-            $path = $object->details;
-            if ($request->hasFile('thumbnail')) {
-                if (Storage::disk('public')->exists($path)) {
-                    Storage::disk('public')->delete($path);
-                }
-                $file = $request->file('thumbnail');
-                $filename = time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/uploads/settings/research-source', $filename);
-                $path = 'uploads/settings/research-source/' . $filename;
-            }
-
-            // Save experience info in DB
-            $object->value = $request->title;
-            $object->details = $path;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Research Source', 'Updated Research Source');
-            return back()->with('success', 'Research Source updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Research Source created');
     }
 
-    public function deleteResearchSource($research_source_id)
+    /**
+     * Get a research source by id.
+     *
+     * @param  string $research_source_id
+     * @return JsonResponse
+     */
+    public function editResearchSource(string $research_source_id): JsonResponse
     {
-        try {
-            $object = SelectType::where('id', $research_source_id)->first();
-            $object->delete();
-            if (!empty($object->details) && Storage::disk('public')->exists($object->details)) {
-                Storage::disk('public')->delete($object->details);
-            }
-            $this->logUserActivity('Research Source', 'Removed Research Source');
-            return back()->with('success', 'Research Source removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        return response()->json(
+            $this->settings_service->findResearchSource($research_source_id)
+        );
     }
 
-    public function viewLocationType()
+    /**
+     * Update a research source.
+     *
+     * @param  UpdateResearchSourceRequest $request
+     * @return RedirectResponse
+     */
+    public function updateResearchSource(UpdateResearchSourceRequest $request): RedirectResponse
+    {
+        $this->settings_service->updateResearchSource($request);
+
+        return back()->with('success', 'Research Source updated');
+    }
+
+    /**
+     * Delete a research source.
+     *
+     * @param  string $research_source_id
+     * @return RedirectResponse
+     */
+    public function deleteResearchSource(string $research_source_id): RedirectResponse
+    {
+        $this->settings_service->deleteResearchSource($research_source_id);
+
+        return back()->with('success', 'Research Source removed');
+    }
+
+    // ---------------------------------------------------------------------
+    // Location Type CRUD (SelectType use_for = location_type)
+    // ---------------------------------------------------------------------
+
+    /**
+     * Display the location type listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function viewLocationType(): View
     {
         return view(
             'admin.pages.settings.location_type',
             [
-                'location_type_list'          => SelectType::where('use_for', 'location_type')->orderBy('id', 'asc')->get(),
+                'location_type_list' => $this->settings_service->selectTypeViewData('location_type'),
             ]
         );
     }
 
-    public function storeLocationType(Request $request)
+    /**
+     * Store a new location type.
+     *
+     * @param  SelectTypeRequest $request
+     * @return RedirectResponse
+     */
+    public function storeLocationType(SelectTypeRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required|string|max:255',
-                'details'                   => 'nullable|string|max:255',
-            ]);
+        $this->settings_service->storeSelectType($request, 'location_type');
 
-            // Save experience info in DB
-            $object = new SelectType();
-            $object->use_for = 'location_type';
-            $object->value = $request->title;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Location Type', 'Created a new Location Type');
-            return back()->with('success', 'Location Type created');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Location Type created');
     }
 
-    public function editLocationType($location_type_id)
+    /**
+     * Get a location type by id.
+     *
+     * @param  string $location_type_id
+     * @return JsonResponse
+     */
+    public function editLocationType(string $location_type_id): JsonResponse
     {
-        try {
-            return response()->json(SelectType::where('id', $location_type_id)->first());
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        return response()->json(
+            $this->settings_service->findSelectType($location_type_id, 'location_type')
+        );
     }
 
-    public function updateLocationType(Request $request)
+    /**
+     * Update a location type.
+     *
+     * @param  SelectTypeRequest $request
+     * @return RedirectResponse
+     */
+    public function updateLocationType(SelectTypeRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required|string|max:255',
-                'details'                   => 'nullable|string|max:255',
-            ]);
+        $this->settings_service->updateSelectType($request, 'location_type', $request->input('location_type_id'));
 
-            $object = SelectType::where('id', $request->location_type_id)->first();
-
-            // Save experience info in DB
-            $object->value = $request->title;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Location Type', 'Updated Location Type');
-            return back()->with('success', 'Location Type updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Location Type updated');
     }
 
-    public function deleteLocationType($location_type_id)
+    /**
+     * Delete a location type.
+     *
+     * @param  string $location_type_id
+     * @return RedirectResponse
+     */
+    public function deleteLocationType(string $location_type_id): RedirectResponse
     {
-        try {
-            $object = SelectType::where('id', $location_type_id)->first();
-            $object->delete();
-            $this->logUserActivity('Location Type', 'Removed Location Type');
-            return back()->with('success', 'Location Type removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        $this->settings_service->deleteSelectType($location_type_id, 'location_type');
+
+        return back()->with('success', 'Location Type removed');
     }
-    public function viewEmploymentType()
+
+    // ---------------------------------------------------------------------
+    // Employment Type CRUD (SelectType use_for = employment_type)
+    // ---------------------------------------------------------------------
+
+    /**
+     * Display the employment type listing.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function viewEmploymentType(): View
     {
         return view(
             'admin.pages.settings.employment_type',
             [
-                'employment_type_list'          => SelectType::where('use_for', 'employment_type')->orderBy('id', 'asc')->get(),
+                'employment_type_list' => $this->settings_service->selectTypeViewData('employment_type'),
             ]
         );
     }
 
-    public function storeEmploymentType(Request $request)
+    /**
+     * Store a new employment type.
+     *
+     * @param  SelectTypeRequest $request
+     * @return RedirectResponse
+     */
+    public function storeEmploymentType(SelectTypeRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required|string|max:255',
-                'details'                   => 'nullable|string|max:255',
-            ]);
+        $this->settings_service->storeSelectType($request, 'employment_type');
 
-            // Save experience info in DB
-            $object = new SelectType();
-            $object->use_for = 'employment_type';
-            $object->value = $request->title;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Employment Type', 'Created a new Employment Type');
-            return back()->with('success', 'Employment Type created');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Employment Type created');
     }
 
-    public function editEmploymentType($employment_type_id)
+    /**
+     * Get an employment type by id.
+     *
+     * @param  string $employment_type_id
+     * @return JsonResponse
+     */
+    public function editEmploymentType(string $employment_type_id): JsonResponse
     {
-        try {
-            return response()->json(SelectType::where('id', $employment_type_id)->first());
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        return response()->json(
+            $this->settings_service->findSelectType($employment_type_id, 'employment_type')
+        );
     }
 
-    public function updateEmploymentType(Request $request)
+    /**
+     * Update an employment type.
+     *
+     * @param  SelectTypeRequest $request
+     * @return RedirectResponse
+     */
+    public function updateEmploymentType(SelectTypeRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'title'                     => 'required|string|max:255',
-                'details'                   => 'nullable|string|max:255',
-            ]);
+        $this->settings_service->updateSelectType($request, 'employment_type', $request->input('employment_type_id'));
 
-            $object = SelectType::where('id', $request->employment_type_id)->first();
-
-            // Save experience info in DB
-            $object->value = $request->title;
-            $object->details = $request->details;
-            $object->status = $request->status;
-            $object->save();
-            $this->logUserActivity('Employment Type', 'Updated Employment Type');
-            return back()->with('success', 'Employment Type updated');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Employment Type updated');
     }
 
-    public function deleteEmploymentType($employment_type_id)
+    /**
+     * Delete an employment type.
+     *
+     * @param  string $employment_type_id
+     * @return RedirectResponse
+     */
+    public function deleteEmploymentType(string $employment_type_id): RedirectResponse
     {
-        try {
-            $object = SelectType::where('id', $employment_type_id)->first();
-            $object->delete();
-            $this->logUserActivity('Employment Type', 'Removed Employment Type');
-            return back()->with('success', 'Employment Type removed');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        $this->settings_service->deleteSelectType($employment_type_id, 'employment_type');
+
+        return back()->with('success', 'Employment Type removed');
     }
 }

@@ -55,6 +55,14 @@ routes/
 bootstrap/app.php           Middleware alias registration; TrackVisitor (analytics) appended to every 'web' request + session
 ```
 
+### Controller + Service + Form Request architecture
+The codebase is migrated to a layered pattern (all Admin/Auth/Visitor controllers):
+- **Form Request** (`app/Http/Requests/{Area}/{Action}Request.php`) owns ALL validation + `authorize()` (`auth()->check()` where only signed-in users may act). Error `attributes()` give human-readable names. `safe()->only([...])` for mass-fill.
+- **Service** (`app/Services/{Area}/{Area}Service.php`) owns business logic ONLY — pure DB/auth/queued side-effects; NEVER returns/uses HTTP (no sessions, no redirects, no HTTP exceptions thrown for control flow). Returns values/enum-ish constants (e.g. `AuthService::ERR_UNKNOWN_USER`) or plain booleans. Injected via controller constructor (`private readonly AuthService $auth_service`).
+- **Controller** (`app/Http/Controllers/{Area}/…`) handles HTTP only: maps service results to redirects/validation errors/views, and may stay inline for trivial views.
+Error-translation convention: services return a status/error string; the controller compares to the Password facade constants (`Password::RESET_LINK_SENT`) or a service constant, then builds the flash/error response.
+Reference implementations: `AuthService` + `App\Http\Requests\Auth\*` + `AuthController`, and the module services under `app/Services/{Education,Experience,Training,Research,Blog,Service,Skill,Client,Project,Testimonial,User,Settings,Configuration,System}/` with request classes under `app/Http/Requests/Admin/<Module>/`. Every Admin controller is migrated (including `ProjectController`): no controller holds validation rules or DB/image logic — `HomeController` keeps its single dashboard view inline, which is allowed for trivial views. Shared-rule pattern: store/update requests keep rules in a `sharedRules()` static on the Store request; `Update*Request::rules()` merges the id rule via `+`. UserController: email uniqueness on update uses `Rule::unique(...)->ignore($id)`.
+
 ### Eloquent conventions
 - Models ending in `*Info` use **HasUuids** (`id` is string/UUID, `$incrementing = false`, `$keyType = 'string'`).
 - `booted()` is used for auto-slug generation (`generateUniqueSlug()`), auto-sequence (`*::max(...)+1`), auto-default status when null, and default view_count=0.
@@ -82,6 +90,8 @@ bootstrap/app.php           Middleware alias registration; TrackVisitor (analyti
 | Blog admin 500 (`with('author')`) | Relation `author` not defined on BlogInfo | Removed from eager-load | Grep model relations before adding `with()` |
 | Theme default picture crash | Flixta read `$profile_info['profile_picture']` with no fallback on fresh DB | Added `!isset()` branch → default picture | New DB / fresh seed has no `ProfileInfo` rows — every `$profile_info[...]` access needs `isset`/`??` guard |
 | Composer drifted 23 advisories | All transitive; local `bootstrap/cache/*` survived composer purge | Updated + cleared `bootstrap/cache/packages.php`, `services.php` before `dump-autoload` | Stale cached provider maps cause `Class not found` errors after dependency changes — delete both cache files, not just `vendor/` |
+| Admin routes disappeared after the first boot | `routes/web.php` loaded the admin file with `@include_once('admin.php')`; `include_once` is once *per PHP process*, so a second app boot in the same process (2nd test, Octane worker, any in-process re-boot) registered **no** admin routes → `RouteNotFoundException` (silently, because of the `@`) | `require __DIR__ . '/admin.php';` | Never `include_once`/`require_once` a route file — every boot must re-register routes. `__DIR__` also removes the CWD dependence |
+| Project update 500'd (`NOT NULL constraint failed: project_infos.project_status`) | `update()` copied `$request->project_status` straight into `fill()`; a request omitting the field wrote `null` (the model's `creating` hook defaults it to `true`, `updating` does not) | `ProjectService::update` keeps the stored value when the field is absent | A NOT NULL flag column needs a store default **and** an update fallback — a `creating` hook does not protect updates. Same latent shape in `client_status`/other flags: always send the field or fall back to the stored value |
 
 ## Environment & Runtime
 
@@ -114,6 +124,7 @@ bootstrap/app.php           Middleware alias registration; TrackVisitor (analyti
 ### Testing
 - Feature tests MUST `use Illuminate\Foundation\Testing\RefreshDatabase;` — the analytics middleware is appended to every web request and queries `website_analytics`, which won't exist otherwise. `phpunit.xml` runs SQLite `:memory:`.
 - Run before delivery: `php artisan test`, `php artisan test --parallel` when the suite grows.
+- `tests/Feature/ProjectControllerTest.php` is the reference for exercising an admin module end-to-end (auth guard, required-field errors, create with uploaded images → WebP, update replacing an image, sequence reorder, delete removing files). Copy it as the template when adding module tests.
 - A green exit code means nothing if the route silently 500s — assert specific status codes AND a rendered content marker, e.g. `$response->assertSee('expected text')`.
 
 ### Cache the right things after dependency changes

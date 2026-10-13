@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\View\View;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Traits\UserLogTrait;
-use App\Models\EducationInfo;
 use App\Models\ColumnSettings;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
+use App\Services\Education\EducationService;
+use App\Http\Requests\Admin\Education\UpdateEducationRequest;
+use App\Http\Requests\Admin\Education\StoreEducationRequest;
+use App\Http\Requests\Admin\Education\UpdateEducationSequenceRequest;
+use App\Http\Requests\Admin\Education\UpdateEducationSettingsRequest;
 
 class EducationController extends Controller
 {
-    use UserLogTrait;
+    public function __construct(
+        private readonly EducationService $education_service
+    ) {
+    }
 
     /**
      * Display a listing of the resource.
@@ -26,225 +27,90 @@ class EducationController extends Controller
      */
     public function view(): View
     {
-        try {
-            return view(
-                'admin.pages.module.education',
-                [
-                    'education_list'            => EducationInfo::sorted()->get(),
-                    'education_settings'        => ColumnSettings::where('module', 'education')->get()
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return view('admin.error.404');
-        }
+        return view(
+            'admin.pages.module.education',
+            [
+                'education_list'     => $this->education_service->listAll(),
+                'education_settings' => $this->education_service->listSettings(),
+            ]
+        );
     }
 
     /**
      * Store a newly created education info in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  StoreEducationRequest $request Validated payload
+     * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreEducationRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'education_degree'                  => 'required|string|max:255',
-                'education_subject'                 => 'nullable|string|max:255',
-                'education_institute'               => 'required|string|max:255',
-                'institute_logo'                    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-                'institute_address'                 => 'nullable|string|max:255',
-                'start_date'                        => 'required|date',
-                'end_date'                          => 'nullable|date|after_or_equal:start_date',
-                'education_result'                  => 'nullable|string|max:255',
-                'education_details'                 => 'nullable|string',
-                'education_status'                  => 'nullable|boolean',
-            ]);
+        $this->education_service->store($request);
 
-            // Store file in storage
-            $path = null;
-            if ($request->hasFile('institute_logo')) {
-                $file = $request->file('institute_logo');
-                $filename = Str::uuid() . '.webp';
-                $path = 'uploads/education/' . $filename;
-                $img = Image::read($file);
-                $img->scale(width: 300);
-                Storage::disk('public')->put($path, $img->toWebp(80));
-            }
-
-            // Save education info in DB
-            $education = new EducationInfo();
-            $education->education_degree = $request->education_degree;
-            $education->education_subject = $request->education_subject;
-            $education->education_institute = $request->education_institute;
-            $education->institute_logo = $path;
-            $education->institute_address = $request->institute_address;
-            $education->start_date = $request->start_date;
-            $education->end_date = $request->end_date;
-            $education->education_result = $request->education_result;
-            $education->education_details = $request->education_details;
-            $education->education_status = $request->education_status;
-            $education->save();
-            $this->logUserActivity('Education', 'Created a new Education info');
-            return back()->with('success', 'Education info created');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Education info created');
     }
 
     /**
-     * Get an education info by id
+     * Get an education info by id.
      *
-     * @param int $education_id Education id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
+     * @param  string $education_id
+     * @return JsonResponse
      */
-    public function edit($education_id): JsonResponse
+    public function edit(string $education_id): JsonResponse
     {
-        try {
-            return response()->json(EducationInfo::where('id', $education_id)->first(), 200);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 404);
-        }
+        return response()->json(
+            $this->education_service->find($education_id)
+        );
     }
 
     /**
      * Update an existing education info in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  UpdateEducationRequest $request Validated payload
+     * @return RedirectResponse
      */
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateEducationRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $validated = $request->validate([
-                'education_id'                      => 'required|exists:education_infos,id',
-                'education_degree'                  => 'required|string|max:255',
-                'education_subject'                 => 'nullable|string|max:255',
-                'education_institute'               => 'required|string|max:255',
-                'institute_logo'                    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
-                'institute_address'                 => 'nullable|string|max:255',
-                'start_date'                        => 'required|date',
-                'end_date'                          => 'nullable|date|after_or_equal:start_date',
-                'education_result'                  => 'nullable|string|max:255',
-                'education_details'                 => 'nullable|string',
-                'education_status'                  => 'nullable|boolean',
-            ]);
+        $this->education_service->update($request);
 
-            $education = EducationInfo::findOrFail($request->education_id);
-            // Store file in storage
-            if ($request->hasFile('institute_logo')) {
-                // Check if old file exists and is not null
-                if ($education->institute_logo && Storage::disk('public')->exists($education->institute_logo)) {
-                    Storage::disk('public')->delete($education->institute_logo);
-                }
-                $file = $request->file('institute_logo');
-                $filename = Str::uuid() . '.webp';
-                $path = 'uploads/education/' . $filename;
-                $img = Image::read($file);
-                $img->scale(width: 300);
-                Storage::disk('public')->put($path, $img->toWebp(80));
-                $education->institute_logo = $path;
-            }
-
-            // Save education info in DB
-            $education->fill([
-                'education_degree'                => $request->education_degree,
-                'education_subject'               => $request->education_subject,
-                'education_institute'             => $request->education_institute,
-                'institute_address'               => $request->institute_address,
-                'start_date'                      => $request->start_date,
-                'end_date'                        => $request->end_date,
-                'education_result'                => $request->education_result,
-                'education_details'               => $request->education_details,
-                'education_status'                => $request->education_status,
-            ]);
-            $education->save();
-
-            $this->logUserActivity('Education', 'Updated Education info');
-            return back()->with('success', 'Education info updated');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Education info updated');
     }
 
     /**
      * Remove an existing education info from storage.
      *
-     * @param int $education_id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  string $education_id
+     * @return RedirectResponse
      */
-    public function delete($education_id): RedirectResponse
+    public function delete(string $education_id): RedirectResponse
     {
-        try {
-            $object = EducationInfo::findOrFail($education_id);
-            if ($object->institute_logo != null && Storage::disk('public')->exists($object->institute_logo)) {
-                Storage::disk('public')->delete($object->institute_logo);
-            }
-            $object->delete();
-            $this->logUserActivity('Education', 'Removed Education info');
-            return back()->with('success', 'Education info removed');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        $this->education_service->delete($education_id);
+
+        return back()->with('success', 'Education info removed');
     }
 
     /**
      * Update education sequence.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
+     * @param  UpdateEducationSequenceRequest $request
+     * @return JsonResponse
      */
-    public function update_sequence(Request $request): JsonResponse
+    public function update_sequence(UpdateEducationSequenceRequest $request): JsonResponse
     {
-        try {
-            $order = $request->input('order');
-            foreach ($order as $item) {
-                EducationInfo::where('id', $item['id'])->update(['education_sequence' => $item['sequence']]);
-            }
-            return response()->json(['status' => 'success']);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return response()->json(['status' => 'error']);
-        }
+        $this->education_service->updateSequence($request);
+
+        return response()->json(['status' => 'success']);
     }
 
     /**
-     * Update education settings visibility.
+     * Update education settings (column visibility).
      *
-     * @param Request $request
+     * @param  UpdateEducationSettingsRequest $request
      * @return RedirectResponse
-     * @throws \Throwable
      */
-    // public function settings_update(Request $request): RedirectResponse
-    // {
-    //     $education_settings = ColumnSettings::where('module', 'education')->get();
-    //     try {
-    //         foreach ($education_settings as $value) {
-    //             if ($request->has($value->column_name)) {
-    //                 $value->visibility = 1;
-    //                 $value->save();
-    //             } else {
-    //                 $value->visibility = 0;
-    //                 $value->save();
-    //             }
-    //         }
-    //         $this->logUserActivity('Education', 'Updated Education settings');
-    //         return back()->with('success', 'Education settings updated');
-    //     } catch (\Throwable $th) {
-    //         Log::error($th->getMessage());
-    //         return back()->withErrors(['error' => 'Something went wrong']);
-    //     }
-    // }
+    public function settings_update(UpdateEducationSettingsRequest $request): RedirectResponse
+    {
+        $this->education_service->updateSettings($request);
+
+        return back()->with('success', 'Education settings updated');
+    }
 }

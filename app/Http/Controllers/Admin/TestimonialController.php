@@ -3,170 +3,91 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\View\View;
-use App\Models\ClientInfo;
-use Illuminate\Http\Request;
-use App\Traits\UserLogTrait;
-use App\Models\TestimonialInfo;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Services\Testimonial\TestimonialService;
+use App\Http\Requests\Admin\Testimonial\StoreTestimonialRequest;
+use App\Http\Requests\Admin\Testimonial\UpdateTestimonialRequest;
+use App\Http\Requests\Admin\Testimonial\UpdateTestimonialSequenceRequest;
 
 class TestimonialController extends Controller
 {
-    use UserLogTrait;
+    public function __construct(
+        private readonly TestimonialService $testimonial_service
+    ) {
+    }
 
     /**
-     * Display the listing of testimonials
+     * Display the listing of testimonials.
      *
      * @return \Illuminate\View\View
      */
     public function view(): View
     {
-        try {
-            return view(
-                'admin.pages.element.testimonial',
-                [
-                    'testimonial_list'      => TestimonialInfo::sorted()->get(),
-                    'client_list'           => ClientInfo::active()->sorted()->get(),
-                ]
-            );
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return view('admin.error.404');
-        }
+        return view('admin.pages.element.testimonial', $this->testimonial_service->viewData());
     }
 
     /**
      * Store a newly created testimonial in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  StoreTestimonialRequest $request Validated payload
+     * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreTestimonialRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'client_id'                     => 'required|exists:client_infos,id',
-                'testimonial_title'             => 'required|string|max:255',
-                'testimonial_details'           => 'required|string',
-                'testimonial_review'            => 'required|integer|min:1|max:5',
-                'testimonial_status'            => 'nullable|boolean',
-            ]);
+        $this->testimonial_service->store($request);
 
-            // Save testimonial info in DB
-            $testimonial = new TestimonialInfo();
-            $testimonial->client_id = $request->client_id;
-            $testimonial->testimonial_title = $request->testimonial_title;
-            $testimonial->testimonial_details = $request->testimonial_details;
-            $testimonial->testimonial_review = $request->testimonial_review;
-            $testimonial->testimonial_status = $request->testimonial_status;
-            $testimonial->save();
-            $this->logUserActivity('Testimonial', 'New record created');
-            return back()->with('success', 'Testimonial added successfully.');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Testimonial added successfully.');
     }
 
     /**
-     * Get a testimonial by id
+     * Get a testimonial by id.
      *
-     * @param string $testimonial_id Testimonial id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
+     * @param  string $testimonial_id
+     * @return JsonResponse
      */
-    public function edit($testimonial_id): JsonResponse
+    public function edit(string $testimonial_id): JsonResponse
     {
-        try {
-            return response()->json(TestimonialInfo::where('id', $testimonial_id)->first());
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 404);
-        }
+        return response()->json($this->testimonial_service->find($testimonial_id));
     }
 
     /**
      * Update an existing testimonial in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  UpdateTestimonialRequest $request Validated payload
+     * @return RedirectResponse
      */
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateTestimonialRequest $request): RedirectResponse
     {
-        try {
-            // Validation
-            $request->validate([
-                'testimonial_id'                => 'required|exists:testimonial_infos,id',
-                'client_id'                     => 'required|exists:client_infos,id',
-                'testimonial_title'             => 'required|string|max:255',
-                'testimonial_details'           => 'required|string',
-                'testimonial_review'            => 'required|integer|min:1|max:5',
-                'testimonial_status'            => 'nullable|boolean'
-            ]);
+        $this->testimonial_service->update($request);
 
-            // Find the testimonial by ID
-            $object = TestimonialInfo::findOrFail($request->testimonial_id);
-
-            // Update testimonial info in DB
-            $object->fill([
-                'client_id' => $request->client_id,
-                'testimonial_title' => $request->testimonial_title,
-                'testimonial_details' => $request->testimonial_details,
-                'testimonial_review' => $request->testimonial_review,
-                'testimonial_status' => $request->testimonial_status,
-            ]);
-            $object->save();
-            $this->logUserActivity('Testimonial', 'Existing record updated');
-            return back()->with('success', 'Testimonial updated');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong'])->withInput();
-        }
+        return back()->with('success', 'Testimonial updated');
     }
 
     /**
      * Delete an existing testimonial from storage.
      *
-     * @param string $testimonial_id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Throwable
+     * @param  string $testimonial_id
+     * @return RedirectResponse
      */
-    public function delete($testimonial_id): RedirectResponse
+    public function delete(string $testimonial_id): RedirectResponse
     {
-        try {
-            $object = TestimonialInfo::findOrFail($testimonial_id);
-            $object->delete();
-            $this->logUserActivity('Testimonial', 'Existing record deleted');
-            return back()->with('success', 'Testimonial deleted');
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return back()->withErrors(['error' => 'Something went wrong']);
-        }
+        $this->testimonial_service->delete($testimonial_id);
+
+        return back()->with('success', 'Testimonial deleted');
     }
 
     /**
-     * Update the sequence of multiple testimonial records
+     * Update the sequence of multiple testimonial records.
      *
-     * @param Request $request
+     * @param  UpdateTestimonialSequenceRequest $request
      * @return JsonResponse
-     * @throws \Throwable
      */
-    public function update_sequence(Request $request)
+    public function update_sequence(UpdateTestimonialSequenceRequest $request): JsonResponse
     {
-        try {
-            $order = $request->input('order');
-            foreach ($order as $item) {
-                TestimonialInfo::where('id', $item['id'])->update(['testimonial_sequence' => $item['sequence']]);
-            }
-            return response()->json(['status' => 'success']);
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return response()->json(['status' => 'error']);
-        }
+        $this->testimonial_service->updateSequence($request);
+
+        return response()->json(['status' => 'success']);
     }
 }
