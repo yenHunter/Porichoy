@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Visitor\VisitorController;
 
-@include_once('admin.php');
+require __DIR__ . '/admin.php';
 
 Route::middleware('visitor')->name('visitor.')->group(function () {
 	Route::get('/', [VisitorController::class, 'index'])->name('index');
