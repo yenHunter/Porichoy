@@ -151,7 +151,7 @@ class SettingsTest extends TestCase
 
         try {
             $this->actingAs($this->adminUser())
-                ->get(route('configuration.update', 'dorbesh'))
+                ->post(route('configuration.update', 'dorbesh'))
                 ->assertRedirect();
 
             $this->assertStringContainsString('APP_THEME=dorbesh', file_get_contents($envPath));

@@ -120,7 +120,7 @@ class AdminAreaTest extends TestCase
         $this->post(route('module.blog.sequence'), [])->assertRedirect(route('login'));
         $this->get(route('module.research.delete', 'education-id'))->assertRedirect(route('login'));
         $this->post(route('management.user.store'), [])->assertRedirect(route('login'));
-        $this->get(route('configuration.update', 'antux'))->assertRedirect(route('login'));
+        $this->post(route('configuration.update', 'antux'))->assertRedirect(route('login'));
     }
 
     #[DataProvider('adminPageProvider')]
