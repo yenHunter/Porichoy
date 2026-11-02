@@ -20,6 +20,10 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="APP_URL" value="http://localhost"/>
+        <!-- Pinned so the reCAPTCHA rule behaves the same here and on CI. -->
+        <env name="RECAPTCHA_SITE_KEY" value="testing-site-key"/>
+        <env name="RECAPTCHA_SECRET_KEY" value="testing-secret-key"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
         <env name="DB_CONNECTION" value="sqlite"/>

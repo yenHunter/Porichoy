@@ -109,7 +109,8 @@ class SettingsService
         $object->use_for = 'research_source';
         $object->value   = $request->title;
         $object->details = $this->storeThumbnail($request);
-        $object->status  = $request->status;
+        // `status` is NOT NULL; omitting the field means active.
+        $object->status  = $request->status ?? true;
         $object->save();
 
         $this->logUserActivity('Research Source', 'Created a new Research Source');
@@ -148,7 +149,8 @@ class SettingsService
         }
 
         $object->value  = $request->title;
-        $object->status = $request->status;
+        // Omitted status keeps the stored value instead of writing null.
+        $object->status = $request->status ?? $object->status;
         $object->save();
 
         $this->logUserActivity('Research Source', 'Updated Research Source');
@@ -202,7 +204,8 @@ class SettingsService
         $object->use_for = $use_for;
         $object->value   = $request->title;
         $object->details = $request->details;
-        $object->status  = $request->status;
+        // `status` is NOT NULL; omitting the field means active.
+        $object->status  = $request->status ?? true;
         $object->save();
 
         $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Created a new ' . str_replace('_', ' ', $use_for) . ' record');
@@ -239,7 +242,8 @@ class SettingsService
 
         $object->value   = $request->title;
         $object->details = $request->details;
-        $object->status  = $request->status;
+        // Omitted status keeps the stored value instead of writing null.
+        $object->status  = $request->status ?? $object->status;
         $object->save();
 
         $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Updated ' . str_replace('_', ' ', $use_for) . ' record');

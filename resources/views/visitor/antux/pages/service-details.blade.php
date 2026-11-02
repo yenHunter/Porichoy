@@ -30,14 +30,21 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="service-single-thumb">
-                            <img src="{{ asset('visitor/antux/img/banner/3.jpg') }}" alt="Thumb">
+                            <img
+                                src="{{ $service_details?->cover_image ? asset('storage/' . $service_details->cover_image) : asset('visitor/antux/img/banner/3.jpg') }}"
+                                alt="Thumb">
                         </div>
                     </div>
                 </div>
 
                 <div class="row mt-50">
                     <div class="col-lg-7">
-                        <h2>Best influencer marketing services</h2>
+                        <h2>{{ $service_details?->service_title ?? 'Best influencer marketing services' }}</h2>
+                        @if ($service_details?->service_details)
+                        <p>
+                            {!! $service_details->service_details !!}
+                        </p>
+                        @else
                         <p>
                             We denounce with righteous indige nation and dislike men who are so beguiled and demo
                             realized by the charms of pleasure of the moment, so blinded by desire, that they cannot
@@ -47,48 +54,60 @@
                             and demo realized by the charms of pleasure of the moment, so blinded by desire, that
                             they cannot foresee the pain and trouble.
                         </p>
+                        @endif
                     </div>
                     <div class="col-lg-5 pl-60 pl-md-15 pl-xs-15">
                         <p>
-                            New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly
-                            so do instantly pretended. See general few civilly amiable pleased account carried.
-                            These cases are perfectly simple and easy to distinguish. In a free hour, when our power
-                            of choice is untrammelled data.
+                            {{ $service_details?->service_subtitle ?? 'New had happen unable uneasy. Drawings can followed improved out sociable not. Earnestly so do instantly pretended. See general few civilly amiable pleased account carried. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled data.' }}
                         </p>
                         <ul class="list-style-one">
-                            <li>Social media marketing</li>
-                            <li>Search engine optimization (seo)</li>
-                            <li>Public Relations</li>
+                            @forelse ($service_details?->skills ?? [] as $skill)
+                                <li>{{ $skill->skill_title }}</li>
+                            @empty
+                                <li>Social media marketing</li>
+                                <li>Search engine optimization (seo)</li>
+                                <li>Public Relations</li>
+                            @endforelse
                         </ul>
                     </div>
 
                     <div class="mt-50 mt-xs-40">
                         <h2>My work process</h2>
                         <div class="process-style-one">
-                            <div class="process-style-one-item">
-                                <span>01</span>
-                                <h4>Research</h4>
-                                <p>
-                                    Excuse Deal say over contain performance from comparison new melancholy
-                                    themselves.
-                                </p>
-                            </div>
-                            <div class="process-style-one-item">
-                                <span>02</span>
-                                <h4>Concept</h4>
-                                <p>
-                                    Excuse Deal say over contain performance from comparison new melancholy
-                                    themselves.
-                                </p>
-                            </div>
-                            <div class="process-style-one-item">
-                                <span>03</span>
-                                <h4>Implement</h4>
-                                <p>
-                                    Excuse Deal say over contain performance from comparison new melancholy
-                                    themselves.
-                                </p>
-                            </div>
+                            @forelse ($service_details?->processes ?? [] as $process)
+                                <div class="process-style-one-item">
+                                    <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <h4>{{ $process->title }}</h4>
+                                    <p>
+                                        {{ $process->details }}
+                                    </p>
+                                </div>
+                            @empty
+                                <div class="process-style-one-item">
+                                    <span>01</span>
+                                    <h4>Research</h4>
+                                    <p>
+                                        Excuse Deal say over contain performance from comparison new melancholy
+                                        themselves.
+                                    </p>
+                                </div>
+                                <div class="process-style-one-item">
+                                    <span>02</span>
+                                    <h4>Concept</h4>
+                                    <p>
+                                        Excuse Deal say over contain performance from comparison new melancholy
+                                        themselves.
+                                    </p>
+                                </div>
+                                <div class="process-style-one-item">
+                                    <span>03</span>
+                                    <h4>Implement</h4>
+                                    <p>
+                                        Excuse Deal say over contain performance from comparison new melancholy
+                                        themselves.
+                                    </p>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -211,236 +230,94 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="testimonial-style-one-items">
-                        <div
-                            class="testimonial-style-one-carousel swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
-                            <!-- Additional required wrapper -->
-                            <div class="swiper-wrapper" id="swiper-wrapper-9f11225385396ae4" aria-live="off"
-                                style="transform: translate3d(-2592px, 0px, 0px); transition-duration: 0ms;">
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-next"
-                                    data-swiper-slide-index="2" role="group" aria-label="3 / 3"
-                                    style="width: 1296px;">
-                                    <div class="testimonial-style-one">
-                                        <div class="item">
-                                            <div class="thumb">
-                                                <div class="inner">
-                                                    <img src="{{ asset('visitor/antux/img/illustration/1.png') }}"
-                                                        alt="Image Not Found">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="tm-review">
-                                                    <div class="top">
-                                                        <h5>Reviews On</h5>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
+                    <div class="testimonial-style-one-items">                            <div class="testimonial-style-one-carousel swiper">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper">
+                                    @forelse ($testimonial_list as $item)
+                                        <div class="swiper-slide">
+                                            <div class="testimonial-style-one">
+                                                <div class="item">
+                                                    <div class="thumb">
+                                                        <div class="inner">
+                                                            <img
+                                                                src="{{ asset('visitor/antux/img/illustration/' . (($loop->iteration - 1) % 5 + 1) . '.png') }}"
+                                                                alt="Image Not Found">
+                                                        </div>
                                                     </div>
-                                                    <div class="bottom">
-                                                        <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
-                                                            alt="Image Not Found">
-                                                        <p>4.9/ 60 Reviews</p>
+                                                    <div class="content">
+                                                        <div class="tm-review">
+                                                            <div class="top">
+                                                                <h5>Reviews On</h5>
+                                                                @for ($i = 0; $i < $item->testimonial_review; $i++)
+                                                                    <i class="fas fa-star"></i>
+                                                                @endfor
+                                                            </div>
+                                                            <div class="bottom">
+                                                                <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
+                                                                    alt="Image Not Found">
+                                                                <p>4.9/ 60 Reviews</p>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            {{ $item->testimonial_details }}
+                                                        </p>
+                                                        <div class="tm-footer">
+                                                            <div class="provider">
+                                                                <h4>{{ $item->client?->client_name ?? 'Brooklyn Simmons' }}</h4>
+                                                                <span>{{ $item->client?->client_designation ?? 'UI/UX DESIGNER' }}</span>
+                                                            </div>
+                                                            <span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <p>
-                                                    "Thanks to your web agency team for their professional work. The
-                                                    website they created for my business exceeded my expectations,
-                                                    and my clients have given positive feedback about its design and
-                                                    user-friendliness."
-                                                </p>
-                                                <div class="tm-footer">
-                                                    <div class="provider">
-                                                        <h4>Brooklyn Simmons</h4>
-                                                        <span>UI/UX DESIGNER</span>
-                                                    </div>
-                                                    <span>03</span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Single item -->
-                                <div class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0" role="group"
-                                    aria-label="1 / 3" style="width: 1296px;">
-                                    <div class="testimonial-style-one">
-                                        <div class="item">
-                                            <div class="thumb">
-                                                <div class="inner">
-                                                    <img src="{{ asset('visitor/antux/img/illustration/2.png') }}"
-                                                        alt="Image Not Found">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="tm-review">
-                                                    <div class="top">
-                                                        <h5>Reviews On</h5>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
+                                    @empty
+                                        <!-- Single item -->
+                                        <div class="swiper-slide">
+                                            <div class="testimonial-style-one">
+                                                <div class="item">
+                                                    <div class="thumb">
+                                                        <div class="inner">
+                                                            <img src="{{ asset('visitor/antux/img/illustration/2.png') }}"
+                                                                alt="Image Not Found">
+                                                        </div>
                                                     </div>
-                                                    <div class="bottom">
-                                                        <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
-                                                            alt="Image Not Found">
-                                                        <p>4.9/ 60 Reviews</p>
+                                                    <div class="content">
+                                                        <div class="tm-review">
+                                                            <div class="top">
+                                                                <h5>Reviews On</h5>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                            </div>
+                                                            <div class="bottom">
+                                                                <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
+                                                                    alt="Image Not Found">
+                                                                <p>4.9/ 60 Reviews</p>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            "Thanks to your web agency team for their professional work. The
+                                                            website they created for my business exceeded my expectations,
+                                                            and my clients have given positive feedback about its design and
+                                                            user-friendliness."
+                                                        </p>
+                                                        <div class="tm-footer">
+                                                            <div class="provider">
+                                                                <h4>Brooklyn Simmons</h4>
+                                                                <span>UI/UX DESIGNER</span>
+                                                            </div>
+                                                            <span>01</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <p>
-                                                    "Thanks to your web agency team for their professional work. The
-                                                    website they created for my business exceeded my expectations,
-                                                    and my clients have given positive feedback about its design and
-                                                    user-friendliness."
-                                                </p>
-                                                <div class="tm-footer">
-                                                    <div class="provider">
-                                                        <h4>Brooklyn Simmons</h4>
-                                                        <span>UI/UX DESIGNER</span>
-                                                    </div>
-                                                    <span>01</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single item -->
-                                <!-- Single item -->
-                                <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="1" role="group"
-                                    aria-label="2 / 3" style="width: 1296px;">
-                                    <div class="testimonial-style-one">
-                                        <div class="item">
-                                            <div class="thumb">
-                                                <div class="inner">
-                                                    <img src="{{ asset('visitor/antux/img/illustration/3.png') }}"
-                                                        alt="Image Not Found">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="tm-review">
-                                                    <div class="top">
-                                                        <h5>Reviews On</h5>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </div>
-                                                    <div class="bottom">
-                                                        <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
-                                                            alt="Image Not Found">
-                                                        <p>4.9/ 60 Reviews</p>
-                                                    </div>
-                                                </div>
-                                                <p>
-                                                    "Thanks to your web agency team for their professional work. The
-                                                    website they created for my business exceeded my expectations,
-                                                    and my clients have given positive feedback about its design and
-                                                    user-friendliness."
-                                                </p>
-                                                <div class="tm-footer">
-                                                    <div class="provider">
-                                                        <h4>Brooklyn Simmons</h4>
-                                                        <span>UI/UX DESIGNER</span>
-                                                    </div>
-                                                    <span>02</span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforelse
                                 </div>
-                                <!-- End Single item -->
-                                <!-- Single item -->
-                                <div class="swiper-slide swiper-slide-next" data-swiper-slide-index="2" role="group"
-                                    aria-label="3 / 3" style="width: 1296px;">
-                                    <div class="testimonial-style-one">
-                                        <div class="item">
-                                            <div class="thumb">
-                                                <div class="inner">
-                                                    <img src="{{ asset('visitor/antux/img/illustration/4.png') }}"
-                                                        alt="Image Not Found">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="tm-review">
-                                                    <div class="top">
-                                                        <h5>Reviews On</h5>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </div>
-                                                    <div class="bottom">
-                                                        <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
-                                                            alt="Image Not Found">
-                                                        <p>4.9/ 60 Reviews</p>
-                                                    </div>
-                                                </div>
-                                                <p>
-                                                    "Thanks to your web agency team for their professional work. The
-                                                    website they created for my business exceeded my expectations,
-                                                    and my clients have given positive feedback about its design and
-                                                    user-friendliness."
-                                                </p>
-                                                <div class="tm-footer">
-                                                    <div class="provider">
-                                                        <h4>Brooklyn Simmons</h4>
-                                                        <span>UI/UX DESIGNER</span>
-                                                    </div>
-                                                    <span>03</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End Single item -->
-                                <div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev"
-                                    data-swiper-slide-index="0" role="group" aria-label="1 / 3"
-                                    style="width: 1296px;">
-                                    <div class="testimonial-style-one">
-                                        <div class="item">
-                                            <div class="thumb">
-                                                <div class="inner">
-                                                    <img src="{{ asset('visitor/antux/img/illustration/5.png') }}"
-                                                        alt="Image Not Found">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <div class="tm-review">
-                                                    <div class="top">
-                                                        <h5>Reviews On</h5>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </div>
-                                                    <div class="bottom">
-                                                        <img src="{{ asset('visitor/antux/img/partner/9.png') }}"
-                                                            alt="Image Not Found">
-                                                        <p>4.9/ 60 Reviews</p>
-                                                    </div>
-                                                </div>
-                                                <p>
-                                                    "Thanks to your web agency team for their professional work. The
-                                                    website they created for my business exceeded my expectations,
-                                                    and my clients have given positive feedback about its design and
-                                                    user-friendliness."
-                                                </p>
-                                                <div class="tm-footer">
-                                                    <div class="provider">
-                                                        <h4>Brooklyn Simmons</h4>
-                                                        <span>UI/UX DESIGNER</span>
-                                                    </div>
-                                                    <span>01</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                         </div>

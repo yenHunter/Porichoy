@@ -29,7 +29,7 @@ class ReCaptcha implements ValidationRule
             return;
         }
 
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = Http::asForm()->post(config('services.recaptcha.verify_url'), [
             'secret'   => $secret,
             'response' => $value,
         ])->json();

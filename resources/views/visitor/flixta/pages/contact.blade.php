@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Phone</span>
-                                        <h6><a href="tel:+12346691234"> +123-4669-1234 </a></h6>
+                                        <h6><a href="tel:{{ preg_replace('/[^0-9+]/', '', $profile_info['phone'] ?? '+12346691234') }}"> {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -82,7 +82,8 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Email</span>
-                                        <h6><a href="mailto:hello@flixta.com">hello@flixta.com</a></h6>
+                                        <h6><a
+                                                href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -101,8 +102,9 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Address</span>
-                                        <h6><a href="#"> 2096 New Market, New Road <br>
-                                                North Carolina, USA </a></h6>
+                                        <h6><a href="#"> {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }} <br>
+                                                {{ $profile_info['present_city'] ?? 'North Carolina' }},
+                                                {{ $profile_info['present_country'] ?? 'USA' }} </a></h6>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +112,10 @@
                     </div>
                     <div class="col-xl-7 col-lg-7">
                         <div class="rs-contact-form">
-                            <form id="contact-form" action="{{ asset('mailer.php') }}" method="POST">
+                            <form id="contact-form" action="{{ route('visitor.contact.store') }}" method="POST">
+                                @csrf
+
+                                @include('visitor.partials.form-alerts')
                                 <div class="row g-5">
                                     <div class="col-md-6">
                                         <div class="rs-contact-input">
@@ -132,17 +137,21 @@
                                             <div class="rs-contact-input">
                                                 <select id="subject" name="subject">
                                                     <option>Choose Service</option>
-                                                    <option value="one">Web Development</option>
-                                                    <option value="two">Digital Marketing</option>
-                                                    <option value="three">Brand Strategy</option>
-                                                    <option value="four">App Development</option>
+                                                    @forelse ($service_list as $service)
+                                                        <option value="{{ $service->service_slug }}">{{ $service->service_title }}</option>
+                                                    @empty
+                                                        <option value="one">Web Development</option>
+                                                        <option value="two">Digital Marketing</option>
+                                                        <option value="three">Brand Strategy</option>
+                                                        <option value="four">App Development</option>
+                                                    @endforelse
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="rs-contact-input">
-                                            <textarea id="message" name="message" placeholder="Write Your Message"></textarea>
+                                            <textarea id="message" name="comments" placeholder="Write Your Message"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -151,6 +160,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('visitor.partials.recaptcha')
                             </form>
                         </div>
                     </div>

@@ -86,7 +86,10 @@ class SkillService
             'skill_title'   => $request->skill_title,
             'skill_score'   => $request->skill_score,
             'skill_details' => $request->skill_details,
-            'skill_status'  => $request->skill_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'skill_status'  => $request->has('skill_status')
+                ? $request->skill_status
+                : $skill->skill_status,
         ]);
         $skill->save();
 

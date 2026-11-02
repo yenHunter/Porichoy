@@ -548,7 +548,11 @@
                             <div class="contact-inner">
                                 <div class="contact-form">
                                     <div id="form-messages" class="error"></div>
-                                    <form class="tmp-dynamic-form" id="contact-form" method="POST" action="mailer.php">
+                                    <form class="tmp-dynamic-form" id="contact-form" method="POST"
+                                        action="{{ route('visitor.contact.store') }}">
+                                        @csrf
+
+                                        @include('visitor.partials.form-alerts')
                                         <div class="contact-form-wrapper row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
@@ -580,7 +584,7 @@
 
                                             <div class="col-lg-12">
                                                 <div class="form-group">
-                                                    <textarea class="input-field" placeholder="Your Message" name="message" id="contact-message" required></textarea>
+                                                    <textarea class="input-field" placeholder="Your Message" name="comments" id="contact-message" required></textarea>
                                                 </div>
                                             </div>
 
@@ -599,6 +603,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @include('visitor.partials.recaptcha')
                                     </form>
                                 </div>
                             </div>

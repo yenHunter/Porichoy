@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => 'Lock Screen'])
+@extends('admin.layouts.base', ['title' => 'Lock Screen'])
 
 @section('css')
 @endsection

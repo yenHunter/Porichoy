@@ -50,12 +50,14 @@ class ServiceService
         $service->service_title    = $request->service_title;
         $service->service_subtitle = $request->service_subtitle;
         $service->service_details  = $request->service_details;
-        $service->service_skills   = $request->service_skills ? json_encode($request->service_skills) : null;
         $service->service_status   = $request->service_status;
 
         $this->storeServiceImages($service, $request);
 
         $service->save();
+
+        // Skills live in the service_skill_infos pivot table.
+        $service->skills()->sync($request->service_skills ?? []);
 
         $this->logUserActivity('Service', 'New record created');
 
@@ -72,8 +74,9 @@ class ServiceService
     {
         $service = ServiceInfo::where('id', $service_id)->first();
 
-        if ($service && $service->service_skills) {
-            $service->service_skills = json_decode($service->service_skills, true);
+        if ($service) {
+            // The edit form expects the related skill ids.
+            $service->service_skills = $service->skills()->pluck('skill_infos.id')->all();
         }
 
         return $service;
@@ -96,10 +99,15 @@ class ServiceService
             'service_title'    => $request->service_title,
             'service_subtitle' => $request->service_subtitle,
             'service_details'  => $request->service_details,
-            'service_skills'   => $request->service_skills ? json_encode($request->service_skills) : null,
-            'service_status'   => $request->service_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'service_status'   => $request->has('service_status')
+                ? $request->service_status
+                : $service->service_status,
         ]);
         $service->save();
+
+        // Skills live in the service_skill_infos pivot table.
+        $service->skills()->sync($request->service_skills ?? []);
 
         $this->logUserActivity('Service', 'Existing record updated');
 

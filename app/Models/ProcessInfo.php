@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProcessInfo extends Model
 {
-    protected $table = 'processes';
-    protected $fillable = ['service_id', 'title', 'details'];
+    // The migration defines process_infos; the model's old table name pointed at a table that never existed.
+    protected $table = 'process_infos';
+    protected $guarded = [];
 
     public function service()
     {

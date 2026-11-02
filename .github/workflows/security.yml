@@ -1,0 +1,54 @@
+name: Dependency audit
+
+# Known-vulnerability scanning for both dependency trees. It runs on every pull
+# request, on a weekly schedule so new advisories against unchanged code are
+# still caught, and on demand.
+on:
+  pull_request:
+  schedule:
+    # Mondays at 06:00 UTC.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Advisory scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      # Audits composer.lock directly — no install needed, and the lock file is
+      # what actually ships. composer audit fails on any advisory it finds.
+      - name: Audit PHP dependencies
+        run: |
+          set -o pipefail
+          composer audit --locked --no-interaction --format=plain | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Reads package-lock.json, so there is nothing to install. High and
+      # critical advisories fail the job; lower ones are still printed and land
+      # in the job summary, they just do not block.
+      - name: Audit npm dependencies
+        run: |
+          set -o pipefail
+          npm audit --package-lock-only --audit-level=high 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"

@@ -31,8 +31,36 @@
             <div class="row">
                 <div class="col-md-12 gallery-content">
                     <div class="magnific-mix-gallery gallery-masonary">
-                        <div id="gallery-masonary" class="gallery-items colums-3"
-                            style="position: relative; height: 1150.17px;">
+                        <div id="gallery-masonary" class="gallery-items colums-3">
+                            @forelse ($project_list as $item)
+                                <!-- Single Item -->
+                                <div class="gallery-item">
+                                    <div class="gallery-style-one">
+                                        <img
+                                            src="{{ $item->profile_image ? asset('storage/' . $item->profile_image) : asset('visitor/antux/img/projects/' . ((($loop->iteration - 1) % 6) + 1) . '.jpg') }}"
+                                            alt="{{ $item->project_title }}">
+                                        <div class="info">
+                                            <div class="overlay">
+                                                <div class="content">
+                                                    <ul class="pf-tags">
+                                                        @if ($item->service)
+                                                            <li>
+                                                                <a href="{{ route('visitor.service.details', ['service' => $item->service->service_slug]) }}">{{ $item->service->service_title }}</a>
+                                                            </li>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                                <div class="icon">
+                                                    <a href="{{ route('visitor.project.details', ['project' => $item->project_slug]) }}"><i
+                                                            class="fas fa-long-arrow-right"></i></a>
+                                                </div>
+                                            </div>
+                                            <h4><a href="{{ route('visitor.project.details', ['project' => $item->project_slug]) }}">{{ $item->project_title }}</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Single Item -->
+                            @empty
                             <!-- Single Item -->
                             <div class="gallery-item" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="gallery-style-one">
@@ -207,6 +235,7 @@
                                 </div>
                             </div>
                             <!-- End Single Item -->
+                            @endforelse
                         </div>
                     </div>
 

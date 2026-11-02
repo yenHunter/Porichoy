@@ -105,7 +105,7 @@ class VisitorController extends Controller
      */
     public function contact(): View
     {
-        return view('pages.contact');
+        return view('pages.contact', $this->visitor_service->contactData());
     }
 
     /**

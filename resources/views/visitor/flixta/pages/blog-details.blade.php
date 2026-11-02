@@ -22,7 +22,7 @@
                                     <ul>
                                         <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span><a href="{{ route('visitor.blog.index') }}">Blog</a></span></li>
-                                        <li><span>Blog Details</span></li>
+                                        <li><span>{{ $blog->blog_title ?? 'Blog Details' }}</span></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -40,9 +40,14 @@
                     <div class="col-xl-8 col-lg-8">
                         <div class="rs-postbox-details-wrapper">
                             <div class="rs-postbox-details-thumb mb-40">
-                                <img src="{{asset('visitor/flixta/images/blog/blog-details-01.jpg')}}" alt="image">
+                                <img
+                                    src="{{ $blog?->blog_featured_image ? asset('storage/' . $blog->blog_featured_image) : asset('visitor/flixta/images/blog/blog-details-01.jpg') }}"
+                                    alt="{{ $blog->blog_title ?? 'image' }}">
                             </div>
                             <div class="rs-postbox-details-content">
+                                @if ($blog?->blog_content)
+                                    {!! $blog->blog_content !!}
+                                @else
                                 <p>We denounce with righteous indige nation and dislike men who are so beguiled and demo
                                     realized by the charms of pleasure of the moment, so blinded by desire, that they cannot
                                     foresee the pain and trouble that are bound to ensue cannot foresee. These cases are
@@ -106,6 +111,7 @@
                                     enim ad
                                     minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
                                     aliquid.</p>
+                                @endif
                                 <div class="rs-postbox-comment-form">
                                     <div class="rs-postbox-comments-title mb-30">
                                         <h4 class="mb-15">Leave a Comment</h4>
@@ -169,15 +175,19 @@
                                 <div class="sidebar-widget-content">
                                     <div class="list">
                                         <ul>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
-                                            <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
+                                            @forelse ($category_list as $category)
+                                                <li><a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a></li>
+                                            @empty
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
+                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
+                                            @endforelse
                                         </ul>
                                     </div>
                                 </div>
@@ -186,55 +196,76 @@
                                 <h5 class="sidebar-widget-title">Recent Posts</h5>
                                 <div class="sidebar-widget-content">
                                     <div class="sidebar-blog-item-wrapper">
-                                        <div class="sidebar-blog-item">
-                                            <div class="sidebar-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg')}}" alt="image">
-                                                </a>
-                                            </div>
-                                            <div class="sidebar-blog-content">
-                                                <h6 class="sidebar-blog-title">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
-                                                </h6>
-                                                <div class="sidebar-blog-meta">
-                                                    <i class="ri-calendar-line"></i>
-                                                    <span>May 20, 2024</span>
+                                        @forelse ($recent_blogs as $post)
+                                            <div class="sidebar-blog-item">
+                                                <div class="sidebar-blog-thumb">
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
+                                                        <img
+                                                            src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/flixta/images/blog/sidebar/blog-sm-' . (($loop->iteration - 1) % 3 + 1) . '.jpg') }}"
+                                                            alt="{{ $post->blog_title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="sidebar-blog-content">
+                                                    <h6 class="sidebar-blog-title">
+                                                        <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ Str::limit($post->blog_title, 32) }}</a>
+                                                    </h6>
+                                                    <div class="sidebar-blog-meta">
+                                                        <i class="ri-calendar-line"></i>
+                                                        <span>{{ $post->blog_published?->format('M d, Y') ?? 'May 20, 2024' }}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="sidebar-blog-item">
-                                            <div class="sidebar-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg')}}" alt="image">
-                                                </a>
-                                            </div>
-                                            <div class="sidebar-blog-content">
-                                                <h6 class="sidebar-blog-title">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}"> What’s your opinion of the probate
-                                                        process? </a>
-                                                </h6>
-                                                <div class="sidebar-blog-meta">
-                                                    <i class="ri-calendar-line"></i>
-                                                    <span>May 20, 2024</span>
+                                        @empty
+                                            <div class="sidebar-blog-item">
+                                                <div class="sidebar-blog-thumb">
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg')}}" alt="image">
+                                                    </a>
+                                                </div>
+                                                <div class="sidebar-blog-content">
+                                                    <h6 class="sidebar-blog-title">
+                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
+                                                    </h6>
+                                                    <div class="sidebar-blog-meta">
+                                                        <i class="ri-calendar-line"></i>
+                                                        <span>May 20, 2024</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="sidebar-blog-item">
-                                            <div class="sidebar-blog-thumb">
-                                                <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                    <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg')}}" alt="image">
-                                                </a>
-                                            </div>
-                                            <div class="sidebar-blog-content">
-                                                <h6 class="sidebar-blog-title">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Under what conditions do you recommend</a>
-                                                </h6>
-                                                <div class="sidebar-blog-meta">
-                                                    <i class="ri-calendar-line"></i>
-                                                    <span>May 20, 2024</span>
+                                            <div class="sidebar-blog-item">
+                                                <div class="sidebar-blog-thumb">
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg')}}" alt="image">
+                                                    </a>
+                                                </div>
+                                                <div class="sidebar-blog-content">
+                                                    <h6 class="sidebar-blog-title">
+                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}"> What’s your opinion of the probate
+                                                            process? </a>
+                                                    </h6>
+                                                    <div class="sidebar-blog-meta">
+                                                        <i class="ri-calendar-line"></i>
+                                                        <span>May 20, 2024</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="sidebar-blog-item">
+                                                <div class="sidebar-blog-thumb">
+                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg')}}" alt="image">
+                                                    </a>
+                                                </div>
+                                                <div class="sidebar-blog-content">
+                                                    <h6 class="sidebar-blog-title">
+                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Under what conditions do you recommend</a>
+                                                    </h6>
+                                                    <div class="sidebar-blog-meta">
+                                                        <i class="ri-calendar-line"></i>
+                                                        <span>May 20, 2024</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>

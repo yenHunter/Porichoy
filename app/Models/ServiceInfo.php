@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceInfo extends Model
 {
@@ -92,6 +93,22 @@ class ServiceInfo extends Model
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(SkillInfo::class, 'service_skill_infos', 'service_id', 'skill_id');
+    }
+
+    /**
+     * The process steps shown on the public service-details page.
+     */
+    public function processes(): HasMany
+    {
+        return $this->hasMany(ProcessInfo::class, 'service_id')->orderBy('sequence');
+    }
+
+    /**
+     * The public projects that belong to this service.
+     */
+    public function projects(): HasMany
+    {
+        return $this->hasMany(ProjectInfo::class, 'service_id');
     }
 
     public function services(): BelongsToMany

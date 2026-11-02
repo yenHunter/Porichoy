@@ -22,7 +22,8 @@ class UpdateResearchSourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'research_source_id' => ['required', 'string', 'exists:select_types,id'],
+            // select_types ids are integers, not uuids.
+            'research_source_id' => ['required', 'exists:select_types,id'],
             'title'              => ['required', 'string', 'max:255'],
             'thumbnail'          => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'status'             => ['nullable', 'boolean'],

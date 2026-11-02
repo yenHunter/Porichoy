@@ -103,7 +103,10 @@ class TrainingService
             'end_date'           => $request->end_date,
             'training_location'  => $request->training_location,
             'training_details'   => $request->training_details,
-            'training_status'    => $request->training_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'training_status'    => $request->has('training_status')
+                ? $request->training_status
+                : $training->training_status,
         ]);
         $training->save();
 

@@ -45,10 +45,11 @@ class UserService
             'first_name'      => $request->first_name,
             'last_name'       => $request->last_name,
             'email'           => $request->email,
-            'password'        => Hash::make(Str::random(20)),
             'profile_picture' => $this->storePicture($request),
             'user_status'     => $request->user_status ?? false,
         ]);
+        // `password` is not mass-assignable on the model.
+        $user->password = Hash::make(Str::random(20));
         $user->save();
 
         // Send the "set your password" link.

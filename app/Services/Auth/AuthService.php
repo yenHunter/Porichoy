@@ -76,7 +76,7 @@ class AuthService
         $user->user_status = false; // pending admin activation
         $user->save();
 
-        return redirect()->route('login.view')
+        return redirect()->route('login')
             ->withErrors(['error' => 'Please contact admin for activation']);
     }
 

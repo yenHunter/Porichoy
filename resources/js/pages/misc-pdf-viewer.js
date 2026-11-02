@@ -4,10 +4,14 @@
  * Module/App (File Name): Misc PDF Viewer
  */
 
-// import 'pdfjs-dist/build/pdf.min.js'
-
 import * as pdfjsLib from 'pdfjs-dist';
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/plugins/pdf.worker.min.js';
+
+// Take the worker from the installed package instead of public/plugins: PDF.js
+// refuses to run when the API and worker versions differ, and the vendored copy
+// there was years behind the library.
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 const url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
 let pdfDoc = null;
@@ -156,7 +160,8 @@ function initPDFViewer(pdfUrl) {
         return;
     }
 
-    pdfjsLib.getDocument(pdfUrl).promise.then(doc => {
+    // PDF.js 6 requires a parameter object: a bare URL string is rejected.
+    pdfjsLib.getDocument({ url: pdfUrl }).promise.then(doc => {
         pdfDoc = doc;
         pageCountEl.textContent = `/ ${pdfDoc.numPages}`;
         renderPage(pageNum);

@@ -30,8 +30,10 @@
     <div class="banner-animation-zoom overflow-hidden">
         <div class="container">
             <div class="image-move-bg">
-                <div class="animation-zoom-banner" id="js-hero" style="width: 261.111%;">
-                    <img src="{{ asset('visitor/antux/img/banner/1.jpg') }}" alt="Image Not Found">
+                <div class="animation-zoom-banner" id="js-hero">
+                    <img
+                        src="{{ $project?->cover_image ? asset('storage/' . $project?->cover_image) : asset('visitor/antux/img/banner/1.jpg') }}"
+                        alt="{{ $project?->project_title ?? 'Image Not Found' }}">
                 </div>
             </div>
         </div>
@@ -48,16 +50,16 @@
                         <div class="project-single-info">
                             <ul>
                                 <li>
-                                    Client <span>themeforest.validthemes.com</span>
+                                    Client <span>{{ $project?->client?->client_name ?? 'themeforest.validthemes.com' }}</span>
                                 </li>
                                 <li>
-                                    Date <span>25 February, 2022</span>
+                                    Date <span>{{ $project?->projectDateRange ?? '25 February, 2022' }}</span>
                                 </li>
                                 <li>
-                                    Service <span>Web Development</span>
+                                    Service <span>{{ $project?->service?->service_title ?? 'Web Development' }}</span>
                                 </li>
                                 <li>
-                                    Address <span>1401, 21st Street STE R4569, California</span>
+                                    Address <span>{{ $project?->project_location ?? '1401, 21st Street STE R4569, California' }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -65,6 +67,11 @@
 
                     <div class="right-info col-xl-8 col-lg-7 pl-50 pl-md-15 pl-xs-15 mt-md-10">
                         <h2>Description</h2>
+                        @if ($project?->project_details)
+                        <p>
+                            {!! $project->project_details !!}
+                        </p>
+                        @else
                         <p>
                             Netus lorem rutrum arcu dignissim at sit morbi phasellus nascetur eget urna potenti cum
                             vestibulum cras. Tempor nonummy metus lobortis. Sociis velit etiam, dapibus. Lectus vehicula
@@ -81,6 +88,7 @@
                             breakfast. Surrounded sir motionless she end literature. convallis praesent est sollicitudin
                             donec nulla venenatis, cursus fermentum.
                         </p>
+                        @endif
                     </div>
 
                 </div>
@@ -93,10 +101,14 @@
             <div class="project-thumb mt-md--25 mt-xs--25">
                 <div class="row">
                     <div class="col-md-7">
-                        <img src="{{ asset('visitor/antux/img/projects/9.jpg') }}" alt="Image Not Found">
+                        <img
+                            src="{{ $project?->profile_image ? asset('storage/' . $project?->profile_image) : asset('visitor/antux/img/projects/9.jpg') }}"
+                            alt="Image Not Found">
                     </div>
                     <div class="col-md-5">
-                        <img src="{{ asset('visitor/antux/img/projects/4.jpg') }}" alt="Image Not Found">
+                        <img
+                            src="{{ $project?->cover_image ? asset('storage/' . $project?->cover_image) : asset('visitor/antux/img/projects/4.jpg') }}"
+                            alt="Image Not Found">
                     </div>
                 </div>
             </div>
@@ -112,6 +124,11 @@
                             <h2>Background</h2>
                         </div>
                         <div class="right-info">
+                            @if ($project?->project_background)
+                            <p>
+                                {!! $project->project_background !!}
+                            </p>
+                            @else
                             <p>
                                 Contained explained my education. Vulgar as hearts by garret. Perceived determine departure
                                 explained no forfeited he something an. Contrasted dissimilar get joy you instrument out
@@ -125,6 +142,7 @@
                                 esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy
                                 son themselves.
                             </p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -135,6 +153,11 @@
                             <h2>The Challenges</h2>
                         </div>
                         <div class="right-info">
+                            @if ($project?->project_challenges)
+                            <p>
+                                {!! $project->project_challenges !!}
+                            </p>
+                            @else
                             <p>
                                 Contained explained my education. Vulgar as hearts by garret. Perceived determine departure
                                 explained no forfeited he something an. Contrasted dissimilar get joy you instrument out
@@ -148,12 +171,7 @@
                                 esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy
                                 son themselves.
                             </p>
-                            <h3>Continue indulged speaking the horrible for domestic.</h3>
-                            <ul class="list-style-one">
-                                <li>Social media marketing</li>
-                                <li>Search engine optimization (seo)</li>
-                                <li>Public Relations</li>
-                            </ul>
+                            @endif
                             <img src="{{ asset('visitor/antux/img/banner/2.jpg') }}" alt="Image Not Found">
                         </div>
                     </div>
@@ -165,6 +183,11 @@
                             <h2>The Solution</h2>
                         </div>
                         <div class="right-info">
+                            @if ($project?->project_solution)
+                            <p>
+                                {!! $project->project_solution !!}
+                            </p>
+                            @else
                             <p>
                                 Contained explained my education. Vulgar as hearts by garret. Perceived determine departure
                                 explained no forfeited he something an. Contrasted dissimilar get joy you instrument out
@@ -178,6 +201,7 @@
                                 esteem men settle genius excuse. Deal say over you age from. Comparison new ham melancholy
                                 son themselves.
                             </p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -189,25 +213,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="project-paginvation-items mt-xs--25 mt-md--25">
-                        <div class="project-previous">
-                            <a href="#">
-                                <div class="icon"><i class="fas fa-angle-double-left"></i></div>
-                                <div class="nav-title"> Previus Post <h5>Discovery incommode</h5>
-                                </div>
-                            </a>
+            <div class="project-paginvation-items mt-xs--25 mt-md--25">
+                @php
+                    $projects = $project_list->values();
+                    $current_index = $projects->search(
+                        fn ($item) => $item->getKey() === $project?->getKey()
+                    );
+                    $prev_project = $current_index !== false && $current_index > 0 ? $projects[$current_index - 1] : null;
+                    $next_project = $current_index !== false && $current_index < $projects->count() - 1 ? $projects[$current_index + 1] : null;
+                @endphp
+                <div class="project-previous">
+                    <a href="{{ $prev_project ? route('visitor.project.details', ['project' => $prev_project->project_slug]) : '#' }}">
+                        <div class="icon"><i class="fas fa-angle-double-left"></i></div>
+                        <div class="nav-title"> Previus Post <h5>{{ $prev_project?->project_title ?? 'Discovery incommode' }}</h5>
                         </div>
-                        <div class="project-all">
-                            <a href="{{ route('visitor.project.index') }}"><i class="fas fa-th-large"></i></a>
+                    </a>
+                </div>
+                <div class="project-all">
+                    <a href="{{ route('visitor.project.index') }}"><i class="fas fa-th-large"></i></a>
+                </div>
+                <div class="project-next">
+                    <a href="{{ $next_project ? route('visitor.project.details', ['project' => $next_project->project_slug]) : '#' }}">
+                        <div class="nav-title">Next Post <h5>{{ $next_project?->project_title ?? 'Discovery incommode' }}</h5>
                         </div>
-                        <div class="project-next">
-                            <a href="#">
-                                <div class="nav-title">Next Post <h5>Discovery incommode</h5>
-                                </div>
-                                <div class="icon"><i class="fas fa-angle-double-right"></i></div>
-                            </a>
-                        </div>
-                    </div>
+                        <div class="icon"><i class="fas fa-angle-double-right"></i></div>
+                    </a>
+                </div>
+            </div>
                 </div>
             </div>
         </div>

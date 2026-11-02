@@ -263,47 +263,19 @@
 					});
 				});
 			}
-		}
+		}			/* ==================================================
+			    Contact Form
 
-
-		/* ==================================================
-		    Contact Form Validations
+			    The storefront contact form is handled by Laravel:
+			    VisitorController::contactStore validates the payload,
+			    verifies the captcha and redirects back with flash or
+			    validation messages. The template's AJAX handler posted
+			    to a PHP file that does not exist in this application and
+			    swallowed the submit, so it has been removed.
 		================================================== */
-		$('.contact-form').each(function() {
-			var formInstance = $(this);
-			formInstance.submit(function() {
-
-				var action = $(this).attr('action');
-
-				$("#message").slideUp(750, function() {
-					$('#message').hide();
-
-					$('#submit')
-						.after('<img src="assets/img/ajax-loader.gif" class="loader" />')
-						.attr('disabled', 'disabled');
-
-					$.post(action, {
-							name: $('#name').val(),
-							email: $('#email').val(),
-							phone: $('#phone').val(),
-							comments: $('#comments').val()
-						},
-						function(data) {
-							document.getElementById('message').innerHTML = data;
-							$('#message').slideDown('slow');
-							$('.contact-form img.loader').fadeOut('slow', function() {
-								$(this).remove()
-							});
-							$('#submit').removeAttr('disabled');
-						}
-					);
-				});
-				return false;
-			});
-		});
 
 
-	}); // end document ready function
+		}); // end document ready function
 
 
 	$(window).scroll(function() {

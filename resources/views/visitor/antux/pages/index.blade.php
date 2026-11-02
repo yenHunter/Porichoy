@@ -221,19 +221,21 @@
                     <!-- Single Item -->
                     <div class="col-xl-3 col-md-6 mb-30 wow fadeInUp">
                         <div class="service-style-one-item">
-                            <img src="{{ asset($item->icon) }}" alt="Image Not Found">
+                            <img
+                                src="{{ $item->service_icon ? asset('storage/' . $item->service_icon) : asset('visitor/antux/img/icon/' . (($loop->iteration - 1) % 4 + 1) . '.png') }}"
+                                alt="Image Not Found">
                             <img src="{{ asset('visitor/antux/img/icon/8.png') }}" alt="Image Not Found">
-                            <h4><a href="{{ route('visitor.service.details', $item) }}">{{ $item->title }}</a></h4>
-                            <a href="{{ route('visitor.service.details', $item) }}" class="btn-style-four">
+                            <h4><a href="{{ route('visitor.service.details', ['service' => $item->service_slug]) }}">{{ $item->service_title }}</a></h4>
+                            <a href="{{ route('visitor.service.details', ['service' => $item->service_slug]) }}" class="btn-style-four">
                                 <div class="icon">
                                     <img src="{{ asset('visitor/antux/img/icon/arrow.png') }}" alt="Image Not Found">
                                 </div>
                                 Read More
                             </a>
                             <p>
-                                {{ $item->sub_title }}
+                                {{ $item->service_subtitle ?? 'Continue indulged speaking the was horrible for domestic position. Seeing get rather.' }}
                             </p>
-                            <span>{{ $item->projects }} Projects</span>
+                            <span>{{ $item->projects()->count() }} Projects</span>
                         </div>
                     </div>
                     <!-- End Single Item -->
@@ -347,27 +349,28 @@
                     <div class="magnific-mix-gallery gallery-masonary">
                         <div id="gallery-masonary" class="gallery-items colums-3">
                             @forelse ($project_list as $item)
-                                <!-- Single Item -->
-                                <div class="gallery-item">
+                                <!-- Single Item -->                                        <div class="gallery-item">
                                     <div class="gallery-style-one">
-                                        <img src="{{ asset($item->profile_image) }}" alt="Thumb">
+                                        <img src="{{ $item->profile_image ? asset('storage/' . $item->profile_image) : asset('visitor/antux/img/projects/' . (($loop->iteration - 1) % 6 + 1) . '.jpg') }}" alt="Thumb">
                                         <div class="info">
                                             <div class="overlay">
                                                 <div class="content">
                                                     <ul class="pf-tags">
-                                                        <li>
-                                                            <a
-                                                                href="{{ route('visitor.service.details', $item->service) }}">{{ $item->service->title }}</a>
-                                                        </li>
+                                                        @if ($item->service)
+                                                            <li>
+                                                                <a
+                                                                    href="{{ route('visitor.service.details', ['service' => $item->service->service_slug]) }}">{{ $item->service->service_title }}</a>
+                                                            </li>
+                                                        @endif
                                                     </ul>
                                                 </div>
                                                 <div class="icon">
-                                                    <a href="{{ route('visitor.project.details', $item) }}">
+                                                    <a href="{{ route('visitor.project.details', ['project' => $item->project_slug]) }}">
                                                         <i class="fas fa-long-arrow-right"></i></a>
                                                 </div>
                                             </div>
                                             <h4><a
-                                                    href="{{ route('visitor.project.details', $item) }}">{{ $item->title }}</a>
+                                                    href="{{ route('visitor.project.details', ['project' => $item->project_slug]) }}">{{ $item->project_title }}</a>
                                             </h4>
                                         </div>
                                     </div>
@@ -1371,7 +1374,11 @@
                 <h1 class="fixed-text">Contact Me</h1>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form action="visitor/antux/mail/contact.php" method="POST" class="contact-form contact-form">
+                        <form action="{{ route('visitor.contact.store') }}" method="POST"
+                            class="contact-form contact-form">
+                            @csrf
+
+                            @include('visitor.partials.form-alerts')
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -1415,6 +1422,7 @@
                             <div class="col-lg-12 alert-notification">
                                 <div id="message" class="alert-msg"></div>
                             </div>
+                            @include('visitor.partials.recaptcha')
                         </form>
                     </div>
                 </div>

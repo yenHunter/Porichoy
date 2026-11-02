@@ -28,7 +28,7 @@
                                     href="#!">{{ $profile_data['basic']['first_name']['column_value'] ?? 'Geneva' }}
                                     {{ $profile_data['basic']['last_name']['column_value'] ?? 'Lee' }}</a>
                                 <img alt="BD" class="ms-2 rounded-circle" height="16"
-                                    src="{{ asset($profile_data['basic']['country_flag']['column_value']) ?? '/images/flags/bd.svg' }}" />
+                                    src="{{ isset($profile_data['basic']['country_flag']['column_value']) ? asset($profile_data['basic']['country_flag']['column_value']) : asset('images/flags/bd.svg') }}" />
                             </h5>
                             <p class="text-muted mb-0">
                                 {{ $profile_data['basic']['headline']['column_value'] ?? 'Senior Developer' }}</p>
@@ -290,23 +290,23 @@
                                     <label class="form-label" for="countryFlag">Country Flag</label>
                                     <div class="d-flex gap-2 align-items-center">
                                         <select
-                                            class="form-select @error('basic.' . $profile_data['basic']['country_flag']['id']) is-invalid @enderror"
+                                            class="form-select @error('basic.' . ($profile_data['basic']['country_flag']['id'] ?? '')) is-invalid @enderror"
                                             id="countryFlag"
-                                            name="basic[{{ $profile_data['basic']['country_flag']['id'] }}]">
+                                            name="basic[{{ $profile_data['basic']['country_flag']['id'] ?? '' }}]">
                                             <option value="">-- Select a country --</option>
                                             @foreach($available_flags as $flag)
                                                 <option value="{{ $flag['path'] }}"
-                                                    @selected($profile_data['basic']['country_flag']['column_value'] === $flag['path'])>
+                                                    @selected(($profile_data['basic']['country_flag']['column_value'] ?? null) === $flag['path'])>
                                                     {{ $flag['name'] }} ({{ strtoupper($flag['code']) }})
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @if ($profile_data['basic']['country_flag']['column_value'])
+                                        @if ($profile_data['basic']['country_flag']['column_value'] ?? null)
                                             <img src="{{ asset($profile_data['basic']['country_flag']['column_value']) }}"
                                                 alt="Flag Preview" height="24" class="rounded" />
                                         @endif
                                     </div>
-                                    @error('basic.' . $profile_data['basic']['country_flag']['id'])
+                                    @error('basic.' . ($profile_data['basic']['country_flag']['id'] ?? ''))
                                         <span class="invalid-feedback d-block">{{ $message }}</span>
                                     @enderror
                                 </div>

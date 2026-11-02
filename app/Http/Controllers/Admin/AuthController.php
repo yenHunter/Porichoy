@@ -80,7 +80,7 @@ class AuthController extends Controller
     public function forgot_password_view(): View
     {
         return view(
-            'admin.auth.forgot-password'
+            'admin.auth.reset-pass'
         );
     }
 
@@ -107,7 +107,7 @@ class AuthController extends Controller
      */
     public function reset_password_view(string $token): View
     {
-        return view('admin.auth.reset-password', ['token' => $token]);
+        return view('admin.auth.new-pass', ['token' => $token]);
     }
 
     /**
@@ -121,7 +121,7 @@ class AuthController extends Controller
         $status = $this->auth_service->resetPassword($request);
 
         return $status === \Illuminate\Support\Facades\Password::PASSWORD_RESET
-            ? redirect()->route('login.view')->with('status', __($status))
+            ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 
@@ -134,7 +134,7 @@ class AuthController extends Controller
     {
         Session::flush();
         auth()->logout();
-        return redirect()->route('login.view');
+        return redirect()->route('login');
     }
 
     /**

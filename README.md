@@ -1,6 +1,8 @@
 # Porichoy
 > Let Them Know
 
+[![CI](https://github.com/yenHunter/Porichoy/actions/workflows/ci.yml/badge.svg)](https://github.com/yenHunter/Porichoy/actions/workflows/ci.yml)
+
 ## Description
 
 **Porichoy** (Bengali for 'Identity') is a dynamic, modular, and highly customizable personal portfolio application built with the Laravel framework. It provides a robust platform for professionals of any field—developers, designers, writers, and more—to showcase their skills, experience, and projects to the world.
@@ -95,6 +97,91 @@ You can get your own instance of Porichoy up and running by following these step
     ```
 
 Your application should now be running at `http://127.0.0.1:8000`.
+
+## Testing
+
+The suite runs against an in-memory SQLite database (`phpunit.xml`), so it needs no database
+server, no seeded data and no network access:
+
+```bash
+php artisan test
+```
+
+The blade templates are wired up with `@vite`, so the front-end assets have to be built before a
+page can be rendered in a test:
+
+```bash
+npm ci && npm run build
+php artisan test
+```
+
+Two conventions keep the suite honest:
+
+* every outbound HTTP call must be faked with `Http::fake()` — a stray request throws instead of
+  quietly succeeding on a machine that happens to have internet access;
+* the reCAPTCHA keys are pinned to test values in `phpunit.xml`, so the captcha rule behaves the
+  same locally and in CI.
+
+### Browser tests
+
+The storefront and the admin panel are covered by a real browser run with Playwright. One app
+server is started per `APP_THEME`, one for the admin panel, plus a local stand-in for reCAPTCHA, so
+a test can load every theme, follow a project card through to its detail page and submit the contact
+form — both with a token the stub accepts and with one it rejects — and a test can sign in and use
+the panel.
+
+```bash
+npx playwright install chromium   # once per machine
+npm run test:e2e
+```
+
+The run builds its own throwaway database (`database/e2e.sqlite`, migrated and seeded with the
+account from `E2eUserSeeder`), never the one in your `.env`. Google is not contacted: the widget
+script is replaced by a local emulation, the server-side verification points at the stub through
+`RECAPTCHA_VERIFY_URL`, and the token itself is set per test. Configuration lives in
+[playwright.config.js](playwright.config.js) and [e2e/](e2e).
+
+The admin pages are rendered through `@vite`, so this suite needs built assets (`npm run build`)
+before it runs — in CI the `Browser tests` job downloads the artifact the `Assets` job produced.
+
+## Continuous Integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull request and on pushes to
+`main`:
+
+| Job | What it does |
+| --- | --- |
+| **Assets** | `npm ci` then `npm run build`, and hands `public/build` to the test jobs |
+| **Tests** | the full suite on PHP 8.2 and PHP 8.3, against those built assets |
+| **Browser tests** | the Playwright run over all four themes and the admin panel, with the reCAPTCHA stub |
+| **Static checks** | `php -l` over every tracked PHP file plus `composer validate --strict` |
+
+[`.github/workflows/security.yml`](.github/workflows/security.yml) scans both dependency trees for known
+advisories. It runs on every pull request, weekly on a schedule (so new advisories against unchanged
+code are still caught) and on demand:
+
+| Check | Policy |
+| --- | --- |
+| `composer audit` | fails on any advisory |
+| `npm audit` | fails on high and critical; lower findings are reported in the job summary |
+
+Both read the lock files, so the scan covers exactly what ships and needs no install step. Run the
+same checks locally with:
+
+```bash
+composer audit
+npm audit --audit-level=high
+```
+
+Known non-blocking finding: `quill` 2.0.3 (low, XSS in its HTML export helper) has no fixed release
+published upstream, so it is reported rather than silenced — see the audit report in CI.
+
+The two static checks can be run locally as well:
+
+```bash
+composer validate --strict --no-check-publish
+git ls-files '*.php' | xargs -n1 php -l
+```
 
 ## About Me
 

@@ -34,7 +34,8 @@ class RegisterRequest extends FormRequest
                 Password::min(8),
                 'confirmed',
             ],
-            'g-recaptcha-response' => [new ReCaptcha()],
+            // Required so the token cannot be skipped by omitting the field.
+            'g-recaptcha-response' => ['required', new ReCaptcha()],
         ];
     }
 
