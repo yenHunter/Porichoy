@@ -69,7 +69,6 @@
     <script src="{{ asset('visitor/flixta/js/vendor/imagesloaded.pkgd.min.js') }}"></script>
     <script src="{{ asset('visitor/flixta/js/plugins/nice-select.min.js') }}"></script>
     <script src="{{ asset('visitor/flixta/js/plugins/jarallax.min.js') }}"></script>
-    <script src="{{ asset('visitor/flixta/js/vendor/ajax-form.js') }}"></script>
     <script src="{{ asset('visitor/flixta/js/plugins/easypie.js') }}"></script>
     <script src="{{ asset('visitor/flixta/js/plugins/headding-title.js') }}"></script>
     <script src="{{ asset('visitor/flixta/js/plugins/lenis.min.js') }}"></script>

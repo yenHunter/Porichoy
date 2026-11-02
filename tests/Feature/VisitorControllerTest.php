@@ -46,8 +46,15 @@ class VisitorControllerTest extends TestCase
 
         $this->get('/services')->assertOk()->assertViewHas('service_list');
         $this->get('/projects')->assertOk()->assertViewHas('project_list');
-        $this->get('/blogs')->assertOk()->assertViewHas('blog_list');
-        $this->get('/contact')->assertOk();
+        $this->get('/blogs')->assertOk()->assertViewHas([
+            'blog_list',
+            'category_list',
+            'recent_blogs',
+        ]);
+        $this->get('/contact')->assertOk()->assertViewHas([
+            'profile_info',
+            'service_list',
+        ]);
     }
 
     /**
@@ -85,7 +92,81 @@ class VisitorControllerTest extends TestCase
 
         $this->get('/blog/first-post')
             ->assertOk()
-            ->assertViewHas('blog', 'first-post');
+            ->assertViewHas('blog', fn ($value) => $value?->getKey() === $blog->getKey());
+    }
+
+    /**
+     * The flixta blog and portfolio pages display the seeded records.
+     */
+    public function test_flixta_pages_render_the_seeded_content(): void
+    {
+        [$service, $project, $blog, $skill] = $this->seedStorefrontRecords();
+
+        $this->withSession(['visitor_theme' => 'flixta'])->get('/blogs')
+            ->assertOk()
+            ->assertSee($blog->blog_title);
+
+        $this->withSession(['visitor_theme' => 'flixta'])->get('/blog/first-post')
+            ->assertOk();
+
+        $this->withSession(['visitor_theme' => 'flixta'])->get('/projects')
+            ->assertOk()
+            ->assertSee($project->project_title);
+
+        $this->withSession(['visitor_theme' => 'flixta'])->get('/project/acme-revamp')
+            ->assertOk()
+            ->assertSee($project->project_title);
+    }
+
+    /**
+     * The antux pages display the seeded records (title, slug links, categories).
+     */
+    public function test_antux_pages_render_the_seeded_content(): void
+    {
+        [$service, $project, $blog, $skill] = $this->seedStorefrontRecords();
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/')
+            ->assertOk()
+            ->assertSee($service->service_title)
+            ->assertSee($project->project_title);
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/services')
+            ->assertOk()
+            ->assertSee($service->service_title);
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/service/branding-design')
+            ->assertOk()
+            ->assertSee($service->service_title)
+            ->assertSee('Laravel');
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/blogs')
+            ->assertOk()
+            ->assertSee($blog->blog_title);
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/blog/first-post')
+            ->assertOk();
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/projects')
+            ->assertOk()
+            ->assertSee($project->project_title);
+
+        $this->withSession(['visitor_theme' => 'antux'])->get('/project/acme-revamp')
+            ->assertOk()
+            ->assertSee($project->project_title);
+    }
+
+    /**
+     * Slugs without data still render the themed fallback content instead of erroring.
+     */
+    public function test_unknown_detail_slugs_still_render_the_fallbacks(): void
+    {
+        $this->seedStorefrontRecords();
+
+        foreach (['/blog/missing-post', '/project/missing-project', '/service/missing-service'] as $uri) {
+            $this->withSession(['visitor_theme' => 'flixta'])->get($uri)->assertOk();
+            $this->withSession(['visitor_theme' => 'antux'])->get($uri)->assertOk();
+            $this->withSession(['visitor_theme' => 'reeni'])->get($uri)->assertOk();
+        }
     }
 
     /**

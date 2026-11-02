@@ -118,7 +118,10 @@ class ExperienceService
             'end_date'                 => $request->end_date,
             'location_type'            => $request->location_type,
             'employment_details'       => $request->employment_details,
-            'employment_status'        => $request->employment_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'employment_status'        => $request->has('employment_status')
+                ? $request->employment_status
+                : $experience->employment_status,
         ]);
         $experience->save();
 

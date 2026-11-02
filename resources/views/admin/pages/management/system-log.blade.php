@@ -49,7 +49,14 @@
                                 @forelse($logs as $log)
                                     <tr>
                                         <td>
-                                            <span class="badge bg-{{ getLogColor($log['level']) }}">
+                                            <span class="badge bg-{{ match (strtolower($log['level'])) {
+                                                    'error', 'critical', 'alert', 'emergency' => 'danger',
+                                                    'warning' => 'warning',
+                                                    'notice' => 'info',
+                                                    'info' => 'primary',
+                                                    'debug' => 'secondary',
+                                                    default => 'dark',
+                                                } }}">
                                                 {{ $log['level'] }}
                                             </span>
                                         </td>
@@ -71,21 +78,6 @@
         </div>
     </div>
 @endsection
-
-{{-- Helper PHP function for colors (add at bottom of file) --}}
-@php
-    function getLogColor($level)
-    {
-        return match (strtolower($level)) {
-            'error', 'critical', 'alert', 'emergency' => 'danger',
-            'warning' => 'warning',
-            'notice' => 'info',
-            'info' => 'primary',
-            'debug' => 'secondary',
-            default => 'dark',
-        };
-    }
-@endphp
 
 @section('scripts')
 @endsection

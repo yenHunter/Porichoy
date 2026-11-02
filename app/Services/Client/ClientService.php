@@ -94,7 +94,10 @@ class ClientService
             'client_organization'  => $request->client_organization,
             'client_address'       => $request->client_address,
             'organization_website' => $request->organization_website,
-            'client_status'        => $request->client_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'client_status'        => $request->has('client_status')
+                ? $request->client_status
+                : $client->client_status,
         ]);
         $client->save();
 

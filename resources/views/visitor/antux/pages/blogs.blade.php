@@ -30,108 +30,76 @@
                 <div class="row">
                     <div class="blog-content col-xl-8 col-lg-7 col-md-12 pr-35 pr-md-15 pl-md-15 pr-xs-15 pl-xs-15">
                         <div class="blog-item-box">
-                            <!-- Single Item -->
-                            <div class="blog-style-one item">
-                                <div class="thumb">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                        <img src="{{ asset('visitor/antux/img/blog/v1.jpg') }}" alt="Image Not Found">
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Md Sohag</a>
-                                            </li>
-                                            <li>
-                                                25 April, 2023
-                                            </li>
-                                        </ul>
+                            @forelse ($blog_list as $blog)
+                                <!-- Single Item -->
+                                <div class="blog-style-one item">
+                                    <div class="thumb">
+                                        <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">
+                                            <img
+                                                src="{{ $blog->blog_image ? asset('storage/' . $blog->blog_image) : asset('visitor/antux/img/blog/v' . ((($loop->iteration - 1) % 2) + 1) . '.jpg') }}"
+                                                alt="{{ $blog->blog_title }}">
+                                        </a>
                                     </div>
-                                    <h2>
-                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Miscovery
-                                            incommode earnestly commanded temparing task.</a>
-                                    </h2>
-                                    <p>
-                                        Bndulgence diminution so discovered mr apartments. Are off under folly death wrote
-                                        cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
-                                        limits hearts. Resolve parties but why she shewing. She sang know now
-                                    </p>
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
-                                        class="button-regular">
-                                        Continue Reading <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <!-- Single Item -->
-                            <!-- Single Item -->
-                            <div class="blog-style-one item">
-                                <div class="thumb">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                        <img src="{{ asset('visitor/antux/img/blog/v2.jpg') }}" alt="Thumb">
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Md Sohag</a>
-                                            </li>
-                                            <li>
-                                                25 April, 2023
-                                            </li>
-                                        </ul>
+                                    <div class="info">
+                                        <div class="meta">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">{{ trim(($blog->updatedBy?->first_name ?? '') . ' ' . ($blog->updatedBy?->last_name ?? '')) ?: 'Md Sohag' }}</a>
+                                                </li>
+                                                <li>
+                                                    {{ $blog->blog_published?->format('j F, Y') ?? '25 April, 2023' }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h2>
+                                            <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">{{ $blog->blog_title }}</a>
+                                        </h2>
+                                        <p>
+                                            {{ $blog->blog_excerpt ?? 'Bndulgence diminution so discovered mr apartments. Are off under folly death wrote cause her way spite. Plan upon yet way get cold spot its week. Almost do am or limits hearts. Resolve parties but why she shewing. She sang know now' }}
+                                        </p>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}"
+                                            class="button-regular">
+                                            Continue Reading <i class="fas fa-arrow-right"></i>
+                                        </a>
                                     </div>
-                                    <h2>
-                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Minuter
-                                            him own clothes but observe country to beloved another.</a>
-                                    </h2>
-                                    <p>
-                                        Bndulgence diminution so discovered mr apartments. Are off under folly death wrote
-                                        cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
-                                        limits hearts. Resolve parties but why she shewing. She sang know now
-                                    </p>
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
-                                        class="button-regular">
-                                        Continue Reading <i class="fas fa-arrow-right"></i>
-                                    </a>
                                 </div>
-                            </div>
-                            <!-- Single Item -->
-                            <!-- Single Item -->
-                            <div class="blog-style-one item">
-                                <div class="thumb">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                        <img src="{{ asset('visitor/antux/img/blog/v1.jpg') }}" alt="Thumb">
-                                    </a>
-                                </div>
-                                <div class="info">
-                                    <div class="meta">
-                                        <ul>
-                                            <li>
-                                                <a href="#">Md Sohag</a>
-                                            </li>
-                                            <li>
-                                                25 April, 2023
-                                            </li>
-                                        </ul>
+                                <!-- Single Item -->
+                            @empty
+                                <!-- Single Item -->
+                                <div class="blog-style-one item">
+                                    <div class="thumb">
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                            <img src="{{ asset('visitor/antux/img/blog/v1.jpg') }}" alt="Image Not Found">
+                                        </a>
                                     </div>
-                                    <h2>
-                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Overcame
-                                            breeding point concerns has terminate actual is monitoring.</a>
-                                    </h2>
-                                    <p>
-                                        Bndulgence diminution so discovered mr apartments. Are off under folly death wrote
-                                        cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
-                                        limits hearts. Resolve parties but why she shewing. She sang know now
-                                    </p>
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
-                                        class="button-regular">
-                                        Continue Reading <i class="fas fa-arrow-right"></i>
-                                    </a>
+                                    <div class="info">
+                                        <div class="meta">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">Md Sohag</a>
+                                                </li>
+                                                <li>
+                                                    25 April, 2023
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h2>
+                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Miscovery
+                                                incommode earnestly commanded temparing task.</a>
+                                        </h2>
+                                        <p>
+                                            Bndulgence diminution so discovered mr apartments. Are off under folly death wrote
+                                            cause her way spite. Plan upon yet way get cold spot its week. Almost do am or
+                                            limits hearts. Resolve parties but why she shewing. She sang know now
+                                        </p>
+                                        <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}"
+                                            class="button-regular">
+                                            Continue Reading <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Single Item -->
+                                <!-- Single Item -->
+                            @endforelse
                         </div>
 
                         <!-- Pagination -->
@@ -180,74 +148,99 @@
                             <div class="sidebar-item recent-post">
                                 <h4 class="title">Recent Post</h4>
                                 <ul>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">12 Feb, 2020</span>
+                                    @forelse ($recent_blogs as $post)
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
+                                                    <img
+                                                        src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/antux/img/gallery/' . ((($loop->iteration - 1) % 3) + 1) . '.jpg') }}"
+                                                        alt="Thumb">
+                                                </a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
-                                                household smallness delivered.</a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">05 Jul, 2022</span>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">{{ $post->blog_published?->format('j M, Y') ?? '12 Feb, 2020' }}</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ $post->blog_title }}</a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
-                                                Plan &amp; Strategy for Consutruction </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">29 Aug, 2020</span>
+                                        </li>
+                                    @empty
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
+                                                </a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
-                                                particular devonshire alteration</a>
-                                        </div>
-                                    </li>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">12 Feb, 2020</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
+                                                    household smallness delivered.</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">05 Jul, 2022</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
+                                                    Plan &amp; Strategy for Consutruction </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">29 Aug, 2020</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
+                                                    particular devonshire alteration</a>
+                                            </div>
+                                        </li>
+                                    @endforelse
                                 </ul>
                             </div>
                             <div class="sidebar-item category">
                                 <h4 class="title">category list</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.index') }}">national
-                                                <span>69</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.index') }}">national
-                                                <span>25</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.index') }}">sports
-                                                <span>18</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.index') }}">megazine
-                                                <span>37</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.index') }}">health
-                                                <span>12</span></a>
-                                        </li>
+                                        @forelse ($category_list as $category)
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}
+                                                    <span>{{ $category->blogs_count }}</span></a>
+                                            </li>
+                                        @empty
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">national
+                                                    <span>69</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">national
+                                                    <span>25</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">sports
+                                                    <span>18</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">megazine
+                                                    <span>37</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">health
+                                                    <span>12</span></a>
+                                            </li>
+                                        @endforelse
                                     </ul>
                                 </div>
                             </div>

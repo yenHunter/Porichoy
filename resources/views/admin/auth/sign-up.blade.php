@@ -2,7 +2,7 @@
 
 @section('css')
     <!-- ================== Google reCaptcha ================== -->
-    <script src="https://www.google.com/recaptcha/enterprise.js?render={{ config('services.recaptcha.site_key') }}">
+    <script src="{{ config('services.recaptcha.script_url') }}?render={{ config('services.recaptcha.site_key') }}">
     </script>
 @endsection
 

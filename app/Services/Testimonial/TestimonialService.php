@@ -74,7 +74,10 @@ class TestimonialService
             'testimonial_title'   => $request->testimonial_title,
             'testimonial_details' => $request->testimonial_details,
             'testimonial_review'  => $request->testimonial_review,
-            'testimonial_status'  => $request->testimonial_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'testimonial_status'  => $request->has('testimonial_status')
+                ? $request->testimonial_status
+                : $testimonial->testimonial_status,
         ]);
         $testimonial->save();
 

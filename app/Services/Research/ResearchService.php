@@ -87,7 +87,10 @@ class ResearchService
             'research_authors'  => $request->research_authors,
             'research_link'     => $request->research_link,
             'research_details'  => $request->research_details,
-            'research_status'   => $request->research_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'research_status'   => $request->has('research_status')
+                ? $request->research_status
+                : $research->research_status,
         ]);
         $research->save();
 

@@ -2,6 +2,7 @@
 
 namespace App\Services\Visitor;
 
+use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\SkillInfo;
 use App\Models\ClientInfo;
@@ -73,7 +74,7 @@ class VisitorService
     {
         return [
             'profile_info'     => $this->profile(),
-            'service_details'  => ServiceInfo::with('skills')->where('service_slug', $slug)->first(),
+            'service_details'  => ServiceInfo::with(['skills', 'processes'])->where('service_slug', $slug)->first(),
             'testimonial_list' => TestimonialInfo::sorted()->active()->get(),
         ];
     }
@@ -99,7 +100,9 @@ class VisitorService
     public function projectDetailsData(string $slug): array
     {
         return [
-            'project' => ProjectInfo::where('project_slug', $slug)->first(),
+            'project'      => ProjectInfo::with(['client', 'service'])->where('project_slug', $slug)->first(),
+            // Shared so the details page can link to its neighbouring projects.
+            'project_list' => ProjectInfo::sorted()->active()->get(),
         ];
     }
 
@@ -110,9 +113,7 @@ class VisitorService
      */
     public function blogsData(): array
     {
-        return [
-            'blog_list' => BlogInfo::sorted()->active()->get(),
-        ];
+        return $this->blogListing();
     }
 
     /**
@@ -124,7 +125,20 @@ class VisitorService
     public function blogDetailsData(string $slug): array
     {
         return [
-            'blog' => $slug,
+            'blog' => BlogInfo::with('category')->where('blog_slug', $slug)->first(),
+        ] + $this->blogListing();
+    }
+
+    /**
+     * Data for the storefront contact page.
+     *
+     * @return array<string, mixed>
+     */
+    public function contactData(): array
+    {
+        return [
+            'profile_info' => $this->profile(),
+            'service_list' => ServiceInfo::sorted()->active()->get(),
         ];
     }
 
@@ -158,5 +172,19 @@ class VisitorService
     private function profile(): array
     {
         return ProfileInfo::pluck('column_value', 'column_name')->toArray();
+    }
+
+    /**
+     * The blog data shared by the listing and its details page (sidebar).
+     *
+     * @return array<string, mixed>
+     */
+    private function blogListing(): array
+    {
+        return [
+            'blog_list'     => BlogInfo::sorted()->active()->get(),
+            'category_list' => BlogCategory::sorted()->active()->withCount('blogs')->get(),
+            'recent_blogs'  => BlogInfo::active()->latestPublished()->limit(3)->get(),
+        ];
     }
 }

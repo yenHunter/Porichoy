@@ -1,0 +1,182 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # The blade templates use @vite, so a built manifest has to exist before the
+  # suite can render a single page. Build once here and hand the output to the
+  # test jobs instead of rebuilding it for every PHP version.
+  assets:
+    name: Assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build front-end assets
+        run: npm run build
+
+      - name: Upload the built assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-build
+          path: public/build
+          retention-days: 1
+
+  tests:
+    name: Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    needs: assets
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.2 is the floor declared in composer.json; 8.3 is the reference runtime.
+        php: ['8.2', '8.3']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          # gd is required by Intervention Image (the WebP conversions).
+          extensions: gd, mbstring, intl, zip, sqlite3, pdo_sqlite
+          coverage: none
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: composer-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ matrix.php }}-
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Download the built assets
+        uses: actions/download-artifact@v4
+        with:
+          name: public-build
+          path: public/build
+
+      - name: Prepare the environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      # phpunit.xml pins APP_ENV=testing and an in-memory SQLite database, so no
+      # database service is needed here.
+      - name: Run the test suite
+        run: php artisan test
+
+  # Drives the storefront and the admin panel in a real browser.
+  e2e:
+    name: Browser tests (Playwright)
+    runs-on: ubuntu-latest
+    needs: assets
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: gd, mbstring, intl, zip, sqlite3, pdo_sqlite
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
+      # The admin pages are wired up with @vite, so they need a manifest.
+      - name: Download the built assets
+        uses: actions/download-artifact@v4
+        with:
+          name: public-build
+          path: public/build
+
+      # The run migrates and seeds a throwaway SQLite database of its own and
+      # stubs reCAPTCHA locally, so nothing here touches a real service.
+      - name: Prepare the environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run the browser tests
+        run: npm run test:e2e
+
+      - name: Upload the Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
+  quality:
+    name: Static checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Lint every tracked PHP file
+        run: |
+          status=0
+          while IFS= read -r file; do
+            if ! php -l "$file" > /dev/null; then
+              echo "::error file=$file::PHP syntax error"
+              status=1
+            fi
+          done < <(git ls-files '*.php')
+          exit $status
+
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-publish

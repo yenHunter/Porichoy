@@ -43,7 +43,10 @@
                 <div class="desc-text">
                     Please fill out the form below to start chatting with me directly.
                 </div>
-                <form class="tmp-dynamic-form" action="#">
+                <form class="tmp-dynamic-form" action="{{ route('visitor.contact.store') }}" method="POST">
+                    @csrf
+
+                    @include('visitor.partials.form-alerts')
                     <div class="field">
                         <input class="input-field" name="name" placeholder="Your Name" type="text" required>
                     </div>
@@ -51,11 +54,12 @@
                         <input class="input-field" name="email" placeholder="Your Email" type="email" required>
                     </div>
                     <div class="field textarea">
-                        <textarea class="input-field" placeholder="Your Message" name="message" required></textarea>
+                        <textarea class="input-field" placeholder="Your Message" name="comments" required></textarea>
                     </div>
                     <div class="field">
                         <button name="submit" type="submit">Send Message</button>
                     </div>
+                    @include('visitor.partials.recaptcha')
                 </form>
             </div>
         </div>
@@ -122,7 +126,6 @@
     <script src="{{ asset('visitor/reeni/js/vendor/waw.js') }}"></script>
     <script src="{{ asset('visitor/reeni/js/plugins/isotop.js') }}"></script>
     <script src="{{ asset('visitor/reeni/js/plugins/animation.js') }}"></script>
-    <script src="{{ asset('visitor/reeni/js/plugins/contact.form.js') }}"></script>
     <script src="{{ asset('visitor/reeni/js/vendor/backtop.js') }}"></script>
     <script src="{{ asset('visitor/reeni/js/plugins/text-type.js') }}"></script>
     <!-- custom Js -->

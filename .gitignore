@@ -14,8 +14,11 @@
 /auth.json
 /node_modules
 /public/build
+/public/visitor/
 /public/hot
 /public/storage
+/playwright-report
+/test-results
 /storage/*.key
 /storage/pail
 /vendor

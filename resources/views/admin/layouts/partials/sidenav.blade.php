@@ -221,7 +221,7 @@
                 <div class="collapse" id="configuration">
                     <ul class="sub-menu">
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{route('settings.theme')}}">
                                 <span class="menu-text" data-lang="sidebar-settings-company">Theme</span>
                             </a>
                         </li>

@@ -81,7 +81,10 @@ class EducationService
             'end_date'             => $request->end_date,
             'education_result'     => $request->education_result,
             'education_details'    => $request->education_details,
-            'education_status'     => $request->education_status,
+            // Omitted status keeps the stored value instead of writing null.
+            'education_status'     => $request->has('education_status')
+                ? $request->education_status
+                : $education->education_status,
         ]);
         $education->save();
 

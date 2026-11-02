@@ -30,8 +30,10 @@
                             <div class="blog-item-box">
 
                                 <div class="thumb">
-                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                        <img src="{{ asset('visitor/antux/img/blog/v2.jpg') }}" alt="Thumb">
+                                    <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">
+                                        <img
+                                            src="{{ $blog?->blog_featured_image ? asset('storage/' . $blog->blog_featured_image) : asset('visitor/antux/img/blog/v2.jpg') }}"
+                                            alt="{{ $blog?->blog_title ?? 'Thumb' }}">
                                     </a>
                                 </div>
                                 <div class="info">
@@ -40,14 +42,19 @@
                                             <li>
                                                 <i class="fas fa-user"></i>
                                                 <a href="#">
-                                                    Md Sohag
+                                                    {{ trim(($blog?->updatedBy?->first_name ?? '') . ' ' . ($blog?->updatedBy?->last_name ?? '')) ?: 'Md Sohag' }}
                                                 </a>
                                             </li>
                                             <li>
-                                                <i class="fas fa-calendar-alt"></i> 25 April, 2023
+                                                <i class="fas fa-calendar-alt"></i> {{ $blog?->blog_published?->format('j F, Y') ?? '25 April, 2023' }}
                                             </li>
                                         </ul>
                                     </div>
+                                    @if ($blog?->blog_content)
+                                    <p>
+                                        {!! $blog->blog_content !!}
+                                    </p>
+                                    @else
                                     <p>
                                         Give lady of they such they sure it. Me contained explained my education.
                                         Vulgar as hearts by garret. Perceived determine departure explained no
@@ -98,6 +105,7 @@
                                         repellat, omnis quam? Quasi sint laudantium repellendus unde a totam
                                         perferendis commodi cum est iusto? Minima, laborum.
                                     </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -108,8 +116,7 @@
                                 <img src="{{ asset('visitor/antux/img/team/11.jpg') }}" alt="Thumb">
                             </div>
                             <div class="info">
-                                <h4><a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Md
-                                        Sohag</a></h4>
+                                <h4><a href="#">{{ trim(($blog?->updatedBy?->first_name ?? '') . ' ' . ($blog?->updatedBy?->last_name ?? '')) ?: 'Md Sohag' }}</a></h4>
                                 <p>
                                     Grursus mal suada faci lisis Lorem ipsum dolarorit more ametion consectetur
                                     elit. Vesti at bulum nec at odio aea the dumm ipsumm ipsum that dolocons rsus
@@ -124,9 +131,15 @@
                         <div class="post-tags share">
                             <div class="tags">
                                 <h4>Tags: </h4>
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Algorithm</a>
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Data
-                                    science</a>
+                                @if ($blog?->keywords)
+                                    @foreach (preg_split('/\s*,\s*/', trim($blog->keywords), -1, PREG_SPLIT_NO_EMPTY) as $tag)
+                                        <a href="{{ route('visitor.blog.index') }}">{{ $tag }}</a>
+                                    @endforeach
+                                @else
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Algorithm</a>
+                                    <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Data
+                                        science</a>
+                                @endif
                             </div>
 
                             <div class="social">
@@ -159,17 +172,25 @@
                         <!-- Post Tags Share -->
 
                         <!-- Start Post Pagination -->
+                        @php
+                            $blogs = $blog_list->values();
+                            $blog_index = $blogs->search(
+                                fn ($post) => $post->getKey() === $blog?->getKey()
+                            );
+                            $prev_post = $blog_index !== false && $blog_index > 0 ? $blogs[$blog_index - 1] : null;
+                            $next_post = $blog_index !== false && $blog_index < $blogs->count() - 1 ? $blogs[$blog_index + 1] : null;
+                        @endphp
                         <div class="post-pagi-area">
                             <div class="post-previous">
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                <a href="{{ $prev_post ? route('visitor.blog.details', ['blog' => $prev_post->blog_slug]) : '#' }}">
                                     <div class="icon"><i class="fas fa-angle-double-left"></i></div>
-                                    <div class="nav-title"> Previus Post <h5>Discovery incommode</h5>
+                                    <div class="nav-title"> Previus Post <h5>{{ $prev_post?->blog_title ?? 'Discovery incommode' }}</h5>
                                     </div>
                                 </a>
                             </div>
                             <div class="post-next">
-                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                    <div class="nav-title">Next Post <h5>Discovery incommode</h5>
+                                <a href="{{ $next_post ? route('visitor.blog.details', ['blog' => $next_post->blog_slug]) : '#' }}">
+                                    <div class="nav-title">Next Post <h5>{{ $next_post?->blog_title ?? 'Discovery incommode' }}</h5>
                                     </div>
                                     <div class="icon">
                                         <i class="fas fa-angle-double-right"></i>
@@ -279,74 +300,99 @@
                             <div class="sidebar-item recent-post">
                                 <h4 class="title">Recent Post</h4>
                                 <ul>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">12 Feb, 2020</span>
+                                    @forelse ($recent_blogs as $post)
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
+                                                    <img
+                                                        src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/antux/img/gallery/' . ((($loop->iteration - 1) % 3) + 1) . '.jpg') }}"
+                                                        alt="Thumb">
+                                                </a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
-                                                household smallness delivered.</a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">05 Jul, 2022</span>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">{{ $post->blog_published?->format('j M, Y') ?? '12 Feb, 2020' }}</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ $post->blog_title }}</a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
-                                                Plan &amp; Strategy for Consutruction </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="thumb">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
-                                                <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
-                                            </a>
-                                        </div>
-                                        <div class="info">
-                                            <div class="meta-title">
-                                                <span class="post-date">29 Aug, 2020</span>
+                                        </li>
+                                    @empty
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/1.jpg') }}" alt="Thumb">
+                                                </a>
                                             </div>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
-                                                particular devonshire alteration</a>
-                                        </div>
-                                    </li>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">12 Feb, 2020</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Commanded
+                                                    household smallness delivered.</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/2.jpg') }}" alt="Thumb">
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">05 Jul, 2022</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Future
+                                                    Plan &amp; Strategy for Consutruction </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="thumb">
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">
+                                                    <img src="{{ asset('visitor/antux/img/gallery/3.jpg') }}" alt="Thumb">
+                                                </a>
+                                            </div>
+                                            <div class="info">
+                                                <div class="meta-title">
+                                                    <span class="post-date">29 Aug, 2020</span>
+                                                </div>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">Melancholy
+                                                    particular devonshire alteration</a>
+                                            </div>
+                                        </li>
+                                    @endforelse
                                 </ul>
                             </div>
                             <div class="sidebar-item category">
                                 <h4 class="title">category list</h4>
                                 <div class="sidebar-info">
                                     <ul>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
-                                                <span>69</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
-                                                <span>25</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">sports
-                                                <span>18</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">megazine
-                                                <span>37</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">health
-                                                <span>12</span></a>
-                                        </li>
+                                        @forelse ($category_list as $category)
+                                            <li>
+                                                <a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}
+                                                    <span>{{ $category->blogs_count }}</span></a>
+                                            </li>
+                                        @empty
+                                            <li>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
+                                                    <span>69</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">national
+                                                    <span>25</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">sports
+                                                    <span>18</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">megazine
+                                                    <span>37</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('visitor.blog.details', ['blog' => 'design']) }}">health
+                                                    <span>12</span></a>
+                                            </li>
+                                        @endforelse
                                     </ul>
                                 </div>
                             </div>

@@ -50,6 +50,16 @@ class StoreUserRequest extends FormRequest
      */
     public function attributes(): array
     {
+        return self::staticAttributes();
+    }
+
+    /**
+     * Shared field names for store/update error display.
+     *
+     * @return array<string, string>
+     */
+    public static function staticAttributes(): array
+    {
         return [
             'profile_picture' => 'profile picture',
         ];

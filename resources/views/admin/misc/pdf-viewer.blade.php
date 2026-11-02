@@ -1,10 +1,10 @@
-@extends('layouts.vertical', ['title' => 'PDF Viewer'])
+@extends('admin.layouts.vertical', ['title' => 'PDF Viewer'])
 
 @section('css')
 @endsection
 
 @section('content')
-    @include('layouts.partials/page-title', ['title' => 'PDF Viewer', 'subtitle' => 'Miscellaneous'])
+    @include('admin.layouts.partials.page-title', ['title' => 'PDF Viewer', 'subtitle' => 'Miscellaneous'])
 
     <div class="row">
         <div class="col-12">

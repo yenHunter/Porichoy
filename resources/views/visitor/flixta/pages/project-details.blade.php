@@ -15,14 +15,14 @@
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
                         <div class="rs-breadcrumb-content-wrapper">
                             <div class="rs-breadcrumb-title-wrapper text-center">
-                                <h1 class="rs-breadcrumb-title">Portfolio Details</h1>
+                                <h1 class="rs-breadcrumb-title">{{ $project->project_title ?? 'Portfolio Details' }}</h1>
                             </div>
                             <div class="rs-breadcrumb-menu text-center">
                                 <nav>
                                     <ul>
                                         <li><span><a href="{{ route('visitor.index') }}">Home</a></span></li>
                                         <li><span><a href="{{ route('visitor.project.index') }}">Portfolio</a></span></li>
-                                        <li><span>Portfolio Details</span></li>
+                                        <li><span>{{ $project->project_title ?? 'Portfolio Details' }}</span></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -45,16 +45,18 @@
                                         <div class="swiper-slide">
                                             <div class="rs-portfolio-details-item">
                                                 <div class="rs-portfolio-details-thumb">
-                                                    <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-details-01.jpg') }}"
-                                                        alt="image">
+                                                    <img
+                                                        src="{{ $project?->cover_image ? asset('storage/' . $project?->cover_image) : asset('visitor/flixta/images/portfolio/portfolio-details-01.jpg') }}"
+                                                        alt="{{ $project->project_title ?? 'image' }}">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div class="rs-portfolio-details-item">
                                                 <div class="rs-portfolio-details-thumb">
-                                                    <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-details-02.jpg') }}"
-                                                        alt="image">
+                                                    <img
+                                                        src="{{ $project?->profile_image ? asset('storage/' . $project?->profile_image) : asset('visitor/flixta/images/portfolio/portfolio-details-02.jpg') }}"
+                                                        alt="{{ $project->project_title ?? 'image' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +100,10 @@
                             </div>
                             <div class="rs-portfolio-details-content wow fadeInUp" data-wow-delay=".3s"
                                 data-wow-duration="1s">
-                                <h3 class="rs-portfolio-details-title">Personal Portfolio</h3>
+                                <h3 class="rs-portfolio-details-title">{{ $project->project_title ?? 'Personal Portfolio' }}</h3>
+                                @if ($project?->project_details)
+                                    <p class="description">{!! $project->project_details !!}</p>
+                                @else
                                 <p class="description">Hello there, My name is Marshall. I'm a freelancer, I'm winner of the
                                     world's most
                                     prestigious web design awards in the fields of UI/UX, and innovation. With a diverse
@@ -107,18 +112,27 @@
                                     branding, I bring a well-rounded skill set to every project I take on. The wise man
                                     therefore
                                     always holds in these matters to this principlesimilique.</p>
+                                @endif
                                 <div class="rs-portfolio-details-feature-list mb-25">
+                                    @if ($project?->project_background)
+                                        {!! $project->project_background !!}
+                                    @else
                                     <ul>
                                         <li>Understand the purpose of the dashboard and what data or functionalities</li>
                                         <li>Sketch out a rough layout of the dashboard components placements.</li>
                                         <li>Utilize SASS variables for colors, fonts, spacing, ensuring consistency</li>
                                     </ul>
+                                    @endif
                                 </div>
+                                @if ($project?->project_challenges)
+                                    <p class="description">{!! $project->project_challenges !!}</p>
+                                @else
                                 <p class="description">Hello there, My name is Marshall. I'm a freelancer, I'm winner of the
                                     world's most prestigious web design awards in the fields of UI/UX, and innovation. With
                                     a
                                     diverse background in art direction, design leadership, website and app UI/UX design, 3D
                                     design, and branding.</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -131,10 +145,10 @@
                                 <h4 class="rs-portfolio-details-case-title">Case Information</h4>
                                 <div class="rs-portfolio-details-case-info-wrapper">
                                     <ul>
-                                        <li>Clients <span>:</span> <strong>Maverick Harrison</strong></li>
-                                        <li>Date <span>:</span> <strong>12 January, 2023</strong></li>
-                                        <li>Category <span>:</span> <strong>Personal, Consulting</strong></li>
-                                        <li>Address <span>:</span> <strong>19 Golden Street. New York</strong></li>
+                                        <li>Clients <span>:</span> <strong>{{ $project?->client?->client_name ?? 'Maverick Harrison' }}</strong></li>
+                                        <li>Date <span>:</span> <strong>{{ $project?->projectDateRange ?? '12 January, 2023' }}</strong></li>
+                                        <li>Category <span>:</span> <strong>{{ $project?->service?->service_title ?? 'Personal, Consulting' }}</strong></li>
+                                        <li>Address <span>:</span> <strong>{{ $project?->project_location ?? '19 Golden Street. New York' }}</strong></li>
                                         <li>Budget <span>:</span> <strong>$ 5000</strong></li>
                                     </ul>
                                 </div>
@@ -145,8 +159,10 @@
                 <div class="row g-5">
                     <div class="col-xl-6 col-lg-6">
                         <div class="rs-portfolio-details-thumb wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="1s">
-                            <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-details-07.jpg') }}" alt="image">
-                            <h3 class="mt-40">Transformative Branding and Creative Enhancement</h3>
+                                <img
+                                    src="{{ $project?->profile_image ? asset('storage/' . $project?->profile_image) : asset('visitor/flixta/images/portfolio/portfolio-details-07.jpg') }}"
+                                    alt="image">
+                                <h3 class="mt-40">{{ $project?->service?->service_title ?? 'Transformative Branding and Creative Enhancement' }}</h3>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6">
@@ -156,12 +172,16 @@
                                 <img src="{{ asset('visitor/flixta/images/portfolio/portfolio-details-08.jpg') }}" alt="iamge">
                             </div>
                             <div class="rs-portfolio-details-feature-wrapper">
+                                @if ($project?->project_solution)
+                                    <p class="mt-40">{!! $project->project_solution !!}</p>
+                                @else
                                 <p class="mt-40">We denounce with righteous indignation and dislike men who are so beguiled
                                     and
                                     demor alized
                                     by the charms of pleas ure of the moment, so blinded by desire.Neque qui is dolor emr
                                     ipsum
                                     quia dolor eque porro quisquam est.Tortor montes platea iacu lis posuere per mauris.</p>
+                                @endif
                                 <div class="rs-portfolio-details-feature-list">
                                     <ul>
                                         <li>Understand the purpose of the dashboard and what data or functionalities</li>
@@ -179,20 +199,28 @@
 
         <!-- portfolio navigation area start -->
         <section class="rs-portfolio-navigation-area primary-bg">
+            @php
+                $projects = $project_list->values();
+                $current_index = $projects->search(
+                    fn ($item) => $item->getKey() === $project?->getKey()
+                );
+                $prev_project  = $current_index !== false && $current_index > 0 ? $projects[$current_index - 1] : null;
+                $next_project  = $current_index !== false && $current_index < $projects->count() - 1 ? $projects[$current_index + 1] : null;
+            @endphp
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="rs-postbox-more-navigation wow fadeInUp" data-wow-delay=".3s" data-wow-duration="1s">
                             <div class="rs-postbox-more-left">
                                 <div class="rs-postbox-more-icon">
-                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">
+                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => $prev_project?->project_slug ?? 'document-manager-application']) }}">
                                         <i class="fa-regular fa-arrow-left-long"></i>
                                     </a>
                                 </div>
                                 <div class="rs-postbox-more-content">
                                     <p>Previous Post</p>
                                     <h6>
-                                        <a href="{{ route('visitor.project.details', ['project' => 'document-manager-application']) }}">Document Manager Application</a>
+                                        <a href="{{ route('visitor.project.details', ['project' => $prev_project?->project_slug ?? 'document-manager-application']) }}">{{ $prev_project?->project_title ?? 'Document Manager Application' }}</a>
                                     </h6>
                                 </div>
                             </div>
@@ -221,11 +249,11 @@
                                 <div class="rs-postbox-more-content">
                                     <p>Next Post</p>
                                     <h6>
-                                        <a href="{{ route('visitor.project.details', ['project' => 'creative-website']) }}">Creative Website</a>
+                                        <a href="{{ route('visitor.project.details', ['project' => $next_project?->project_slug ?? 'creative-website']) }}">{{ $next_project?->project_title ?? 'Creative Website' }}</a>
                                     </h6>
                                 </div>
                                 <div class="rs-postbox-more-icon">
-                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => 'creative-website']) }}">
+                                    <a class="rs-circle-btn" href="{{ route('visitor.project.details', ['project' => $next_project?->project_slug ?? 'creative-website']) }}">
                                         <i class="fa-regular fa-arrow-right-long"></i>
                                     </a>
                                 </div>

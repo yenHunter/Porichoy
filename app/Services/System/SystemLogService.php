@@ -39,6 +39,7 @@ class SystemLogService
      *
      * @param  string|null $requested Basename from ?file=
      * @return array{
+     *   files:       array<int, string>,
      *   currentFile: string|null,
      *   logs:        array<int, array<string, string>>
      * }
@@ -70,6 +71,7 @@ class SystemLogService
         }
 
         return [
+            'files'       => $files,
             'currentFile' => $currentFile,
             'logs'        => $logs,
         ];

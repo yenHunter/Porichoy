@@ -55,7 +55,7 @@ class BlogService
         $blog->blog_image         = $this->storeImage($request, 'blog_image');
         $blog->blog_featured_image = $this->storeFeaturedImage($request);
         $blog->category_id        = $request->category_id;
-        $blog->published_at       = $request->published_at;
+        $blog->blog_published      = $request->published_at;
         $blog->blog_status        = $request->blog_status;
         $blog->save();
 
@@ -97,12 +97,16 @@ class BlogService
         }
 
         $blog->fill([
-            'blog_title'    => $request->blog_title,
-            'blog_excerpt'  => $request->blog_excerpt,
-            'blog_content'  => $request->blog_content,
-            'category_id'   => $request->category_id,
-            'published_at'  => $request->published_at,
-            'blog_status'   => $request->blog_status,
+            'blog_title'     => $request->blog_title,
+            'blog_excerpt'   => $request->blog_excerpt,
+            'blog_content'   => $request->blog_content,
+            'category_id'    => $request->category_id,
+            // The column is `blog_published`; the form field is `published_at`.
+            'blog_published' => $request->published_at,
+            // Omitted status keeps the stored value instead of writing null.
+            'blog_status'    => $request->has('blog_status')
+                ? $request->blog_status
+                : $blog->blog_status,
         ]);
         $blog->save();
 

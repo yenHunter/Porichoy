@@ -1502,8 +1502,11 @@
                     </div>
                     <div class="col-xl-7 col-lg-7">
                         <div class="rs-contact-form wow fadeInRight" data-wow-delay=".3s" data-wow-duration="1s">
-                            <form id="contact-form" action="{{ asset('visitor/flixta/assets/mailer.php') }}"
+                            <form id="contact-form" action="{{ route('visitor.contact.store') }}"
                                 method="POST">
+                                @csrf
+
+                                @include('visitor.partials.form-alerts')
                                 <div class="row g-5">
                                     <div class="col-md-6">
                                         <div class="rs-contact-input">
@@ -1537,7 +1540,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="rs-contact-input">
-                                            <textarea id="message" name="message" placeholder="Write Your Message"></textarea>
+                                            <textarea id="message" name="comments" placeholder="Write Your Message"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -1546,6 +1549,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('visitor.partials.recaptcha')
                             </form>
                             <div id="form-messages"></div>
                         </div>

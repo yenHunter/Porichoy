@@ -1,4 +1,4 @@
-@extends('layouts.base', ['title' => 'Reset Password'])
+@extends('admin.layouts.base', ['title' => 'Reset Password'])
 
 @section('css')
 @endsection

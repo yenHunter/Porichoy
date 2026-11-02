@@ -784,7 +784,10 @@
                     <div class="col-lg-8">
                         <div class="contact-form contact-form-area wow fadeInUp delay-0-4s">
                             <form id="contactForm" class="contactForm" name="contactForm"
-                                action="assets/php/form-process.php" method="post">
+                                action="{{ route('visitor.contact.store') }}" method="post">
+                                @csrf
+
+                                @include('visitor.partials.form-alerts')
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -810,7 +813,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="message">Your Message</label>
-                                            <textarea name="message" id="message" class="form-control" rows="4" placeholder="Write Your message"
+                                            <textarea name="comments" id="message" class="form-control" rows="4" placeholder="Write Your message"
                                                 required="" data-error="Please Write your Message"></textarea>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -824,6 +827,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @include('visitor.partials.recaptcha')
                             </form>
                         </div>
                     </div>

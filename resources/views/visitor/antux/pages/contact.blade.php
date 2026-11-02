@@ -32,6 +32,9 @@
                     <div class="col-lg-6">
                         <form action="{{ route('visitor.contact.store') }}" method="POST"
                             class="contact-form contact-form">
+                            @csrf
+
+                            @include('visitor.partials.form-alerts')
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -75,6 +78,7 @@
                             <div class="col-lg-12 alert-notification">
                                 <div id="message" class="alert-msg"></div>
                             </div>
+                            @include('visitor.partials.recaptcha')
                         </form>
                     </div>
                 </div>
