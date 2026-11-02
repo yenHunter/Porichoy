@@ -1,106 +1,135 @@
-@extends('admin.layouts.base', ['title' => 'Theme Management'])
+@extends('admin.layouts.vertical', ['title' => 'Theme Management'])
 
-@section('title', 'Theme Management')
-
-@section('page_head')
-    <!-- ================== Sweet Alert 2 ================== -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@section('css')
+    @vite(['node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'])
 @endsection
 
 @section('content')
-    <!-- BEGIN container -->
-    <div class="container">
-        <!-- BEGIN row -->
-        <div class="row justify-content-center">
-            <!-- BEGIN col-10 -->
-            <div class="col-xl-12">
-                <!-- BEGIN row -->
-                <div class="row">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item text-uppercase">
-                            <a href="{{ route('home') }}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item text-uppercase">
-                            <a href="{{ route('configuration.view') }}">Configuration</a>
-                        </li>
-                        <li class="breadcrumb-item text-uppercase active">Theme Management</li>
-                    </ul>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="page-header">
-                            Theme Management <small>create update delete all in here</small>
-                        </h1>
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Configuration', 'title' => 'Theme Management'])
+
+    <div class="row">
+        <div class="col-12">
+            @if (session('success'))
+                <div class="alert alert-success border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-check text-success fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Successful</h4>
+                        <p class="m-0">{{ session('success') }}</p>
                     </div>
-
-                    <hr class="mb-4">
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{{ asset('visitor/antux/img/logo.png') }}" width="100px" alt="Antux">
-                                        <ul class="h6 mt-3">
-                                            <li>Light & Dark</li>
-                                            <li>GSAP Animation</li>
-                                        </ul>
-                                        <div class="mt-2">
-                                            <i class="h1 fa-brands fa-bootstrap"></i>
-                                            <i class="h1 fa-brands fa-laravel"></i>
-                                            <i class="h1 fa-brands fa-js"></i>
-                                        </div>
-                                        <div class="d-flex justify content between">
-                                            <button class="btn btn-info btn-sm">Preview</button>
-                                            <button class="btn btn-success btn-sm btn-active" data-theme="antux">Active</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <img src="{{ asset('visitor/antux/img/banner.webp') }}"
-                                            class="img-fluid w-100 rounded">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-success btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
                     </div>
                 </div>
-                <!-- END row -->
-            </div>
-            <!-- END col-10 -->
+            @endif
+            @if (session('error') || $errors->any())
+                <div class="alert alert-danger border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-x text-danger fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Failed</h4>
+                        @foreach ($errors->all() as $error)
+                            <p class="m-0">{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-danger btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            @endif
+            <div class="card">
+                <div class="card-header justify-content-between">
+                    <h4 class="card-title"> Theme Management <code>activate available visitor themes</code> </h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
+                        <thead class="thead-sm text-uppercase fs-xxs">
+                            <tr>
+                                <th>Theme</th>
+                                <th>Preview</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $themes      = config('themes.available');
+                                $currentTheme = config('themes.default_theme');
+                            @endphp
+                            @foreach ($themes as $key => $theme)
+                                <tr>
+                                    <td>
+                                        <strong>{{ $theme['name'] }}</strong><br>
+                                        <small class="text-muted">{{ $key }}</small>
+                                    </td>
+                                    <td>
+                                        @if (file_exists(public_path('visitor/' . $key . '/img/logo.png')))
+                                            <img class="img-thumbnail rounded" width="60px"
+                                                src="{{ asset('visitor/' . $key . '/img/logo.png') }}"
+                                                alt="{{ $theme['name'] }} logo">
+                                        @else
+                                            <div class="bg-light d-flex align-items-center justify-content-center"
+                                                style="width: 60px; height: 60px;">
+                                                <i class="ti ti-palette text-muted fs-4"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($key === $currentTheme)
+                                            <span class="badge bg-success">Active</span>
+                                        @else
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($key !== $currentTheme)
+                                            <button class="btn btn-primary btn-icon btn-sm btn-activate"
+                                                data-theme="{{ $key }}"
+                                                data-theme-name="{{ $theme['name'] }}">
+                                                <i class="ti ti-check fs-lg"></i>
+                                            </button>
+                                        @else
+                                            <button class="btn btn-light btn-icon btn-sm disabled">
+                                                <i class="ti ti-check text-success fs-lg"></i>
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
         </div>
-        <!-- END row -->
     </div>
-    <!-- END container -->
 @endsection
-{{-- Page Script Start --}}
+
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-active').forEach(button => {
+            document.querySelectorAll('.btn-activate').forEach(button => {
                 button.addEventListener('click', function() {
-                    const theme = this.getAttribute('data-theme');
+                    const theme    = this.getAttribute('data-theme');
+                    const themeName = this.getAttribute('data-theme-name');
 
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This action cannot be undone!",
-                        icon: 'warning',
+                        title: 'Activate ' + themeName + '?',
+                        text: "This will change the visitor-facing theme for the entire site.",
+                        icon: 'question',
                         showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, change it!',
+                        confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, activate it!',
                         reverseButtons: true
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.location.href = "{{ route('configuration.update', ':theme') }}"
                                 .replace(':theme', theme);
-
                         }
                     });
                 });
@@ -108,4 +137,3 @@
         });
     </script>
 @endsection
-{{-- Page Script End --}}
