@@ -21,17 +21,46 @@ class ConfigurationService
      */
     public function setTheme(string $theme): void
     {
+        $this->writeEnvKey('APP_THEME', $theme);
+    }
+
+    /**
+     * Update the active color (persists APP_COLOR in .env).
+     *
+     * @param  string $color Color mode (light/dark)
+     * @return void
+     */
+    public function setColor(string $color): void
+    {
+        $this->writeEnvKey('APP_COLOR', $color);
+    }
+
+    /**
+     * Write a single KEY=VALUE line into .env and clear config cache.
+     *
+     * @param  string $key   Environment key
+     * @param  string $value Environment value
+     * @return void
+     */
+    private function writeEnvKey(string $key, string $value): void
+    {
+        // Whitelist: only allow specific keys to be written via this method.
+        $allowedKeys = ['APP_THEME', 'APP_COLOR'];
+        if (!in_array($key, $allowedKeys, true)) {
+            return;
+        }
+
         $envFile = base_path(self::ENV_FILE);
         if (!is_file($envFile)) {
             return;
         }
 
         // Defensive: strip anything that could inject other env lines.
-        $theme = str_replace(["\r", "\n"], '', $theme);
+        $value = str_replace(["\r", "\n"], '', $value);
 
         $updated = preg_replace(
-            '/^(APP_THEME\s*=\s*).*$/m',
-            '${1}' . $theme,
+            '/^(' . preg_quote($key, '/') . '\s*=\s*).*$/m',
+            '${1}' . $value,
             file_get_contents($envFile)
         );
 

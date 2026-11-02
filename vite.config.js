@@ -36,6 +36,7 @@ export default defineConfig({
                 //js
                 "resources/js/app.js",
                 "resources/js/config.js",
+                "resources/js/pages/configuration-theme.js",
                 "resources/js/maps/canada.js",
                 "resources/js/maps/in-mill-en.js",
                 "resources/js/maps/iraq.js",

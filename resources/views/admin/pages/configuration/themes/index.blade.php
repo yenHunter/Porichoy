@@ -1,7 +1,7 @@
 @extends('admin.layouts.vertical', ['title' => 'Theme Management'])
 
 @section('css')
-    @vite(['node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'])
+
 @endsection
 
 @section('content')
@@ -46,62 +46,36 @@
                 @php
                     $themes      = config('themes.available');
                     $currentTheme = config('themes.default_theme');
+                    $currentColor = config('themes.default_color');
                 @endphp
+
                 @foreach ($themes as $key => $theme)
+                    @php
+                        $themeColors = $theme['colors'] ?? ['light'];
+                    @endphp
                     <div class="col-xl-6 col-md-6 col-12 mb-4">
                         <div class="card border-0 shadow-sm">
-                            <div class="card-body p-0">
-                                <div class="row g-0">
-                                    <!-- Left 30%: Theme Information & Features -->
-                                    <div class="col-xl-3 col-md-3 border-end bg-light p-4 d-flex flex-column">
-                                        <div class="mb-3">
-                                            <h5 class="card-title fs-xl mb-1">{{ $theme['name'] }}</h5>
-                                            <span class="badge badge-soft-primary text-primary fw-semibold">{{ $key }}</span>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="fs-xxs fw-semibold text-muted text-uppercase mb-3">Features</h6>
-                                            <ul class="list-unstyled theme-features">
-                                                @php
-                                                    $features = match($key) {
-                                                        'antux' => ['Light & Dark Mode', 'GSAP Animation', 'Bootstrap 5', 'Laravel Ready'],
-                                                        'dorbesh' => ['Minimal Design', 'Clean Typography', 'Fast Loading', 'Mobile First'],
-                                                        'flixta' => ['Modern Layout', 'Color Accents', 'Responsive Grid', 'SEO Optimized'],
-                                                        'reeni' => ['Creative Layout', 'Bold Colors', 'Interactive UI', 'Portfolio Focused'],
-                                                        default => ['Responsive Design', 'Modern UI', 'Fast Performance'],
-                                                    };
-                                                @endphp
-                                                @foreach ($features as $feature)
-                                                    <li class="mb-2 d-flex align-items-start">
-                                                        <i class="ti ti-check text-success fs-xl mt-1 me-2"></i>
-                                                        <span class="fs-xxs">{{ $feature }}</span>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- Right 70%: Theme Design Preview -->
-                                    <div class="col-xl-9 col-md-9 p-4 position-relative">
-                                        <div class="theme-preview h-100 d-flex align-items-center justify-content-center rounded-3 overflow-hidden"
-                                             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-                                            @if (file_exists(public_path('visitor/' . $key . '/img/banner.webp')))
-                                                <img src="{{ asset('visitor/' . $key . '/img/banner.webp') }}"
-                                                     alt="{{ $theme['name'] }} Preview"
-                                                     class="img-fluid w-100 h-100 object-fit-cover rounded-3"
-                                                     style="height: 200px;">
-                                            @elseif (file_exists(public_path('visitor/' . $key . '/img/preview_image.jpg')))
-                                                <img src="{{ asset('visitor/' . $key . '/img/preview_image.jpg') }}"
-                                                     alt="{{ $theme['name'] }} Preview"
-                                                     class="img-fluid w-100 h-100 object-fit-cover rounded-3"
-                                                     style="height: 200px;">
-                                            @else
-                                                <div class="text-center p-4">
-                                                    <i class="ti ti-layout text-muted fs-xl mb-3"></i>
-                                                    <p class="text-muted fs-xxs mb-0">Preview not available</p>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0 fs-xl">{{ $theme['name'] }}</h5>
                                 </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    @foreach ($themeColors as $color)
+                                        <span class="badge
+                                            {{ $currentColor === $color ? 'bg-' . $color . ' text-white' : 'badge-soft-' . $color . ' text-' . $color }}
+                                            fs-xxs
+                                            {{ $currentColor === $color ? '' : 'opacity-50' }}">
+                                            <i class="ti ti-{{ $color === 'light' ? 'sun' : 'moon' }} me-1"></i>{{ ucfirst($color) }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <img src="{{ asset('visitor/' . $key . '/img/preview_image.jpg') }}"
+                                     alt="{{ $theme['name'] }} Preview"
+                                     class="w-100 rounded"
+                                     style="height: 320px; object-fit: cover; border-radius: calc(0.5rem - 1px);"
+                                     onerror="this.src='{{ asset('visitor/antux/img/preview_image.jpg') }}';">
                             </div>
                             <div class="card-footer border-0 bg-transparent d-flex justify-content-between align-items-center px-4 py-3">
                                 <a href="{{ route('configuration.view') }}" class="btn btn-outline-primary btn-sm">
@@ -109,12 +83,14 @@
                                 </a>
                                 @if ($key === $currentTheme)
                                     <button class="btn btn-success btn-sm disabled">
-                                        <i class="ti ti-check me-1"></i> Active
+                                        <i class="ti ti-check me-1"></i> Activated
                                     </button>
                                 @else
                                     <button class="btn btn-primary btn-sm btn-activate"
                                         data-theme="{{ $key }}"
-                                        data-theme-name="{{ $theme['name'] }}">
+                                        data-theme-name="{{ $theme['name'] }}"
+                                        data-colors='@json($themeColors)'
+                                        data-url="{{ route('configuration.update', ':theme') }}"
                                         <i class="ti ti-check me-1"></i> Activate
                                     </button>
                                 @endif
@@ -128,31 +104,5 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-activate').forEach(button => {
-                button.addEventListener('click', function() {
-                    const theme    = this.getAttribute('data-theme');
-                    const themeName = this.getAttribute('data-theme-name');
-
-                    Swal.fire({
-                        title: 'Activate ' + themeName + '?',
-                        text: "This will change the visitor-facing theme for the entire site.",
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonColor: '#198754',
-                        cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'Yes, activate it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ route('configuration.update', ':theme') }}"
-                                .replace(':theme', theme);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/configuration-theme.js'])
 @endsection

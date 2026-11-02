@@ -196,6 +196,7 @@ Route::middleware('auth')->group(function () {
 	Route::prefix('configuration')->name('configuration.')->group(function () {
 		Route::get('', [ConfigurationController::class, 'view'])->name('view');
 		Route::get('theme', [ConfigurationController::class, 'theme_view'])->name('theme');
-		Route::get('update/{theme}', [ConfigurationController::class, 'theme_update'])->name('update');
+		Route::post('update/{theme}', [ConfigurationController::class, 'theme_update'])->name('update');
+		Route::post('color/{color}', [ConfigurationController::class, 'color_update'])->name('color');
 	});
 });
