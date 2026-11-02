@@ -41,69 +41,88 @@
                     </div>
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Theme Management <code>activate available visitor themes</code> </h4>
-                </div>
-                <div class="card-body">
-                    <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
-                        <thead class="thead-sm text-uppercase fs-xxs">
-                            <tr>
-                                <th>Theme</th>
-                                <th>Preview</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $themes      = config('themes.available');
-                                $currentTheme = config('themes.default_theme');
-                            @endphp
-                            @foreach ($themes as $key => $theme)
-                                <tr>
-                                    <td>
-                                        <strong>{{ $theme['name'] }}</strong><br>
-                                        <small class="text-muted">{{ $key }}</small>
-                                    </td>
-                                    <td>
-                                        @if (file_exists(public_path('visitor/' . $key . '/img/logo.png')))
-                                            <img class="img-thumbnail rounded" width="60px"
-                                                src="{{ asset('visitor/' . $key . '/img/logo.png') }}"
-                                                alt="{{ $theme['name'] }} logo">
-                                        @else
-                                            <div class="bg-light d-flex align-items-center justify-content-center"
-                                                style="width: 60px; height: 60px;">
-                                                <i class="ti ti-palette text-muted fs-4"></i>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($key === $currentTheme)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-secondary">Inactive</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($key !== $currentTheme)
-                                            <button class="btn btn-primary btn-icon btn-sm btn-activate"
-                                                data-theme="{{ $key }}"
-                                                data-theme-name="{{ $theme['name'] }}">
-                                                <i class="ti ti-check fs-lg"></i>
-                                            </button>
-                                        @else
-                                            <button class="btn btn-light btn-icon btn-sm disabled">
-                                                <i class="ti ti-check text-success fs-lg"></i>
-                                            </button>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
+
+            <div class="row">
+                @php
+                    $themes      = config('themes.available');
+                    $currentTheme = config('themes.default_theme');
+                @endphp
+                @foreach ($themes as $key => $theme)
+                    <div class="col-xl-6 col-md-6 col-12 mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-0">
+                                <div class="row g-0">
+                                    <!-- Left 30%: Theme Information & Features -->
+                                    <div class="col-xl-3 col-md-3 border-end bg-light p-4 d-flex flex-column">
+                                        <div class="mb-3">
+                                            <h5 class="card-title fs-xl mb-1">{{ $theme['name'] }}</h5>
+                                            <span class="badge badge-soft-primary text-primary fw-semibold">{{ $key }}</span>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="fs-xxs fw-semibold text-muted text-uppercase mb-3">Features</h6>
+                                            <ul class="list-unstyled theme-features">
+                                                @php
+                                                    $features = match($key) {
+                                                        'antux' => ['Light & Dark Mode', 'GSAP Animation', 'Bootstrap 5', 'Laravel Ready'],
+                                                        'dorbesh' => ['Minimal Design', 'Clean Typography', 'Fast Loading', 'Mobile First'],
+                                                        'flixta' => ['Modern Layout', 'Color Accents', 'Responsive Grid', 'SEO Optimized'],
+                                                        'reeni' => ['Creative Layout', 'Bold Colors', 'Interactive UI', 'Portfolio Focused'],
+                                                        default => ['Responsive Design', 'Modern UI', 'Fast Performance'],
+                                                    };
+                                                @endphp
+                                                @foreach ($features as $feature)
+                                                    <li class="mb-2 d-flex align-items-start">
+                                                        <i class="ti ti-check text-success fs-xl mt-1 me-2"></i>
+                                                        <span class="fs-xxs">{{ $feature }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Right 70%: Theme Design Preview -->
+                                    <div class="col-xl-9 col-md-9 p-4 position-relative">
+                                        <div class="theme-preview h-100 d-flex align-items-center justify-content-center rounded-3 overflow-hidden"
+                                             style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                            @if (file_exists(public_path('visitor/' . $key . '/img/banner.webp')))
+                                                <img src="{{ asset('visitor/' . $key . '/img/banner.webp') }}"
+                                                     alt="{{ $theme['name'] }} Preview"
+                                                     class="img-fluid w-100 h-100 object-fit-cover rounded-3"
+                                                     style="height: 200px;">
+                                            @elseif (file_exists(public_path('visitor/' . $key . '/img/preview_image.jpg')))
+                                                <img src="{{ asset('visitor/' . $key . '/img/preview_image.jpg') }}"
+                                                     alt="{{ $theme['name'] }} Preview"
+                                                     class="img-fluid w-100 h-100 object-fit-cover rounded-3"
+                                                     style="height: 200px;">
+                                            @else
+                                                <div class="text-center p-4">
+                                                    <i class="ti ti-layout text-muted fs-xl mb-3"></i>
+                                                    <p class="text-muted fs-xxs mb-0">Preview not available</p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer border-0 bg-transparent d-flex justify-content-between align-items-center px-4 py-3">
+                                <a href="{{ route('configuration.view') }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="ti ti-eye me-1"></i> Preview
+                                </a>
+                                @if ($key === $currentTheme)
+                                    <button class="btn btn-success btn-sm disabled">
+                                        <i class="ti ti-check me-1"></i> Active
+                                    </button>
+                                @else
+                                    <button class="btn btn-primary btn-sm btn-activate"
+                                        data-theme="{{ $key }}"
+                                        data-theme-name="{{ $theme['name'] }}">
+                                        <i class="ti ti-check me-1"></i> Activate
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection
