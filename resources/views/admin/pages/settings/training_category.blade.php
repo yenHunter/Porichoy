@@ -53,9 +53,7 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
-                                <th>#</th>
                                 <th>Title</th>
-                                <th>Details</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -63,10 +61,8 @@
                         <tbody>
                             @foreach ($training_category_list as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $item->value }}<br>
-                                        <small>{{ $item->details }}</small>
+                                        {{ $item->value }}
                                     </td>
                                     <td>
                                         @if ($item->status === 1)

@@ -53,7 +53,6 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
-                                <th>#</th>
                                 <th>Logo</th>
                                 <th>Title</th>
                                 <th>Status</th>
@@ -63,7 +62,6 @@
                         <tbody>
                             @foreach ($research_source_list as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if (isset($item->details))
                                             @if (\Illuminate\Support\Str::contains($item->details, 'static/settings/'))
