@@ -45,12 +45,12 @@
                                 <article class="rs-postbox-item">
                                     <div class="rs-postbox-thumb">
                                         <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">
-                                            <img
-                                                src="{{ $blog->blog_image ? asset('storage/' . $blog->blog_image) : asset('visitor/flixta/images/blog/post/blog-post-01.jpg') }}"
+                                            <img src="{{ $blog->blog_image ? asset('storage/' . $blog->blog_image) : asset('visitor/flixta/images/blog/post/blog-post-01.jpg') }}"
                                                 alt="{{ $blog->blog_title }}">
                                         </a>
                                         <div class="rs-postbox-tag">
-                                            <a href="{{ route('visitor.blog.index') }}">{{ $blog->category?->category_name ?? 'Business' }}</a>
+                                            <a
+                                                href="{{ route('visitor.blog.index') }}">{{ $blog->category?->category_name ?? 'Business' }}</a>
                                         </div>
                                     </div>
                                     <div class="rs-postbox-content">
@@ -66,21 +66,26 @@
                                             </div>
                                         </div>
                                         <h3 class="rs-postbox-title">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">{{ $blog->blog_title }}</a>
+                                            <a
+                                                href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">{{ $blog->blog_title }}</a>
                                         </h3>
                                         <div class="rs-postbox-text">
-                                            <p>{{ $blog->blog_excerpt ?? 'We denounce with righteous indige nation and dislike men who are so beguiled and demo realized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain.' }}</p>
+                                            <p>{{ $blog->blog_excerpt ?? 'We denounce with righteous indige nation and dislike men who are so beguiled and demo realized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain.' }}
+                                            </p>
                                         </div>
                                         <div class="rs-postbox-btn">
                                             <a class="rs-btn has-color has-icon has-radius"
-                                                href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">Continue Reading
+                                                href="{{ route('visitor.blog.details', ['blog' => $blog->blog_slug]) }}">Continue
+                                                Reading
                                                 <span class="icon-box">
-                                                    <svg class="icon-first" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                    <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 32 32">
                                                         <path
                                                             d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z">
                                                         </path>
                                                     </svg>
-                                                    <svg class="icon-second" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                    <svg class="icon-second" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 32 32">
                                                         <path
                                                             d="M31.71,15.29l-10-10L20.29,6.71,28.59,15H0v2H28.59l-8.29,8.29,1.41,1.41,10-10A1,1,0,0,0,31.71,15.29Z">
                                                         </path>
@@ -93,37 +98,46 @@
                             @empty
                                 <article class="rs-postbox-item">
                                     <div class="rs-postbox-thumb">
-                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
+                                        <a
+                                            href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
                                             <img src="{{ asset('visitor/flixta/images/blog/post/blog-post-01.jpg') }}"
                                                 alt="image">
                                         </a>
                                         <div class="rs-postbox-tag">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Business</a>
+                                            <a
+                                                href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Business</a>
                                         </div>
                                     </div>
                                     <div class="rs-postbox-content">
                                         <div class="rs-postbox-meta-list">
                                             <div class="rs-postbox-meta-item has-separator">
-                                                <span class="rs-meta-text">By<a class="meta-author" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
+                                                <span class="rs-meta-text">By<a class="meta-author"
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">
                                                         Flixta</a></span>
                                             </div>
                                             <div class="rs-postbox-meta-item">
-                                                <span class="rs-postbox-meta-text"><a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">June 12,
+                                                <span class="rs-postbox-meta-text"><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">June
+                                                        12,
                                                         2023</a></span>
                                             </div>
                                         </div>
                                         <h3 class="rs-postbox-title">
-                                            <a href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">What is the hardest thing about a lawyer? </a>
+                                            <a
+                                                href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">What
+                                                is the hardest thing about a lawyer? </a>
                                         </h3>
                                         <div class="rs-postbox-text">
-                                            <p>We denounce with righteous indige nation and dislike men who are so beguiled and
+                                            <p>We denounce with righteous indige nation and dislike men who are so beguiled
+                                                and
                                                 demo
                                                 realized by the charms of pleasure of the moment, so blinded by desire, that
                                                 they
                                                 cannot foresee the pain.</p>
                                         </div>
                                         <div class="rs-postbox-btn">
-                                            <a class="rs-btn has-color has-icon has-radius" href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Continue
+                                            <a class="rs-btn has-color has-icon has-radius"
+                                                href="{{ route('visitor.blog.details', ['blog' => 'what-is-the-hardest-thing-about-a-lawyer']) }}">Continue
                                                 Reading
                                                 <span class="icon-box">
                                                     <svg class="icon-first" xmlns="http://www.w3.org/2000/svg"
@@ -175,17 +189,37 @@
                                     <div class="list">
                                         <ul>
                                             @forelse ($category_list as $category)
-                                                <li><a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a>
+                                                </li>
                                             @empty
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App
+                                                        Development</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative
+                                                        Branding</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital
+                                                        Marketing</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product
+                                                        Design</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web
+                                                        Development</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a>
+                                                </li>
                                             @endforelse
                                         </ul>
                                     </div>
@@ -198,15 +232,16 @@
                                         @forelse ($recent_blogs as $post)
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
-                                                        <img
-                                                            src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/flixta/images/blog/sidebar/blog-sm-' . (($loop->iteration - 1) % 3 + 1) . '.jpg') }}"
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
+                                                        <img src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/flixta/images/blog/sidebar/blog-sm-' . ((($loop->iteration - 1) % 3) + 1) . '.jpg') }}"
                                                             alt="{{ $post->blog_title }}">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ Str::limit($post->blog_title, 32) }}</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ Str::limit($post->blog_title, 32) }}</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>
@@ -217,14 +252,17 @@
                                         @empty
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
                                                         <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg') }}"
                                                             alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What
+                                                            is the hardest thing about a</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>
@@ -234,14 +272,17 @@
                                             </div>
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
                                                         <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg') }}"
                                                             alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}"> What’s your opinion of the probate
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'whats-your-opinion-of-the-probate-process']) }}">
+                                                            What’s your opinion of the probate
                                                             process? </a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
@@ -252,14 +293,17 @@
                                             </div>
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">
                                                         <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg') }}"
                                                             alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">Under what conditions do you recommend</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'under-what-conditions-do-you-recommend']) }}">Under
+                                                            what conditions do you recommend</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>

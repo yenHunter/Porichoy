@@ -1,234 +1,146 @@
-@extends('admin.layouts.base', ['title' => 'Location Type Management'])
+@extends('admin.layouts.vertical', ['title' => 'Location Type Management'])
 
-@section('title', 'Location Type Management')
-
-@push('css')
-    <link href="{{ asset('admin/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css') }}"
-        rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}"
-        rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/bootstrap-table/dist/bootstrap-table.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/bootstrap4-toggle/css/bootstrap4-toggle.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('admin/assets/plugins/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" rel="stylesheet">
-@endpush
-
-@push('js')
-    <script src="{{ asset('admin/assets/js/demo/highlight.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/demo/highlightjs.demo.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net/js/dataTables.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}">
-    </script>
-    <script src="{{ asset('admin/assets/plugins/bootstrap-table/dist/bootstrap-table.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/demo/table-plugins.demo.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/demo/sidebar-scrollspy.demo.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/summernote/dist/summernote-lite.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/bootstrap4-toggle/js/bootstrap4-toggle.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/plugins/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
-@endpush
-
-@section('page_head')
-    <!-- ================== Sweet Alert 2 ================== -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@section('css')
+    @vite(['node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'])
 @endsection
 
 @section('content')
-    <!-- BEGIN container -->
-    <div class="container">
-        <!-- BEGIN row -->
-        <div class="row justify-content-center">
-            <!-- BEGIN col-10 -->
-            <div class="col-xl-12">
-                <!-- BEGIN row -->
-                <div class="row">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item text-uppercase">
-                            <a href="{{ route('home') }}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item text-uppercase active">Location Type Management</li>
-                    </ul>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="page-header">
-                            Location Type Management <small>create update delete all in here</small>
-                        </h1>
-                        <button class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#create_update_modal">Create</button>
-                    </div>
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Configuration', 'title' => 'Location Type Management'])
 
-                    <hr class="mb-4">
-
-                    @if (session('success'))
-                        <div class="col-xl-12">
-                            <div class="card border-success bg-success bg-opacity-25 mb-4">
-                                <div class="card-header border-success fw-bold small text-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title m-0">Location Type Management</h4>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button type="button" class="btn btn-tool"
-                                                onclick="this.closest('.card').remove();">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Operation Successful</h5>
-                                    <p class="card-text text-body text-opacity-75">{{ session('success') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if (session('error') || $errors->any())
-                        <div class="col-xl-12">
-                            <div class="card border-danger bg-danger bg-opacity-25 mb-4">
-                                <div class="card-header border-danger fw-bold small text-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4 class="card-title m-0">Location Type Management</h4>
-                                        </div>
-                                        <div class="col-auto">
-                                            <button type="button" class="btn btn-tool"
-                                                onclick="this.closest('.card').remove();">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Operation Failed</h5>
-                                    <p class="card-text text-body text-opacity-75">{{ session('error') }}</p>
-                                    <ul class="text-body text-opacity-75 mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    <!-- BEGIN col-9 -->
-                    <div class="col-xl-12">
-                        <!-- BEGIN #datatable -->
-                        <div id="datatable" class="mb-5">
-                            <div class="card">
-                                <div class="card-body">
-                                    <table id="datatableDefault" class="table text-nowrap w-100">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Title</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($location_type_list as $item)
-                                                <tr>
-                                                    <td>
-                                                        {{ $loop->iteration }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $item->value }}<br>
-                                                        <small>{{ $item->details }}</small>
-                                                    </td>
-                                                    <td>
-                                                        @if ($item->status === 1)
-                                                            <span class="badge bg-success">Active</span>
-                                                        @else
-                                                            <span class="badge bg-danger">Inactive</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-warning btn-sm btn-edit"
-                                                            data-location_type_id="{{ $item->id }}">
-                                                            <i class="fas fa-pencil"></i> edit
-                                                        </button>
-                                                        <button class="btn btn-danger btn-sm btn-delete"
-                                                            data-location_type_id="{{ $item->id }}">
-                                                            <i class="fas fa-trash"></i> delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END #datatable -->
+    <div class="row">
+        <div class="col-12">
+            @if (session('success'))
+                <div class="alert alert-success border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-check text-success fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Successful</h4>
+                        <p class="m-0">{{ session('success') }}</p>
                     </div>
-                    <!-- END col-9-->
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-success btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
+                    </div>
                 </div>
-                <!-- END row -->
-            </div>
-            <!-- END col-10 -->
-        </div>
-        <!-- END row -->
-    </div>
-    <!-- END container -->
-@endsection
-@section('outter_content')
-    <div class="modal modal-cover fade" id="create_update_modal" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Create new location type info</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            @endif
+            @if (session('error') || $errors->any())
+                <div class="alert alert-danger border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-x text-danger fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Failed</h4>
+                        @foreach ($errors->all() as $error)
+                            <p class="m-0">{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-danger btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('settings.location_type.store') }}" method="POST" id="create_update_form"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="_method" id="create_update_form_method" value="POST">
-                        <input type="hidden" name="location_type_id" id="location_type_id">
-                        <div class="form-group mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2" for="title">Title <span
-                                        class="text-danger">*</span></label>
-                                @error('title')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <input type="text" class="form-control" placeholder="On-site"
-                                value="{{ old('title') }}" name="title" id="title" required>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label class="form-label mb-2" for="details">Details</label>
-                                @error('details')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <textarea class="form-control" name="details" id="details" placeholder="On-site opportunity in Bangladesh office"></textarea>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label class="form-label">Status</label>
-                            <select class="form-select" name="status" id="status">
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success btn-sm" type="submit">Submit</button>
-                        </div>
-                    </form>
+            @endif
+            <div class="card">
+                <div class="card-header justify-content-between">
+                    <h4 class="card-title"> Location Type Management <code>create update delete all in here</code> </h4>
+                    <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
+                        data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
+                        <i class="ti ti-plus bi align-middle fs-lg"></i>
+                    </a>
                 </div>
-            </div>
+                <div class="card-body">
+                    <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
+                        <thead class="thead-sm text-uppercase fs-xxs">
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($location_type_list as $item)
+                                <tr>
+                                    <td>
+                                        {{ $item->value }}
+                                    </td>
+                                    <td>
+                                        @if ($item->status === 1)
+                                            <span class="badge bg-success">Active</span>
+                                        @else
+                                            <span class="badge bg-danger">Inactive</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-icon btn-sm btn-edit"
+                                            data-location_type_id="{{ $item->id }}">
+                                            <i class="ti ti-edit fs-lg"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-icon btn-sm btn-delete"
+                                            data-location_type_id="{{ $item->id }}">
+                                            <i class="ti ti-trash fs-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
         </div>
     </div>
+    <form action="{{ route('settings.location_type.store') }}" method="POST" id="create_update_form"
+        enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="_method" id="create_update_form_method" value="POST">
+        <input type="hidden" name="location_type_id" id="location_type_id">
+        <div aria-hidden="true" aria-labelledby="scrollableModalTitle" class="modal fade" id="create_update_modal"
+            role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="create_update_modal_title">Create Location Type</h5>
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-lg-12">
+                                <div class="form-floating">
+                                    <input class="form-control" placeholder="On-site"
+                                        value="{{ old('title') }}" name="title" id="title" type="text" />
+                                    <label for="title">Title
+                                        <span class="badge badge-soft-danger">required</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="On-site opportunity in Bangladesh office"
+                                        name="details" id="details">{{ old('details') }}</textarea>
+                                    <label for="details">Details</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-floating">
+                                    <select class="form-select" name="status" id="status">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                    <label for="status">Status</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-light" data-bs-dismiss="modal" href="javascript:void(0);">Close</a>
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    </form>
 @endsection
-{{-- Page Script Start --}}
+
 @section('scripts')
     <script>
         $('#create_update_modal').on('hidden.bs.modal', function() {
@@ -245,7 +157,6 @@
                 url: "{{ route('settings.location_type.edit', ':id') }}".replace(':id', location_type_id),
                 type: 'GET',
                 success: function(response) {
-                    // Fill the form fields
                     $('#location_type_id').val(response.id);
                     $('#title').val(response.value);
                     $('#details').val(response.details);
@@ -255,12 +166,10 @@
                     form.action = "{{ route('settings.location_type.update') }}";
                     document.getElementById('create_update_form_method').value = 'PUT';
 
-                    // Show modal
                     $('#create_update_modal').modal('show');
                 }
             });
         });
-
 
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.btn-delete').forEach(button => {
@@ -281,7 +190,6 @@
                             window.location.href =
                                 "{{ route('settings.location_type.delete', ':id') }}"
                                 .replace(':id', location_type_id);
-
                         }
                     });
                 });
@@ -289,4 +197,3 @@
         });
     </script>
 @endsection
-{{-- Page Script End --}}

@@ -191,6 +191,14 @@ Route::middleware('auth')->group(function () {
             Route::put('update', [SettingsController::class, 'updateEmploymentType'])->name('update');
             Route::get('delete/{employment_type_id}', [SettingsController::class, 'deleteEmploymentType'])->name('delete');
         });
+
+        Route::prefix('training-category')->name('training_category.')->group(function () {
+            Route::get('', [SettingsController::class, 'viewTrainingCategory'])->name('view');
+            Route::post('store', [SettingsController::class, 'storeTrainingCategory'])->name('store');
+            Route::get('edit/{training_category_id}', [SettingsController::class, 'editTrainingCategory'])->name('edit');
+            Route::put('update', [SettingsController::class, 'updateTrainingCategory'])->name('update');
+            Route::get('delete/{training_category_id}', [SettingsController::class, 'deleteTrainingCategory'])->name('delete');
+        });
     });
 
     Route::prefix('configuration')->name('configuration.')->group(function () {

@@ -63,8 +63,8 @@ class SettingsTest extends TestCase
 
         $this->put(route('settings.research_source.update'), [
             'research_source_id' => $source->getKey(),
-            'title'              => 'Web of Science',
-            'status'             => 1,
+            'title' => 'Web of Science',
+            'status' => 1,
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -92,8 +92,8 @@ class SettingsTest extends TestCase
 
         $this->put(route('settings.location_type.update'), [
             'location_type_id' => $type->getKey(),
-            'title'            => 'Hybrid',
-            'details'          => 'Two days in office',
+            'title' => 'Hybrid',
+            'details' => 'Two days in office',
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -122,7 +122,7 @@ class SettingsTest extends TestCase
 
         $this->put(route('settings.employment_type.update'), [
             'employment_type_id' => $type->getKey(),
-            'title'              => 'Fixed term',
+            'title' => 'Fixed term',
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -132,6 +132,36 @@ class SettingsTest extends TestCase
         $this->get(route('settings.employment_type.delete', $type->getKey()))->assertRedirect();
 
         $this->assertDatabaseMissing('select_types', ['id' => $type->getKey()]);
+    }
+
+    public function test_training_category_crud(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $this->get(route('settings.training_category.view'))->assertOk();
+
+        $this->post(route('settings.training_category.store'), ['title' => 'Software Development'])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $category = SelectType::where('use_for', 'training_category')->first();
+        $this->assertNotNull($category, 'the training category was not created');
+        $this->assertSame('Software Development', $category->value);
+
+        $this->put(route('settings.training_category.update'), [
+            'training_category_id' => $category->getKey(),
+            'title' => 'Web Development',
+            'status' => 1,
+        ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $category->refresh();
+        $this->assertSame('Web Development', $category->value);
+
+        $this->get(route('settings.training_category.delete', $category->getKey()))->assertRedirect();
+
+        $this->assertDatabaseMissing('select_types', ['id' => $category->getKey()]);
     }
 
     /*
@@ -146,7 +176,7 @@ class SettingsTest extends TestCase
      */
     public function test_theme_switch_persists_app_theme(): void
     {
-        $envPath  = base_path('.env');
+        $envPath = base_path('.env');
         $original = file_get_contents($envPath);
 
         try {

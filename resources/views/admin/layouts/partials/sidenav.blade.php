@@ -226,18 +226,23 @@
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{ route('settings.research_source.view') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-userlog">Research Source</span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{ route('settings.location_type.view') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-systemlog">Location Type</span>
                             </a>
                         </li>
                         <li class="side-nav-item">
-                            <a class="side-nav-link" href="#">
+                            <a class="side-nav-link" href="{{ route('settings.employment_type.view') }}">
                                 <span class="menu-text" data-lang="sidebar-settings-backup-db">Employment Type</span>
+                            </a>
+                        </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="{{ route('settings.training_category.view') }}">
+                                <span class="menu-text" data-lang="sidebar-settings-training-category">Training Category</span>
                             </a>
                         </li>
                     </ul>
