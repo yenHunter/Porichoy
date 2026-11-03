@@ -1502,8 +1502,7 @@
                     </div>
                     <div class="col-xl-7 col-lg-7">
                         <div class="rs-contact-form wow fadeInRight" data-wow-delay=".3s" data-wow-duration="1s">
-                            <form id="contact-form" action="{{ route('visitor.contact.store') }}"
-                                method="POST">
+                            <form id="contact-form" action="{{ route('visitor.contact.store') }}" method="POST">
                                 @csrf
 
                                 @include('visitor.partials.form-alerts')

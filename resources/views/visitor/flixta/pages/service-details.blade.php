@@ -470,7 +470,8 @@
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:{{ $profile_info['email'] ?? 'contact@flixta.com' }}">{{ $profile_info['email'] ?? 'contact@flixta.com' }}</a>
+                                <a
+                                    href="mailto:{{ $profile_info['email'] ?? 'contact@flixta.com' }}">{{ $profile_info['email'] ?? 'contact@flixta.com' }}</a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">

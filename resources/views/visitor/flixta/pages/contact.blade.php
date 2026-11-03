@@ -8,8 +8,10 @@
 
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
@@ -42,7 +44,8 @@
                         <div class="rs-contact-wrapper">
                             <div class="rs-section-title-wrapper section-title-space">
                                 <span class="rs-section-subtitle justify-content-start">
-                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}" alt="image">STAY CONNECTED
+                                    <img src="{{ asset('visitor/flixta/images/shape/small-arrow.png') }}"
+                                        alt="image">STAY CONNECTED
                                 </span>
                                 <h2 class="rs-section-title">Let's Work Together!</h2>
                             </div>
@@ -63,7 +66,9 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Phone</span>
-                                        <h6><a href="tel:{{ preg_replace('/[^0-9+]/', '', $profile_info['phone'] ?? '+12346691234') }}"> {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
+                                        <h6><a
+                                                href="tel:{{ preg_replace('/[^0-9+]/', '', $profile_info['phone'] ?? '+12346691234') }}">
+                                                {{ $profile_info['phone'] ?? '+123-4669-1234' }} </a></h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -83,7 +88,8 @@
                                     <div class="rs-contact-list-content">
                                         <span>Email</span>
                                         <h6><a
-                                                href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a></h6>
+                                                href="mailto:{{ $profile_info['email'] ?? 'hello@flixta.com' }}">{{ $profile_info['email'] ?? 'hello@flixta.com' }}</a>
+                                        </h6>
                                     </div>
                                 </div>
                                 <div class="rs-contact-list-item">
@@ -102,7 +108,9 @@
                                     </div>
                                     <div class="rs-contact-list-content">
                                         <span>Address</span>
-                                        <h6><a href="#"> {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }} <br>
+                                        <h6><a href="#">
+                                                {{ $profile_info['present_street_address'] ?? '2096 New Market, New Road' }}
+                                                <br>
                                                 {{ $profile_info['present_city'] ?? 'North Carolina' }},
                                                 {{ $profile_info['present_country'] ?? 'USA' }} </a></h6>
                                     </div>
@@ -138,7 +146,8 @@
                                                 <select id="subject" name="subject">
                                                     <option>Choose Service</option>
                                                     @forelse ($service_list as $service)
-                                                        <option value="{{ $service->service_slug }}">{{ $service->service_title }}</option>
+                                                        <option value="{{ $service->service_slug }}">
+                                                            {{ $service->service_title }}</option>
                                                     @empty
                                                         <option value="one">Web Development</option>
                                                         <option value="two">Digital Marketing</option>

@@ -8,8 +8,10 @@
 
         <!-- breadcrumb area start -->
         <section class="rs-breadcrumb-area rs-breadcrumb-one p-relative">
-            <div class="rs-breadcrumb-bg bg-white" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-01.png')}}"></div>
-            <div class="rs-breadcrumb-bg bg-black" data-background="{{asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png')}}"></div>
+            <div class="rs-breadcrumb-bg bg-white"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-01.png') }}"></div>
+            <div class="rs-breadcrumb-bg bg-black"
+                data-background="{{ asset('visitor/flixta/images/bg/breadcrumb-bg-dark-01.png') }}"></div>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-6 col-xl-8 col-lg-8">
@@ -40,77 +42,88 @@
                     <div class="col-xl-8 col-lg-8">
                         <div class="rs-postbox-details-wrapper">
                             <div class="rs-postbox-details-thumb mb-40">
-                                <img
-                                    src="{{ $blog?->blog_featured_image ? asset('storage/' . $blog->blog_featured_image) : asset('visitor/flixta/images/blog/blog-details-01.jpg') }}"
+                                <img src="{{ $blog?->blog_featured_image ? asset('storage/' . $blog->blog_featured_image) : asset('visitor/flixta/images/blog/blog-details-01.jpg') }}"
                                     alt="{{ $blog->blog_title ?? 'image' }}">
                             </div>
                             <div class="rs-postbox-details-content">
                                 @if ($blog?->blog_content)
                                     {!! $blog->blog_content !!}
                                 @else
-                                <p>We denounce with righteous indige nation and dislike men who are so beguiled and demo
-                                    realized by the charms of pleasure of the moment, so blinded by desire, that they cannot
-                                    foresee the pain and trouble that are bound to ensue cannot foresee. These cases are
-                                    perfectly simple and easy to distinguish. In a free hour, when our power of choice is
-                                    untrammelled.</p>
-                                <p>We denounce with righteous indige nation and dislike men who are so beguiled and demo
-                                    realized by the charms of pleasure of the moment, so blinded by desire, that they cannot
-                                    foresee the pain and trouble that are bound to ensue cannot foresee. These cases are
-                                    perfectly simple and easy to distinguish. In a free hour, when our power of choice is
-                                    untrammelled data struct.</p>
-                                <div class="rs-postbox-quote">
-                                    <blockquote>
-                                        <p>“We can easily manage if we will only take, each day, the burden appointed to it.
-                                            But
-                                            the load will be too heavy for us if we carry yesterday’s burden over again
-                                            today, and
-                                            then add the burden of the morrow before we are required to bear it factorial
-                                            non.”</p>
-                                        <cite>Robert Calibo</cite>
-                                    </blockquote>
-                                </div>
-                                <h3 class="rs-postbox-details-title mb-20">We denounce with righteous of indigent nation and
-                                    dislike
-                                    who working are so beguiled</h3>
-                                <p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla
-                                    congolium
-                                    sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est igpay
-                                    atinlay. Marquee selectus non provisio incongruous feline nolo contendre. Gratuitous
-                                    octopus
-                                    niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium data
-                                    structures
-                                    manages data.</p>
-                                <div class="rs-postbox-details-feature">
-                                    <ul>
-                                        <li>How will digital activities impact traditional manufacturing.</li>
-                                        <li>All these digital elements and projects aim to enhance </li>
-                                        <li>I monitor my staff with software that takes screen.</li>
-                                        <li>Laoreet dolore magna niacin sodium glutimate.</li>
-                                        <li>Minim veniam quis niacin sodium nostrud exer.</li>
-                                    </ul>
-                                </div>
-                                <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id
-                                    quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor
-                                    repellendus.
-                                    Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe
-                                    eveniet ut
-                                    et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic
-                                    tenetur a
-                                    sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
-                                    perferendis
-                                    doloribus asperiore.</p>
-                                <div class="rs-postbox-details-thumb mb-40">
-                                    <img src="{{asset('visitor/flixta/images/blog/blog-details-02.jpg')}}" alt="image">
-                                </div>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
-                                    quisquam
-                                    est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
-                                    numquam
-                                    eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut
-                                    enim ad
-                                    minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-                                    aliquid.</p>
+                                    <p>We denounce with righteous indige nation and dislike men who are so beguiled and demo
+                                        realized by the charms of pleasure of the moment, so blinded by desire, that they
+                                        cannot
+                                        foresee the pain and trouble that are bound to ensue cannot foresee. These cases are
+                                        perfectly simple and easy to distinguish. In a free hour, when our power of choice
+                                        is
+                                        untrammelled.</p>
+                                    <p>We denounce with righteous indige nation and dislike men who are so beguiled and demo
+                                        realized by the charms of pleasure of the moment, so blinded by desire, that they
+                                        cannot
+                                        foresee the pain and trouble that are bound to ensue cannot foresee. These cases are
+                                        perfectly simple and easy to distinguish. In a free hour, when our power of choice
+                                        is
+                                        untrammelled data struct.</p>
+                                    <div class="rs-postbox-quote">
+                                        <blockquote>
+                                            <p>“We can easily manage if we will only take, each day, the burden appointed to
+                                                it.
+                                                But
+                                                the load will be too heavy for us if we carry yesterday’s burden over again
+                                                today, and
+                                                then add the burden of the morrow before we are required to bear it
+                                                factorial
+                                                non.”</p>
+                                            <cite>Robert Calibo</cite>
+                                        </blockquote>
+                                    </div>
+                                    <h3 class="rs-postbox-details-title mb-20">We denounce with righteous of indigent nation
+                                        and
+                                        dislike
+                                        who working are so beguiled</h3>
+                                    <p>Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla
+                                        congolium
+                                        sic ad nauseum. Souvlaki ignitus carborundum e pluribus unum. Defacto lingo est
+                                        igpay
+                                        atinlay. Marquee selectus non provisio incongruous feline nolo contendre. Gratuitous
+                                        octopus
+                                        niacin, sodium glutimate. Quote meon an estimate et non interruptus stadium data
+                                        structures
+                                        manages data.</p>
+                                    <div class="rs-postbox-details-feature">
+                                        <ul>
+                                            <li>How will digital activities impact traditional manufacturing.</li>
+                                            <li>All these digital elements and projects aim to enhance </li>
+                                            <li>I monitor my staff with software that takes screen.</li>
+                                            <li>Laoreet dolore magna niacin sodium glutimate.</li>
+                                            <li>Minim veniam quis niacin sodium nostrud exer.</li>
+                                        </ul>
+                                    </div>
+                                    <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo
+                                        minus id
+                                        quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor
+                                        repellendus.
+                                        Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe
+                                        eveniet ut
+                                        et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic
+                                        tenetur a
+                                        sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut
+                                        perferendis
+                                        doloribus asperiore.</p>
+                                    <div class="rs-postbox-details-thumb mb-40">
+                                        <img src="{{ asset('visitor/flixta/images/blog/blog-details-02.jpg') }}"
+                                            alt="image">
+                                    </div>
+                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro
+                                        quisquam
+                                        est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
+                                        non
+                                        numquam
+                                        eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut
+                                        enim ad
+                                        minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi
+                                        ut
+                                        aliquid.</p>
                                 @endif
                                 <div class="rs-postbox-comment-form">
                                     <div class="rs-postbox-comments-title mb-30">
@@ -176,17 +189,37 @@
                                     <div class="list">
                                         <ul>
                                             @forelse ($category_list as $category)
-                                                <li><a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a>
+                                                </li>
                                             @empty
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App Development</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative Branding</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital Marketing</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product Design</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web Development</a></li>
-                                                <li><a href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'app-development']) }}">App
+                                                        Development</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'business']) }}">Business</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'creative-branding']) }}">Creative
+                                                        Branding</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'digital-marketing']) }}">Digital
+                                                        Marketing</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'doctor']) }}">Doctor</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'lawyer']) }}">Lawyer</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'product-design']) }}">Product
+                                                        Design</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'web-development']) }}">Web
+                                                        Development</a></li>
+                                                <li><a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'yoga']) }}">Yoga</a>
+                                                </li>
                                             @endforelse
                                         </ul>
                                     </div>
@@ -199,15 +232,16 @@
                                         @forelse ($recent_blogs as $post)
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
-                                                        <img
-                                                            src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/flixta/images/blog/sidebar/blog-sm-' . (($loop->iteration - 1) % 3 + 1) . '.jpg') }}"
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">
+                                                        <img src="{{ $post->blog_image ? asset('storage/' . $post->blog_image) : asset('visitor/flixta/images/blog/sidebar/blog-sm-' . ((($loop->iteration - 1) % 3) + 1) . '.jpg') }}"
                                                             alt="{{ $post->blog_title }}">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ Str::limit($post->blog_title, 32) }}</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => $post->blog_slug]) }}">{{ Str::limit($post->blog_title, 32) }}</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>
@@ -218,13 +252,17 @@
                                         @empty
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg')}}" alt="image">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-01.jpg') }}"
+                                                            alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What is the hardest thing about a</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">What
+                                                            is the hardest thing about a</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>
@@ -234,13 +272,17 @@
                                             </div>
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg')}}" alt="image">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-02.jpg') }}"
+                                                            alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}"> What’s your opinion of the probate
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                            What’s your opinion of the probate
                                                             process? </a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
@@ -251,13 +293,17 @@
                                             </div>
                                             <div class="sidebar-blog-item">
                                                 <div class="sidebar-blog-thumb">
-                                                    <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
-                                                        <img src="{{asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg')}}" alt="image">
+                                                    <a
+                                                        href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">
+                                                        <img src="{{ asset('visitor/flixta/images/blog/sidebar/blog-sm-03.jpg') }}"
+                                                            alt="image">
                                                     </a>
                                                 </div>
                                                 <div class="sidebar-blog-content">
                                                     <h6 class="sidebar-blog-title">
-                                                        <a href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Under what conditions do you recommend</a>
+                                                        <a
+                                                            href="{{ route('visitor.blog.details', ['blog' => 'what-about-eating-or-drinking-before-class']) }}">Under
+                                                            what conditions do you recommend</a>
                                                     </h6>
                                                     <div class="sidebar-blog-meta">
                                                         <i class="ri-calendar-line"></i>

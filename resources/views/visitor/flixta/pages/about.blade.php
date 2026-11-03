@@ -90,7 +90,8 @@
                                     </li>
                                     <li>
                                         Email
-                                        <span><a href="mailto:{{ $profile_info['email'] ?? '' }}"> {{ $profile_info['email'] ?? '' }}
+                                        <span><a href="mailto:{{ $profile_info['email'] ?? '' }}">
+                                                {{ $profile_info['email'] ?? '' }}
                                             </a></span>
                                     </li>
                                 </ul>
@@ -303,7 +304,8 @@
                                             data-wow-delay=".{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
                                             </h6>
-                                            <span class="rs-qualification-meta">{{ $experience->employment_details }}</span>
+                                            <span
+                                                class="rs-qualification-meta">{{ $experience->employment_details }}</span>
                                         </div>
                                     </div>
                                 @else
@@ -312,7 +314,8 @@
                                             data-wow-delay="{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
                                             </h6>
-                                            <span class="rs-qualification-meta">{{ $experience->employment_details }}</span>
+                                            <span
+                                                class="rs-qualification-meta">{{ $experience->employment_details }}</span>
                                         </div>
                                         <div class="rs-divider"></div>
                                         <div class="right-part wow fadeInRight"
@@ -412,7 +415,8 @@
                                             <div class="rs-testimonial-item">
                                                 <div class="rs-testimonial-content">
                                                     <div class="rs-testimonial-top">
-                                                        <h5 class="rs-testimonial-title">{{ $testimonial->testimonial_title }}</h5>
+                                                        <h5 class="rs-testimonial-title">
+                                                            {{ $testimonial->testimonial_title }}</h5>
                                                         <div class="rs-rating">
                                                             @for ($i = 0; $i < $testimonial->testimonial_review; $i++)
                                                                 <span><i class="ri-star-fill"></i></span>
@@ -425,8 +429,10 @@
                                                 </div>
                                                 <div class="rs-testimonial-bottom">
                                                     <div class="rs-testimonial-avater-info">
-                                                        <h6 class="rs-testimonial-avater-title">{{ $testimonial->client?->client_name }}</h6>
-                                                        <span class="rs-testimonial-avater-designation">{{ $testimonial->client?->client_designation }}</span>
+                                                        <h6 class="rs-testimonial-avater-title">
+                                                            {{ $testimonial->client?->client_name }}</h6>
+                                                        <span
+                                                            class="rs-testimonial-avater-designation">{{ $testimonial->client?->client_designation }}</span>
                                                     </div>
                                                     <div class="rs-testimonial-icon">
                                                         <img src="{{ asset('visitor/flixta/images/shape/quote-shape.png') }}"
@@ -567,7 +573,8 @@
                             </h2>
                             <h3 class="rs-cta-meta">
                                 DM now!
-                                <a href="mailto:{{ $profile_info['email'] ?? '' }}">{{ $profile_info['email'] ?? '' }}</a>
+                                <a
+                                    href="mailto:{{ $profile_info['email'] ?? '' }}">{{ $profile_info['email'] ?? '' }}</a>
                             </h3>
                             <div class="rs-cta-btn">
                                 <div class="rs-btn-group">
