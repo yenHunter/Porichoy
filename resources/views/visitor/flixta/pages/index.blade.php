@@ -774,7 +774,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper wow fadeInUp" data-wow-delay=".9s" data-wow-duration="1s">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">

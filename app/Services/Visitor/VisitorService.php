@@ -2,18 +2,18 @@
 
 namespace App\Services\Visitor;
 
+use App\Http\Requests\Visitor\StoreContactRequest;
 use App\Models\BlogCategory;
 use App\Models\BlogInfo;
-use App\Models\SkillInfo;
 use App\Models\ClientInfo;
+use App\Models\EducationInfo;
+use App\Models\ExperienceInfo;
 use App\Models\ProfileInfo;
 use App\Models\ProjectInfo;
 use App\Models\ServiceInfo;
-use Illuminate\Support\Facades\Log;
-use App\Models\EducationInfo;
-use App\Models\ExperienceInfo;
+use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
-use App\Http\Requests\Visitor\StoreContactRequest;
+use Illuminate\Support\Facades\Log;
 
 class VisitorService
 {
@@ -25,14 +25,14 @@ class VisitorService
     public function homeData(): array
     {
         return [
-            'profile_info'     => $this->profile(),
-            'service_list'     => ServiceInfo::sorted()->active()->get(),
-            'project_list'     => ProjectInfo::sorted()->active()->get(),
-            'skill_list'       => SkillInfo::active()->sorted()->get(),
-            'education_list'   => EducationInfo::sorted()->active()->get(),
-            'experience_list'  => ExperienceInfo::sorted()->active()->get(),
-            'client_list'      => ClientInfo::sorted()->active()->get(),
-            'testimonial_list' => TestimonialInfo::sorted()->active()->get(),
+            'profile_info' => $this->profile(),
+            'service_list' => ServiceInfo::sorted()->active()->get(),
+            'project_list' => ProjectInfo::sorted()->active()->with('service')->get(),
+            'skill_list' => SkillInfo::active()->sorted()->get(),
+            'education_list' => EducationInfo::sorted()->active()->get(),
+            'experience_list' => ExperienceInfo::sorted()->active()->get(),
+            'client_list' => ClientInfo::sorted()->active()->get(),
+            'testimonial_list' => TestimonialInfo::sorted()->active()->with('client')->get(),
         ];
     }
 
@@ -44,11 +44,11 @@ class VisitorService
     public function aboutData(): array
     {
         return [
-            'profile_info'     => $this->profile(),
-            'education_list'   => EducationInfo::sorted()->active()->get(),
-            'experience_list'  => ExperienceInfo::sorted()->active()->get(),
-            'skill_list'       => SkillInfo::active()->sorted()->get(),
-            'testimonial_list' => TestimonialInfo::sorted()->active()->get(),
+            'profile_info' => $this->profile(),
+            'education_list' => EducationInfo::sorted()->active()->get(),
+            'experience_list' => ExperienceInfo::sorted()->active()->get(),
+            'skill_list' => SkillInfo::active()->sorted()->get(),
+            'testimonial_list' => TestimonialInfo::sorted()->active()->with('client')->get(),
         ];
     }
 
@@ -67,14 +67,13 @@ class VisitorService
     /**
      * Data for a single service page.
      *
-     * @param  string $slug
      * @return array<string, mixed>
      */
     public function serviceDetailsData(string $slug): array
     {
         return [
-            'profile_info'     => $this->profile(),
-            'service_details'  => ServiceInfo::with(['skills', 'processes'])->where('service_slug', $slug)->first(),
+            'profile_info' => $this->profile(),
+            'service_details' => ServiceInfo::with(['skills', 'processes'])->where('service_slug', $slug)->first(),
             'testimonial_list' => TestimonialInfo::sorted()->active()->get(),
         ];
     }
@@ -87,20 +86,19 @@ class VisitorService
     public function projectsData(): array
     {
         return [
-            'project_list' => ProjectInfo::sorted()->active()->get(),
+            'project_list' => ProjectInfo::sorted()->active()->with('service')->get(),
         ];
     }
 
     /**
      * Data for a single project page.
      *
-     * @param  string $slug
      * @return array<string, mixed>
      */
     public function projectDetailsData(string $slug): array
     {
         return [
-            'project'      => ProjectInfo::with(['client', 'service'])->where('project_slug', $slug)->first(),
+            'project' => ProjectInfo::with(['client', 'service'])->where('project_slug', $slug)->first(),
             // Shared so the details page can link to its neighbouring projects.
             'project_list' => ProjectInfo::sorted()->active()->get(),
         ];
@@ -119,7 +117,6 @@ class VisitorService
     /**
      * Data for a single blog page.
      *
-     * @param  string $slug
      * @return array<string, mixed>
      */
     public function blogDetailsData(string $slug): array
@@ -145,15 +142,14 @@ class VisitorService
     /**
      * Record an incoming contact-form message.
      *
-     * @param  StoreContactRequest $request Validated payload
-     * @return void
+     * @param  StoreContactRequest  $request  Validated payload
      */
     public function storeContact(StoreContactRequest $request): void
     {
         Log::channel('contact')->info('New contact message received', [
-            'name'    => $request->input('name'),
-            'email'   => $request->input('email'),
-            'phone'   => $request->input('phone'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
             'message' => $request->input('comments'),
         ]);
     }
@@ -182,9 +178,9 @@ class VisitorService
     private function blogListing(): array
     {
         return [
-            'blog_list'     => BlogInfo::sorted()->active()->get(),
+            'blog_list' => BlogInfo::sorted()->active()->with('category', 'updatedBy')->get(),
             'category_list' => BlogCategory::sorted()->active()->withCount('blogs')->get(),
-            'recent_blogs'  => BlogInfo::active()->latestPublished()->limit(3)->get(),
+            'recent_blogs' => BlogInfo::active()->latestPublished()->limit(3)->get(),
         ];
     }
 }

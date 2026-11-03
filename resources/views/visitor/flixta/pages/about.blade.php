@@ -309,14 +309,14 @@
                                 @else
                                     <div class="rs-qualification-item">
                                         <div class="left-part wow fadeInLeft"
-                                            data-wow-delay="..{{ (($index % 4) + 1) * 2 }}s">
+                                            data-wow-delay="{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_organization }}
                                             </h6>
                                             <span class="rs-qualification-meta">{{ $experience->employment_details }}</span>
                                         </div>
                                         <div class="rs-divider"></div>
                                         <div class="right-part wow fadeInRight"
-                                            data-wow-delay="..{{ (($index % 4) + 1) * 2 }}s">
+                                            data-wow-delay="{{ (($index % 4) + 1) * 2 }}s">
                                             <h6 class="rs-qualification-title">{{ $experience->employment_position }}</h6>
                                             <span class="rs-qualification-meta">
                                                 {{ $experience->employment_department }}
@@ -414,9 +414,9 @@
                                                     <div class="rs-testimonial-top">
                                                         <h5 class="rs-testimonial-title">{{ $testimonial->testimonial_title }}</h5>
                                                         <div class="rs-rating">
-                                                            for ($i = 0; $i < $testimonial->testimonial_review; $i++)
+                                                            @for ($i = 0; $i < $testimonial->testimonial_review; $i++)
                                                                 <span><i class="ri-star-fill"></i></span>
-                                                            endfor
+                                                            @endfor
                                                         </div>
                                                     </div>
                                                     <div class="rs-testimonial-description">

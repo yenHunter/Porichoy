@@ -39,7 +39,7 @@
             <div class="container">
                 <div class="row g-5">
                     @forelse ($project_list as $item)
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6 cl-lg-6">
+                        <div class="col-xl-6 col-lg-6">
                             <div class="rs-portfolio-wrapper">
                                 <div class="rs-portfolio-inner portfolio-grid glass-effect-yes">
                                     <div class="rs-portfolio-item content-overlay ">
