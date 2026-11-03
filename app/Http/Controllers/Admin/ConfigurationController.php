@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Services\Configuration\ConfigurationService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ConfigurationController extends Controller
 {
     public function __construct(
         private readonly ConfigurationService $configuration_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the configuration index view.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -27,8 +24,6 @@ class ConfigurationController extends Controller
 
     /**
      * Display the configuration theme view.
-     *
-     * @return \Illuminate\View\View
      */
     public function theme_view(): View
     {
@@ -38,14 +33,13 @@ class ConfigurationController extends Controller
     /**
      * Update the active theme (persists APP_THEME and APP_COLOR in .env).
      *
-     * @param  string $theme Theme machine-name
-     * @return RedirectResponse
+     * @param  string  $theme  Theme machine-name
      */
     public function theme_update(string $theme, Request $request): RedirectResponse
     {
         $available = config('themes.available', []);
 
-        if (!array_key_exists($theme, $available)) {
+        if (! array_key_exists($theme, $available)) {
             return back()->with('error', "Invalid theme: {$theme}");
         }
 
@@ -64,14 +58,13 @@ class ConfigurationController extends Controller
     /**
      * Update the active color (persists APP_COLOR in .env).
      *
-     * @param  string $color Color mode (light/dark)
-     * @return RedirectResponse
+     * @param  string  $color  Color mode (light/dark)
      */
     public function color_update(string $color): RedirectResponse
     {
         $availableColors = ['light', 'dark'];
 
-        if (!in_array($color, $availableColors, true)) {
+        if (! in_array($color, $availableColors, true)) {
             return back()->with('error', "Invalid color: {$color}");
         }
 
