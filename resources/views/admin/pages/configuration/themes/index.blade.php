@@ -1,111 +1,108 @@
-@extends('admin.layouts.base', ['title' => 'Theme Management'])
+@extends('admin.layouts.vertical', ['title' => 'Theme Management'])
 
-@section('title', 'Theme Management')
+@section('css')
 
-@section('page_head')
-    <!-- ================== Sweet Alert 2 ================== -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 
 @section('content')
-    <!-- BEGIN container -->
-    <div class="container">
-        <!-- BEGIN row -->
-        <div class="row justify-content-center">
-            <!-- BEGIN col-10 -->
-            <div class="col-xl-12">
-                <!-- BEGIN row -->
-                <div class="row">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item text-uppercase">
-                            <a href="{{ route('home') }}">Dashboard</a>
-                        </li>
-                        <li class="breadcrumb-item text-uppercase">
-                            <a href="{{ route('configuration.view') }}">Configuration</a>
-                        </li>
-                        <li class="breadcrumb-item text-uppercase active">Theme Management</li>
-                    </ul>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="page-header">
-                            Theme Management <small>create update delete all in here</small>
-                        </h1>
+    @include('admin.layouts.partials.page-title', ['subtitle' => 'Configuration', 'title' => 'Theme Management'])
+
+    <div class="row">
+        <div class="col-12">
+            @if (session('success'))
+                <div class="alert alert-success border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-check text-success fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Successful</h4>
+                        <p class="m-0">{{ session('success') }}</p>
                     </div>
-
-                    <hr class="mb-4">
-
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{{ asset('visitor/antux/img/logo.png') }}" width="100px" alt="Antux">
-                                        <ul class="h6 mt-3">
-                                            <li>Light & Dark</li>
-                                            <li>GSAP Animation</li>
-                                        </ul>
-                                        <div class="mt-2">
-                                            <i class="h1 fa-brands fa-bootstrap"></i>
-                                            <i class="h1 fa-brands fa-laravel"></i>
-                                            <i class="h1 fa-brands fa-js"></i>
-                                        </div>
-                                        <div class="d-flex justify content between">
-                                            <button class="btn btn-info btn-sm">Preview</button>
-                                            <button class="btn btn-success btn-sm btn-active" data-theme="antux">Active</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <img src="{{ asset('visitor/antux/img/banner.webp') }}"
-                                            class="img-fluid w-100 rounded">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-success btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
                     </div>
                 </div>
-                <!-- END row -->
+            @endif
+            @if (session('error') || $errors->any())
+                <div class="alert alert-danger border-2 d-flex align-items-center p-3 mb-2" role="alert">
+                    <i class="ti ti-circle-dashed-x text-danger fs-2 me-3"></i>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Operation Failed</h4>
+                        @foreach ($errors->all() as $error)
+                            <p class="m-0">{{ $error }}</p>
+                        @endforeach
+                    </div>
+                    <div class="col-1">
+                        <button aria-label="Close" class="ms-auto btn btn-sm btn-danger btn-icon rounded-circle"
+                            data-bs-dismiss="alert" type="button">
+                            <i class="ti ti-x fs-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            @endif
+
+            <div class="row">
+                @php
+                    $themes      = config('themes.available');
+                    $currentTheme = config('themes.default_theme');
+                    $currentColor = config('themes.default_color');
+                @endphp
+
+                @foreach ($themes as $key => $theme)
+                    @php
+                        $themeColors = $theme['colors'] ?? ['light'];
+                    @endphp
+                    <div class="col-xl-6 col-md-6 col-12 mb-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0 fs-xl">{{ $theme['name'] }}</h5>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    @foreach ($themeColors as $color)
+                                        <span class="badge
+                                            {{ $currentColor === $color ? 'bg-' . $color . ' text-white' : 'badge-soft-' . $color . ' text-' . $color }}
+                                            fs-xxs
+                                            {{ $currentColor === $color ? '' : 'opacity-50' }}">
+                                            <i class="ti ti-{{ $color === 'light' ? 'sun' : 'moon' }} me-1"></i>{{ ucfirst($color) }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <img src="{{ asset('visitor/' . $key . '/img/preview_image.jpg') }}"
+                                     alt="{{ $theme['name'] }} Preview"
+                                     class="w-100 rounded"
+                                     style="height: 320px; object-fit: cover; border-radius: calc(0.5rem - 1px);"
+                                     onerror="this.src='{{ asset('visitor/antux/img/preview_image.jpg') }}';">
+                            </div>
+                            <div class="card-footer border-0 bg-transparent d-flex justify-content-between align-items-center px-4 py-3">
+                                <a href="{{ route('configuration.view') }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="ti ti-eye me-1"></i> Preview
+                                </a>
+                                @if ($key === $currentTheme)
+                                    <button class="btn btn-success btn-sm disabled">
+                                        <i class="ti ti-check me-1"></i> Activated
+                                    </button>
+                                @else
+                                    <button class="btn btn-primary btn-sm btn-activate"
+                                        data-theme="{{ $key }}"
+                                        data-theme-name="{{ $theme['name'] }}"
+                                        data-colors='@json($themeColors)'
+                                        data-url="{{ route('configuration.update', ':theme') }}"
+                                        <i class="ti ti-check me-1"></i> Activate
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            <!-- END col-10 -->
         </div>
-        <!-- END row -->
     </div>
-    <!-- END container -->
 @endsection
-{{-- Page Script Start --}}
+
 @section('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-active').forEach(button => {
-                button.addEventListener('click', function() {
-                    const theme = this.getAttribute('data-theme');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This action cannot be undone!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, change it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "{{ route('configuration.update', ':theme') }}"
-                                .replace(':theme', theme);
-
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/configuration-theme.js'])
 @endsection
-{{-- Page Script End --}}
