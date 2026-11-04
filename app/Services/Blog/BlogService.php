@@ -2,17 +2,19 @@
 
 namespace App\Services\Blog;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\BlogInfo;
-use App\Models\BlogCategory;
-use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\StoreBlogRequest;
+use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSequenceRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSettingsRequest;
+use App\Models\BlogCategory;
+use App\Models\BlogInfo;
 use App\Models\ColumnSettings;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BlogService
 {
@@ -21,42 +23,46 @@ class BlogService
     /**
      * Image storage directories (on the 'public' disk) and geometry.
      */
-    private const IMAGE_DIR    = 'uploads/blog/images';
+    private const IMAGE_DIR = 'uploads/blog/images';
+
     private const FEATURED_DIR = 'uploads/blog/featured';
-    private const IMAGE_WIDTH  = 600;
-    private const FEATURED_W   = 1200;
-    private const FEATURED_H   = 600;
+
+    private const IMAGE_WIDTH = 600;
+
+    private const FEATURED_W = 1200;
+
+    private const FEATURED_H = 600;
 
     /**
      * Data for the blog module admin view.
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
         return [
-            'blog_list'           => BlogInfo::with('category')->sorted()->get(),
-            'blog_categories'     => BlogCategory::active()->sorted()->get(),
+            'blog_list' => BlogInfo::with('category')->sorted()->get(),
+            'blog_categories' => BlogCategory::active()->sorted()->get(),
         ];
     }
 
     /**
      * Store a newly created blog post.
      *
-     * @param  StoreBlogRequest $request  Validated payload
-     * @return BlogInfo                   The created model
+     * @param  StoreBlogRequest  $request  Validated payload
+     * @return BlogInfo The created model
      */
     public function store(StoreBlogRequest $request): BlogInfo
     {
-        $blog                     = new BlogInfo();
-        $blog->blog_title         = $request->blog_title;
-        $blog->blog_excerpt       = $request->blog_excerpt;
-        $blog->blog_content       = $request->blog_content;
-        $blog->blog_image         = $this->storeImage($request, 'blog_image');
+        $blog = new BlogInfo;
+        $blog->blog_title = $request->blog_title;
+        $blog->blog_excerpt = $request->blog_excerpt;
+        $blog->blog_content = $request->blog_content;
+        $blog->blog_image = $this->storeImage($request, 'blog_image');
         $blog->blog_featured_image = $this->storeFeaturedImage($request);
-        $blog->category_id        = $request->category_id;
-        $blog->blog_published      = $request->published_at;
-        $blog->blog_status        = $request->blog_status;
+        $blog->category_id = $request->category_id;
+        $blog->blog_published = $request->published_at;
+        $blog->blog_status = $request->blog_status;
         $blog->save();
 
         $this->logUserActivity('Blog', 'Created a new blog post');
@@ -67,20 +73,20 @@ class BlogService
     /**
      * Find a single blog record by id.
      *
-     * @param  string $blog_id
-     * @return BlogInfo|null
+     * @throws ModelNotFoundException
      */
-    public function find(string $blog_id): ?BlogInfo
+    public function find(string $blog_id): BlogInfo
     {
-        return BlogInfo::where('id', $blog_id)->first();
+        return BlogInfo::where('id', $blog_id)->firstOrFail();
     }
 
     /**
      * Update an existing blog post (replacing images if given).
      *
-     * @param  UpdateBlogRequest $request  Validated payload
-     * @return BlogInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateBlogRequest  $request  Validated payload
+     * @return BlogInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateBlogRequest $request): BlogInfo
     {
@@ -97,14 +103,14 @@ class BlogService
         }
 
         $blog->fill([
-            'blog_title'     => $request->blog_title,
-            'blog_excerpt'   => $request->blog_excerpt,
-            'blog_content'   => $request->blog_content,
-            'category_id'    => $request->category_id,
+            'blog_title' => $request->blog_title,
+            'blog_excerpt' => $request->blog_excerpt,
+            'blog_content' => $request->blog_content,
+            'category_id' => $request->category_id,
             // The column is `blog_published`; the form field is `published_at`.
             'blog_published' => $request->published_at,
             // Omitted status keeps the stored value instead of writing null.
-            'blog_status'    => $request->has('blog_status')
+            'blog_status' => $request->has('blog_status')
                 ? $request->blog_status
                 : $blog->blog_status,
         ]);
@@ -118,9 +124,7 @@ class BlogService
     /**
      * Delete a blog post (and its stored images).
      *
-     * @param  string $blog_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $blog_id): void
     {
@@ -136,9 +140,6 @@ class BlogService
 
     /**
      * Reorder (sequence-update) blog posts from a drag-sort payload.
-     *
-     * @param  UpdateBlogSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateBlogSequenceRequest $request): void
     {
@@ -150,9 +151,6 @@ class BlogService
 
     /**
      * Toggle column visibility for the blog module.
-     *
-     * @param  UpdateBlogSettingsRequest $request
-     * @return void
      */
     public function updateSettings(UpdateBlogSettingsRequest $request): void
     {
@@ -177,12 +175,12 @@ class BlogService
      */
     private function storeImage(StoreBlogRequest|UpdateBlogRequest $request, string $field): ?string
     {
-        if (!$request->hasFile($field)) {
+        if (! $request->hasFile($field)) {
             return null;
         }
 
-        $filename = Str::uuid() . '.webp';
-        $path     = self::IMAGE_DIR . '/' . $filename;
+        $filename = Str::uuid().'.webp';
+        $path = self::IMAGE_DIR.'/'.$filename;
 
         $image = Image::read($request->file($field));
         $image->scale(width: self::IMAGE_WIDTH);
@@ -197,12 +195,12 @@ class BlogService
      */
     private function storeFeaturedImage(StoreBlogRequest|UpdateBlogRequest $request): ?string
     {
-        if (!$request->hasFile('blog_featured_image')) {
+        if (! $request->hasFile('blog_featured_image')) {
             return null;
         }
 
-        $filename = Str::uuid() . '.webp';
-        $path     = self::FEATURED_DIR . '/' . $filename;
+        $filename = Str::uuid().'.webp';
+        $path = self::FEATURED_DIR.'/'.$filename;
 
         $image = Image::read($request->file('blog_featured_image'));
         $image->scale(width: self::FEATURED_W, height: self::FEATURED_H);
