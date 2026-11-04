@@ -15,7 +15,9 @@ class UpdateBlogSettingsRequest extends FormRequest
     }
 
     /**
-     * Column-toggle payload.
+     * Column-toggle payload: the front-end sends only the visible column
+     * names as checkbox values; anything omitted is treated as hidden.
+     * No additional validation beyond array-shape is needed.
      *
      * @return array<string, mixed>
      */

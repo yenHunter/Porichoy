@@ -15,7 +15,8 @@ class UpdateBlogSequenceRequest extends FormRequest
     }
 
     /**
-     * Drag/drop reorder payload.
+     * Validation rules for the drag/drop reorder payload. The front-end
+     * submits `order` as an array of [id, sequence] objects.
      *
      * @return array<string, mixed>
      */

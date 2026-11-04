@@ -288,6 +288,54 @@ class ColumnSeeder extends Seeder
                 'updated_at'        => Carbon::now()->toDateTimeString()
             ],
             [
+                'module'            => 'blog',
+                'column_title'      => 'Title',
+                'column_name'       => 'blog_title',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'blog',
+                'column_title'      => 'Excerpt',
+                'column_name'       => 'blog_excerpt',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'blog',
+                'column_title'      => 'Image',
+                'column_name'       => 'blog_image',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'blog',
+                'column_title'      => 'Category',
+                'column_name'       => 'category_id',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'blog',
+                'column_title'      => 'Published',
+                'column_name'       => 'blog_published',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
+                'module'            => 'blog',
+                'column_title'      => 'Status',
+                'column_name'       => 'blog_status',
+                'visibility'        => true,
+                'created_at'        => Carbon::now()->toDateTimeString(),
+                'updated_at'        => Carbon::now()->toDateTimeString()
+            ],
+            [
                 'module'            => 'research_source',
                 'column_title'      => 'Title',
                 'column_name'       => 'value',

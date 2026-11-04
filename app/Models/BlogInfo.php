@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -103,6 +104,11 @@ class BlogInfo extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(BlogCategory::class, 'category_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(BlogComment::class, 'blog_id');
     }
 
     public function updatedBy(): BelongsTo

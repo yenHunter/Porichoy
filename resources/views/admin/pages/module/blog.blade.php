@@ -57,6 +57,7 @@
                                 <th>Image</th>
                                 <th>Title</th>
                                 <th>Category</th>
+                                <th>Published</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -68,16 +69,18 @@
                                         <i class="ti ti-arrows-move fs-42"></i>
                                     </td>
                                     <td>
-                                        <img class="img-thumbnail rounded" width="50px"
-                                            src="{{ $item->blog_image_url }}" alt="blog-image">
+                                        <img class="img-thumbnail rounded" width="50px" src="{{ $item->blog_image_url }}"
+                                            alt="blog-image">
                                     </td>
                                     <td>
                                         {{ $item->blog_title }}<br>
                                         <small>{{ $item->blog_excerpt }}</small>
                                     </td>
                                     <td>
-                                        {{ $item->category?->name ?? 'No Category' }}<br>
-                                        <small>{{ $item->category_id }}</small>
+                                        {{ $item->category?->category_name ?? 'No Category' }}
+                                    </td>
+                                    <td>
+                                        {{ $item->blog_published?->format('j M, Y') ?? 'Not published' }}
                                     </td>
                                     <td>
                                         @if ($item->blog_status === true)
@@ -109,21 +112,20 @@
         @csrf
         <input type="hidden" name="_method" id="create_update_form_method" value="POST">
         <input type="hidden" name="blog_id" id="blog_id">
-        <div aria-hidden="true" aria-labelledby="scrollableModalTitle" class="modal fade" id="create_update_modal"
+        <div aria-hidden="true" aria-labelledby="create_update_modal_title" class="modal fade" id="create_update_modal"
             role="dialog" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create Blog Post</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create blog post</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <input class="form-control" placeholder="Blog Title"
-                                        value="{{ old('blog_title') }}" name="blog_title" id="blog_title"
-                                        type="text" />
+                                    <input class="form-control" placeholder="Why clean architecture matters"
+                                        value="{{ old('blog_title') }}" name="blog_title" id="blog_title" type="text" />
                                     <label for="blog_title">Blog Title
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
@@ -131,16 +133,24 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Blog Excerpt"
-                                        value="{{ old('blog_excerpt') }}" name="blog_excerpt"
-                                        id="blog_excerpt" type="text" />
+                                    <textarea class="form-control" placeholder="Short summary shown on the listing page"
+                                        name="blog_excerpt" id="blog_excerpt">{{ old('blog_excerpt') }}</textarea>
                                     <label for="blog_excerpt">Blog Excerpt</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="blog_content">Content</label>
+                                <label for="blog-content-editor">Content</label>
                                 <div id="blog-content-editor" style="height: 300px;"></div>
                                 <input type="hidden" name="blog_content" id="blog_content_hidden">
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-floating">
+                                    <input class="form-control" placeholder="laravel, php, architecture"
+                                        value="{{ old('keywords') }}" name="keywords" id="keywords" type="text" />
+                                    <label for="keywords">Tags
+                                        <span class="text-muted fs-xs">(comma separated)</span>
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="filepond-uploader form-floating">
@@ -156,12 +166,13 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="category_id" id="category_id">
-                                        <option selected disabled>Choose Category...</option>
+                                    <select aria-label="Select Category" class="form-select" name="category_id"
+                                        id="category_id">
+                                        <option value="" selected>Choose Category...</option>
                                         @foreach ($blog_categories as $category)
                                             <option value="{{ $category->id }}"
-                                                {{ old('category_id', $item->category_id ?? null) == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->category_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -170,16 +181,16 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <input class="form-control" placeholder="2024-01-15 10:00"
-                                        value="{{ old('published_at') }}" name="published_at" id="published_at"
-                                        type="datetime-local" />
-                                    <label for="published_at">Publish Date</label>
+                                    <input class="form-control" value="{{ old('blog_published') }}"
+                                        name="blog_published" id="blog_published" type="datetime-local" />
+                                    <label for="blog_published">Publish Date</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="blog_status" id="blog_status">
-                                        <option value="1">Active</option>
+                                    <select aria-label="Select Status" class="form-select" name="blog_status"
+                                        id="blog_status">
+                                        <option value="1" selected>Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                     <label for="blog_status">Status</label>
