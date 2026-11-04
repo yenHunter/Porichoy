@@ -48,7 +48,7 @@ $(document).ready(function () {
         icons['header']['1'] = '<i class="ti ti-h-1 fs-lg"></i>';
         icons['header']['2'] = '<i class="ti ti-h-2 fs-lg"></i>';
         icons['header']['3'] = '<i class="ti ti-h-3 fs-lg"></i>';
-        icons['header'][''] = '<i class="ti ti-letter-t fs-lg"></i>';
+        icons['header'][''] = '<i class="ti ti-letter-t fs-lg"></i>'; // Normal text
     } catch (e) {
         console.warn('Quill Icon customization failed:', e);
     }
@@ -81,34 +81,35 @@ $(document).ready(function () {
 new DataTable('[data-tables="basic"]', {
     language: {
         paginate: {
-            first: '<i class="ti ti-chevrons-left"></i>',
-            previous: '<i class="ti ti-chevron-left"></i>',
-            next: '<i class="ti ti-chevron-right"></i>',
-            last: '<i class="ti ti-chevrons-right"></i>',
+            first: '<i class="ti ti-chevrons-left"></i>', // Tabler First
+            previous: '<i class="ti ti-chevron-left"></i>', // Tabler Prev
+            next: '<i class="ti ti-chevron-right"></i>', // Tabler Next
+            last: '<i class="ti ti-chevrons-right"></i>', // Tabler Last
         },
     },
 });
 
-// Register FilePond plugins
+// Register plugin
 registerPlugin(
     FilePondPluginImagePreview,
     FilePondPluginFileValidateType
 );
 
-// Initialize FilePond
-const inputElements = document.querySelectorAll('.filepond');
-inputElements.forEach(input => {
-    create(input, {
+// Initialize
+const inputElement = document.querySelectorAll('.filepond');
+const ponds = [];
+
+inputElement.forEach(input => {
+    ponds.push(create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
         acceptedFileTypes: ['image/*'],
         instantUpload: false,
         storeAsFile: true,
-    });
+    }));
 });
 
-// Initialize jQuery UI Sortable
 $(function () {
     $("#sortable-blog").sortable({
         handle: '.ti-arrows-move',
@@ -121,8 +122,10 @@ $(function () {
                 });
             });
 
+            // Get CSRF token from meta tag (set in blade layout)
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+            // Send via Axios
             axios.post(route('module.blog.sequence'), {
                 order: order
             }, {
@@ -142,7 +145,6 @@ $(function () {
     });
 });
 
-// Edit button handler
 $(document).on('click', '.btn-edit', function () {
     const blog_id = $(this).data('blog_id');
 
@@ -154,14 +156,10 @@ $(document).on('click', '.btn-edit', function () {
             $('#blog_id').val(data.id);
             $('#blog_title').val(data.blog_title);
             $('#blog_excerpt').val(data.blog_excerpt);
-            $('#category_id').val(data.category_id);
-            $('#blog_status').prop('checked', data.blog_status == 1);
-
-            if (data.published_at) {
-                const date = new Date(data.published_at);
-                const formattedDate = date.toISOString().slice(0, 16);
-                $('#published_at').val(formattedDate);
-            }
+            $('#keywords').val(data.keywords);
+            $('#category_id').val(data.category_id ?? '');
+            $('#blog_status').val(data.blog_status == 1 ? 1 : 0);
+            $('#blog_published').val(data.blog_published_input ?? '');
 
             const htmlContent = data.blog_content || '';
             myQuill.root.innerHTML = htmlContent;
@@ -184,18 +182,22 @@ $(document).on('click', '.btn-edit', function () {
         });
 });
 
-// Reset form when modal is closed
 $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#create_update_form')[0].reset();
     $('#create_update_form').attr('action', route('module.blog.store'));
     $('#create_update_form_method').val('POST');
     $('#blog_id').val('');
+    $('#category_id').val('');
+    $('#blog_status').val('1');
+    $('#blog_published').val('');
+    // FilePond keeps the previously picked file in sync with the input, so a
+    // closed modal must drop it or the next create would resubmit it.
+    ponds.forEach(pond => pond.removeFiles());
     myQuill.root.innerHTML = '';
     $('#blog_content_hidden').val('');
     document.getElementById('create_update_modal_title').innerHTML = 'Create blog post';
 });
 
-// Delete button handler
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', function () {
@@ -212,7 +214,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = route('module.blog.delete', blog_id);
+                    window.location.href =
+                        route('module.blog.delete', blog_id);
+
                 }
             });
         });

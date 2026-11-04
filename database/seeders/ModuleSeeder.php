@@ -52,6 +52,15 @@ class ModuleSeeder extends Seeder
                 'updated_at'    => Carbon::now()->toDateTimeString()
             ],
             [
+                'name'          => 'blog',
+                'title'         => 'Blog',
+                'description'   => 'This is blog section',
+                'status'        => 1,
+                'created_by'    => 1,
+                'created_at'    => Carbon::now()->toDateTimeString(),
+                'updated_at'    => Carbon::now()->toDateTimeString()
+            ],
+            [
                 'name'          => 'user',
                 'title'         => 'User',
                 'description'   => 'This is user section',

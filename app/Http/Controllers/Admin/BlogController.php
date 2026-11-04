@@ -30,7 +30,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Store a newly created blog in storage.
+     * Store a newly created blog post in storage.
      *
      * @param  StoreBlogRequest $request Validated payload
      * @return RedirectResponse
@@ -39,22 +39,24 @@ class BlogController extends Controller
     {
         $this->blog_service->store($request);
 
-        return back()->with('success', 'Blog post created successfully');
+        return back()->with('success', 'Blog post created');
     }
 
     /**
-     * Get a blog by id.
+     * Get a blog post by id.
      *
      * @param  string $blog_id
      * @return JsonResponse
      */
     public function edit(string $blog_id): JsonResponse
     {
-        return response()->json($this->blog_service->find($blog_id), 200);
+        return response()->json(
+            $this->blog_service->findForEdit($blog_id)
+        );
     }
 
     /**
-     * Update an existing blog in storage.
+     * Update an existing blog post in storage.
      *
      * @param  UpdateBlogRequest $request Validated payload
      * @return RedirectResponse
@@ -63,11 +65,11 @@ class BlogController extends Controller
     {
         $this->blog_service->update($request);
 
-        return back()->with('success', 'Blog post updated successfully');
+        return back()->with('success', 'Blog post updated');
     }
 
     /**
-     * Remove an existing blog from storage.
+     * Remove an existing blog post from storage.
      *
      * @param  string $blog_id
      * @return RedirectResponse
@@ -76,7 +78,7 @@ class BlogController extends Controller
     {
         $this->blog_service->delete($blog_id);
 
-        return back()->with('success', 'Blog post deleted successfully');
+        return back()->with('success', 'Blog post removed');
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Admin\Blog;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBlogRequest extends FormRequest
 {
@@ -24,9 +24,8 @@ class UpdateBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'blog_id' => ['required', Rule::exists('blog_infos', 'id')],
-            ]
-            + StoreBlogRequest::sharedRules();
+            'blog_id' => ['required', Rule::exists('blog_infos', 'id')],
+        ] + StoreBlogRequest::sharedRules();
     }
 
     /**

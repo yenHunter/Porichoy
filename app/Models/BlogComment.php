@@ -18,11 +18,11 @@ class BlogComment extends Model
      */
     protected $fillable = [
         'blog_id',
-        'user_id',
         'commenter_name',
         'commenter_image',
         'commenter_email',
         'comment_text',
+        'is_reply',
         'comment_status',
     ];
 
@@ -30,6 +30,7 @@ class BlogComment extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
+        'is_reply'       => 'boolean',
         'comment_status' => 'boolean',
     ];
 
@@ -57,11 +58,6 @@ class BlogComment extends Model
     public function blog(): BelongsTo
     {
         return $this->belongsTo(BlogInfo::class, 'blog_id');
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 
     /*
