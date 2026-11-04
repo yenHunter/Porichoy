@@ -76,7 +76,7 @@
                                         <small>{{ $item->blog_excerpt }}</small>
                                     </td>
                                     <td>
-                                        {{ $item->category->name ?? 'No Category' }}<br>
+                                        {{ $item->category?->name ?? 'No Category' }}<br>
                                         <small>{{ $item->category_id }}</small>
                                     </td>
                                     <td>
