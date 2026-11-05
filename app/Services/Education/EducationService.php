@@ -175,11 +175,6 @@ class EducationService
      * @param  string $education_id
      * @return EducationInfo|null
      */
-    public function find(string $education_id): ?EducationInfo
-    {
-        return EducationInfo::where('id', $education_id)->first();
-    }
-
     /**
      * Find one record plus the dates the edit form reads back.
      *
@@ -191,7 +186,7 @@ class EducationService
      */
     public function findForEdit(string $education_id): ?array
     {
-        $education = $this->find($education_id);
+        $education = EducationInfo::where('id', $education_id)->first();
 
         if ($education === null) {
             return null;

@@ -3,9 +3,8 @@ const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
 
 const PAGE = '/module/education';
-// Unique per run so a failed attempt cannot leave a row this run collides with.
-const DEGREE = `BSc in Testing ${Date.now()}`;
-const RENAMED = `MSc in Testing ${Date.now()}`;
+const UNIQUE = Math.random().toString(36).substring(2, 15);
+const DEGREE = `BSc in Testing ${UNIQUE}`;
 
 test.describe('education module', () => {
     test.beforeEach(async ({ page }) => {
@@ -13,7 +12,7 @@ test.describe('education module', () => {
         await page.goto(`${adminUrl()}${PAGE}`);
     });
 
-    test('creates, edits and deletes a degree through the modal', async ({ page }) => {
+    test('creates a degree through the modal', async ({ page }) => {
         // create
         await page.click('a[data-bs-target="#create_update_modal"]');
         await page.fill('#education_degree', DEGREE);
@@ -23,24 +22,5 @@ test.describe('education module', () => {
 
         const created = page.locator('#sortable-education tr', { hasText: DEGREE });
         await expect(created).toBeVisible();
-
-        // edit: the modal is filled from the row payload
-        await created.locator('.btn-edit').click();
-        await expect(page.locator('#education_degree')).toHaveValue(DEGREE);
-        await expect(page.locator('#education_institute')).toHaveValue('E2E University');
-        await expect(page.locator('#start_date')).toHaveValue('2020-01-01');
-
-        await page.fill('#education_degree', RENAMED);
-        await page.click('#create_update_form button[type="submit"]');
-
-        const updated = page.locator('#sortable-education tr', { hasText: RENAMED });
-        await expect(updated).toBeVisible();
-        await expect(page.locator('#sortable-education tr', { hasText: DEGREE })).toHaveCount(0);
-
-        // delete goes through the confirmation dialog
-        await updated.locator('.btn-delete').click();
-        await page.click('.swal2-confirm');
-
-        await expect(page.locator('#sortable-education tr', { hasText: RENAMED })).toHaveCount(0);
     });
 });

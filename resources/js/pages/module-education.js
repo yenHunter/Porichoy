@@ -166,9 +166,12 @@ $(document).on('click', '.btn-edit', function () {
             $('#education_subject').val(data.education_subject);
             $('#education_institute').val(data.education_institute);
             $('#institute_address').val(data.institute_address);
-            // Pre-formatted in the application timezone by the edit payload.
-            $('#start_date').val(data.start_date_input ?? '');
-            $('#end_date').val(data.end_date_input ?? '');
+            const startDate = data.start_date ? new Date(data.start_date) : null;
+            const formattedStart = startDate ? startDate.toLocaleDateString('en-CA') : '';
+            const endDate = data.end_date ? new Date(data.end_date) : null;
+            const formattedEnd = endDate ? endDate.toLocaleDateString('en-CA') : '';
+            $('#start_date').val(formattedStart);
+            $('#end_date').val(formattedEnd);
             $('#education_result').val(data.education_result);
             $('#education_status').val(data.education_status == 1 ? 1 : 0);
 
