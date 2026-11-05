@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class ResearchInfo extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table='research_infos';
+    protected $table = 'research_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -27,13 +29,13 @@ class ResearchInfo extends Model
         'research_details',
         'research_status',
         'research_sequence',
-        'updated_by'
+        'updated_by',
     ];
 
     protected $casts = [
-        'published_date'        => 'date',
-        'research_status'       => 'boolean',
-        'research_sequence'     => 'integer',
+        'published_date' => 'date',
+        'research_status' => 'boolean',
+        'research_sequence' => 'integer',
     ];
 
     /*

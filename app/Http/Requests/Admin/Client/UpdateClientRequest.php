@@ -24,8 +24,8 @@ class UpdateClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'client_id' => ['required', Rule::exists('client_infos', 'id')],
-            ]
+            'client_id' => ['required', Rule::exists('client_infos', 'id')],
+        ]
             + StoreClientRequest::sharedRules(logo_required: false);
     }
 }

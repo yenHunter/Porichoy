@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -27,9 +26,9 @@ class UserSeeder extends Seeder
             return;
         }
 
-        $randomPassword = 'P.' . Str::random(28); // ≥30 chars, passes any sensible policy
+        $randomPassword = 'P.'.Str::random(28); // ≥30 chars, passes any sensible policy
 
-        $user_info = new User();
+        $user_info = new User;
         $user_info->first_name = 'Super';
         $user_info->last_name = 'Admin';
         $user_info->email = 'admin@yenhunter.com';
@@ -39,7 +38,7 @@ class UserSeeder extends Seeder
         $user_info->save();
 
         $this->command?->alert('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        $this->command?->alert("SUPER ADMIN EMAIL: admin@yenhunter.com");
+        $this->command?->alert('SUPER ADMIN EMAIL: admin@yenhunter.com');
         $this->command?->alert("SUPER ADMIN PASSWORD (copy it NOW, shown once): {$randomPassword}");
         $this->command?->alert('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     }

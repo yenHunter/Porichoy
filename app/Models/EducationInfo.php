@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class EducationInfo extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'education_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -39,10 +41,10 @@ class EducationInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'education_status'              => 'boolean',
-        'education_sequence'            => 'integer',
-        'start_date'                    => 'date',
-        'end_date'                      => 'date',
+        'education_status' => 'boolean',
+        'education_sequence' => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     /*
@@ -97,8 +99,8 @@ class EducationInfo extends Model
     protected function instituteLogoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->institute_logo
-                ? asset('storage/' . $this->institute_logo)
+            get: fn () => $this->institute_logo
+                ? asset('storage/'.$this->institute_logo)
                 : asset('static/logo/education.png')
         );
     }

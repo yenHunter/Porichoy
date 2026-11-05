@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Research\ResearchService;
-use App\Http\Requests\Admin\Research\UpdateResearchRequest;
 use App\Http\Requests\Admin\Research\StoreResearchRequest;
+use App\Http\Requests\Admin\Research\UpdateResearchRequest;
 use App\Http\Requests\Admin\Research\UpdateResearchSequenceRequest;
 use App\Http\Requests\Admin\Research\UpdateResearchSettingsRequest;
+use App\Services\Research\ResearchService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ResearchController extends Controller
 {
     public function __construct(
         private readonly ResearchService $research_service
-    ) {
-    }
+    ) {}
 
     /**
      * Show the research management page.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -32,8 +29,7 @@ class ResearchController extends Controller
     /**
      * Store a new research info in the database.
      *
-     * @param  StoreResearchRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreResearchRequest  $request  Validated payload
      */
     public function store(StoreResearchRequest $request): RedirectResponse
     {
@@ -44,9 +40,6 @@ class ResearchController extends Controller
 
     /**
      * Get an existing research info by id.
-     *
-     * @param  string $research_id
-     * @return JsonResponse
      */
     public function edit(string $research_id): JsonResponse
     {
@@ -56,8 +49,7 @@ class ResearchController extends Controller
     /**
      * Update an existing research info in storage.
      *
-     * @param  UpdateResearchRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateResearchRequest  $request  Validated payload
      */
     public function update(UpdateResearchRequest $request): RedirectResponse
     {
@@ -68,9 +60,6 @@ class ResearchController extends Controller
 
     /**
      * Delete an existing research info by id.
-     *
-     * @param  string $research_id
-     * @return RedirectResponse
      */
     public function delete(string $research_id): RedirectResponse
     {
@@ -81,9 +70,6 @@ class ResearchController extends Controller
 
     /**
      * Update the sequence of multiple research info records.
-     *
-     * @param  UpdateResearchSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateResearchSequenceRequest $request): JsonResponse
     {
@@ -94,9 +80,6 @@ class ResearchController extends Controller
 
     /**
      * Update research settings (column visibility).
-     *
-     * @param  UpdateResearchSettingsRequest $request
-     * @return RedirectResponse
      */
     public function settings_update(UpdateResearchSettingsRequest $request): RedirectResponse
     {

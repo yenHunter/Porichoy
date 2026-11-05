@@ -24,8 +24,8 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'project_id' => ['required', Rule::exists('project_infos', 'id')],
-            ]
+            'project_id' => ['required', Rule::exists('project_infos', 'id')],
+        ]
             + StoreProjectRequest::sharedRules();
     }
 

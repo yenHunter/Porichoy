@@ -2,19 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProjectInfo extends Model
 {
     use HasFactory, HasUuids;
+
     protected $table = 'project_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -35,17 +38,17 @@ class ProjectInfo extends Model
         'project_challenges',
         'project_solution',
         'project_status',
-        'project_sequence'
+        'project_sequence',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'project_status'   => 'boolean', // 1=true, 0=false
+        'project_status' => 'boolean', // 1=true, 0=false
         'project_sequence' => 'integer',
-        'start_date'       => 'date',
-        'end_date'         => 'date',
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
     /*
@@ -120,8 +123,8 @@ class ProjectInfo extends Model
     protected function projectProfileImageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->profile_image
-                ? asset('storage/' . $this->profile_image)
+            get: fn () => $this->profile_image
+                ? asset('storage/'.$this->profile_image)
                 : asset('static/logo/project.png')
         );
     }
@@ -129,8 +132,8 @@ class ProjectInfo extends Model
     protected function projectCoverImageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->cover_image
-                ? asset('storage/' . $this->cover_image)
+            get: fn () => $this->cover_image
+                ? asset('storage/'.$this->cover_image)
                 : asset('static/logo/project.png')
         );
     }
@@ -139,7 +142,7 @@ class ProjectInfo extends Model
     {
         return Attribute::get(function () {
             // Ensure start_date exists to avoid errors
-            if (!$this->start_date) {
+            if (! $this->start_date) {
                 return null;
             }
 
@@ -187,7 +190,7 @@ class ProjectInfo extends Model
         $slug = $originalSlug;
         $count = 1;
         while (static::where('project_slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
 

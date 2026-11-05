@@ -25,17 +25,17 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'           => ['required', 'string', 'min:2', 'max:60'],
-            'last_name'            => ['required', 'string', 'min:2', 'max:60'],
-            'email'                => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password'             => [
+            'first_name' => ['required', 'string', 'min:2', 'max:60'],
+            'last_name' => ['required', 'string', 'min:2', 'max:60'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => [
                 'required',
                 'string',
                 Password::min(8),
                 'confirmed',
             ],
             // Required so the token cannot be skipped by omitting the field.
-            'g-recaptcha-response' => ['required', new ReCaptcha()],
+            'g-recaptcha-response' => ['required', new ReCaptcha],
         ];
     }
 
@@ -47,7 +47,7 @@ class RegisterRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'email'                => 'email address',
+            'email' => 'email address',
             'g-recaptcha-response' => 'reCAPTCHA',
         ];
     }

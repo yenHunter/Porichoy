@@ -2,16 +2,16 @@
 
 namespace App\Services\Auth;
 
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\UnlockScreenRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\UnlockScreenRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
 
 class AuthService
 {
@@ -36,14 +36,14 @@ class AuthService
      * Returns null on success (the user is now signed in), or a
      * self-descriptive error key on failure.
      *
-     * @param  LoginRequest          $request  Validated credentials
-     * @return string|null                     Error key, or null on success
+     * @param  LoginRequest  $request  Validated credentials
+     * @return string|null Error key, or null on success
      */
     public function login(LoginRequest $request): ?string
     {
         $user = User::where('email', $request->input('email'))->first();
 
-        if (!$user) {
+        if (! $user) {
             return self::ERR_UNKNOWN_USER;
         }
 
@@ -51,7 +51,7 @@ class AuthService
             return self::ERR_NOT_ACTIVATED;
         }
 
-        if (!Auth::attempt(
+        if (! Auth::attempt(
             $request->only('email', 'password'),
             $request->boolean('remember')
         )) {
@@ -64,13 +64,14 @@ class AuthService
     /**
      * Register a new, inactive user awaiting admin approval.
      *
-     * @param  RegisterRequest $request      Validated registration data
+     * @param  RegisterRequest  $request  Validated registration data
      * @return Illuminate\Http\RedirectResponse
+     *
      * @throws \Throwable
      */
     public function register(RegisterRequest $request): RedirectResponse
     {
-        $user = new User();
+        $user = new User;
         $user->fill($request->safe()->only(['first_name', 'last_name', 'email']));
         $user->password = Hash::make($request->input('password'));
         $user->user_status = false; // pending admin activation
@@ -86,8 +87,8 @@ class AuthService
      * Returns the Password-broker status string (RESET_LINK_SENT or a
      * USER_* error constant) for the controller to translate and flash.
      *
-     * @param  ForgotPasswordRequest $request  Validated e-mail
-     * @return string                         Password-broker status
+     * @param  ForgotPasswordRequest  $request  Validated e-mail
+     * @return string Password-broker status
      */
     public function sendResetLink(ForgotPasswordRequest $request): string
     {
@@ -102,8 +103,8 @@ class AuthService
      * Returns the Password-broker status string (PASSWORD_RESET or a
      * PASSWORD_* error constant) for the controller to translate and flash.
      *
-     * @param  ResetPasswordRequest $request  Validated reset payload
-     * @return string                        Password-broker status
+     * @param  ResetPasswordRequest  $request  Validated reset payload
+     * @return string Password-broker status
      */
     public function resetPassword(ResetPasswordRequest $request): string
     {
@@ -122,8 +123,8 @@ class AuthService
      * Returns true on success (the session is unlocked), or false when the
      * password check fails.
      *
-     * @param  UnlockScreenRequest $request  Validated unlock password
-     * @return bool                        True when unlocked
+     * @param  UnlockScreenRequest  $request  Validated unlock password
+     * @return bool True when unlocked
      */
     public function unlock(UnlockScreenRequest $request): bool
     {

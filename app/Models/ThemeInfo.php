@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ThemeInfo extends Model
 {
@@ -29,8 +29,8 @@ class ThemeInfo extends Model
     ];
 
     protected $casts = [
-        'status'        => 'boolean',
-        'sequence'      => 'integer',
+        'status' => 'boolean',
+        'sequence' => 'integer',
     ];
 
     protected static function booted()
@@ -92,8 +92,8 @@ class ThemeInfo extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->preview_image
-                ? asset('storage/' . $this->preview_image)
+            get: fn () => $this->preview_image
+                ? asset('storage/'.$this->preview_image)
                 : asset('static/theme-preview.png')
         );
     }
@@ -120,9 +120,10 @@ class ThemeInfo extends Model
         $slug = $originalSlug;
         $count = 1;
         while (static::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
+
         return $slug;
     }
 }

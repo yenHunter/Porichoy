@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
-use App\Services\Project\ProjectService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Admin\Project\StoreProjectRequest;
 use App\Http\Requests\Admin\Project\UpdateProjectRequest;
 use App\Http\Requests\Admin\Project\UpdateProjectSequenceRequest;
+use App\Services\Project\ProjectService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
     public function __construct(
         private readonly ProjectService $project_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -31,8 +28,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created project info in storage.
      *
-     * @param  StoreProjectRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreProjectRequest  $request  Validated payload
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
@@ -43,9 +39,6 @@ class ProjectController extends Controller
 
     /**
      * Get a project info by id.
-     *
-     * @param  string $project_id
-     * @return JsonResponse
      */
     public function edit(string $project_id): JsonResponse
     {
@@ -55,8 +48,7 @@ class ProjectController extends Controller
     /**
      * Update an existing project info in storage.
      *
-     * @param  UpdateProjectRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateProjectRequest  $request  Validated payload
      */
     public function update(UpdateProjectRequest $request): RedirectResponse
     {
@@ -67,9 +59,6 @@ class ProjectController extends Controller
 
     /**
      * Delete an existing project info from storage.
-     *
-     * @param  string $project_id
-     * @return RedirectResponse
      */
     public function delete(string $project_id): RedirectResponse
     {
@@ -80,9 +69,6 @@ class ProjectController extends Controller
 
     /**
      * Update the sequence of multiple project info records.
-     *
-     * @param  UpdateProjectSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateProjectSequenceRequest $request): JsonResponse
     {

@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\UnlockScreenRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Requests\Auth\UnlockScreenRequest;
-use App\Http\Requests\Auth\ResetPasswordRequest;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
     public function __construct(
         private readonly AuthService $auth_service
-    ) {
-    }
+    ) {}
 
     /**
      * Show the login page.
@@ -47,8 +47,7 @@ class AuthController extends Controller
     /**
      * Attempt to log in.
      *
-     * @param  LoginRequest         $request  Validated login credentials
-     * @return RedirectResponse
+     * @param  LoginRequest  $request  Validated login credentials
      */
     public function login(LoginRequest $request): RedirectResponse
     {
@@ -64,8 +63,7 @@ class AuthController extends Controller
     /**
      * Register a new, inactive account.
      *
-     * @param  RegisterRequest      $request  Validated registration data
-     * @return RedirectResponse
+     * @param  RegisterRequest  $request  Validated registration data
      */
     public function register(RegisterRequest $request): RedirectResponse
     {
@@ -87,14 +85,13 @@ class AuthController extends Controller
     /**
      * Send a password-reset link.
      *
-     * @param  ForgotPasswordRequest $request Validated e-mail
-     * @return RedirectResponse
+     * @param  ForgotPasswordRequest  $request  Validated e-mail
      */
     public function forgot_password(ForgotPasswordRequest $request): RedirectResponse
     {
         $status = $this->auth_service->sendResetLink($request);
 
-        return $status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT
+        return $status === Password::RESET_LINK_SENT
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)])->withInput();
     }
@@ -102,7 +99,7 @@ class AuthController extends Controller
     /**
      * Show the reset-password page (accessed via e-mail link).
      *
-     * @param  string $token The password reset token.
+     * @param  string  $token  The password reset token.
      * @return \Illuminate\Contracts\View\View
      */
     public function reset_password_view(string $token): View
@@ -113,27 +110,25 @@ class AuthController extends Controller
     /**
      * Reset a password using a token from the reset e-mail.
      *
-     * @param  ResetPasswordRequest  $request Validated reset payload
-     * @return RedirectResponse
+     * @param  ResetPasswordRequest  $request  Validated reset payload
      */
     public function reset_password(ResetPasswordRequest $request): RedirectResponse
     {
         $status = $this->auth_service->resetPassword($request);
 
-        return $status === \Illuminate\Support\Facades\Password::PASSWORD_RESET
+        return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 
     /**
      * Logs the user out.
-     *
-     * @return RedirectResponse
      */
     public function logout(): RedirectResponse
     {
         Session::flush();
         auth()->logout();
+
         return redirect()->route('login');
     }
 
@@ -145,10 +140,11 @@ class AuthController extends Controller
     public function session_lock(): View
     {
         session(['locked' => true]);
+
         return view(
             'admin.auth.lock-screen',
             [
-                'user_info' => auth()->user()
+                'user_info' => auth()->user(),
             ]
         );
     }
@@ -156,13 +152,13 @@ class AuthController extends Controller
     /**
      * Unlocks a locked session.
      *
-     * @param  UnlockScreenRequest $request Validated unlock password
-     * @return RedirectResponse
+     * @param  UnlockScreenRequest  $request  Validated unlock password
      */
     public function session_unlock(UnlockScreenRequest $request): RedirectResponse
     {
         if ($this->auth_service->unlock($request)) {
             session()->forget('locked');
+
             return redirect()->route('home');
         }
 

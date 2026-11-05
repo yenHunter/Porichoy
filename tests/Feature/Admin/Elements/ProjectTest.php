@@ -41,7 +41,7 @@ class ProjectTest extends TestCase
     {
         return [
             'project_title' => 'Acme Revamp',
-            'start_date'    => '2024-01-01',
+            'start_date' => '2024-01-01',
         ];
     }
 
@@ -79,7 +79,7 @@ class ProjectTest extends TestCase
 
         $this->post(route('element.project.store'), array_merge($this->modulePayload(), [
             'profile_image' => UploadedFile::fake()->image('profile.jpg', 1000, 1000),
-            'cover_image'   => UploadedFile::fake()->image('cover.jpg', 1000, 1000),
+            'cover_image' => UploadedFile::fake()->image('cover.jpg', 1000, 1000),
         ]))
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -101,16 +101,16 @@ class ProjectTest extends TestCase
 
         $this->post(route('element.project.store'), array_merge($this->modulePayload(), [
             'profile_image' => UploadedFile::fake()->image('first.jpg', 1000, 1000),
-            'cover_image'   => UploadedFile::fake()->image('cover.jpg', 1000, 1000),
+            'cover_image' => UploadedFile::fake()->image('cover.jpg', 1000, 1000),
         ]))->assertSessionHasNoErrors();
 
-        $project     = ProjectInfo::query()->firstOrFail();
-        $oldProfile  = (string) $project->profile_image;
-        $cover       = (string) $project->cover_image;
+        $project = ProjectInfo::query()->firstOrFail();
+        $oldProfile = (string) $project->profile_image;
+        $cover = (string) $project->cover_image;
 
         // A new upload replaces the profile image and keeps the cover.
         $this->put(route('element.project.update'), array_merge($this->modulePayload(), [
-            'project_id'    => $project->getKey(),
+            'project_id' => $project->getKey(),
             'profile_image' => UploadedFile::fake()->image('second.jpg', 1000, 1000),
         ]))
             ->assertSessionHasNoErrors()

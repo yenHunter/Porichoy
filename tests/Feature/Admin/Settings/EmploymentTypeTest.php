@@ -33,7 +33,7 @@ class EmploymentTypeTest extends TestCase
     {
         return [
             'employment_type_id' => $id,
-            'title'              => 'Fixed term',
+            'title' => 'Fixed term',
         ];
     }
 }

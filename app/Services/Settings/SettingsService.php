@@ -2,21 +2,23 @@
 
 namespace App\Services\Settings;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\SelectType;
-use App\Models\ProfileInfo;
-use App\Models\Country;
-use App\Models\EducationInfo;
-use App\Models\ExperienceInfo;
-use App\Models\ColumnSettings;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
+use App\Models\ColumnSettings;
+use App\Models\Country;
+use App\Models\EducationInfo;
+use App\Models\ExperienceInfo;
+use App\Models\ProfileInfo;
+use App\Models\SelectType;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class SettingsService
 {
@@ -27,7 +29,8 @@ class SettingsService
      * profile uploads.
      */
     private const RESEARCH_SOURCE_DIR = 'uploads/settings/research-source';
-    private const PROFILE_DIR         = 'uploads/profile';
+
+    private const PROFILE_DIR = 'uploads/profile';
 
     /**
      * Profile-info categories handled by the profile management form.
@@ -44,15 +47,15 @@ class SettingsService
     public function profileViewData(): array
     {
         return [
-            'profile_data'    => [
-                'basic'              => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
-                'personal'           => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
-                'address'            => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
-                'present_address'    => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
-                'permanent_address'  => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
-                'social'             => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
-                'education'          => EducationInfo::active()->sorted()->first(),
-                'experience'         => ExperienceInfo::active()->sorted()->first(),
+            'profile_data' => [
+                'basic' => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
+                'personal' => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
+                'address' => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
+                'present_address' => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
+                'permanent_address' => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
+                'social' => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
+                'education' => EducationInfo::active()->sorted()->first(),
+                'experience' => ExperienceInfo::active()->sorted()->first(),
             ],
             'available_flags' => Country::active()->sorted()->get()->map(fn ($country) => [
                 'name' => $country->name,
@@ -64,9 +67,6 @@ class SettingsService
 
     /**
      * Apply the profile update payload (per-category nested values/uploads).
-     *
-     * @param  ProfileUpdateRequest $request
-     * @return void
      */
     public function updateProfile(ProfileUpdateRequest $request): void
     {
@@ -87,30 +87,27 @@ class SettingsService
     /**
      * Research source listing (+ its ColumnSettings for the view).
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function researchSourceViewData(): array
     {
         return [
-            'research_source_list'     => SelectType::where('use_for', 'research_source')->orderBy('id', 'asc')->get(),
+            'research_source_list' => SelectType::where('use_for', 'research_source')->orderBy('id', 'asc')->get(),
             'research_source_settings' => ColumnSettings::where('module', 'research_source')->get(),
         ];
     }
 
     /**
      * Create a research-source SelectType row (optionally with a thumbnail).
-     *
-     * @param  StoreResearchSourceRequest $request
-     * @return SelectType
      */
     public function storeResearchSource(StoreResearchSourceRequest $request): SelectType
     {
-        $object          = new SelectType();
+        $object = new SelectType;
         $object->use_for = 'research_source';
-        $object->value   = $request->title;
+        $object->value = $request->title;
         $object->details = $this->storeThumbnail($request);
         // `status` is NOT NULL; omitting the field means active.
-        $object->status  = $request->status ?? true;
+        $object->status = $request->status ?? true;
         $object->save();
 
         $this->logUserActivity('Research Source', 'Created a new Research Source');
@@ -120,9 +117,6 @@ class SettingsService
 
     /**
      * Find a research-source row by id.
-     *
-     * @param  string $research_source_id
-     * @return SelectType|null
      */
     public function findResearchSource(string $research_source_id): ?SelectType
     {
@@ -132,23 +126,21 @@ class SettingsService
     /**
      * Update a research-source row (replacing the thumbnail when given).
      *
-     * @param  UpdateResearchSourceRequest $request
-     * @return SelectType
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function updateResearchSource(UpdateResearchSourceRequest $request): SelectType
     {
         $object = SelectType::where('id', $request->research_source_id)->firstOrFail();
 
         if ($request->hasFile('thumbnail')) {
-            if (!empty($object->details) && Storage::disk('public')->exists($object->details)) {
+            if (! empty($object->details) && Storage::disk('public')->exists($object->details)) {
                 Storage::disk('public')->delete($object->details);
             }
 
             $object->details = $this->storeThumbnail($request);
         }
 
-        $object->value  = $request->title;
+        $object->value = $request->title;
         // Omitted status keeps the stored value instead of writing null.
         $object->status = $request->status ?? $object->status;
         $object->save();
@@ -160,9 +152,6 @@ class SettingsService
 
     /**
      * Delete a research-source row (and its thumbnail).
-     *
-     * @param  string $research_source_id
-     * @return void
      */
     public function deleteResearchSource(string $research_source_id): void
     {
@@ -171,7 +160,7 @@ class SettingsService
             return;
         }
 
-        if (!empty($object->details) && Storage::disk('public')->exists($object->details)) {
+        if (! empty($object->details) && Storage::disk('public')->exists($object->details)) {
             Storage::disk('public')->delete($object->details);
         }
 
@@ -183,10 +172,10 @@ class SettingsService
     /**
      * Rows for location-type / employment-type views.
      *
-     * @param  string $use_for 'location_type' or 'employment_type'
-     * @return \Illuminate\Database\Eloquent\Collection<int, SelectType>
+     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @return Collection<int, SelectType>
      */
-    public function selectTypeViewData(string $use_for): \Illuminate\Database\Eloquent\Collection
+    public function selectTypeViewData(string $use_for): Collection
     {
         return SelectType::where('use_for', $use_for)->orderBy('id', 'asc')->get();
     }
@@ -194,31 +183,25 @@ class SettingsService
     /**
      * Create a location/employment-type SelectType row.
      *
-     * @param  SelectTypeRequest $request
-     * @param  string            $use_for 'location_type' or 'employment_type'
-     * @return SelectType
+     * @param  string  $use_for  'location_type' or 'employment_type'
      */
     public function storeSelectType(SelectTypeRequest $request, string $use_for): SelectType
     {
-        $object          = new SelectType();
+        $object = new SelectType;
         $object->use_for = $use_for;
-        $object->value   = $request->title;
+        $object->value = $request->title;
         $object->details = $request->details;
         // `status` is NOT NULL; omitting the field means active.
-        $object->status  = $request->status ?? true;
+        $object->status = $request->status ?? true;
         $object->save();
 
-        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Created a new ' . str_replace('_', ' ', $use_for) . ' record');
+        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Created a new '.str_replace('_', ' ', $use_for).' record');
 
         return $object;
     }
 
     /**
      * Find a SelectType row by id + discriminators.
-     *
-     * @param  string $id
-     * @param  string $use_for
-     * @return SelectType|null
      */
     public function findSelectType(string $id, string $use_for): ?SelectType
     {
@@ -228,10 +211,8 @@ class SettingsService
     /**
      * Update a location/employment-type row.
      *
-     * @param  SelectTypeRequest $request
-     * @param  string            $use_for   'location_type' or 'employment_type'
-     * @param  string            $id        Row id
-     * @return SelectType|null
+     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $id  Row id
      */
     public function updateSelectType(SelectTypeRequest $request, string $use_for, string $id): ?SelectType
     {
@@ -240,23 +221,19 @@ class SettingsService
             return null;
         }
 
-        $object->value   = $request->title;
+        $object->value = $request->title;
         $object->details = $request->details;
         // Omitted status keeps the stored value instead of writing null.
-        $object->status  = $request->status ?? $object->status;
+        $object->status = $request->status ?? $object->status;
         $object->save();
 
-        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Updated ' . str_replace('_', ' ', $use_for) . ' record');
+        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Updated '.str_replace('_', ' ', $use_for).' record');
 
         return $object;
     }
 
     /**
      * Delete a location/employment-type row.
-     *
-     * @param  string $id
-     * @param  string $use_for
-     * @return void
      */
     public function deleteSelectType(string $id, string $use_for): void
     {
@@ -267,7 +244,7 @@ class SettingsService
 
         $object->delete();
 
-        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Removed ' . str_replace('_', ' ', $use_for) . ' record');
+        $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Removed '.str_replace('_', ' ', $use_for).' record');
     }
 
     /*
@@ -278,10 +255,6 @@ class SettingsService
 
     /**
      * Replace a ProfileInfo's column_value by storing an uploaded file (WebP).
-     *
-     * @param  string      $profile_info_id
-     * @param  UploadedFile $file
-     * @return void
      */
     private function storeProfileFile(string $profile_info_id, UploadedFile $file): void
     {
@@ -291,8 +264,8 @@ class SettingsService
             Storage::disk('public')->delete($profileInfo->column_value);
         }
 
-        $filename = Str::uuid() . '.webp';
-        $path     = self::PROFILE_DIR . '/' . $filename;
+        $filename = Str::uuid().'.webp';
+        $path = self::PROFILE_DIR.'/'.$filename;
 
         $image = Image::read($file);
 
@@ -306,15 +279,15 @@ class SettingsService
      */
     private function storeThumbnail(StoreResearchSourceRequest $request): ?string
     {
-        if (!$request->hasFile('thumbnail')) {
+        if (! $request->hasFile('thumbnail')) {
             return null;
         }
 
-        $file     = $request->file('thumbnail');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file = $request->file('thumbnail');
+        $filename = time().'.'.$file->getClientOriginalExtension();
 
-        $file->storeAs('public/' . self::RESEARCH_SOURCE_DIR, $filename);
+        $file->storeAs('public/'.self::RESEARCH_SOURCE_DIR, $filename);
 
-        return self::RESEARCH_SOURCE_DIR . '/' . $filename;
+        return self::RESEARCH_SOURCE_DIR.'/'.$filename;
     }
 }

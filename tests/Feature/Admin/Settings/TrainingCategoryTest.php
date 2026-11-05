@@ -33,8 +33,8 @@ class TrainingCategoryTest extends TestCase
     {
         return [
             'training_category_id' => $id,
-            'title'                => 'Web Development',
-            'status'               => 1,
+            'title' => 'Web Development',
+            'status' => 1,
         ];
     }
 }

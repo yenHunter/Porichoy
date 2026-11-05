@@ -15,7 +15,7 @@ class ThemeTest extends TestCase
      */
     public function test_theme_switch_persists_app_theme(): void
     {
-        $envPath  = base_path('.env');
+        $envPath = base_path('.env');
         $original = file_get_contents($envPath);
 
         try {

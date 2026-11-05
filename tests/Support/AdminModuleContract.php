@@ -70,20 +70,20 @@ trait AdminModuleContract
     public function test_the_module_listing_renders(): void
     {
         $this->actingAs($this->adminUser())
-            ->get(route($this->modulePrefix() . '.view'))
+            ->get(route($this->modulePrefix().'.view'))
             ->assertOk();
     }
 
     public function test_the_module_requires_its_required_fields(): void
     {
         $this->actingAs($this->adminUser())
-            ->post(route($this->modulePrefix() . '.store'), [])
+            ->post(route($this->modulePrefix().'.store'), [])
             ->assertSessionHasErrors($this->moduleRequiredFields());
     }
 
     public function test_a_record_can_be_created(): void
     {
-        $record  = $this->createModuleRecord();
+        $record = $this->createModuleRecord();
         $payload = $this->modulePayload();
 
         $this->assertSame(
@@ -95,10 +95,10 @@ trait AdminModuleContract
 
     public function test_the_edit_endpoint_returns_the_record(): void
     {
-        $record  = $this->createModuleRecord();
+        $record = $this->createModuleRecord();
         $payload = $this->modulePayload();
 
-        $this->get(route($this->modulePrefix() . '.edit', $record->getKey()))
+        $this->get(route($this->modulePrefix().'.edit', $record->getKey()))
             ->assertOk()
             ->assertJsonPath($this->moduleTitleField(), $payload[$this->moduleTitleField()]);
     }
@@ -106,12 +106,12 @@ trait AdminModuleContract
     public function test_a_record_can_be_updated(): void
     {
         $record = $this->createModuleRecord();
-        $title  = $this->moduleUpdatedTitle();
+        $title = $this->moduleUpdatedTitle();
 
-        $this->put(route($this->modulePrefix() . '.update'), array_merge(
+        $this->put(route($this->modulePrefix().'.update'), array_merge(
             $this->modulePayload(),
             [
-                $this->moduleIdField()    => $record->getKey(),
+                $this->moduleIdField() => $record->getKey(),
                 $this->moduleTitleField() => $title,
             ]
         ))
@@ -125,7 +125,7 @@ trait AdminModuleContract
     {
         $record = $this->createModuleRecord();
 
-        $this->post(route($this->modulePrefix() . '.sequence'), [
+        $this->post(route($this->modulePrefix().'.sequence'), [
             'order' => [['id' => $record->getKey(), 'sequence' => 7]],
         ])
             ->assertOk()
@@ -138,7 +138,7 @@ trait AdminModuleContract
     {
         $record = $this->createModuleRecord();
 
-        $this->get(route($this->modulePrefix() . '.delete', $record->getKey()))
+        $this->get(route($this->modulePrefix().'.delete', $record->getKey()))
             ->assertRedirect();
 
         $this->assertDatabaseMissing($record->getTable(), ['id' => $record->getKey()]);
@@ -153,7 +153,7 @@ trait AdminModuleContract
     /**
      * Create a record through the store endpoint and return it.
      *
-     * @param  array<string, mixed> $overrides
+     * @param  array<string, mixed>  $overrides
      */
     protected function createModuleRecord(array $overrides = []): Model
     {
@@ -161,7 +161,7 @@ trait AdminModuleContract
         $this->actingAs($this->adminUser());
 
         $this->post(
-            route($this->modulePrefix() . '.store'),
+            route($this->modulePrefix().'.store'),
             array_merge($this->modulePayload(), $overrides)
         )
             ->assertSessionHasNoErrors()
@@ -175,9 +175,9 @@ trait AdminModuleContract
      */
     protected function selectType(string $useFor, string $value = 'Test value'): int
     {
-        $select          = new SelectType();
+        $select = new SelectType;
         $select->use_for = $useFor;
-        $select->value   = $value;
+        $select->value = $value;
         $select->save();
 
         return (int) $select->getKey();
@@ -188,9 +188,9 @@ trait AdminModuleContract
      */
     protected function clientRecord(string $name = 'Acme Ltd'): ClientInfo
     {
-        $client                    = new ClientInfo();
-        $client->client_name       = $name;
-        $client->client_email      = 'acme@example.test';
+        $client = new ClientInfo;
+        $client->client_name = $name;
+        $client->client_email = 'acme@example.test';
         $client->organization_logo = 'uploads/client/organization/logo.webp';
         $client->save();
 

@@ -2,21 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ServiceInfo extends Model
 {
     use HasFactory, HasUuids;
+
     protected $table = 'service_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -31,14 +34,14 @@ class ServiceInfo extends Model
         'cover_image',
         'service_details',
         'service_status',
-        'service_sequence'
+        'service_sequence',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'service_status'   => 'boolean', // 1=true, 0=false
+        'service_status' => 'boolean', // 1=true, 0=false
         'service_sequence' => 'integer',
     ];
 
@@ -130,8 +133,8 @@ class ServiceInfo extends Model
     protected function serviceIconUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->service_icon
-                ? asset('storage/' . $this->service_icon)
+            get: fn () => $this->service_icon
+                ? asset('storage/'.$this->service_icon)
                 : asset('static/logo/service.png')
         );
     }
@@ -139,8 +142,8 @@ class ServiceInfo extends Model
     protected function serviceProfileUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->profile_image
-                ? asset('storage/' . $this->profile_image)
+            get: fn () => $this->profile_image
+                ? asset('storage/'.$this->profile_image)
                 : asset('static/logo/service.png')
         );
     }
@@ -148,8 +151,8 @@ class ServiceInfo extends Model
     protected function serviceCoverUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->cover_image
-                ? asset('storage/' . $this->cover_image)
+            get: fn () => $this->cover_image
+                ? asset('storage/'.$this->cover_image)
                 : ''
         );
     }
@@ -187,7 +190,7 @@ class ServiceInfo extends Model
         $slug = $originalSlug;
         $count = 1;
         while (static::where('service_slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
 

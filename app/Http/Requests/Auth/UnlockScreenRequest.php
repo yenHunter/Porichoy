@@ -23,9 +23,9 @@ class UnlockScreenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password'             => ['required', 'string'],
+            'password' => ['required', 'string'],
             // Required so the token cannot be skipped by omitting the field.
-            'g-recaptcha-response' => ['required', new ReCaptcha()],
+            'g-recaptcha-response' => ['required', new ReCaptcha],
         ];
     }
 

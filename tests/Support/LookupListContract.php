@@ -50,21 +50,21 @@ trait LookupListContract
     {
         return [
             $this->lookupIdField() => $id,
-            'title'                => 'Second value',
+            'title' => 'Second value',
         ];
     }
 
     public function test_the_lookup_listing_renders(): void
     {
         $this->actingAs($this->adminUser())
-            ->get(route($this->lookupPrefix() . '.view'))
+            ->get(route($this->lookupPrefix().'.view'))
             ->assertOk();
     }
 
     public function test_the_lookup_requires_a_title(): void
     {
         $this->actingAs($this->adminUser())
-            ->post(route($this->lookupPrefix() . '.store'), [])
+            ->post(route($this->lookupPrefix().'.store'), [])
             ->assertSessionHasErrors(['title']);
     }
 
@@ -72,7 +72,7 @@ trait LookupListContract
     {
         $this->actingAs($this->adminUser());
 
-        $this->post(route($this->lookupPrefix() . '.store'), $this->lookupCreatePayload())
+        $this->post(route($this->lookupPrefix().'.store'), $this->lookupCreatePayload())
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
@@ -89,7 +89,7 @@ trait LookupListContract
     {
         $record = $this->createLookupRecord();
 
-        $this->get(route($this->lookupPrefix() . '.edit', $record->getKey()))
+        $this->get(route($this->lookupPrefix().'.edit', $record->getKey()))
             ->assertOk()
             ->assertJsonPath('value', $record->value);
     }
@@ -100,7 +100,7 @@ trait LookupListContract
 
         $payload = $this->lookupUpdatePayload((string) $record->getKey());
 
-        $this->put(route($this->lookupPrefix() . '.update'), $payload)
+        $this->put(route($this->lookupPrefix().'.update'), $payload)
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
@@ -111,7 +111,7 @@ trait LookupListContract
     {
         $record = $this->createLookupRecord();
 
-        $this->get(route($this->lookupPrefix() . '.delete', $record->getKey()))
+        $this->get(route($this->lookupPrefix().'.delete', $record->getKey()))
             ->assertRedirect();
 
         $this->assertDatabaseMissing('select_types', ['id' => $record->getKey()]);
@@ -127,7 +127,7 @@ trait LookupListContract
     {
         $this->actingAs($this->adminUser());
 
-        $this->post(route($this->lookupPrefix() . '.store'), $this->lookupCreatePayload())
+        $this->post(route($this->lookupPrefix().'.store'), $this->lookupCreatePayload())
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 

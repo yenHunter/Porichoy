@@ -24,8 +24,8 @@ class UpdateResearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'research_id' => ['required', Rule::exists('research_infos', 'id')],
-            ]
+            'research_id' => ['required', Rule::exists('research_infos', 'id')],
+        ]
             + StoreResearchRequest::sharedRules();
     }
 }

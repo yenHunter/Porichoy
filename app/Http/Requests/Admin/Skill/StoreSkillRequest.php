@@ -22,11 +22,11 @@ class StoreSkillRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'skill_title'   => ['required', 'string', 'max:255'],
-            'skill_logo'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'skill_score'   => ['nullable', 'numeric'],
+            'skill_title' => ['required', 'string', 'max:255'],
+            'skill_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'skill_score' => ['nullable', 'numeric'],
             'skill_details' => ['nullable', 'string'],
-            'skill_status'  => ['nullable', 'boolean'],
+            'skill_status' => ['nullable', 'boolean'],
         ];
     }
 

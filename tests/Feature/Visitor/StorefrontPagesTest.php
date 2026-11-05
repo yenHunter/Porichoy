@@ -56,10 +56,10 @@ class StorefrontPagesTest extends TestCase
      */
     public function test_pages_receive_the_profile_values(): void
     {
-        $profile               = new ProfileInfo();
-        $profile->use_for      = 'about';
+        $profile = new ProfileInfo;
+        $profile->use_for = 'about';
         $profile->column_title = 'First Name';
-        $profile->column_name  = 'first_name';
+        $profile->column_name = 'first_name';
         $profile->column_value = 'Jane';
         $profile->save();
 

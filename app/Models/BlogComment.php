@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BlogComment extends Model
 {
@@ -30,7 +30,7 @@ class BlogComment extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'is_reply'       => 'boolean',
+        'is_reply' => 'boolean',
         'comment_status' => 'boolean',
     ];
 
@@ -43,8 +43,8 @@ class BlogComment extends Model
     protected function commenterImageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->commenter_image
-                ? asset('storage/' . $this->commenter_image)
+            get: fn () => $this->commenter_image
+                ? asset('storage/'.$this->commenter_image)
                 : asset('static/icons/commenter.png')
         );
     }

@@ -34,8 +34,8 @@ class ResearchSourceTest extends TestCase
     {
         return [
             'research_source_id' => $id,
-            'title'              => 'Web of Science',
-            'status'             => 1,
+            'title' => 'Web of Science',
+            'status' => 1,
         ];
     }
 

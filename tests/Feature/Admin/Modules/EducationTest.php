@@ -42,9 +42,9 @@ class EducationTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'education_degree'    => 'BSc',
+            'education_degree' => 'BSc',
             'education_institute' => 'Test University',
-            'start_date'          => '2018-01-01',
+            'start_date' => '2018-01-01',
         ];
     }
 
@@ -80,7 +80,7 @@ class EducationTest extends TestCase
 
         $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
             'start_date' => '2020-01-01',
-            'end_date'   => '2024-06-30',
+            'end_date' => '2024-06-30',
         ]))->assertSessionHasNoErrors();
 
         $education = EducationInfo::query()->firstOrFail();
@@ -97,7 +97,7 @@ class EducationTest extends TestCase
 
         $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
             'start_date' => '2020-01-01',
-            'end_date'   => '2019-01-01',
+            'end_date' => '2019-01-01',
         ]))->assertSessionHasErrors(['end_date']);
     }
 
@@ -107,7 +107,7 @@ class EducationTest extends TestCase
 
         $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
             'start_date' => '2020-01-01',
-            'end_date'   => '2020-01-01',
+            'end_date' => '2020-01-01',
         ]))->assertSessionHasNoErrors();
     }
 

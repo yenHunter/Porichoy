@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoutingController extends Controller
 {
@@ -26,19 +26,19 @@ class RoutingController extends Controller
      */
     private function renderAdminView(array $segments)
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
         foreach ($segments as $segment) {
-            if (!$this->isValidSegment($segment)) {
+            if (! $this->isValidSegment($segment)) {
                 abort(404);
             }
         }
 
-        $view = 'admin.' . implode('.', $segments);
+        $view = 'admin.'.implode('.', $segments);
 
-        if (!view()->exists($view)) {
+        if (! view()->exists($view)) {
             abort(404);
         }
 

@@ -2,16 +2,18 @@
 
 namespace App\Services\Training;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\TrainingInfo;
-use App\Models\SelectType;
-use App\Models\ColumnSettings;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\Admin\Training\UpdateTrainingRequest;
 use App\Http\Requests\Admin\Training\StoreTrainingRequest;
+use App\Http\Requests\Admin\Training\UpdateTrainingRequest;
 use App\Http\Requests\Admin\Training\UpdateTrainingSequenceRequest;
 use App\Http\Requests\Admin\Training\UpdateTrainingSettingsRequest;
+use App\Models\ColumnSettings;
+use App\Models\SelectType;
+use App\Models\TrainingInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TrainingService
 {
@@ -25,12 +27,12 @@ class TrainingService
     /**
      * Data for the training module admin view (list + settings + categories).
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
         return [
-            'training_list'     => TrainingInfo::with('category')
+            'training_list' => TrainingInfo::with('category')
                 ->whereRelation('category', 'use_for', 'training_category')
                 ->sorted()
                 ->get(),
@@ -42,21 +44,21 @@ class TrainingService
     /**
      * Store a newly created training record.
      *
-     * @param  StoreTrainingRequest $request  Validated payload
-     * @return TrainingInfo                   The created model
+     * @param  StoreTrainingRequest  $request  Validated payload
+     * @return TrainingInfo The created model
      */
     public function store(StoreTrainingRequest $request): TrainingInfo
     {
-        $training                   = new TrainingInfo();
-        $training->training_title       = $request->training_title;
-        $training->training_category    = $request->training_category;
-        $training->training_institute   = $request->training_institute;
-        $training->start_date           = $request->start_date;
-        $training->end_date             = $request->end_date;
-        $training->training_location    = $request->training_location;
+        $training = new TrainingInfo;
+        $training->training_title = $request->training_title;
+        $training->training_category = $request->training_category;
+        $training->training_institute = $request->training_institute;
+        $training->start_date = $request->start_date;
+        $training->end_date = $request->end_date;
+        $training->training_location = $request->training_location;
         $training->training_certificate = $this->storeCertificate($request);
-        $training->training_details     = $request->training_details;
-        $training->training_status      = $request->training_status;
+        $training->training_details = $request->training_details;
+        $training->training_status = $request->training_status;
         $training->save();
 
         $this->logUserActivity('Training', 'Created a new Training info');
@@ -66,9 +68,6 @@ class TrainingService
 
     /**
      * Find a single training record by id.
-     *
-     * @param  string $training_id
-     * @return TrainingInfo|null
      */
     public function find(string $training_id): ?TrainingInfo
     {
@@ -78,9 +77,10 @@ class TrainingService
     /**
      * Update an existing training record (and replace the certificate if given).
      *
-     * @param  UpdateTrainingRequest $request  Validated payload
-     * @return TrainingInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateTrainingRequest  $request  Validated payload
+     * @return TrainingInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateTrainingRequest $request): TrainingInfo
     {
@@ -96,15 +96,15 @@ class TrainingService
         }
 
         $training->fill([
-            'training_title'     => $request->training_title,
-            'training_category'  => $request->training_category,
+            'training_title' => $request->training_title,
+            'training_category' => $request->training_category,
             'training_institute' => $request->training_institute,
-            'start_date'         => $request->start_date,
-            'end_date'           => $request->end_date,
-            'training_location'  => $request->training_location,
-            'training_details'   => $request->training_details,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'training_location' => $request->training_location,
+            'training_details' => $request->training_details,
             // Omitted status keeps the stored value instead of writing null.
-            'training_status'    => $request->has('training_status')
+            'training_status' => $request->has('training_status')
                 ? $request->training_status
                 : $training->training_status,
         ]);
@@ -118,9 +118,7 @@ class TrainingService
     /**
      * Delete a training record (and its stored certificate).
      *
-     * @param  string $training_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $training_id): void
     {
@@ -135,9 +133,6 @@ class TrainingService
 
     /**
      * Reorder (sequence-update) training records from a drag-sort payload.
-     *
-     * @param  UpdateTrainingSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateTrainingSequenceRequest $request): void
     {
@@ -149,9 +144,6 @@ class TrainingService
 
     /**
      * Toggle column visibility for the training module.
-     *
-     * @param  UpdateTrainingSettingsRequest $request
-     * @return void
      */
     public function updateSettings(UpdateTrainingSettingsRequest $request): void
     {
@@ -174,32 +166,29 @@ class TrainingService
     /**
      * Persist an uploaded training certificate (original extension kept).
      *
-     * @param  StoreTrainingRequest|UpdateTrainingRequest $request
-     * @return string|null  Stored path, or the URL string when no upload.
+     * @param  StoreTrainingRequest|UpdateTrainingRequest  $request
+     * @return string|null Stored path, or the URL string when no upload.
      */
     private function storeCertificate($request): ?string
     {
-        if (!$request->hasFile('training_certificate')) {
+        if (! $request->hasFile('training_certificate')) {
             return $request->input('training_certificate');
         }
 
-        $file     = $request->file('training_certificate');
-        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+        $file = $request->file('training_certificate');
+        $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
 
         Storage::disk('public')->putFileAs(self::CERT_DIR, $file, $filename);
 
-        return self::CERT_DIR . '/' . $filename;
+        return self::CERT_DIR.'/'.$filename;
     }
 
     /**
      * Remove a stored certificate from disk (silently no-ops when absent).
-     *
-     * @param  TrainingInfo $training
-     * @return void
      */
     private function deleteCertificate(TrainingInfo $training): void
     {
-        if (!empty($training->training_certificate)
+        if (! empty($training->training_certificate)
             && Storage::disk('public')->exists($training->training_certificate)
         ) {
             Storage::disk('public')->delete($training->training_certificate);

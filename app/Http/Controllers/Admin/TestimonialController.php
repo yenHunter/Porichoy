@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Testimonial\TestimonialService;
 use App\Http\Requests\Admin\Testimonial\StoreTestimonialRequest;
 use App\Http\Requests\Admin\Testimonial\UpdateTestimonialRequest;
 use App\Http\Requests\Admin\Testimonial\UpdateTestimonialSequenceRequest;
+use App\Services\Testimonial\TestimonialService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TestimonialController extends Controller
 {
     public function __construct(
         private readonly TestimonialService $testimonial_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of testimonials.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -31,8 +28,7 @@ class TestimonialController extends Controller
     /**
      * Store a newly created testimonial in storage.
      *
-     * @param  StoreTestimonialRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreTestimonialRequest  $request  Validated payload
      */
     public function store(StoreTestimonialRequest $request): RedirectResponse
     {
@@ -43,9 +39,6 @@ class TestimonialController extends Controller
 
     /**
      * Get a testimonial by id.
-     *
-     * @param  string $testimonial_id
-     * @return JsonResponse
      */
     public function edit(string $testimonial_id): JsonResponse
     {
@@ -55,8 +48,7 @@ class TestimonialController extends Controller
     /**
      * Update an existing testimonial in storage.
      *
-     * @param  UpdateTestimonialRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateTestimonialRequest  $request  Validated payload
      */
     public function update(UpdateTestimonialRequest $request): RedirectResponse
     {
@@ -67,9 +59,6 @@ class TestimonialController extends Controller
 
     /**
      * Delete an existing testimonial from storage.
-     *
-     * @param  string $testimonial_id
-     * @return RedirectResponse
      */
     public function delete(string $testimonial_id): RedirectResponse
     {
@@ -80,9 +69,6 @@ class TestimonialController extends Controller
 
     /**
      * Update the sequence of multiple testimonial records.
-     *
-     * @param  UpdateTestimonialSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateTestimonialSequenceRequest $request): JsonResponse
     {

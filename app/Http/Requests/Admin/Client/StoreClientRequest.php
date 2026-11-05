@@ -22,22 +22,22 @@ class StoreClientRequest extends FormRequest
     public static function sharedRules(bool $logo_required): array
     {
         return [
-            'client_name'          => ['required', 'string', 'max:255'],
-            'client_email'         => ['required', 'email', 'max:255'],
-            'client_mobile'        => ['nullable', 'string', 'max:20'],
-            'client_picture'       => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'client_designation'   => ['nullable', 'string', 'max:255'],
-            'client_organization'  => ['nullable', 'string', 'max:255'],
-            'client_address'       => ['nullable', 'string', 'max:500'],
+            'client_name' => ['required', 'string', 'max:255'],
+            'client_email' => ['required', 'email', 'max:255'],
+            'client_mobile' => ['nullable', 'string', 'max:20'],
+            'client_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'client_designation' => ['nullable', 'string', 'max:255'],
+            'client_organization' => ['nullable', 'string', 'max:255'],
+            'client_address' => ['nullable', 'string', 'max:500'],
             // Store requires a logo; update keeps the existing one when omitted.
-            'organization_logo'    => [
+            'organization_logo' => [
                 $logo_required ? 'required' : 'nullable',
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp',
                 'max:10240',
             ],
             'organization_website' => ['nullable', 'url', 'max:255'],
-            'client_status'        => ['nullable', 'boolean'],
+            'client_status' => ['nullable', 'boolean'],
         ];
     }
 

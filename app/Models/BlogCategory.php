@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class BlogCategory extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'blog_categories';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -31,7 +33,7 @@ class BlogCategory extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'category_status'   => 'boolean',
+        'category_status' => 'boolean',
         'category_sequence' => 'integer',
     ];
 

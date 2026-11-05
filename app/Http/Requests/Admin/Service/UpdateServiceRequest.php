@@ -24,8 +24,8 @@ class UpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'service_id' => ['required', Rule::exists('service_infos', 'id')],
-            ]
+            'service_id' => ['required', Rule::exists('service_infos', 'id')],
+        ]
             + StoreServiceRequest::sharedRules();
     }
 

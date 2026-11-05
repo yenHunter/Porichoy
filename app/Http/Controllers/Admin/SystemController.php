@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\System\SystemLogService;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SystemController extends Controller
 {
     public function __construct(
         private readonly SystemLogService $system_log_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the user activity log listing.
-     *
-     * @return \Illuminate\View\View
      */
     public function userLog(): View
     {
@@ -32,8 +29,7 @@ class SystemController extends Controller
     /**
      * Display the laravel application log viewer.
      *
-     * @param  Request $request  Optional ?file= (validated against a allowlist)
-     * @return \Illuminate\View\View
+     * @param  Request  $request  Optional ?file= (validated against a allowlist)
      */
     public function applicationLog(Request $request): View
     {

@@ -45,7 +45,7 @@ class BlogTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'blog_title'   => 'First Post',
+            'blog_title' => 'First Post',
             'blog_excerpt' => 'An excerpt',
         ];
     }
@@ -77,8 +77,8 @@ class BlogTest extends TestCase
     {
         $category = $this->category('Engineering');
 
-        $blog              = new BlogInfo();
-        $blog->blog_title  = 'Listed post';
+        $blog = new BlogInfo;
+        $blog->blog_title = 'Listed post';
         $blog->category_id = $category->getKey();
         $blog->save();
 
@@ -102,13 +102,13 @@ class BlogTest extends TestCase
         $category = $this->category();
 
         $this->post(route('module.blog.store'), [
-            'blog_title'     => 'Clean Architecture',
-            'blog_excerpt'   => 'A short summary',
-            'blog_content'   => '<p>Body</p>',
-            'keywords'       => 'laravel, php, architecture',
-            'category_id'    => $category->getKey(),
+            'blog_title' => 'Clean Architecture',
+            'blog_excerpt' => 'A short summary',
+            'blog_content' => '<p>Body</p>',
+            'keywords' => 'laravel, php, architecture',
+            'category_id' => $category->getKey(),
             'blog_published' => '2026-04-08 10:30:00',
-            'blog_status'    => 1,
+            'blog_status' => 1,
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -135,8 +135,8 @@ class BlogTest extends TestCase
         // An emptied datetime input unpublishes the post instead of keeping
         // the previous value.
         $this->put(route('module.blog.update'), [
-            'blog_id'        => $blog->getKey(),
-            'blog_title'     => 'Clean Architecture',
+            'blog_id' => $blog->getKey(),
+            'blog_title' => 'Clean Architecture',
             'blog_published' => '',
         ])
             ->assertSessionHasNoErrors()
@@ -153,15 +153,15 @@ class BlogTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'     => 'Scheduled',
+            'blog_title' => 'Scheduled',
             'blog_published' => '2026-04-08 10:30:00',
         ])->assertSessionHasNoErrors();
 
         $blog = BlogInfo::query()->firstOrFail();
 
         $this->put(route('module.blog.update'), [
-            'blog_id'        => $blog->getKey(),
-            'blog_title'     => 'Scheduled',
+            'blog_id' => $blog->getKey(),
+            'blog_title' => 'Scheduled',
             // What the datetime-local input posts back unchanged.
             'blog_published' => '2026-04-08T10:30',
         ])->assertSessionHasNoErrors();
@@ -180,7 +180,7 @@ class BlogTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'  => 'Unknown category',
+            'blog_title' => 'Unknown category',
             'category_id' => (string) Str::uuid(),
         ])->assertSessionHasErrors(['category_id']);
     }
@@ -193,8 +193,8 @@ class BlogTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'Bad upload',
-            'blog_image'          => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
+            'blog_title' => 'Bad upload',
+            'blog_image' => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
             'blog_featured_image' => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
         ])->assertSessionHasErrors(['blog_image', 'blog_featured_image']);
     }
@@ -209,15 +209,15 @@ class BlogTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'With images',
-            'blog_image'          => UploadedFile::fake()->image('cover.jpg', 900, 900),
+            'blog_title' => 'With images',
+            'blog_image' => UploadedFile::fake()->image('cover.jpg', 900, 900),
             'blog_featured_image' => UploadedFile::fake()->image('featured.jpg', 1600, 800),
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
-        $blog     = BlogInfo::query()->firstOrFail();
-        $image    = (string) $blog->blog_image;
+        $blog = BlogInfo::query()->firstOrFail();
+        $image = (string) $blog->blog_image;
         $featured = (string) $blog->blog_featured_image;
 
         $this->assertStringStartsWith('uploads/blog/images/', $image);
@@ -229,7 +229,7 @@ class BlogTest extends TestCase
 
         // The update form leaves both file inputs empty.
         $this->put(route('module.blog.update'), [
-            'blog_id'    => $blog->getKey(),
+            'blog_id' => $blog->getKey(),
             'blog_title' => 'With images, updated',
         ])
             ->assertSessionHasNoErrors()
@@ -257,10 +257,10 @@ class BlogTest extends TestCase
         ])->assertSessionHasNoErrors();
 
         $blog = BlogInfo::query()->firstOrFail();
-        $old  = (string) $blog->blog_image;
+        $old = (string) $blog->blog_image;
 
         $this->put(route('module.blog.update'), [
-            'blog_id'    => $blog->getKey(),
+            'blog_id' => $blog->getKey(),
             'blog_title' => 'Replace me',
             'blog_image' => UploadedFile::fake()->image('second.jpg', 800, 600),
         ])
@@ -283,13 +283,13 @@ class BlogTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'Delete me',
-            'blog_image'          => UploadedFile::fake()->image('cover.jpg', 800, 600),
+            'blog_title' => 'Delete me',
+            'blog_image' => UploadedFile::fake()->image('cover.jpg', 800, 600),
             'blog_featured_image' => UploadedFile::fake()->image('featured.jpg', 1600, 800),
         ])->assertSessionHasNoErrors();
 
-        $blog     = BlogInfo::query()->firstOrFail();
-        $image    = (string) $blog->blog_image;
+        $blog = BlogInfo::query()->firstOrFail();
+        $image = (string) $blog->blog_image;
         $featured = (string) $blog->blog_featured_image;
 
         $this->get(route('module.blog.delete', $blog->getKey()))->assertRedirect();
@@ -310,8 +310,8 @@ class BlogTest extends TestCase
      */
     private function category(string $name = 'Engineering'): BlogCategory
     {
-        $category                  = new BlogCategory();
-        $category->category_name   = $name;
+        $category = new BlogCategory;
+        $category->category_name = $name;
         $category->category_status = true;
         $category->save();
 

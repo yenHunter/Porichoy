@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Training\TrainingService;
-use App\Http\Requests\Admin\Training\UpdateTrainingRequest;
 use App\Http\Requests\Admin\Training\StoreTrainingRequest;
+use App\Http\Requests\Admin\Training\UpdateTrainingRequest;
 use App\Http\Requests\Admin\Training\UpdateTrainingSequenceRequest;
 use App\Http\Requests\Admin\Training\UpdateTrainingSettingsRequest;
+use App\Services\Training\TrainingService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TrainingController extends Controller
 {
     public function __construct(
         private readonly TrainingService $training_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -32,8 +29,7 @@ class TrainingController extends Controller
     /**
      * Store a newly created training info in storage.
      *
-     * @param  StoreTrainingRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreTrainingRequest  $request  Validated payload
      */
     public function store(StoreTrainingRequest $request): RedirectResponse
     {
@@ -44,9 +40,6 @@ class TrainingController extends Controller
 
     /**
      * Get a training info by id.
-     *
-     * @param  string $training_id
-     * @return JsonResponse
      */
     public function edit(string $training_id): JsonResponse
     {
@@ -56,8 +49,7 @@ class TrainingController extends Controller
     /**
      * Update an existing training info in storage.
      *
-     * @param  UpdateTrainingRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateTrainingRequest  $request  Validated payload
      */
     public function update(UpdateTrainingRequest $request): RedirectResponse
     {
@@ -68,9 +60,6 @@ class TrainingController extends Controller
 
     /**
      * Remove an existing training info from storage.
-     *
-     * @param  string $training_id
-     * @return RedirectResponse
      */
     public function delete(string $training_id): RedirectResponse
     {
@@ -81,9 +70,6 @@ class TrainingController extends Controller
 
     /**
      * Update the sequence of multiple training info records.
-     *
-     * @param  UpdateTrainingSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateTrainingSequenceRequest $request): JsonResponse
     {
@@ -94,9 +80,6 @@ class TrainingController extends Controller
 
     /**
      * Update training settings (column visibility).
-     *
-     * @param  UpdateTrainingSettingsRequest $request
-     * @return RedirectResponse
      */
     public function settings_update(UpdateTrainingSettingsRequest $request): RedirectResponse
     {

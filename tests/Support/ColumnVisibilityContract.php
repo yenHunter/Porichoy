@@ -25,15 +25,15 @@ trait ColumnVisibilityContract
     {
         $this->actingAs($this->adminUser());
 
-        $setting               = new ColumnSettings();
-        $setting->module       = $this->columnSettingsModule();
+        $setting = new ColumnSettings;
+        $setting->module = $this->columnSettingsModule();
         $setting->column_title = 'Test column';
-        $setting->column_name  = $this->columnSettingsColumn();
-        $setting->visibility   = false;
+        $setting->column_name = $this->columnSettingsColumn();
+        $setting->visibility = false;
         $setting->save();
 
         // A checked column becomes visible.
-        $this->put(route($this->modulePrefix() . '.settings.update'), [
+        $this->put(route($this->modulePrefix().'.settings.update'), [
             $this->columnSettingsColumn() => 1,
         ])
             ->assertSessionHasNoErrors()
@@ -42,7 +42,7 @@ trait ColumnVisibilityContract
         $this->assertTrue((bool) $setting->refresh()->visibility);
 
         // An omitted column is hidden again.
-        $this->put(route($this->modulePrefix() . '.settings.update'), [])
+        $this->put(route($this->modulePrefix().'.settings.update'), [])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 

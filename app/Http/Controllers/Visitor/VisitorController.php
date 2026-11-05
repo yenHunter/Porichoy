@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Visitor;
 
-use Illuminate\View\View;
-use App\Services\Visitor\VisitorService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Visitor\StoreContactRequest;
+use App\Services\Visitor\VisitorService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class VisitorController extends Controller
 {
     public function __construct(
         private readonly VisitorService $visitor_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the storefront home page.
-     *
-     * @return \Illuminate\View\View
      */
     public function index(): View
     {
@@ -27,8 +24,6 @@ class VisitorController extends Controller
 
     /**
      * Display the storefront about page.
-     *
-     * @return \Illuminate\View\View
      */
     public function about(): View
     {
@@ -37,8 +32,6 @@ class VisitorController extends Controller
 
     /**
      * Display the storefront services listing.
-     *
-     * @return \Illuminate\View\View
      */
     public function services(): View
     {
@@ -48,8 +41,7 @@ class VisitorController extends Controller
     /**
      * Display a single service page.
      *
-     * @param  string $service Service slug
-     * @return \Illuminate\View\View
+     * @param  string  $service  Service slug
      */
     public function service_details(string $service): View
     {
@@ -58,8 +50,6 @@ class VisitorController extends Controller
 
     /**
      * Display the storefront projects listing.
-     *
-     * @return \Illuminate\View\View
      */
     public function projects(): View
     {
@@ -69,8 +59,7 @@ class VisitorController extends Controller
     /**
      * Display a single project page.
      *
-     * @param  string $project Project slug
-     * @return \Illuminate\View\View
+     * @param  string  $project  Project slug
      */
     public function project_details(string $project): View
     {
@@ -79,8 +68,6 @@ class VisitorController extends Controller
 
     /**
      * Display the storefront blog listing.
-     *
-     * @return \Illuminate\View\View
      */
     public function blogs(): View
     {
@@ -90,8 +77,7 @@ class VisitorController extends Controller
     /**
      * Display a single blog page.
      *
-     * @param  string $blog Blog slug
-     * @return \Illuminate\View\View
+     * @param  string  $blog  Blog slug
      */
     public function blog_details(string $blog): View
     {
@@ -100,8 +86,6 @@ class VisitorController extends Controller
 
     /**
      * Display the storefront contact page.
-     *
-     * @return \Illuminate\View\View
      */
     public function contact(): View
     {
@@ -111,8 +95,7 @@ class VisitorController extends Controller
     /**
      * Handle the public contact form submission.
      *
-     * @param  StoreContactRequest  $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreContactRequest  $request  Validated payload
      */
     public function contactStore(StoreContactRequest $request): RedirectResponse
     {

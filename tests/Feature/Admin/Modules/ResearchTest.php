@@ -40,9 +40,9 @@ class ResearchTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'research_source'   => $this->selectType('research_source'),
+            'research_source' => $this->selectType('research_source'),
             'research_category' => 'Computer Science',
-            'research_title'    => 'A Test Paper',
+            'research_title' => 'A Test Paper',
         ];
     }
 

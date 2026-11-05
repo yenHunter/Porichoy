@@ -59,8 +59,8 @@ class AuthenticationTest extends TestCase
         $user = $this->adminUser();
 
         $this->post(route('login.attempt'), [
-            'email'                => $user->email,
-            'password'             => 'password',
+            'email' => $user->email,
+            'password' => 'password',
             'g-recaptcha-response' => 'test-token',
         ])->assertRedirect(route('home'));
 
@@ -80,8 +80,8 @@ class AuthenticationTest extends TestCase
         $this->fakeCaptcha();
 
         $this->post(route('login.attempt'), [
-            'email'                => 'nobody@example.test',
-            'password'             => 'password',
+            'email' => 'nobody@example.test',
+            'password' => 'password',
             'g-recaptcha-response' => 'test-token',
         ])->assertSessionHasErrors(['error' => 'User not found']);
 
@@ -95,8 +95,8 @@ class AuthenticationTest extends TestCase
         $user = $this->adminUser();
 
         $this->post(route('login.attempt'), [
-            'email'                => $user->email,
-            'password'             => 'not-the-password',
+            'email' => $user->email,
+            'password' => 'not-the-password',
             'g-recaptcha-response' => 'test-token',
         ])->assertSessionHasErrors(['error' => 'Password incorrect']);
 
@@ -110,8 +110,8 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->inactive()->create();
 
         $this->post(route('login.attempt'), [
-            'email'                => $user->email,
-            'password'             => 'password',
+            'email' => $user->email,
+            'password' => 'password',
             'g-recaptcha-response' => 'test-token',
         ])->assertSessionHasErrors(['error' => 'User not activated']);
 
@@ -123,8 +123,8 @@ class AuthenticationTest extends TestCase
         $this->fakeCaptcha(success: false);
 
         $this->post(route('login.attempt'), [
-            'email'                => $this->adminUser()->email,
-            'password'             => 'password',
+            'email' => $this->adminUser()->email,
+            'password' => 'password',
             'g-recaptcha-response' => 'bad-token',
         ])->assertSessionHasErrors(['g-recaptcha-response']);
 
@@ -142,12 +142,12 @@ class AuthenticationTest extends TestCase
         $this->fakeCaptcha();
 
         $this->post(route('register.attempt'), [
-            'first_name'            => 'New',
-            'last_name'             => 'User',
-            'email'                 => 'new.user@example.test',
-            'password'              => 'a-good-password',
+            'first_name' => 'New',
+            'last_name' => 'User',
+            'email' => 'new.user@example.test',
+            'password' => 'a-good-password',
             'password_confirmation' => 'a-good-password',
-            'g-recaptcha-response'  => 'test-token',
+            'g-recaptcha-response' => 'test-token',
         ])
             ->assertRedirect(route('login'))
             ->assertSessionHasErrors(['error' => 'Please contact admin for activation']);
@@ -166,12 +166,12 @@ class AuthenticationTest extends TestCase
         $this->adminUser(['email' => 'taken@example.test']);
 
         $this->post(route('register.attempt'), [
-            'first_name'            => 'New',
-            'last_name'             => 'User',
-            'email'                 => 'taken@example.test',
-            'password'              => 'short',
+            'first_name' => 'New',
+            'last_name' => 'User',
+            'email' => 'taken@example.test',
+            'password' => 'short',
             'password_confirmation' => 'different',
-            'g-recaptcha-response'  => 'test-token',
+            'g-recaptcha-response' => 'test-token',
         ])->assertSessionHasErrors(['email', 'password']);
 
         $this->assertDatabaseMissing('users', ['email' => 'new.user@example.test']);
@@ -210,7 +210,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user)
             ->withSession(['locked' => true])
             ->post(route('unlock.screen'), [
-                'password'             => 'password',
+                'password' => 'password',
                 'g-recaptcha-response' => 'test-token',
             ])
             ->assertRedirect(route('home'));
@@ -225,7 +225,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($this->adminUser())
             ->withSession(['locked' => true])
             ->post(route('unlock.screen'), [
-                'password'             => 'wrong',
+                'password' => 'wrong',
                 'g-recaptcha-response' => 'test-token',
             ])
             ->assertSessionHasErrors(['password' => 'Incorrect password']);
@@ -261,13 +261,13 @@ class AuthenticationTest extends TestCase
 
     public function test_password_can_be_reset_with_a_valid_token(): void
     {
-        $user  = $this->adminUser();
+        $user = $this->adminUser();
         $token = Password::createToken($user);
 
         $this->post(route('reset.password.attempt'), [
-            'token'                 => $token,
-            'email'                 => $user->email,
-            'password'              => 'a-brand-new-password',
+            'token' => $token,
+            'email' => $user->email,
+            'password' => 'a-brand-new-password',
             'password_confirmation' => 'a-brand-new-password',
         ])->assertRedirect(route('login'));
 
@@ -277,12 +277,12 @@ class AuthenticationTest extends TestCase
     public function test_password_reset_rejects_an_invalid_token(): void
     {
         $user = $this->adminUser();
-        $old  = $user->password;
+        $old = $user->password;
 
         $this->post(route('reset.password.attempt'), [
-            'token'                 => 'not-a-real-token',
-            'email'                 => $user->email,
-            'password'              => 'a-brand-new-password',
+            'token' => 'not-a-real-token',
+            'email' => $user->email,
+            'password' => 'a-brand-new-password',
             'password_confirmation' => 'a-brand-new-password',
         ])->assertSessionHasErrors(['email']);
 

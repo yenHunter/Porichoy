@@ -180,3 +180,6 @@ jobs:
 
       - name: Validate composer.json
         run: composer validate --strict --no-check-publish
+
+      - name: Run Laravel Pint
+        run: vendor/bin/pint --test

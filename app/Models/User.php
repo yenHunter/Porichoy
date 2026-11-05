@@ -3,12 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Notifications\Notifiable;
+use App\Notifications\WelcomeSetPasswordNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use App\Notifications\WelcomeSetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -24,7 +24,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'profile_picture',
-        'user_status'
+        'user_status',
     ];
 
     /**
@@ -81,8 +81,8 @@ class User extends Authenticatable
     protected function profilePictureUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->profile_picture
-                ? asset('storage/' . $this->profile_picture)
+            get: fn () => $this->profile_picture
+                ? asset('storage/'.$this->profile_picture)
                 : asset('static/icons/user.png')
         );
     }

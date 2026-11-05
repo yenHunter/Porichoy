@@ -23,8 +23,8 @@ class UpdateExperienceSequenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order'            => ['required', 'array', 'min:1'],
-            'order.*.id'       => ['required', 'string'],
+            'order' => ['required', 'array', 'min:1'],
+            'order.*.id' => ['required', 'string'],
             'order.*.sequence' => ['required', 'integer', 'min:0'],
         ];
     }

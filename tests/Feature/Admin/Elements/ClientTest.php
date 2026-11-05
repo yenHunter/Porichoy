@@ -40,8 +40,8 @@ class ClientTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'client_name'       => 'Acme Ltd',
-            'client_email'      => 'acme@example.test',
+            'client_name' => 'Acme Ltd',
+            'client_email' => 'acme@example.test',
             'organization_logo' => UploadedFile::fake()->image('logo.png', 300, 300),
         ];
     }
@@ -83,14 +83,14 @@ class ClientTest extends TestCase
             ->assertSessionHasNoErrors();
 
         $client = ClientInfo::query()->firstOrFail();
-        $old    = (string) $client->organization_logo;
+        $old = (string) $client->organization_logo;
 
         $this->assertStringStartsWith('uploads/client/organization/', $old);
         $this->assertStringEndsWith('.webp', $old);
         Storage::disk('public')->assertExists($old);
 
         $this->put(route('element.client.update'), array_merge($this->modulePayload(), [
-            'client_id'         => $client->getKey(),
+            'client_id' => $client->getKey(),
             'organization_logo' => UploadedFile::fake()->image('new-logo.png', 300, 300),
         ]))
             ->assertSessionHasNoErrors()

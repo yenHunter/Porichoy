@@ -32,11 +32,11 @@ class E2eUserSeeder extends Seeder
         $user = User::updateOrCreate(
             ['email' => self::EMAIL],
             [
-                'first_name'      => 'E2E',
-                'last_name'       => 'Admin',
-                'password'        => Hash::make(self::PASSWORD),
+                'first_name' => 'E2E',
+                'last_name' => 'Admin',
+                'password' => Hash::make(self::PASSWORD),
                 // Only an activated user may sign in.
-                'user_status'     => true,
+                'user_status' => true,
                 'profile_picture' => 'static/logo.png',
             ]
         );

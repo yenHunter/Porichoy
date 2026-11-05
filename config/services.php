@@ -36,13 +36,13 @@ return [
     ],
 
     'recaptcha' => [
-        'site_key'          => env('RECAPTCHA_SITE_KEY'),
-        'secret_key'        => env('RECAPTCHA_SECRET_KEY'),
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
 
         // Overridable so an end-to-end run can point at a local stub instead of
         // reaching Google. Both default to the real endpoints when unset.
-        'script_url'        => env('RECAPTCHA_SCRIPT_URL', 'https://www.google.com/recaptcha/api.js'),
-        'verify_url'        => env('RECAPTCHA_VERIFY_URL', 'https://www.google.com/recaptcha/api/siteverify'),
+        'script_url' => env('RECAPTCHA_SCRIPT_URL', 'https://www.google.com/recaptcha/api.js'),
+        'verify_url' => env('RECAPTCHA_VERIFY_URL', 'https://www.google.com/recaptcha/api/siteverify'),
     ],
 
 ];

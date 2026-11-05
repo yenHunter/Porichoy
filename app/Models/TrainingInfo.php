@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TrainingInfo extends Model
 {
     use HasFactory, HasUuids;
+
     protected $table = 'training_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -29,17 +31,17 @@ class TrainingInfo extends Model
         'training_certificate',
         'training_details',
         'training_status',
-        'training_sequence'
+        'training_sequence',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'start_date'            => 'date',
-        'end_date'              => 'date',
-        'training_status'       => 'boolean',
-        'training_sequence'     => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'training_status' => 'boolean',
+        'training_sequence' => 'integer',
     ];
 
     /*
@@ -99,7 +101,7 @@ class TrainingInfo extends Model
     {
         return Attribute::get(function () {
             // If the column is empty, return a placeholder or null
-            if (!$this->training_certificate) {
+            if (! $this->training_certificate) {
                 return null;
             }
 
@@ -117,7 +119,7 @@ class TrainingInfo extends Model
     {
         return Attribute::get(function () {
             // Ensure start_date exists to avoid errors
-            if (!$this->start_date) {
+            if (! $this->start_date) {
                 return null;
             }
 

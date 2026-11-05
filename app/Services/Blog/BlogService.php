@@ -2,17 +2,19 @@
 
 namespace App\Services\Blog;
 
-use App\Traits\UserLogTrait;
-use App\Models\BlogInfo;
-use App\Models\BlogCategory;
-use App\Models\ColumnSettings;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
-use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\StoreBlogRequest;
+use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSequenceRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSettingsRequest;
+use App\Models\BlogCategory;
+use App\Models\BlogInfo;
+use App\Models\ColumnSettings;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BlogService
 {
@@ -44,38 +46,38 @@ class BlogService
      * Data for the blog module admin view.
      *
      * @return array{
-     *   blog_list: \Illuminate\Database\Eloquent\Collection<int, BlogInfo>,
-     *   blog_categories: \Illuminate\Database\Eloquent\Collection<int, BlogCategory>,
-     *   blog_settings: \Illuminate\Database\Eloquent\Collection<int, ColumnSettings>,
+     *   blog_list: Collection<int, BlogInfo>,
+     *   blog_categories: Collection<int, BlogCategory>,
+     *   blog_settings: Collection<int, ColumnSettings>,
      * }
      */
     public function viewData(): array
     {
         return [
-            'blog_list'       => BlogInfo::with('category')->sorted()->get(),
+            'blog_list' => BlogInfo::with('category')->sorted()->get(),
             'blog_categories' => BlogCategory::active()->sorted()->get(),
-            'blog_settings'   => ColumnSettings::where('module', 'blog')->get(),
+            'blog_settings' => ColumnSettings::where('module', 'blog')->get(),
         ];
     }
 
     /**
      * Store a newly created blog post.
      *
-     * @param  StoreBlogRequest $request  Validated payload (+ optional images)
-     * @return BlogInfo                   The created model
+     * @param  StoreBlogRequest  $request  Validated payload (+ optional images)
+     * @return BlogInfo The created model
      */
     public function store(StoreBlogRequest $request): BlogInfo
     {
-        $blog                      = new BlogInfo();
-        $blog->blog_title          = $request->blog_title;
-        $blog->blog_excerpt        = $request->blog_excerpt;
-        $blog->blog_content        = $request->blog_content;
-        $blog->keywords            = $request->keywords;
-        $blog->blog_image          = $this->storeImage($request, 'blog_image');
+        $blog = new BlogInfo;
+        $blog->blog_title = $request->blog_title;
+        $blog->blog_excerpt = $request->blog_excerpt;
+        $blog->blog_content = $request->blog_content;
+        $blog->keywords = $request->keywords;
+        $blog->blog_image = $this->storeImage($request, 'blog_image');
         $blog->blog_featured_image = $this->storeFeaturedImage($request);
-        $blog->category_id         = $request->category_id;
-        $blog->blog_published      = $request->blog_published;
-        $blog->blog_status         = $request->blog_status;
+        $blog->category_id = $request->category_id;
+        $blog->blog_published = $request->blog_published;
+        $blog->blog_status = $request->blog_status;
         $blog->save();
 
         $this->logUserActivity('Blog', 'Created a new blog post');
@@ -88,9 +90,6 @@ class BlogService
      *
      * Returns null when the record does not exist so the controller can
      * answer with an empty JSON payload instead of throwing.
-     *
-     * @param  string $blog_id
-     * @return BlogInfo|null
      */
     public function find(string $blog_id): ?BlogInfo
     {
@@ -104,7 +103,6 @@ class BlogService
      * `datetime-local` input shows (and submits) the same wall-clock time
      * instead of the UTC representation of the stored value.
      *
-     * @param  string $blog_id
      * @return array<string, mixed>|null
      */
     public function findForEdit(string $blog_id): ?array
@@ -123,9 +121,10 @@ class BlogService
     /**
      * Update an existing blog post.
      *
-     * @param  UpdateBlogRequest $request  Validated payload
-     * @return BlogInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateBlogRequest  $request  Validated payload
+     * @return BlogInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateBlogRequest $request): BlogInfo
     {
@@ -144,17 +143,17 @@ class BlogService
         }
 
         $blog->fill([
-            'blog_title'     => $request->blog_title,
-            'blog_excerpt'   => $request->blog_excerpt,
-            'blog_content'   => $request->blog_content,
-            'keywords'       => $request->keywords,
-            'category_id'    => $request->category_id,
+            'blog_title' => $request->blog_title,
+            'blog_excerpt' => $request->blog_excerpt,
+            'blog_content' => $request->blog_content,
+            'keywords' => $request->keywords,
+            'category_id' => $request->category_id,
             // An emptied datetime field clears the date; an omitted key keeps it.
             'blog_published' => $request->has('blog_published')
                 ? $request->blog_published
                 : $blog->blog_published,
             // Omitted status keeps the stored value instead of writing null.
-            'blog_status'    => $request->has('blog_status')
+            'blog_status' => $request->has('blog_status')
                 ? $request->blog_status
                 : $blog->blog_status,
         ]);
@@ -168,9 +167,7 @@ class BlogService
     /**
      * Delete a blog post.
      *
-     * @param  string $blog_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $blog_id): void
     {
@@ -186,9 +183,6 @@ class BlogService
 
     /**
      * Reorder (sequence-update) blog posts from a drag-sort payload.
-     *
-     * @param  UpdateBlogSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateBlogSequenceRequest $request): void
     {
@@ -200,9 +194,6 @@ class BlogService
 
     /**
      * Toggle column visibility for the blog module.
-     *
-     * @param  UpdateBlogSettingsRequest $request
-     * @return void
      */
     public function updateSettings(UpdateBlogSettingsRequest $request): void
     {
@@ -225,17 +216,15 @@ class BlogService
     /**
      * Persist an uploaded listing image, rescaled and re-encoded as WebP.
      *
-     * @param  StoreBlogRequest|UpdateBlogRequest $request
-     * @param  string                            $field
-     * @return string|null  Stored path, or null when nothing was uploaded.
+     * @return string|null Stored path, or null when nothing was uploaded.
      */
     private function storeImage(StoreBlogRequest|UpdateBlogRequest $request, string $field): ?string
     {
-        if (!$request->hasFile($field)) {
+        if (! $request->hasFile($field)) {
             return null;
         }
 
-        $path = self::IMAGE_DIR . '/' . Str::uuid() . '.webp';
+        $path = self::IMAGE_DIR.'/'.Str::uuid().'.webp';
 
         $image = Image::read($request->file($field));
         $image->scale(width: self::IMAGE_WIDTH);
@@ -248,16 +237,15 @@ class BlogService
     /**
      * Persist an uploaded featured image (cropped to 1200x600, WebP).
      *
-     * @param  StoreBlogRequest|UpdateBlogRequest $request
-     * @return string|null  Stored path, or null when nothing was uploaded.
+     * @return string|null Stored path, or null when nothing was uploaded.
      */
     private function storeFeaturedImage(StoreBlogRequest|UpdateBlogRequest $request): ?string
     {
-        if (!$request->hasFile('blog_featured_image')) {
+        if (! $request->hasFile('blog_featured_image')) {
             return null;
         }
 
-        $path = self::FEATURED_DIR . '/' . Str::uuid() . '.webp';
+        $path = self::FEATURED_DIR.'/'.Str::uuid().'.webp';
 
         $image = Image::read($request->file('blog_featured_image'));
         $image->cover(width: self::FEATURED_WIDTH, height: self::FEATURED_HEIGHT);
@@ -269,9 +257,6 @@ class BlogService
 
     /**
      * Remove a stored image from disk (silently no-ops when absent).
-     *
-     * @param  string|null $path
-     * @return void
      */
     private function deleteImage(?string $path): void
     {

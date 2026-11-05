@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class TestimonialInfo extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'testimonial_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -33,11 +35,11 @@ class TestimonialInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'testimonial_status'    => 'boolean',
-        'testimonial_review'    => 'integer',
-        'testimonial_sequence'  => 'integer',
-        'created_at'            => 'datetime',
-        'updated_at'            => 'datetime',
+        'testimonial_status' => 'boolean',
+        'testimonial_review' => 'integer',
+        'testimonial_sequence' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /*
@@ -106,7 +108,7 @@ class TestimonialInfo extends Model
     protected function reviewPercentage(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->review * 20
+            get: fn () => $this->review * 20
         );
     }
 
@@ -116,7 +118,7 @@ class TestimonialInfo extends Model
     protected function starRating(): Attribute
     {
         return Attribute::make(
-            get: fn() => max(1, min(5, $this->review ?? 5))
+            get: fn () => max(1, min(5, $this->review ?? 5))
         );
     }
 

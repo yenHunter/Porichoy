@@ -39,10 +39,10 @@ class TestimonialTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'client_id'           => $this->clientRecord()->getKey(),
-            'testimonial_title'   => 'Great work',
+            'client_id' => $this->clientRecord()->getKey(),
+            'testimonial_title' => 'Great work',
             'testimonial_details' => 'They delivered on time.',
-            'testimonial_review'  => 5,
+            'testimonial_review' => 5,
         ];
     }
 

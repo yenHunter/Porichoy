@@ -40,10 +40,10 @@ class ExperienceTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'employment_position'     => 'Developer',
-            'employment_type'         => $this->selectType('employment_type'),
+            'employment_position' => 'Developer',
+            'employment_type' => $this->selectType('employment_type'),
             'employment_organization' => 'Test Organisation',
-            'start_date'              => '2020-01-01',
+            'start_date' => '2020-01-01',
         ];
     }
 
@@ -92,7 +92,7 @@ class ExperienceTest extends TestCase
         // This module uses `after:` rather than `after_or_equal:`.
         $this->post(route('module.experience.store'), array_merge($this->modulePayload(), [
             'start_date' => '2020-01-01',
-            'end_date'   => '2020-01-01',
+            'end_date' => '2020-01-01',
         ]))->assertSessionHasErrors(['end_date']);
     }
 }

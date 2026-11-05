@@ -33,8 +33,8 @@ class LocationTypeTest extends TestCase
     {
         return [
             'location_type_id' => $id,
-            'title'            => 'Hybrid',
-            'details'          => 'Two days in office',
+            'title' => 'Hybrid',
+            'details' => 'Two days in office',
         ];
     }
 }

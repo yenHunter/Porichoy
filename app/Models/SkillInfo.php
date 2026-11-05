@@ -2,20 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class SkillInfo extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'skill_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -34,8 +36,8 @@ class SkillInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'skill_status'              => 'boolean',
-        'skill_sequence'            => 'integer',
+        'skill_status' => 'boolean',
+        'skill_sequence' => 'integer',
     ];
 
     /*
@@ -95,8 +97,8 @@ class SkillInfo extends Model
     protected function skillLogoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->skill_logo
-                ? asset('storage/' . $this->skill_logo)
+            get: fn () => $this->skill_logo
+                ? asset('storage/'.$this->skill_logo)
                 : asset('static/logo/skill.png')
         );
     }

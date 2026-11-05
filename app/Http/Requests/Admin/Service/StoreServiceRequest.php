@@ -22,14 +22,14 @@ class StoreServiceRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'service_title'    => ['required', 'string', 'max:255'],
+            'service_title' => ['required', 'string', 'max:255'],
             'service_subtitle' => ['nullable', 'string', 'max:255'],
-            'service_icon'     => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'profile_image'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'cover_image'      => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'service_details'  => ['nullable', 'string'],
-            'service_skills'   => ['nullable', 'array'],
-            'service_status'   => ['nullable', 'boolean'],
+            'service_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'service_details' => ['nullable', 'string'],
+            'service_skills' => ['nullable', 'array'],
+            'service_status' => ['nullable', 'boolean'],
         ];
     }
 
@@ -52,7 +52,7 @@ class StoreServiceRequest extends FormRequest
     {
         return [
             'service_icon' => 'service icon',
-            'cover_image'  => 'cover image',
+            'cover_image' => 'cover image',
         ];
     }
 

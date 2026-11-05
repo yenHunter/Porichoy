@@ -3,8 +3,8 @@
 namespace Tests;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\Http;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -31,8 +31,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Create an active user, ready to be passed to actingAs().
      *
-     * @param  array<string, mixed> $attributes
-     * @return User
+     * @param  array<string, mixed>  $attributes
      */
     protected function adminUser(array $attributes = []): User
     {

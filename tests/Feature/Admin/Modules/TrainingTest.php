@@ -40,8 +40,8 @@ class TrainingTest extends TestCase
     protected function modulePayload(): array
     {
         return [
-            'training_title'     => 'Laravel Bootcamp',
-            'training_category'  => $this->selectType('training_category'),
+            'training_title' => 'Laravel Bootcamp',
+            'training_category' => $this->selectType('training_category'),
             'training_institute' => 'Test Institute',
         ];
     }
@@ -90,7 +90,7 @@ class TrainingTest extends TestCase
 
         $this->post(route('module.training.store'), array_merge($this->modulePayload(), [
             'start_date' => '2020-01-01',
-            'end_date'   => '2019-12-31',
+            'end_date' => '2019-12-31',
         ]))->assertSessionHasErrors(['end_date']);
     }
 }

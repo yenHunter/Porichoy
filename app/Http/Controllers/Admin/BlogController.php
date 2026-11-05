@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Blog\BlogService;
-use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\StoreBlogRequest;
+use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSequenceRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSettingsRequest;
+use App\Services\Blog\BlogService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class BlogController extends Controller
 {
     public function __construct(
         private readonly BlogService $blog_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -32,8 +29,7 @@ class BlogController extends Controller
     /**
      * Store a newly created blog post in storage.
      *
-     * @param  StoreBlogRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreBlogRequest  $request  Validated payload
      */
     public function store(StoreBlogRequest $request): RedirectResponse
     {
@@ -44,9 +40,6 @@ class BlogController extends Controller
 
     /**
      * Get a blog post by id.
-     *
-     * @param  string $blog_id
-     * @return JsonResponse
      */
     public function edit(string $blog_id): JsonResponse
     {
@@ -58,8 +51,7 @@ class BlogController extends Controller
     /**
      * Update an existing blog post in storage.
      *
-     * @param  UpdateBlogRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateBlogRequest  $request  Validated payload
      */
     public function update(UpdateBlogRequest $request): RedirectResponse
     {
@@ -70,9 +62,6 @@ class BlogController extends Controller
 
     /**
      * Remove an existing blog post from storage.
-     *
-     * @param  string $blog_id
-     * @return RedirectResponse
      */
     public function delete(string $blog_id): RedirectResponse
     {
@@ -83,9 +72,6 @@ class BlogController extends Controller
 
     /**
      * Update blog sequence.
-     *
-     * @param  UpdateBlogSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateBlogSequenceRequest $request): JsonResponse
     {
@@ -96,9 +82,6 @@ class BlogController extends Controller
 
     /**
      * Update blog settings (column visibility).
-     *
-     * @param  UpdateBlogSettingsRequest $request
-     * @return RedirectResponse
      */
     public function settings_update(UpdateBlogSettingsRequest $request): RedirectResponse
     {

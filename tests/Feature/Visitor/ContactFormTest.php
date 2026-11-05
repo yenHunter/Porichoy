@@ -30,10 +30,10 @@ class ContactFormTest extends TestCase
         });
 
         $this->post('/contact', [
-            'name'                 => 'Test Visitor',
-            'email'                => 'visitor@example.com',
-            'phone'                => '555-0100',
-            'comments'             => 'I would like to discuss a new project.',
+            'name' => 'Test Visitor',
+            'email' => 'visitor@example.com',
+            'phone' => '555-0100',
+            'comments' => 'I would like to discuss a new project.',
             'g-recaptcha-response' => 'test-token',
         ])
             ->assertRedirect()
@@ -62,9 +62,9 @@ class ContactFormTest extends TestCase
         ]);
 
         $this->post('/contact', [
-            'name'                 => 'Test Visitor',
-            'email'                => 'visitor@example.com',
-            'comments'             => 'I would like to discuss a new project.',
+            'name' => 'Test Visitor',
+            'email' => 'visitor@example.com',
+            'comments' => 'I would like to discuss a new project.',
             'g-recaptcha-response' => 'bad-token',
         ])
             ->assertRedirect()

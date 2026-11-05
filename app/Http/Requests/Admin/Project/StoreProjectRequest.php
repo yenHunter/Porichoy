@@ -22,19 +22,19 @@ class StoreProjectRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'project_title'      => ['required', 'string', 'max:255'],
-            'project_details'    => ['nullable', 'string'],
-            'profile_image'      => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'cover_image'        => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'client_id'          => ['nullable', 'exists:client_infos,id'],
-            'start_date'         => ['required', 'date'],
-            'end_date'           => ['nullable', 'date', 'after_or_equal:start_date'],
-            'service_id'         => ['nullable', 'exists:service_infos,id'],
-            'project_location'   => ['nullable', 'string', 'max:255'],
+            'project_title' => ['required', 'string', 'max:255'],
+            'project_details' => ['nullable', 'string'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'client_id' => ['nullable', 'exists:client_infos,id'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
+            'service_id' => ['nullable', 'exists:service_infos,id'],
+            'project_location' => ['nullable', 'string', 'max:255'],
             'project_background' => ['nullable', 'string'],
             'project_challenges' => ['nullable', 'string'],
-            'project_solution'   => ['nullable', 'string'],
-            'project_status'     => ['nullable', 'boolean'],
+            'project_solution' => ['nullable', 'string'],
+            'project_status' => ['nullable', 'boolean'],
         ];
     }
 
@@ -56,7 +56,7 @@ class StoreProjectRequest extends FormRequest
     public static function sharedAttributes(): array
     {
         return [
-            'client_id'  => 'client',
+            'client_id' => 'client',
             'service_id' => 'service',
         ];
     }
