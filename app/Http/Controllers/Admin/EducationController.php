@@ -58,7 +58,7 @@ class EducationController extends Controller
     public function edit(string $education_id): JsonResponse
     {
         return response()->json(
-            $this->education_service->find($education_id)
+            $this->education_service->findForEdit($education_id)
         );
     }
 

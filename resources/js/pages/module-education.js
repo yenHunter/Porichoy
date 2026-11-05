@@ -166,8 +166,9 @@ $(document).on('click', '.btn-edit', function () {
             $('#education_subject').val(data.education_subject);
             $('#education_institute').val(data.education_institute);
             $('#institute_address').val(data.institute_address);
-            $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
-            $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
+            // Pre-formatted in the application timezone by the edit payload.
+            $('#start_date').val(data.start_date_input ?? '');
+            $('#end_date').val(data.end_date_input ?? '');
             $('#education_result').val(data.education_result);
             $('#education_status').val(data.education_status == 1 ? 1 : 0);
 

@@ -1,18 +1,74 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Modules;
 
 use App\Models\BlogCategory;
 use App\Models\BlogInfo;
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
+use Tests\Support\AdminModuleContract;
+use Tests\Support\ColumnVisibilityContract;
 use Tests\TestCase;
 
-class BlogModuleTest extends TestCase
+class BlogTest extends TestCase
 {
-    use RefreshDatabase;
+    use AdminModuleContract;
+    use ColumnVisibilityContract;
+
+    protected function modulePrefix(): string
+    {
+        return 'module.blog';
+    }
+
+    protected function moduleIdField(): string
+    {
+        return 'blog_id';
+    }
+
+    protected function moduleModel(): string
+    {
+        return BlogInfo::class;
+    }
+
+    protected function moduleTitleField(): string
+    {
+        return 'blog_title';
+    }
+
+    protected function moduleSequenceColumn(): string
+    {
+        return 'blog_sequence';
+    }
+
+    protected function modulePayload(): array
+    {
+        return [
+            'blog_title'   => 'First Post',
+            'blog_excerpt' => 'An excerpt',
+        ];
+    }
+
+    protected function moduleRequiredFields(): array
+    {
+        return ['blog_title'];
+    }
+
+    protected function moduleUpdatedTitle(): string
+    {
+        return 'First Post Revised';
+    }
+
+    protected function columnSettingsModule(): string
+    {
+        return 'blog';
+    }
+
+    protected function columnSettingsColumn(): string
+    {
+        return 'blog_title';
+    }
 
     /**
      * The admin listing carries every post with its category label.
@@ -21,8 +77,8 @@ class BlogModuleTest extends TestCase
     {
         $category = $this->category('Engineering');
 
-        $blog             = new BlogInfo();
-        $blog->blog_title = 'Listed post';
+        $blog              = new BlogInfo();
+        $blog->blog_title  = 'Listed post';
         $blog->category_id = $category->getKey();
         $blog->save();
 
@@ -70,7 +126,7 @@ class BlogModuleTest extends TestCase
         $this->get(route('module.blog.edit', $blog->getKey()))
             ->assertOk()
             ->assertJsonPath('blog_published', fn ($value) => $value !== null
-                && \Illuminate\Support\Carbon::parse($value)->equalTo($blog->blog_published))
+                && Carbon::parse($value)->equalTo($blog->blog_published))
             // The form value is pre-formatted in the application timezone, so
             // datetime-local does not shift the time when the modal is saved.
             ->assertJsonPath('blog_published_input', '2026-04-08T10:30')
@@ -87,6 +143,33 @@ class BlogModuleTest extends TestCase
             ->assertRedirect();
 
         $this->assertNull($blog->refresh()->blog_published);
+    }
+
+    /**
+     * The publish datetime survives a round trip through the edit form.
+     */
+    public function test_the_publish_time_keeps_its_local_value_on_edit(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $this->post(route('module.blog.store'), [
+            'blog_title'     => 'Scheduled',
+            'blog_published' => '2026-04-08 10:30:00',
+        ])->assertSessionHasNoErrors();
+
+        $blog = BlogInfo::query()->firstOrFail();
+
+        $this->put(route('module.blog.update'), [
+            'blog_id'        => $blog->getKey(),
+            'blog_title'     => 'Scheduled',
+            // What the datetime-local input posts back unchanged.
+            'blog_published' => '2026-04-08T10:30',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(
+            '2026-04-08 10:30:00',
+            $blog->refresh()->blog_published?->format('Y-m-d H:i:s')
+        );
     }
 
     /**

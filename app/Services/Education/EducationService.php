@@ -180,6 +180,29 @@ class EducationService
         return EducationInfo::where('id', $education_id)->first();
     }
 
+    /**
+     * Find one record plus the dates the edit form reads back.
+     *
+     * The date inputs are local dates in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @param  string $education_id
+     * @return array<string, mixed>|null
+     */
+    public function findForEdit(string $education_id): ?array
+    {
+        $education = $this->find($education_id);
+
+        if ($education === null) {
+            return null;
+        }
+
+        return $education->toArray() + [
+            'start_date_input' => $education->start_date?->format('Y-m-d'),
+            'end_date_input'   => $education->end_date?->format('Y-m-d'),
+        ];
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Internals

@@ -1,21 +1,9 @@
 const { test, expect } = require('@playwright/test');
-const { adminUrl, ADMIN } = require('./support/servers');
-const { stubCaptchaWidget, VALID_TOKEN } = require('./support/captcha');
+const { adminUrl } = require('../support/servers');
+const { signIn } = require('../support/admin');
 
 const PDF_VIEWER = '/admin/misc/pdf-viewer';
-const FIXTURE_PDF = require('node:path').resolve(__dirname, 'fixtures', 'sample.pdf');
-
-/** Sign in through the real form: the widget stub supplies the captcha token. */
-async function signIn(page) {
-    await stubCaptchaWidget(page, VALID_TOKEN);
-
-    await page.goto(`${adminUrl()}/login`);
-    await page.fill('[name="email"]', ADMIN.email);
-    await page.fill('[name="password"]', ADMIN.password);
-    await page.click('button.g-recaptcha');
-
-    await page.waitForURL(`${adminUrl()}/home`);
-}
+const FIXTURE_PDF = require('node:path').resolve(__dirname, '..', 'fixtures', 'sample.pdf');
 
 /** Count the pixels the viewer actually painted on its canvas. */
 async function canvasPixels(page) {
@@ -39,24 +27,7 @@ async function canvasPixels(page) {
     });
 }
 
-test.describe('admin panel', () => {
-    test('sends a guest to the login page', async ({ page }) => {
-        await page.goto(`${adminUrl()}${PDF_VIEWER}`);
-
-        await expect(page).toHaveURL(`${adminUrl()}/login`);
-        await expect(page.locator('#login_form')).toBeVisible();
-    });
-
-    test('signs in and lands on the dashboard', async ({ page }) => {
-        await signIn(page);
-
-        const response = await page.goto(`${adminUrl()}/home`);
-
-        expect(response.status()).toBe(200);
-        await expect(page.locator('#login_form')).toHaveCount(0);
-        await expect(page).toHaveTitle(/Porichoy|Dashboard|Home/i);
-    });
-
+test.describe('pdf viewer', () => {
     test('renders a PDF in the viewer', async ({ page }) => {
         await signIn(page);
 

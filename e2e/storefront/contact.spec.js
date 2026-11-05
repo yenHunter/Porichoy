@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
-const { THEMES, baseUrl } = require('./support/servers');
-const { stubCaptchaWidget, VALID_TOKEN, INVALID_TOKEN } = require('./support/captcha');
+const { THEMES, baseUrl } = require('../support/servers');
+const { stubCaptchaWidget, VALID_TOKEN, INVALID_TOKEN } = require('../support/captcha');
 
 const MESSAGE = 'Hello from the storefront smoke test.';
 
@@ -32,34 +32,6 @@ async function fillAndSubmit(page) {
 
 for (const theme of THEMES) {
     test.describe(`${theme.name} theme`, () => {
-        test('home page renders with its own assets', async ({ page }) => {
-            const response = await page.goto(baseUrl(theme));
-
-            expect(response.status()).toBe(200);
-            expect(await page.locator(`link[href*="visitor/${theme.name}/"]`).count()).toBeGreaterThan(0);
-        });
-
-        if (theme.pages) {
-            test('opens a detail page from the project listing', async ({ page }) => {
-                const listing = await page.goto(`${baseUrl(theme)}/projects`);
-                expect(listing.status()).toBe(200);
-
-                const card = page.locator('a[href*="/project/"]').first();
-                await expect(card).toBeVisible();
-
-                const [detail] = await Promise.all([
-                    page.waitForResponse(
-                        (response) => response.request().isNavigationRequest() && response.url().includes('/project/'),
-                    ),
-                    card.click(),
-                ]);
-
-                expect(detail.status()).toBe(200);
-                expect(page.url()).toContain('/project/');
-                expect(await page.locator(`link[href*="visitor/${theme.name}/"]`).count()).toBeGreaterThan(0);
-            });
-        }
-
         test('submits the contact form with a valid captcha token', async ({ page }) => {
             await stubCaptchaWidget(page, VALID_TOKEN);
 

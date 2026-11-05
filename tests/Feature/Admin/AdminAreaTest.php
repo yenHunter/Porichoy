@@ -119,7 +119,10 @@ class AdminAreaTest extends TestCase
         $this->put(route('module.education.update'), [])->assertRedirect(route('login'));
         $this->post(route('module.blog.sequence'), [])->assertRedirect(route('login'));
         $this->get(route('module.research.delete', 'education-id'))->assertRedirect(route('login'));
+        $this->post(route('element.project.store'), [])->assertRedirect(route('login'));
+        $this->get(route('element.client.delete', 'client-id'))->assertRedirect(route('login'));
         $this->post(route('management.user.store'), [])->assertRedirect(route('login'));
+        $this->put(route('settings.research_source.update'), [])->assertRedirect(route('login'));
         $this->post(route('configuration.update', 'antux'))->assertRedirect(route('login'));
     }
 

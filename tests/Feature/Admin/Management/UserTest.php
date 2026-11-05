@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Management;
 
 use App\Models\User;
 use App\Notifications\WelcomeSetPasswordNotification;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class UserManagementTest extends TestCase
+class UserTest extends TestCase
 {
     use RefreshDatabase;
 
