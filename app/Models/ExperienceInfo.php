@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class ExperienceInfo extends Model
 {
     use HasFactory, HasUuids;
+
     protected $table = 'experience_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     protected $fillable = [
         'employment_position',
         'employment_type',
@@ -28,17 +32,17 @@ class ExperienceInfo extends Model
         'employment_details',
         'employment_status',
         'employment_sequence',
-        'updated_by'
+        'updated_by',
     ];
 
     /**
      * The attributes that should be cast.
      */
     protected $casts = [
-        'start_date'            => 'date',
-        'end_date'              => 'date',
-        'employment_status'     => 'boolean',
-        'employment_sequence'   => 'integer',
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'employment_status' => 'boolean',
+        'employment_sequence' => 'integer',
     ];
 
     /*
@@ -93,8 +97,8 @@ class ExperienceInfo extends Model
     protected function organizationLogoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->organization_logo
-                ? asset('storage/' . $this->organization_logo)
+            get: fn () => $this->organization_logo
+                ? asset('storage/'.$this->organization_logo)
                 : asset('static/logo/experience.png')
         );
     }
@@ -103,7 +107,7 @@ class ExperienceInfo extends Model
     {
         return Attribute::get(function () {
             // Ensure start_date exists to avoid errors
-            if (!$this->start_date) {
+            if (! $this->start_date) {
                 return null;
             }
 

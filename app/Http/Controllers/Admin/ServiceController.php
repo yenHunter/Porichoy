@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Service\ServiceService;
 use App\Http\Requests\Admin\Service\StoreServiceRequest;
 use App\Http\Requests\Admin\Service\UpdateServiceRequest;
 use App\Http\Requests\Admin\Service\UpdateServiceSequenceRequest;
+use App\Services\Service\ServiceService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ServiceController extends Controller
 {
     public function __construct(
         private readonly ServiceService $service_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -31,8 +28,7 @@ class ServiceController extends Controller
     /**
      * Store a newly created service info in storage.
      *
-     * @param  StoreServiceRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreServiceRequest  $request  Validated payload
      */
     public function store(StoreServiceRequest $request): RedirectResponse
     {
@@ -43,9 +39,6 @@ class ServiceController extends Controller
 
     /**
      * Get a service info by id.
-     *
-     * @param  string $service_id
-     * @return JsonResponse
      */
     public function edit(string $service_id): JsonResponse
     {
@@ -55,8 +48,7 @@ class ServiceController extends Controller
     /**
      * Update an existing service info in storage.
      *
-     * @param  UpdateServiceRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateServiceRequest  $request  Validated payload
      */
     public function update(UpdateServiceRequest $request): RedirectResponse
     {
@@ -67,9 +59,6 @@ class ServiceController extends Controller
 
     /**
      * Delete an existing service info from storage.
-     *
-     * @param  string $service_id
-     * @return RedirectResponse
      */
     public function delete(string $service_id): RedirectResponse
     {
@@ -80,9 +69,6 @@ class ServiceController extends Controller
 
     /**
      * Update the sequence of multiple service info records.
-     *
-     * @param  UpdateServiceSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateServiceSequenceRequest $request): JsonResponse
     {

@@ -22,15 +22,15 @@ class StoreBlogRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'blog_title'     => ['required', 'string', 'max:255'],
-            'blog_excerpt'   => ['nullable', 'string', 'max:500'],
-            'blog_content'   => ['nullable', 'string'],
-            'keywords'       => ['nullable', 'string', 'max:255'],
-            'blog_image'     => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'blog_title' => ['required', 'string', 'max:255'],
+            'blog_excerpt' => ['nullable', 'string', 'max:500'],
+            'blog_content' => ['nullable', 'string'],
+            'keywords' => ['nullable', 'string', 'max:255'],
+            'blog_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'blog_featured_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'category_id'    => ['nullable', 'exists:blog_categories,id'],
+            'category_id' => ['nullable', 'exists:blog_categories,id'],
             'blog_published' => ['nullable', 'date'],
-            'blog_status'    => ['nullable', 'boolean'],
+            'blog_status' => ['nullable', 'boolean'],
         ];
     }
 
@@ -42,8 +42,8 @@ class StoreBlogRequest extends FormRequest
     public static function sharedAttributes(): array
     {
         return [
-            'category_id'         => 'category',
-            'blog_image'          => 'blog image',
+            'category_id' => 'category',
+            'blog_image' => 'blog image',
             'blog_featured_image' => 'featured image',
         ];
     }

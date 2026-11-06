@@ -2,12 +2,14 @@
 
 namespace App\Services\Testimonial;
 
-use App\Traits\UserLogTrait;
-use App\Models\TestimonialInfo;
-use App\Models\ClientInfo;
 use App\Http\Requests\Admin\Testimonial\StoreTestimonialRequest;
 use App\Http\Requests\Admin\Testimonial\UpdateTestimonialRequest;
 use App\Http\Requests\Admin\Testimonial\UpdateTestimonialSequenceRequest;
+use App\Models\ClientInfo;
+use App\Models\TestimonialInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TestimonialService
 {
@@ -16,30 +18,30 @@ class TestimonialService
     /**
      * Data for the testimonial element admin view.
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
         return [
             'testimonial_list' => TestimonialInfo::sorted()->get(),
-            'client_list'      => ClientInfo::active()->sorted()->get(),
+            'client_list' => ClientInfo::active()->sorted()->get(),
         ];
     }
 
     /**
      * Store a newly created testimonial.
      *
-     * @param  StoreTestimonialRequest $request  Validated payload
-     * @return TestimonialInfo                   The created model
+     * @param  StoreTestimonialRequest  $request  Validated payload
+     * @return TestimonialInfo The created model
      */
     public function store(StoreTestimonialRequest $request): TestimonialInfo
     {
-        $testimonial                       = new TestimonialInfo();
-        $testimonial->client_id            = $request->client_id;
-        $testimonial->testimonial_title    = $request->testimonial_title;
-        $testimonial->testimonial_details  = $request->testimonial_details;
-        $testimonial->testimonial_review   = $request->testimonial_review;
-        $testimonial->testimonial_status   = $request->testimonial_status;
+        $testimonial = new TestimonialInfo;
+        $testimonial->client_id = $request->client_id;
+        $testimonial->testimonial_title = $request->testimonial_title;
+        $testimonial->testimonial_details = $request->testimonial_details;
+        $testimonial->testimonial_review = $request->testimonial_review;
+        $testimonial->testimonial_status = $request->testimonial_status;
         $testimonial->save();
 
         $this->logUserActivity('Testimonial', 'New record created');
@@ -49,9 +51,6 @@ class TestimonialService
 
     /**
      * Find a single testimonial by id.
-     *
-     * @param  string $testimonial_id
-     * @return TestimonialInfo|null
      */
     public function find(string $testimonial_id): ?TestimonialInfo
     {
@@ -61,21 +60,22 @@ class TestimonialService
     /**
      * Update an existing testimonial.
      *
-     * @param  UpdateTestimonialRequest $request  Validated payload
-     * @return TestimonialInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateTestimonialRequest  $request  Validated payload
+     * @return TestimonialInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateTestimonialRequest $request): TestimonialInfo
     {
         $testimonial = TestimonialInfo::findOrFail($request->testimonial_id);
 
         $testimonial->fill([
-            'client_id'           => $request->client_id,
-            'testimonial_title'   => $request->testimonial_title,
+            'client_id' => $request->client_id,
+            'testimonial_title' => $request->testimonial_title,
             'testimonial_details' => $request->testimonial_details,
-            'testimonial_review'  => $request->testimonial_review,
+            'testimonial_review' => $request->testimonial_review,
             // Omitted status keeps the stored value instead of writing null.
-            'testimonial_status'  => $request->has('testimonial_status')
+            'testimonial_status' => $request->has('testimonial_status')
                 ? $request->testimonial_status
                 : $testimonial->testimonial_status,
         ]);
@@ -89,9 +89,7 @@ class TestimonialService
     /**
      * Delete a testimonial.
      *
-     * @param  string $testimonial_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $testimonial_id): void
     {
@@ -103,9 +101,6 @@ class TestimonialService
 
     /**
      * Reorder (sequence-update) testimonials from a drag-sort payload.
-     *
-     * @param  UpdateTestimonialSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateTestimonialSequenceRequest $request): void
     {

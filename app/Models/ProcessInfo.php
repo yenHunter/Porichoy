@@ -8,6 +8,7 @@ class ProcessInfo extends Model
 {
     // The migration defines process_infos; the model's old table name pointed at a table that never existed.
     protected $table = 'process_infos';
+
     protected $guarded = [];
 
     public function service()

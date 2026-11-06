@@ -2,27 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Experience\ExperienceService;
-use App\Http\Requests\Admin\Experience\UpdateExperienceRequest;
 use App\Http\Requests\Admin\Experience\StoreExperienceRequest;
+use App\Http\Requests\Admin\Experience\UpdateExperienceRequest;
 use App\Http\Requests\Admin\Experience\UpdateExperienceSequenceRequest;
 use App\Http\Requests\Admin\Experience\UpdateExperienceSettingsRequest;
+use App\Services\Experience\ExperienceService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ExperienceController extends Controller
 {
     public function __construct(
         private readonly ExperienceService $experience_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -32,8 +29,7 @@ class ExperienceController extends Controller
     /**
      * Store a newly created experience info in storage.
      *
-     * @param  StoreExperienceRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreExperienceRequest  $request  Validated payload
      */
     public function store(StoreExperienceRequest $request): RedirectResponse
     {
@@ -44,9 +40,6 @@ class ExperienceController extends Controller
 
     /**
      * Get an experience info by id.
-     *
-     * @param  string $experience_id
-     * @return JsonResponse
      */
     public function edit(string $experience_id): JsonResponse
     {
@@ -56,8 +49,7 @@ class ExperienceController extends Controller
     /**
      * Update an existing experience info in storage.
      *
-     * @param  UpdateExperienceRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateExperienceRequest  $request  Validated payload
      */
     public function update(UpdateExperienceRequest $request): RedirectResponse
     {
@@ -68,9 +60,6 @@ class ExperienceController extends Controller
 
     /**
      * Remove an existing experience info from storage.
-     *
-     * @param  string $experience_id
-     * @return RedirectResponse
      */
     public function delete(string $experience_id): RedirectResponse
     {
@@ -81,9 +70,6 @@ class ExperienceController extends Controller
 
     /**
      * Update the employment sequence for multiple experience info records.
-     *
-     * @param  UpdateExperienceSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateExperienceSequenceRequest $request): JsonResponse
     {
@@ -94,9 +80,6 @@ class ExperienceController extends Controller
 
     /**
      * Update experience settings (column visibility).
-     *
-     * @param  UpdateExperienceSettingsRequest $request
-     * @return RedirectResponse
      */
     public function settings_update(UpdateExperienceSettingsRequest $request): RedirectResponse
     {

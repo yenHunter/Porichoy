@@ -32,14 +32,17 @@ module.exports = defineConfig({
             env: { RECAPTCHA_STUB_PORT: String(STUB_PORT) },
         },
         ...THEMES.map((theme) => ({
-            command: `php artisan serve --host=127.0.0.1 --port=${theme.port}`,
+            // --no-reload keeps the servers on the environment prepared above:
+            // without it ServeCommand drops every non-passthrough variable when
+            // a .env file is present, so the servers would boot on the dev database.
+            command: `php artisan serve --no-reload --host=127.0.0.1 --port=${theme.port}`,
             url: `http://127.0.0.1:${theme.port}/up`,
             reuseExistingServer: ! process.env.CI,
             timeout: 120_000,
             env: appEnvironment(theme.name),
         })),
         {
-            command: `php artisan serve --host=127.0.0.1 --port=${ADMIN_PORT}`,
+            command: `php artisan serve --no-reload --host=127.0.0.1 --port=${ADMIN_PORT}`,
             url: `http://127.0.0.1:${ADMIN_PORT}/up`,
             reuseExistingServer: ! process.env.CI,
             timeout: 120_000,

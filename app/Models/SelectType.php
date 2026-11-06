@@ -10,7 +10,7 @@ class SelectType extends Model
         'use_for',
         'value',
         'details',
-        'status'
+        'status',
     ];
 
     public function research()

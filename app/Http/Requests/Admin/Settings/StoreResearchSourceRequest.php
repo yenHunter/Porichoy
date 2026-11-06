@@ -22,9 +22,9 @@ class StoreResearchSourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'     => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
             'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'status'    => ['nullable', 'boolean'],
+            'status' => ['nullable', 'boolean'],
         ];
     }
 }

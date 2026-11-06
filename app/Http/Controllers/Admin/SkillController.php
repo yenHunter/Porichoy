@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Skill\SkillService;
 use App\Http\Requests\Admin\Skill\StoreSkillRequest;
 use App\Http\Requests\Admin\Skill\UpdateSkillRequest;
 use App\Http\Requests\Admin\Skill\UpdateSkillSequenceRequest;
+use App\Services\Skill\SkillService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class SkillController extends Controller
 {
     public function __construct(
         private readonly SkillService $skill_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -31,8 +28,7 @@ class SkillController extends Controller
     /**
      * Store a newly created skill info in storage.
      *
-     * @param  StoreSkillRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreSkillRequest  $request  Validated payload
      */
     public function store(StoreSkillRequest $request): RedirectResponse
     {
@@ -43,9 +39,6 @@ class SkillController extends Controller
 
     /**
      * Get a skill info by id.
-     *
-     * @param  string $skill_id
-     * @return JsonResponse
      */
     public function edit(string $skill_id): JsonResponse
     {
@@ -55,8 +48,7 @@ class SkillController extends Controller
     /**
      * Update an existing skill info in storage.
      *
-     * @param  UpdateSkillRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateSkillRequest  $request  Validated payload
      */
     public function update(UpdateSkillRequest $request): RedirectResponse
     {
@@ -67,9 +59,6 @@ class SkillController extends Controller
 
     /**
      * Delete an existing skill info from storage.
-     *
-     * @param  string $skill_id
-     * @return RedirectResponse
      */
     public function delete(string $skill_id): RedirectResponse
     {
@@ -80,9 +69,6 @@ class SkillController extends Controller
 
     /**
      * Update the sequence of multiple skill info records.
-     *
-     * @param  UpdateSkillSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateSkillSequenceRequest $request): JsonResponse
     {

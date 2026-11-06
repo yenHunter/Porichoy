@@ -11,11 +11,11 @@ class LockScreenMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session('locked') && !$request->is('lock') && !$request->is('unlock')) {
+        if (session('locked') && ! $request->is('lock') && ! $request->is('unlock')) {
             return redirect()->route('lock.screen');
         }
 

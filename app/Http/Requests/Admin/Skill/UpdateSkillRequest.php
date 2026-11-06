@@ -24,8 +24,8 @@ class UpdateSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'skill_id' => ['required', Rule::exists('skill_infos', 'id')],
-            ]
+            'skill_id' => ['required', Rule::exists('skill_infos', 'id')],
+        ]
             + StoreSkillRequest::sharedRules();
     }
 }

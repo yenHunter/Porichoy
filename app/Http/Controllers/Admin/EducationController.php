@@ -2,35 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use App\Models\ColumnSettings;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Education\EducationService;
-use App\Http\Requests\Admin\Education\UpdateEducationRequest;
 use App\Http\Requests\Admin\Education\StoreEducationRequest;
+use App\Http\Requests\Admin\Education\UpdateEducationRequest;
 use App\Http\Requests\Admin\Education\UpdateEducationSequenceRequest;
 use App\Http\Requests\Admin\Education\UpdateEducationSettingsRequest;
+use App\Services\Education\EducationService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class EducationController extends Controller
 {
     public function __construct(
         private readonly EducationService $education_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
         return view(
             'admin.pages.module.education',
             [
-                'education_list'     => $this->education_service->listAll(),
+                'education_list' => $this->education_service->listAll(),
                 'education_settings' => $this->education_service->listSettings(),
             ]
         );
@@ -39,8 +35,7 @@ class EducationController extends Controller
     /**
      * Store a newly created education info in storage.
      *
-     * @param  StoreEducationRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreEducationRequest  $request  Validated payload
      */
     public function store(StoreEducationRequest $request): RedirectResponse
     {
@@ -51,22 +46,18 @@ class EducationController extends Controller
 
     /**
      * Get an education info by id.
-     *
-     * @param  string $education_id
-     * @return JsonResponse
      */
     public function edit(string $education_id): JsonResponse
     {
         return response()->json(
-            $this->education_service->find($education_id)
+            $this->education_service->findForEdit($education_id)
         );
     }
 
     /**
      * Update an existing education info in storage.
      *
-     * @param  UpdateEducationRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateEducationRequest  $request  Validated payload
      */
     public function update(UpdateEducationRequest $request): RedirectResponse
     {
@@ -77,9 +68,6 @@ class EducationController extends Controller
 
     /**
      * Remove an existing education info from storage.
-     *
-     * @param  string $education_id
-     * @return RedirectResponse
      */
     public function delete(string $education_id): RedirectResponse
     {
@@ -90,9 +78,6 @@ class EducationController extends Controller
 
     /**
      * Update education sequence.
-     *
-     * @param  UpdateEducationSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateEducationSequenceRequest $request): JsonResponse
     {
@@ -103,9 +88,6 @@ class EducationController extends Controller
 
     /**
      * Update education settings (column visibility).
-     *
-     * @param  UpdateEducationSettingsRequest $request
-     * @return RedirectResponse
      */
     public function settings_update(UpdateEducationSettingsRequest $request): RedirectResponse
     {

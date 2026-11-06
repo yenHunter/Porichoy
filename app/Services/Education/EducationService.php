@@ -2,16 +2,18 @@
 
 namespace App\Services\Education;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
-use App\Http\Requests\Admin\Education\UpdateEducationRequest;
-use App\Http\Requests\Admin\Education\UpdateEducationSettingsRequest;
-use App\Http\Requests\Admin\Education\UpdateEducationSequenceRequest;
 use App\Http\Requests\Admin\Education\StoreEducationRequest;
-use App\Models\EducationInfo;
+use App\Http\Requests\Admin\Education\UpdateEducationRequest;
+use App\Http\Requests\Admin\Education\UpdateEducationSequenceRequest;
+use App\Http\Requests\Admin\Education\UpdateEducationSettingsRequest;
 use App\Models\ColumnSettings;
+use App\Models\EducationInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class EducationService
 {
@@ -30,24 +32,24 @@ class EducationService
     /**
      * Store a newly created education record.
      *
-     * @param  StoreEducationRequest $request  Validated payload (+ optional logo file)
-     * @return EducationInfo                   The created model
+     * @param  StoreEducationRequest  $request  Validated payload (+ optional logo file)
+     * @return EducationInfo The created model
      */
     public function store(StoreEducationRequest $request): EducationInfo
     {
         $logo_path = $this->storeLogo($request);
 
-        $education                 = new EducationInfo();
-        $education->education_degree    = $request->education_degree;
-        $education->education_subject   = $request->education_subject;
+        $education = new EducationInfo;
+        $education->education_degree = $request->education_degree;
+        $education->education_subject = $request->education_subject;
         $education->education_institute = $request->education_institute;
-        $education->institute_logo      = $logo_path;
-        $education->institute_address   = $request->institute_address;
-        $education->start_date          = $request->start_date;
-        $education->end_date            = $request->end_date;
-        $education->education_result    = $request->education_result;
-        $education->education_details   = $request->education_details;
-        $education->education_status    = $request->education_status;
+        $education->institute_logo = $logo_path;
+        $education->institute_address = $request->institute_address;
+        $education->start_date = $request->start_date;
+        $education->end_date = $request->end_date;
+        $education->education_result = $request->education_result;
+        $education->education_details = $request->education_details;
+        $education->education_status = $request->education_status;
         $education->save();
 
         $this->logUserActivity('Education', 'Created a new Education info');
@@ -58,9 +60,10 @@ class EducationService
     /**
      * Update an existing education record (and replace the logo if given).
      *
-     * @param  UpdateEducationRequest $request  Validated payload
-     * @return EducationInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateEducationRequest  $request  Validated payload
+     * @return EducationInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateEducationRequest $request): EducationInfo
     {
@@ -73,16 +76,16 @@ class EducationService
         }
 
         $education->fill([
-            'education_degree'     => $request->education_degree,
-            'education_subject'    => $request->education_subject,
-            'education_institute'  => $request->education_institute,
-            'institute_address'    => $request->institute_address,
-            'start_date'           => $request->start_date,
-            'end_date'             => $request->end_date,
-            'education_result'     => $request->education_result,
-            'education_details'    => $request->education_details,
+            'education_degree' => $request->education_degree,
+            'education_subject' => $request->education_subject,
+            'education_institute' => $request->education_institute,
+            'institute_address' => $request->institute_address,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'education_result' => $request->education_result,
+            'education_details' => $request->education_details,
             // Omitted status keeps the stored value instead of writing null.
-            'education_status'     => $request->has('education_status')
+            'education_status' => $request->has('education_status')
                 ? $request->education_status
                 : $education->education_status,
         ]);
@@ -96,9 +99,7 @@ class EducationService
     /**
      * Delete an education record (and its stored logo).
      *
-     * @param  string $education_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $education_id): void
     {
@@ -113,9 +114,6 @@ class EducationService
 
     /**
      * Reorder (sequence-update) education records from a drag-sort payload.
-     *
-     * @param  UpdateEducationSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateEducationSequenceRequest $request): void
     {
@@ -130,9 +128,6 @@ class EducationService
      *
      * The incoming request contains a checkbox for each visible column;
      * settings omitted from the payload are marked hidden.
-     *
-     * @param  UpdateEducationSettingsRequest $request
-     * @return void
      */
     public function updateSettings(UpdateEducationSettingsRequest $request): void
     {
@@ -149,9 +144,9 @@ class EducationService
     /**
      * All education records, in sequence order (admin listing).
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, EducationInfo>
+     * @return Collection<int, EducationInfo>
      */
-    public function listAll(): \Illuminate\Database\Eloquent\Collection
+    public function listAll(): Collection
     {
         return EducationInfo::sorted()->get();
     }
@@ -159,9 +154,9 @@ class EducationService
     /**
      * Settings rows for the education module's column-visibility panel.
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, ColumnSettings>
+     * @return Collection<int, ColumnSettings>
      */
-    public function listSettings(): \Illuminate\Database\Eloquent\Collection
+    public function listSettings(): Collection
     {
         return ColumnSettings::where('module', 'education')->get();
     }
@@ -172,12 +167,28 @@ class EducationService
      * Returns null when the record does not exist so the controller can
      * choose an empty JSON response instead of throwing.
      *
-     * @param  string $education_id
      * @return EducationInfo|null
      */
-    public function find(string $education_id): ?EducationInfo
+    /**
+     * Find one record plus the dates the edit form reads back.
+     *
+     * The date inputs are local dates in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findForEdit(string $education_id): ?array
     {
-        return EducationInfo::where('id', $education_id)->first();
+        $education = EducationInfo::where('id', $education_id)->first();
+
+        if ($education === null) {
+            return null;
+        }
+
+        return $education->toArray() + [
+            'start_date_input' => $education->start_date?->format('Y-m-d'),
+            'end_date_input' => $education->end_date?->format('Y-m-d'),
+        ];
     }
 
     /*
@@ -189,18 +200,18 @@ class EducationService
     /**
      * Persist an uploaded institute logo (rescaled and re-encoded as WebP).
      *
-     * @param  StoreEducationRequest|UpdateEducationRequest $request
-     * @return string|null  Stored path, or null when no logo was uploaded.
+     * @param  StoreEducationRequest|UpdateEducationRequest  $request
+     * @return string|null Stored path, or null when no logo was uploaded.
      */
     private function storeLogo($request): ?string
     {
-        if (!$request->hasFile('institute_logo')) {
+        if (! $request->hasFile('institute_logo')) {
             return null;
         }
 
-        $file     = $request->file('institute_logo');
-        $filename = Str::uuid() . '.webp';
-        $path     = self::LOGO_DIR . '/' . $filename;
+        $file = $request->file('institute_logo');
+        $filename = Str::uuid().'.webp';
+        $path = self::LOGO_DIR.'/'.$filename;
 
         $image = Image::read($file);
         $image->scale(width: self::LOGO_WIDTH);
@@ -212,9 +223,6 @@ class EducationService
 
     /**
      * Remove a stored logo from disk (silently no-ops when absent).
-     *
-     * @param  EducationInfo $education
-     * @return void
      */
     private function deleteLogo(EducationInfo $education): void
     {

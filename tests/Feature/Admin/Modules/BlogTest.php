@@ -1,18 +1,74 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Modules;
 
 use App\Models\BlogCategory;
 use App\Models\BlogInfo;
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
+use Tests\Support\AdminModuleContract;
+use Tests\Support\ColumnVisibilityContract;
 use Tests\TestCase;
 
-class BlogModuleTest extends TestCase
+class BlogTest extends TestCase
 {
-    use RefreshDatabase;
+    use AdminModuleContract;
+    use ColumnVisibilityContract;
+
+    protected function modulePrefix(): string
+    {
+        return 'module.blog';
+    }
+
+    protected function moduleIdField(): string
+    {
+        return 'blog_id';
+    }
+
+    protected function moduleModel(): string
+    {
+        return BlogInfo::class;
+    }
+
+    protected function moduleTitleField(): string
+    {
+        return 'blog_title';
+    }
+
+    protected function moduleSequenceColumn(): string
+    {
+        return 'blog_sequence';
+    }
+
+    protected function modulePayload(): array
+    {
+        return [
+            'blog_title' => 'First Post',
+            'blog_excerpt' => 'An excerpt',
+        ];
+    }
+
+    protected function moduleRequiredFields(): array
+    {
+        return ['blog_title'];
+    }
+
+    protected function moduleUpdatedTitle(): string
+    {
+        return 'First Post Revised';
+    }
+
+    protected function columnSettingsModule(): string
+    {
+        return 'blog';
+    }
+
+    protected function columnSettingsColumn(): string
+    {
+        return 'blog_title';
+    }
 
     /**
      * The admin listing carries every post with its category label.
@@ -21,7 +77,7 @@ class BlogModuleTest extends TestCase
     {
         $category = $this->category('Engineering');
 
-        $blog             = new BlogInfo();
+        $blog = new BlogInfo;
         $blog->blog_title = 'Listed post';
         $blog->category_id = $category->getKey();
         $blog->save();
@@ -46,13 +102,13 @@ class BlogModuleTest extends TestCase
         $category = $this->category();
 
         $this->post(route('module.blog.store'), [
-            'blog_title'     => 'Clean Architecture',
-            'blog_excerpt'   => 'A short summary',
-            'blog_content'   => '<p>Body</p>',
-            'keywords'       => 'laravel, php, architecture',
-            'category_id'    => $category->getKey(),
+            'blog_title' => 'Clean Architecture',
+            'blog_excerpt' => 'A short summary',
+            'blog_content' => '<p>Body</p>',
+            'keywords' => 'laravel, php, architecture',
+            'category_id' => $category->getKey(),
             'blog_published' => '2026-04-08 10:30:00',
-            'blog_status'    => 1,
+            'blog_status' => 1,
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
@@ -70,7 +126,7 @@ class BlogModuleTest extends TestCase
         $this->get(route('module.blog.edit', $blog->getKey()))
             ->assertOk()
             ->assertJsonPath('blog_published', fn ($value) => $value !== null
-                && \Illuminate\Support\Carbon::parse($value)->equalTo($blog->blog_published))
+                && Carbon::parse($value)->equalTo($blog->blog_published))
             // The form value is pre-formatted in the application timezone, so
             // datetime-local does not shift the time when the modal is saved.
             ->assertJsonPath('blog_published_input', '2026-04-08T10:30')
@@ -79,14 +135,41 @@ class BlogModuleTest extends TestCase
         // An emptied datetime input unpublishes the post instead of keeping
         // the previous value.
         $this->put(route('module.blog.update'), [
-            'blog_id'        => $blog->getKey(),
-            'blog_title'     => 'Clean Architecture',
+            'blog_id' => $blog->getKey(),
+            'blog_title' => 'Clean Architecture',
             'blog_published' => '',
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
         $this->assertNull($blog->refresh()->blog_published);
+    }
+
+    /**
+     * The publish datetime survives a round trip through the edit form.
+     */
+    public function test_the_publish_time_keeps_its_local_value_on_edit(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $this->post(route('module.blog.store'), [
+            'blog_title' => 'Scheduled',
+            'blog_published' => '2026-04-08 10:30:00',
+        ])->assertSessionHasNoErrors();
+
+        $blog = BlogInfo::query()->firstOrFail();
+
+        $this->put(route('module.blog.update'), [
+            'blog_id' => $blog->getKey(),
+            'blog_title' => 'Scheduled',
+            // What the datetime-local input posts back unchanged.
+            'blog_published' => '2026-04-08T10:30',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertSame(
+            '2026-04-08 10:30:00',
+            $blog->refresh()->blog_published?->format('Y-m-d H:i:s')
+        );
     }
 
     /**
@@ -97,7 +180,7 @@ class BlogModuleTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'  => 'Unknown category',
+            'blog_title' => 'Unknown category',
             'category_id' => (string) Str::uuid(),
         ])->assertSessionHasErrors(['category_id']);
     }
@@ -110,8 +193,8 @@ class BlogModuleTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'Bad upload',
-            'blog_image'          => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
+            'blog_title' => 'Bad upload',
+            'blog_image' => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
             'blog_featured_image' => UploadedFile::fake()->create('notes.pdf', 20, 'application/pdf'),
         ])->assertSessionHasErrors(['blog_image', 'blog_featured_image']);
     }
@@ -126,15 +209,15 @@ class BlogModuleTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'With images',
-            'blog_image'          => UploadedFile::fake()->image('cover.jpg', 900, 900),
+            'blog_title' => 'With images',
+            'blog_image' => UploadedFile::fake()->image('cover.jpg', 900, 900),
             'blog_featured_image' => UploadedFile::fake()->image('featured.jpg', 1600, 800),
         ])
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
-        $blog     = BlogInfo::query()->firstOrFail();
-        $image    = (string) $blog->blog_image;
+        $blog = BlogInfo::query()->firstOrFail();
+        $image = (string) $blog->blog_image;
         $featured = (string) $blog->blog_featured_image;
 
         $this->assertStringStartsWith('uploads/blog/images/', $image);
@@ -146,7 +229,7 @@ class BlogModuleTest extends TestCase
 
         // The update form leaves both file inputs empty.
         $this->put(route('module.blog.update'), [
-            'blog_id'    => $blog->getKey(),
+            'blog_id' => $blog->getKey(),
             'blog_title' => 'With images, updated',
         ])
             ->assertSessionHasNoErrors()
@@ -174,10 +257,10 @@ class BlogModuleTest extends TestCase
         ])->assertSessionHasNoErrors();
 
         $blog = BlogInfo::query()->firstOrFail();
-        $old  = (string) $blog->blog_image;
+        $old = (string) $blog->blog_image;
 
         $this->put(route('module.blog.update'), [
-            'blog_id'    => $blog->getKey(),
+            'blog_id' => $blog->getKey(),
             'blog_title' => 'Replace me',
             'blog_image' => UploadedFile::fake()->image('second.jpg', 800, 600),
         ])
@@ -200,13 +283,13 @@ class BlogModuleTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('module.blog.store'), [
-            'blog_title'          => 'Delete me',
-            'blog_image'          => UploadedFile::fake()->image('cover.jpg', 800, 600),
+            'blog_title' => 'Delete me',
+            'blog_image' => UploadedFile::fake()->image('cover.jpg', 800, 600),
             'blog_featured_image' => UploadedFile::fake()->image('featured.jpg', 1600, 800),
         ])->assertSessionHasNoErrors();
 
-        $blog     = BlogInfo::query()->firstOrFail();
-        $image    = (string) $blog->blog_image;
+        $blog = BlogInfo::query()->firstOrFail();
+        $image = (string) $blog->blog_image;
         $featured = (string) $blog->blog_featured_image;
 
         $this->get(route('module.blog.delete', $blog->getKey()))->assertRedirect();
@@ -227,8 +310,8 @@ class BlogModuleTest extends TestCase
      */
     private function category(string $name = 'Engineering'): BlogCategory
     {
-        $category                  = new BlogCategory();
-        $category->category_name   = $name;
+        $category = new BlogCategory;
+        $category->category_name = $name;
         $category->category_status = true;
         $category->save();
 

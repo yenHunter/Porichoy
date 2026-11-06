@@ -24,11 +24,11 @@ class ModelBehaviourTest extends TestCase
 
     public function test_user_status_defaults_to_active_and_names_are_composed(): void
     {
-        $user             = new User();
+        $user = new User;
         $user->first_name = 'Ada';
-        $user->last_name  = 'Lovelace';
-        $user->email      = 'ada@example.test';
-        $user->password   = Hash::make('password');
+        $user->last_name = 'Lovelace';
+        $user->email = 'ada@example.test';
+        $user->password = Hash::make('password');
         $user->save();
 
         $this->assertTrue((bool) $user->user_status, 'a manually created user is active by default');
@@ -37,7 +37,7 @@ class ModelBehaviourTest extends TestCase
 
     public function test_the_active_scope_excludes_deactivated_users(): void
     {
-        $active   = $this->adminUser();
+        $active = $this->adminUser();
         $inactive = User::factory()->inactive()->create();
 
         $ids = User::active()->pluck('id');
@@ -54,11 +54,11 @@ class ModelBehaviourTest extends TestCase
 
     public function test_blog_slugs_are_generated_from_the_title_and_kept_unique(): void
     {
-        $first            = new BlogInfo();
+        $first = new BlogInfo;
         $first->blog_title = 'Hello World';
         $first->save();
 
-        $second             = new BlogInfo();
+        $second = new BlogInfo;
         $second->blog_title = 'Hello World';
         $second->save();
 
@@ -68,7 +68,7 @@ class ModelBehaviourTest extends TestCase
 
     public function test_blog_defaults_are_filled_in_on_creation(): void
     {
-        $blog             = new BlogInfo();
+        $blog = new BlogInfo;
         $blog->blog_title = 'Defaults';
         $blog->save();
 
@@ -85,20 +85,20 @@ class ModelBehaviourTest extends TestCase
 
     public function test_active_and_sorted_scopes_filter_and_order(): void
     {
-        $later          = new EducationInfo();
-        $later->education_degree    = 'MSc';
+        $later = new EducationInfo;
+        $later->education_degree = 'MSc';
         $later->education_institute = 'Test University';
-        $later->start_date          = '2020-01-01';
-        $later->education_sequence  = 5;
-        $later->education_status    = true;
+        $later->start_date = '2020-01-01';
+        $later->education_sequence = 5;
+        $later->education_status = true;
         $later->save();
 
-        $earlier          = new EducationInfo();
-        $earlier->education_degree    = 'BSc';
+        $earlier = new EducationInfo;
+        $earlier->education_degree = 'BSc';
         $earlier->education_institute = 'Test University';
-        $earlier->start_date          = '2016-01-01';
-        $earlier->education_sequence  = 2;
-        $earlier->education_status    = false; // hidden rows are filtered by active()
+        $earlier->start_date = '2016-01-01';
+        $earlier->education_sequence = 2;
+        $earlier->education_status = false; // hidden rows are filtered by active()
         $earlier->save();
 
         $visible = EducationInfo::active()->sorted()->get();
@@ -108,12 +108,12 @@ class ModelBehaviourTest extends TestCase
 
     public function test_skills_are_listed_active_first_by_sequence(): void
     {
-        $one              = new SkillInfo();
+        $one = new SkillInfo;
         $one->skill_title = 'First';
         $one->skill_sequence = 3;
         $one->save();
 
-        $two              = new SkillInfo();
+        $two = new SkillInfo;
         $two->skill_title = 'Second';
         $two->skill_sequence = 1;
         $two->save();

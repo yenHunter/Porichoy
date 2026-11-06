@@ -23,10 +23,10 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'                => ['required', 'string', 'email'],
-            'password'             => ['required', 'string'],
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
             // Required so the token cannot be skipped by omitting the field.
-            'g-recaptcha-response' => ['required', new ReCaptcha()],
+            'g-recaptcha-response' => ['required', new ReCaptcha],
         ];
     }
 
@@ -38,7 +38,7 @@ class LoginRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'email'                => 'email address',
+            'email' => 'email address',
             'g-recaptcha-response' => 'reCAPTCHA',
         ];
     }

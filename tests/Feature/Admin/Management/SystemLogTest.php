@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Management;
 
 use App\Models\UserLog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,11 +14,11 @@ class SystemLogTest extends TestCase
     {
         $admin = $this->adminUser();
 
-        $log             = new UserLog();
-        $log->module     = 'Education';
-        $log->action     = 'Updated Education info';
-        $log->user_id    = $admin->getKey();
-        $log->user_ip    = '127.0.0.1';
+        $log = new UserLog;
+        $log->module = 'Education';
+        $log->action = 'Updated Education info';
+        $log->user_id = $admin->getKey();
+        $log->user_ip = '127.0.0.1';
         $log->user_agent = 'phpunit';
         $log->save();
 

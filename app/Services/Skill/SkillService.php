@@ -2,14 +2,16 @@
 
 namespace App\Services\Skill;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\SkillInfo;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 use App\Http\Requests\Admin\Skill\StoreSkillRequest;
 use App\Http\Requests\Admin\Skill\UpdateSkillRequest;
 use App\Http\Requests\Admin\Skill\UpdateSkillSequenceRequest;
+use App\Models\SkillInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class SkillService
 {
@@ -18,13 +20,14 @@ class SkillService
     /**
      * Logo storage directory (on the 'public' disk) and geometry.
      */
-    private const LOGO_DIR   = 'uploads/skill';
+    private const LOGO_DIR = 'uploads/skill';
+
     private const LOGO_WIDTH = 300;
 
     /**
      * Data for the skill element admin view.
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
@@ -36,15 +39,15 @@ class SkillService
     /**
      * Store a newly created skill record.
      *
-     * @param  StoreSkillRequest $request  Validated payload
-     * @return SkillInfo                   The created model
+     * @param  StoreSkillRequest  $request  Validated payload
+     * @return SkillInfo The created model
      */
     public function store(StoreSkillRequest $request): SkillInfo
     {
-        $skill               = new SkillInfo();
-        $skill->skill_title  = $request->skill_title;
-        $skill->skill_logo   = $this->storeLogo($request);
-        $skill->skill_score  = $request->skill_score;
+        $skill = new SkillInfo;
+        $skill->skill_title = $request->skill_title;
+        $skill->skill_logo = $this->storeLogo($request);
+        $skill->skill_score = $request->skill_score;
         $skill->skill_details = $request->skill_details;
         $skill->skill_status = $request->skill_status;
         $skill->save();
@@ -56,9 +59,6 @@ class SkillService
 
     /**
      * Find a single skill record by id.
-     *
-     * @param  string $skill_id
-     * @return SkillInfo|null
      */
     public function find(string $skill_id): ?SkillInfo
     {
@@ -68,9 +68,10 @@ class SkillService
     /**
      * Update an existing skill record (and replace the logo if given).
      *
-     * @param  UpdateSkillRequest $request  Validated payload
-     * @return SkillInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateSkillRequest  $request  Validated payload
+     * @return SkillInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateSkillRequest $request): SkillInfo
     {
@@ -83,11 +84,11 @@ class SkillService
         }
 
         $skill->fill([
-            'skill_title'   => $request->skill_title,
-            'skill_score'   => $request->skill_score,
+            'skill_title' => $request->skill_title,
+            'skill_score' => $request->skill_score,
             'skill_details' => $request->skill_details,
             // Omitted status keeps the stored value instead of writing null.
-            'skill_status'  => $request->has('skill_status')
+            'skill_status' => $request->has('skill_status')
                 ? $request->skill_status
                 : $skill->skill_status,
         ]);
@@ -101,9 +102,7 @@ class SkillService
     /**
      * Delete a skill record (and its stored logo).
      *
-     * @param  string $skill_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $skill_id): void
     {
@@ -118,9 +117,6 @@ class SkillService
 
     /**
      * Reorder (sequence-update) skill records from a drag-sort payload.
-     *
-     * @param  UpdateSkillSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateSkillSequenceRequest $request): void
     {
@@ -141,13 +137,13 @@ class SkillService
      */
     private function storeLogo(StoreSkillRequest|UpdateSkillRequest $request): ?string
     {
-        if (!$request->hasFile('skill_logo')) {
+        if (! $request->hasFile('skill_logo')) {
             return null;
         }
 
-        $file     = $request->file('skill_logo');
-        $filename = Str::uuid() . '.webp';
-        $path     = self::LOGO_DIR . '/' . $filename;
+        $file = $request->file('skill_logo');
+        $filename = Str::uuid().'.webp';
+        $path = self::LOGO_DIR.'/'.$filename;
 
         $image = Image::read($file);
         $image->scale(width: self::LOGO_WIDTH);

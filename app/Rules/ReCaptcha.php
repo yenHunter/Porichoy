@@ -5,13 +5,14 @@ namespace App\Rules;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class ReCaptcha implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -30,11 +31,11 @@ class ReCaptcha implements ValidationRule
         }
 
         $response = Http::asForm()->post(config('services.recaptcha.verify_url'), [
-            'secret'   => $secret,
+            'secret' => $secret,
             'response' => $value,
         ])->json();
 
-        if (!is_array($response) || !($response['success'] ?? false)) {
+        if (! is_array($response) || ! ($response['success'] ?? false)) {
             $fail('Google reCaptcha is not valid');
         }
     }

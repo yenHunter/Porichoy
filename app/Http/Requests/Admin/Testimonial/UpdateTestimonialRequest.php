@@ -24,8 +24,8 @@ class UpdateTestimonialRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'testimonial_id' => ['required', Rule::exists('testimonial_infos', 'id')],
-            ]
+            'testimonial_id' => ['required', Rule::exists('testimonial_infos', 'id')],
+        ]
             + StoreTestimonialRequest::sharedRules();
     }
 }

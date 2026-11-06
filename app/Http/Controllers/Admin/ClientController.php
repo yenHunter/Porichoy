@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Client\ClientService;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientSequenceRequest;
+use App\Services\Client\ClientService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ClientController extends Controller
 {
     public function __construct(
         private readonly ClientService $client_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of the resource.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -31,8 +28,7 @@ class ClientController extends Controller
     /**
      * Store a newly created client info in storage.
      *
-     * @param  StoreClientRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreClientRequest  $request  Validated payload
      */
     public function store(StoreClientRequest $request): RedirectResponse
     {
@@ -43,9 +39,6 @@ class ClientController extends Controller
 
     /**
      * Get a client info by id.
-     *
-     * @param  string $client_id
-     * @return JsonResponse
      */
     public function edit(string $client_id): JsonResponse
     {
@@ -55,8 +48,7 @@ class ClientController extends Controller
     /**
      * Update an existing client info in storage.
      *
-     * @param  UpdateClientRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateClientRequest  $request  Validated payload
      */
     public function update(UpdateClientRequest $request): RedirectResponse
     {
@@ -67,9 +59,6 @@ class ClientController extends Controller
 
     /**
      * Delete an existing client info from storage.
-     *
-     * @param  string $client_id
-     * @return RedirectResponse
      */
     public function delete(string $client_id): RedirectResponse
     {
@@ -80,9 +69,6 @@ class ClientController extends Controller
 
     /**
      * Update the sequence of multiple client info records.
-     *
-     * @param  UpdateClientSequenceRequest $request
-     * @return JsonResponse
      */
     public function update_sequence(UpdateClientSequenceRequest $request): JsonResponse
     {

@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Services\User\UserService;
 use App\Http\Requests\Admin\User\StoreUserRequest;
 use App\Http\Requests\Admin\User\UpdateUserRequest;
+use App\Services\User\UserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     public function __construct(
         private readonly UserService $user_service
-    ) {
-    }
+    ) {}
 
     /**
      * Display the listing of users.
-     *
-     * @return \Illuminate\View\View
      */
     public function view(): View
     {
@@ -35,8 +32,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage.
      *
-     * @param  StoreUserRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  StoreUserRequest  $request  Validated payload
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
@@ -47,9 +43,6 @@ class UserController extends Controller
 
     /**
      * Get a user by id.
-     *
-     * @param  string $user_id
-     * @return JsonResponse
      */
     public function edit(string $user_id): JsonResponse
     {
@@ -59,8 +52,7 @@ class UserController extends Controller
     /**
      * Update an existing user in storage.
      *
-     * @param  UpdateUserRequest $request Validated payload
-     * @return RedirectResponse
+     * @param  UpdateUserRequest  $request  Validated payload
      */
     public function update(UpdateUserRequest $request): RedirectResponse
     {
@@ -71,9 +63,6 @@ class UserController extends Controller
 
     /**
      * Delete an existing user from storage.
-     *
-     * @param  string $user_id
-     * @return RedirectResponse
      */
     public function delete(string $user_id): RedirectResponse
     {

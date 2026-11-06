@@ -2,15 +2,17 @@
 
 namespace App\Services\Service;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\ServiceInfo;
-use App\Models\SkillInfo;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 use App\Http\Requests\Admin\Service\StoreServiceRequest;
 use App\Http\Requests\Admin\Service\UpdateServiceRequest;
 use App\Http\Requests\Admin\Service\UpdateServiceSequenceRequest;
+use App\Models\ServiceInfo;
+use App\Models\SkillInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ServiceService
 {
@@ -20,37 +22,37 @@ class ServiceService
      * Image storage directories (on the 'public' disk) and geometry.
      */
     private const IMAGE_DIRS = [
-        'service_icon'  => ['dir' => 'uploads/service/icon',    'width' => 300],
+        'service_icon' => ['dir' => 'uploads/service/icon',    'width' => 300],
         'profile_image' => ['dir' => 'uploads/service/profile', 'width' => 300],
-        'cover_image'   => ['dir' => 'uploads/service/cover',   'width' => 1200],
+        'cover_image' => ['dir' => 'uploads/service/cover',   'width' => 1200],
     ];
 
     /**
      * Data for the service element admin view.
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
         return [
             'service_list' => ServiceInfo::sorted()->get(),
-            'skill_list'   => SkillInfo::sorted()->get(),
+            'skill_list' => SkillInfo::sorted()->get(),
         ];
     }
 
     /**
      * Store a newly created service record.
      *
-     * @param  StoreServiceRequest $request  Validated payload
-     * @return ServiceInfo                   The created model
+     * @param  StoreServiceRequest  $request  Validated payload
+     * @return ServiceInfo The created model
      */
     public function store(StoreServiceRequest $request): ServiceInfo
     {
-        $service                   = new ServiceInfo();
-        $service->service_title    = $request->service_title;
+        $service = new ServiceInfo;
+        $service->service_title = $request->service_title;
         $service->service_subtitle = $request->service_subtitle;
-        $service->service_details  = $request->service_details;
-        $service->service_status   = $request->service_status;
+        $service->service_details = $request->service_details;
+        $service->service_status = $request->service_status;
 
         $this->storeServiceImages($service, $request);
 
@@ -66,9 +68,6 @@ class ServiceService
 
     /**
      * Find a single service record by id (service_skills returned decoded).
-     *
-     * @param  string $service_id
-     * @return ServiceInfo|null
      */
     public function find(string $service_id): ?ServiceInfo
     {
@@ -85,9 +84,10 @@ class ServiceService
     /**
      * Update an existing service record (replacing images when given).
      *
-     * @param  UpdateServiceRequest $request  Validated payload
-     * @return ServiceInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateServiceRequest  $request  Validated payload
+     * @return ServiceInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateServiceRequest $request): ServiceInfo
     {
@@ -96,11 +96,11 @@ class ServiceService
         $this->storeServiceImages($service, $request);
 
         $service->fill([
-            'service_title'    => $request->service_title,
+            'service_title' => $request->service_title,
             'service_subtitle' => $request->service_subtitle,
-            'service_details'  => $request->service_details,
+            'service_details' => $request->service_details,
             // Omitted status keeps the stored value instead of writing null.
-            'service_status'   => $request->has('service_status')
+            'service_status' => $request->has('service_status')
                 ? $request->service_status
                 : $service->service_status,
         ]);
@@ -117,9 +117,7 @@ class ServiceService
     /**
      * Delete a service record (and all its stored images).
      *
-     * @param  string $service_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $service_id): void
     {
@@ -137,9 +135,6 @@ class ServiceService
 
     /**
      * Reorder (sequence-update) service records from a drag-sort payload.
-     *
-     * @param  UpdateServiceSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateServiceSequenceRequest $request): void
     {
@@ -162,14 +157,14 @@ class ServiceService
     private function storeServiceImages(ServiceInfo $service, StoreServiceRequest|UpdateServiceRequest $request): void
     {
         foreach (self::IMAGE_DIRS as $field => $config) {
-            if (!$request->hasFile($field)) {
+            if (! $request->hasFile($field)) {
                 continue;
             }
 
             $this->deleteImage($service->{$field});
 
-            $filename = Str::uuid() . '.webp';
-            $path     = $config['dir'] . '/' . $filename;
+            $filename = Str::uuid().'.webp';
+            $path = $config['dir'].'/'.$filename;
 
             $image = Image::read($request->file($field));
             $image->scale(width: $config['width']);

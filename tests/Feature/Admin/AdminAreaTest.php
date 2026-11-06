@@ -76,20 +76,20 @@ class AdminAreaTest extends TestCase
     public function test_every_admin_route_is_behind_auth(): void
     {
         $adminPrefixes = ['module.', 'element.', 'management.', 'settings.', 'configuration.'];
-        $adminNames    = ['home', 'logout', 'lock.screen', 'unlock.screen'];
-        $checked       = 0;
+        $adminNames = ['home', 'logout', 'lock.screen', 'unlock.screen'];
+        $checked = 0;
 
         foreach (Route::getRoutes() as $route) {
             $name = $route->getName();
 
-            if (!$name) {
+            if (! $name) {
                 continue;
             }
 
             $isAdminRoute = in_array($name, $adminNames, true)
                 || count(array_filter($adminPrefixes, fn ($prefix) => str_starts_with($name, $prefix))) > 0;
 
-            if (!$isAdminRoute || in_array($name, self::PUBLIC_ROUTES, true) || in_array($name, self::SELF_GUARDED_ROUTES, true)) {
+            if (! $isAdminRoute || in_array($name, self::PUBLIC_ROUTES, true) || in_array($name, self::SELF_GUARDED_ROUTES, true)) {
                 continue;
             }
 
@@ -119,7 +119,10 @@ class AdminAreaTest extends TestCase
         $this->put(route('module.education.update'), [])->assertRedirect(route('login'));
         $this->post(route('module.blog.sequence'), [])->assertRedirect(route('login'));
         $this->get(route('module.research.delete', 'education-id'))->assertRedirect(route('login'));
+        $this->post(route('element.project.store'), [])->assertRedirect(route('login'));
+        $this->get(route('element.client.delete', 'client-id'))->assertRedirect(route('login'));
         $this->post(route('management.user.store'), [])->assertRedirect(route('login'));
+        $this->put(route('settings.research_source.update'), [])->assertRedirect(route('login'));
         $this->post(route('configuration.update', 'antux'))->assertRedirect(route('login'));
     }
 

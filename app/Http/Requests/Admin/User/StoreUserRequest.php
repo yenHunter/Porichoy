@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
 class StoreUserRequest extends FormRequest
 {
@@ -23,10 +22,10 @@ class StoreUserRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'first_name'      => ['required', 'string', 'max:255'],
-            'last_name'       => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'user_status'     => ['nullable', 'boolean'],
+            'user_status' => ['nullable', 'boolean'],
         ];
     }
 
@@ -38,8 +37,8 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            ]
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+        ]
             + self::sharedRules();
     }
 

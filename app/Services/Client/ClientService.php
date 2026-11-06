@@ -2,14 +2,16 @@
 
 namespace App\Services\Client;
 
-use Illuminate\Support\Str;
-use App\Traits\UserLogTrait;
-use App\Models\ClientInfo;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
 use App\Http\Requests\Admin\Client\StoreClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientRequest;
 use App\Http\Requests\Admin\Client\UpdateClientSequenceRequest;
+use App\Models\ClientInfo;
+use App\Traits\UserLogTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ClientService
 {
@@ -19,14 +21,14 @@ class ClientService
      * Image storage directories (on the 'public' disk).
      */
     private const IMAGE_DIRS = [
-        'client_picture'    => 'uploads/client/image',
+        'client_picture' => 'uploads/client/image',
         'organization_logo' => 'uploads/client/organization',
     ];
 
     /**
      * Data for the client element admin view.
      *
-     * @return array<string, \Illuminate\Database\Eloquent\Collection>
+     * @return array<string, Collection>
      */
     public function viewData(): array
     {
@@ -38,20 +40,20 @@ class ClientService
     /**
      * Store a newly created client record.
      *
-     * @param  StoreClientRequest $request  Validated payload
-     * @return ClientInfo                   The created model
+     * @param  StoreClientRequest  $request  Validated payload
+     * @return ClientInfo The created model
      */
     public function store(StoreClientRequest $request): ClientInfo
     {
-        $client                       = new ClientInfo();
-        $client->client_name          = $request->client_name;
-        $client->client_email         = $request->client_email;
-        $client->client_mobile        = $request->client_mobile;
-        $client->client_designation   = $request->client_designation;
-        $client->client_organization  = $request->client_organization;
-        $client->client_address       = $request->client_address;
+        $client = new ClientInfo;
+        $client->client_name = $request->client_name;
+        $client->client_email = $request->client_email;
+        $client->client_mobile = $request->client_mobile;
+        $client->client_designation = $request->client_designation;
+        $client->client_organization = $request->client_organization;
+        $client->client_address = $request->client_address;
         $client->organization_website = $request->organization_website;
-        $client->client_status        = $request->client_status;
+        $client->client_status = $request->client_status;
 
         $this->storeClientImages($client, $request);
 
@@ -64,9 +66,6 @@ class ClientService
 
     /**
      * Find a single client record by id.
-     *
-     * @param  string $client_id
-     * @return ClientInfo|null
      */
     public function find(string $client_id): ?ClientInfo
     {
@@ -76,9 +75,10 @@ class ClientService
     /**
      * Update an existing client record (and replace images when given).
      *
-     * @param  UpdateClientRequest $request  Validated payload
-     * @return ClientInfo                    The updated model
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @param  UpdateClientRequest  $request  Validated payload
+     * @return ClientInfo The updated model
+     *
+     * @throws ModelNotFoundException
      */
     public function update(UpdateClientRequest $request): ClientInfo
     {
@@ -87,15 +87,15 @@ class ClientService
         $this->storeClientImages($client, $request);
 
         $client->fill([
-            'client_name'          => $request->client_name,
-            'client_email'         => $request->client_email,
-            'client_mobile'        => $request->client_mobile,
-            'client_designation'   => $request->client_designation,
-            'client_organization'  => $request->client_organization,
-            'client_address'       => $request->client_address,
+            'client_name' => $request->client_name,
+            'client_email' => $request->client_email,
+            'client_mobile' => $request->client_mobile,
+            'client_designation' => $request->client_designation,
+            'client_organization' => $request->client_organization,
+            'client_address' => $request->client_address,
             'organization_website' => $request->organization_website,
             // Omitted status keeps the stored value instead of writing null.
-            'client_status'        => $request->has('client_status')
+            'client_status' => $request->has('client_status')
                 ? $request->client_status
                 : $client->client_status,
         ]);
@@ -109,9 +109,7 @@ class ClientService
     /**
      * Delete a client record (and all its stored images).
      *
-     * @param  string $client_id
-     * @return void
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws ModelNotFoundException
      */
     public function delete(string $client_id): void
     {
@@ -128,9 +126,6 @@ class ClientService
 
     /**
      * Reorder (sequence-update) client records from a drag-sort payload.
-     *
-     * @param  UpdateClientSequenceRequest $request
-     * @return void
      */
     public function updateSequence(UpdateClientSequenceRequest $request): void
     {
@@ -152,14 +147,14 @@ class ClientService
     private function storeClientImages(ClientInfo $client, StoreClientRequest|UpdateClientRequest $request): void
     {
         foreach (self::IMAGE_DIRS as $field => $dir) {
-            if (!$request->hasFile($field)) {
+            if (! $request->hasFile($field)) {
                 continue;
             }
 
             $this->deleteImage($client->{$field});
 
-            $filename = Str::uuid() . '.webp';
-            $path     = $dir . '/' . $filename;
+            $filename = Str::uuid().'.webp';
+            $path = $dir.'/'.$filename;
 
             $image = Image::read($request->file($field));
             $image->scale(width: 300);

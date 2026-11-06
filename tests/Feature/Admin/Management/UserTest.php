@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Management;
 
 use App\Models\User;
 use App\Notifications\WelcomeSetPasswordNotification;
@@ -8,14 +8,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class UserManagementTest extends TestCase
+class UserTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_the_listing_hides_the_super_admin_but_keeps_the_other_users(): void
     {
         $superAdmin = $this->adminUser();
-        $operator   = $this->adminUser();
+        $operator = $this->adminUser();
 
         $this->actingAs($superAdmin)
             ->get(route('management.user.view'))
@@ -33,9 +33,9 @@ class UserManagementTest extends TestCase
         $this->actingAs($this->adminUser());
 
         $this->post(route('management.user.store'), [
-            'first_name'  => 'New',
-            'last_name'   => 'Operator',
-            'email'       => 'operator@example.test',
+            'first_name' => 'New',
+            'last_name' => 'Operator',
+            'email' => 'operator@example.test',
             'user_status' => true,
         ])
             ->assertSessionHasNoErrors()
@@ -59,14 +59,14 @@ class UserManagementTest extends TestCase
 
         $this->post(route('management.user.store'), [
             'first_name' => 'New',
-            'last_name'  => 'Operator',
-            'email'      => 'taken@example.test',
+            'last_name' => 'Operator',
+            'email' => 'taken@example.test',
         ])->assertSessionHasErrors(['email']);
     }
 
     public function test_a_user_can_be_edited_and_updated(): void
     {
-        $admin  = $this->adminUser();
+        $admin = $this->adminUser();
         $target = $this->adminUser();
 
         $this->actingAs($admin)
@@ -76,10 +76,10 @@ class UserManagementTest extends TestCase
 
         $this->actingAs($admin)
             ->put(route('management.user.update'), [
-                'user_id'     => $target->getKey(),
-                'first_name'  => 'Renamed',
-                'last_name'   => 'Person',
-                'email'       => 'renamed@example.test',
+                'user_id' => $target->getKey(),
+                'first_name' => 'Renamed',
+                'last_name' => 'Person',
+                'email' => 'renamed@example.test',
                 'user_status' => false,
             ])
             ->assertSessionHasNoErrors()
@@ -98,17 +98,17 @@ class UserManagementTest extends TestCase
 
         $this->actingAs($admin)
             ->put(route('management.user.update'), [
-                'user_id'    => $admin->getKey(),
+                'user_id' => $admin->getKey(),
                 'first_name' => 'Same',
-                'last_name'  => 'Email',
-                'email'      => $admin->email,
+                'last_name' => 'Email',
+                'email' => $admin->email,
             ])
             ->assertSessionHasNoErrors();
     }
 
     public function test_a_user_can_be_deleted(): void
     {
-        $admin  = $this->adminUser();
+        $admin = $this->adminUser();
         $target = $this->adminUser();
 
         $this->actingAs($admin)

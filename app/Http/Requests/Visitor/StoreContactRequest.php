@@ -23,12 +23,12 @@ class StoreContactRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                 => ['required', 'string', 'min:2', 'max:60'],
-            'email'                => ['required', 'email', 'max:255'],
-            'phone'                => ['nullable', 'string', 'max:30'],
-            'comments'             => ['required', 'string', 'min:10', 'max:1000'],
+            'name' => ['required', 'string', 'min:2', 'max:60'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'comments' => ['required', 'string', 'min:10', 'max:1000'],
             // Required so the token cannot be skipped by omitting the field.
-            'g-recaptcha-response' => ['required', new ReCaptcha()],
+            'g-recaptcha-response' => ['required', new ReCaptcha],
         ];
     }
 }

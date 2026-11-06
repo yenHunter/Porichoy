@@ -22,11 +22,11 @@ class StoreTestimonialRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'client_id'           => ['required', 'exists:client_infos,id'],
-            'testimonial_title'   => ['required', 'string', 'max:255'],
+            'client_id' => ['required', 'exists:client_infos,id'],
+            'testimonial_title' => ['required', 'string', 'max:255'],
             'testimonial_details' => ['required', 'string'],
-            'testimonial_review'  => ['required', 'integer', 'min:1', 'max:5'],
-            'testimonial_status'  => ['nullable', 'boolean'],
+            'testimonial_review' => ['required', 'integer', 'min:1', 'max:5'],
+            'testimonial_status' => ['nullable', 'boolean'],
         ];
     }
 

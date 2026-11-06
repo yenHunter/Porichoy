@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SectionInfo extends Model
 {
@@ -25,8 +24,8 @@ class SectionInfo extends Model
     ];
 
     protected $casts = [
-        'status'        => 'boolean',
-        'sequence'      => 'integer',
+        'status' => 'boolean',
+        'sequence' => 'integer',
     ];
 
     protected static function booted()
@@ -34,7 +33,7 @@ class SectionInfo extends Model
         static::creating(function ($model) {
             // Generate slug from title
             if (empty($model->slug)) {
-                $model->slug = $model->theme->slug . '-' . static::generateUniqueSlug($model->title);
+                $model->slug = $model->theme->slug.'-'.static::generateUniqueSlug($model->title);
             }
 
             // Auto User ID
@@ -53,7 +52,7 @@ class SectionInfo extends Model
         static::updating(function ($model) {
             // Generate slug from title
             if ($model->isDirty('title') && empty($model->slug)) {
-                $model->slug = $model->theme->slug . '-' . static::generateUniqueSlug($model->title, $model->id);
+                $model->slug = $model->theme->slug.'-'.static::generateUniqueSlug($model->title, $model->id);
             }
 
             // Auto User ID
@@ -101,9 +100,10 @@ class SectionInfo extends Model
         $slug = $originalSlug;
         $count = 1;
         while (static::where('slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
+
         return $slug;
     }
 }

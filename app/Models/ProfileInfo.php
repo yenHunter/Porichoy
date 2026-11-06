@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class ProfileInfo extends Model
@@ -32,17 +33,17 @@ class ProfileInfo extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'column_status'     => 'boolean',
-        'created_at'        => 'datetime',
-        'updated_at'        => 'datetime',
+        'column_status' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
      * Scope for filtering by category (basic, personal, address, social).
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $category
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @param  string  $category
+     * @return Builder
      */
     public function scopeByCategory($query, $category)
     {
@@ -52,8 +53,8 @@ class ProfileInfo extends Model
     /**
      * Scope for active records only.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeActive($query)
     {
@@ -63,8 +64,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting basic information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeBasicInfo($query)
     {
@@ -74,8 +75,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting personal information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopePersonalInfo($query)
     {
@@ -85,8 +86,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting address information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeAddressInfo($query)
     {
@@ -96,8 +97,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting social information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeSocialInfo($query)
     {
@@ -107,8 +108,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting present address information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopePresentAddressInfo($query)
     {
@@ -118,8 +119,8 @@ class ProfileInfo extends Model
     /**
      * Scope for getting permanent address information.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopePermanentAddressInfo($query)
     {
@@ -129,8 +130,8 @@ class ProfileInfo extends Model
     /**
      * Get column value by column name for a specific category.
      *
-     * @param string $category
-     * @param string $columnName
+     * @param  string  $category
+     * @param  string  $columnName
      * @return string|null
      */
     public static function getValueByColumnName($category, $columnName)

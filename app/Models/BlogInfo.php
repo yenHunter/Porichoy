@@ -2,21 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BlogInfo extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'blog_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -41,11 +43,11 @@ class BlogInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'blog_status'           => 'boolean',
-        'blog_sequence'         => 'integer',
-        'view_count'            => 'integer',
-        'keywords'              => 'string',
-        'blog_published'        => 'datetime',
+        'blog_status' => 'boolean',
+        'blog_sequence' => 'integer',
+        'view_count' => 'integer',
+        'keywords' => 'string',
+        'blog_published' => 'datetime',
     ];
 
     /*
@@ -125,8 +127,8 @@ class BlogInfo extends Model
     protected function blogImageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->blog_image
-                ? asset('storage/' . $this->blog_image)
+            get: fn () => $this->blog_image
+                ? asset('storage/'.$this->blog_image)
                 : asset('static/icons/blog.png')
         );
     }
@@ -134,8 +136,8 @@ class BlogInfo extends Model
     protected function blogFeaturedImageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->blog_featured_image
-                ? asset('storage/' . $this->blog_featured_image)
+            get: fn () => $this->blog_featured_image
+                ? asset('storage/'.$this->blog_featured_image)
                 : asset('static/icons/featured.png')
         );
     }
@@ -162,8 +164,8 @@ class BlogInfo extends Model
     public function scopePublished($query)
     {
         return $query->where('blog_status', true)
-                     ->whereNotNull('blog_published')
-                     ->where('blog_published', '<=', now());
+            ->whereNotNull('blog_published')
+            ->where('blog_published', '<=', now());
     }
 
     /**
@@ -202,7 +204,7 @@ class BlogInfo extends Model
         $slug = $originalSlug;
         $count = 1;
         while (static::where('blog_slug', $slug)->where('id', '!=', $ignoreId)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
 

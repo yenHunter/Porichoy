@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class ClientInfo extends Model
 {
     use HasFactory, HasUuids;
 
     protected $table = 'client_infos';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -38,8 +40,8 @@ class ClientInfo extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'client_status'     => 'boolean',
-        'client_sequence'   => 'integer',
+        'client_status' => 'boolean',
+        'client_sequence' => 'integer',
     ];
 
     /*
@@ -94,8 +96,8 @@ class ClientInfo extends Model
     protected function clientPictureUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->client_picture
-                ? asset('storage/' . $this->client_picture)
+            get: fn () => $this->client_picture
+                ? asset('storage/'.$this->client_picture)
                 : asset('static/icons/client.png')
         );
     }
@@ -103,8 +105,8 @@ class ClientInfo extends Model
     protected function ClientOrgLogoUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->organization_logo
-                ? asset('storage/' . $this->organization_logo)
+            get: fn () => $this->organization_logo
+                ? asset('storage/'.$this->organization_logo)
                 : asset('static/icons/organization.png')
         );
     }

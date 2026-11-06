@@ -13,7 +13,7 @@ class ReCaptchaRuleTest extends TestCase
     {
         return Validator::make(
             ['g-recaptcha-response' => $token],
-            ['g-recaptcha-response' => [new ReCaptcha()]]
+            ['g-recaptcha-response' => [new ReCaptcha]]
         )->passes();
     }
 
@@ -25,7 +25,7 @@ class ReCaptchaRuleTest extends TestCase
     {
         $failures = [];
 
-        (new ReCaptcha())->validate('g-recaptcha-response', '', function (string $message) use (&$failures) {
+        (new ReCaptcha)->validate('g-recaptcha-response', '', function (string $message) use (&$failures) {
             $failures[] = $message;
         });
 

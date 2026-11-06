@@ -3,15 +3,16 @@
 namespace App\Services\System;
 
 use App\Models\UserLog;
+use Illuminate\Database\Eloquent\Collection;
 
 class SystemLogService
 {
     /**
      * List user-activity logs with their relations.
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, UserLog>
+     * @return Collection<int, UserLog>
      */
-    public function userLogs(): \Illuminate\Database\Eloquent\Collection
+    public function userLogs(): Collection
     {
         return UserLog::with('user')->sorted()->get();
     }
@@ -23,7 +24,7 @@ class SystemLogService
      */
     public function logFiles(): array
     {
-        $log_files = glob(storage_path('logs') . '/*.log');
+        $log_files = glob(storage_path('logs').'/*.log');
         $log_files = array_reverse(is_array($log_files) ? $log_files : []);
         $log_files = array_map('basename', $log_files);
 
@@ -37,7 +38,7 @@ class SystemLogService
      * any other value (including path-traversal attempts) falls back to
      * the newest log file.
      *
-     * @param  string|null $requested Basename from ?file=
+     * @param  string|null  $requested  Basename from ?file=
      * @return array{
      *   files:       array<int, string>,
      *   currentFile: string|null,
@@ -46,13 +47,13 @@ class SystemLogService
      */
     public function applicationLogs(?string $requested): array
     {
-        $files       = $this->logFiles();
+        $files = $this->logFiles();
         $currentFile = ($requested && in_array($requested, $files, true))
             ? $requested
             : ($files[0] ?? null);
 
         $logFilePath = $currentFile
-            ? storage_path('logs') . DIRECTORY_SEPARATOR . basename($currentFile)
+            ? storage_path('logs').DIRECTORY_SEPARATOR.basename($currentFile)
             : null;
 
         $logs = [];
@@ -71,9 +72,9 @@ class SystemLogService
         }
 
         return [
-            'files'       => $files,
+            'files' => $files,
             'currentFile' => $currentFile,
-            'logs'        => $logs,
+            'logs' => $logs,
         ];
     }
 }

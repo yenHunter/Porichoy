@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
@@ -31,16 +32,16 @@ class Country extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'status'      => 'boolean',
-        'created_at'  => 'datetime',
-        'updated_at'  => 'datetime',
+        'status' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
      * Scope for active records only.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeActive($query)
     {
@@ -50,8 +51,8 @@ class Country extends Model
     /**
      * Scope for getting countries sorted by name.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  Builder  $query
+     * @return Builder
      */
     public function scopeSorted($query)
     {

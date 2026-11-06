@@ -22,15 +22,15 @@ class StoreResearchRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'research_source'  => ['required', 'integer', 'exists:select_types,id'],
+            'research_source' => ['required', 'integer', 'exists:select_types,id'],
             'research_category' => ['required', 'string', 'max:255'],
-            'research_title'   => ['required', 'string', 'max:255'],
-            'published_date'   => ['nullable', 'date'],
-            'research_role'    => ['nullable', 'string', 'max:8'],
+            'research_title' => ['required', 'string', 'max:255'],
+            'published_date' => ['nullable', 'date'],
+            'research_role' => ['nullable', 'string', 'max:8'],
             'research_authors' => ['nullable', 'string', 'max:255'],
-            'research_link'    => ['nullable', 'string', 'max:255'],
+            'research_link' => ['nullable', 'string', 'max:255'],
             'research_details' => ['nullable', 'string'],
-            'research_status'  => ['nullable', 'boolean'],
+            'research_status' => ['nullable', 'boolean'],
         ];
     }
 

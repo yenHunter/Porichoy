@@ -11,7 +11,7 @@ class SetVisitorTheme
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,7 +20,7 @@ class SetVisitorTheme
         $available = config('themes.available');
 
         // fallback if invalid theme in session
-        if (!array_key_exists($theme, $available)) {
+        if (! array_key_exists($theme, $available)) {
             $theme = config('themes.default_theme');
         }
 
@@ -29,7 +29,6 @@ class SetVisitorTheme
         app('view')->getFinder()->prependLocation(
             $available[$theme]['view_path']
         );
-
 
         return $next($request);
     }

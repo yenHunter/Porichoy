@@ -24,8 +24,8 @@ class UpdateTrainingRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'training_id' => ['required', Rule::exists('training_infos', 'id')],
-            ]
+            'training_id' => ['required', Rule::exists('training_infos', 'id')],
+        ]
             + StoreTrainingRequest::sharedRules();
     }
 }

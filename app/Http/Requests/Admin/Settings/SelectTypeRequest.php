@@ -27,9 +27,9 @@ class SelectTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'   => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
             'details' => ['nullable', 'string', 'max:255'],
-            'status'  => ['nullable', 'boolean'],
+            'status' => ['nullable', 'boolean'],
         ];
     }
 }
