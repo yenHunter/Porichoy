@@ -46,10 +46,12 @@
                     <div>
                         <h4 class="card-title mb-1">Contact Request</h4>
                         <p class="small mb-0 text-info">Every message submitted through the public contact form.
-                            @if ($unread_count > 0)
-                                <span class="badge bg-danger ms-1">{{ $unread_count }} unread</span>
-                            @else
-                                <span class="badge bg-success ms-1">All read</span>
+                            @if ($message_list->isNotEmpty())
+                                @if ($unread_count > 0)
+                                    <span class="badge bg-danger ms-1">{{ $unread_count }} unread</span>
+                                @else
+                                    <span class="badge bg-success ms-1">All read</span>
+                                @endif
                             @endif
                         </p>
                     </div>
@@ -67,7 +69,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($message_list as $item)
+                            @foreach ($message_list as $item)
                                 <tr>
                                     <td>
                                         <span class="fw-semibold">{{ $item->name }}</span><br>
@@ -91,27 +93,23 @@
                                     <td>
                                         <small class="text-muted">{{ $item->created_at?->format('M d, Y H:i') }}</small>
                                     </td>
-                                    <td>
-                                        @if (! $item->is_read)
-                                            <a class="btn btn-info btn-icon btn-sm"
-                                                href="{{ route('management.contact_message.read', $item->id) }}"
-                                                title="Mark as read">
-                                                <i class="ti ti-mail-opened fs-lg"></i>
-                                            </a>
-                                        @endif
-                                        <button class="btn btn-danger btn-icon btn-sm btn-delete"
-                                            data-contact_message_id="{{ $item->id }}" title="Delete">
-                                            <i class="ti ti-trash fs-lg"></i>
-                                        </button>
+                                    <td style="white-space: nowrap;">
+                                        <div class="d-flex gap-1">
+                                            @if (! $item->is_read)
+                                                <a class="btn btn-info btn-icon btn-sm"
+                                                    href="{{ route('management.contact_message.read', $item->id) }}"
+                                                    title="Mark as read">
+                                                    <i class="ti ti-mail-opened fs-lg"></i>
+                                                </a>
+                                            @endif
+                                            <button class="btn btn-danger btn-icon btn-sm btn-delete"
+                                                data-contact_message_id="{{ $item->id }}" title="Delete">
+                                                <i class="ti ti-trash fs-lg"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center text-muted py-4" colspan="6">
-                                        No contact messages have been received yet.
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div> <!-- end card-body-->

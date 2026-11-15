@@ -81,6 +81,16 @@ class ContactMessageTest extends TestCase
             ->assertNotFound();
     }
 
+    public function test_an_empty_inbox_renders_without_a_status_badge(): void
+    {
+        $this->actingAs($this->adminUser())
+            ->get(route('management.contact_message.view'))
+            ->assertOk()
+            ->assertViewHas('unread_count', 0)
+            ->assertDontSee('All read')
+            ->assertDontSee('unread</span>');
+    }
+
     public function test_guests_cannot_open_the_inbox(): void
     {
         $this->get(route('management.contact_message.view'))

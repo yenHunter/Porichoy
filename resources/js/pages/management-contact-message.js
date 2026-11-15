@@ -10,6 +10,8 @@ import { route } from 'ziggy-js';
 new DataTable('[data-tables="basic"]', {
     order: [],
     language: {
+        emptyTable: 'No contact messages have been received yet.',
+        zeroRecords: 'No contact messages match your search.',
         paginate: {
             first: '<i class="ti ti-chevrons-left"></i>',
             previous: '<i class="ti ti-chevron-left"></i>',
