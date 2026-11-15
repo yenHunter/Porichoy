@@ -4,7 +4,6 @@ namespace Tests\Feature\Visitor;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ContactFormTest extends TestCase
@@ -12,22 +11,16 @@ class ContactFormTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A valid submission is logged and flashed back.
+     * A valid submission is persisted and flashed back.
+     *
+     * The real logging channel is exercised here on purpose: mocking it is
+     * what previously hid the fact that `contact` was never configured.
      */
-    public function test_contact_form_logs_a_valid_message(): void
+    public function test_contact_form_persists_a_valid_message(): void
     {
         Http::fake([
             'www.google.com/recaptcha/*' => Http::response(['success' => true], 200),
         ]);
-
-        Log::shouldReceive('channel')->once()->with('contact')->andReturnSelf();
-        Log::shouldReceive('info')->once()->withArgs(function (string $message, array $context) {
-            return $message === 'New contact message received'
-                && $context['name'] === 'Test Visitor'
-                && $context['email'] === 'visitor@example.com'
-                && $context['phone'] === '555-0100'
-                && $context['message'] === 'I would like to discuss a new project.';
-        });
 
         $this->post('/contact', [
             'name' => 'Test Visitor',
@@ -39,6 +32,14 @@ class ContactFormTest extends TestCase
             ->assertRedirect()
             ->assertSessionHas('success')
             ->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('contact_messages', [
+            'name' => 'Test Visitor',
+            'email' => 'visitor@example.com',
+            'phone' => '555-0100',
+            'message' => 'I would like to discuss a new project.',
+            'is_read' => false,
+        ]);
     }
 
     /**

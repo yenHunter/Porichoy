@@ -6,6 +6,7 @@ use App\Http\Requests\Visitor\StoreContactRequest;
 use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\ClientInfo;
+use App\Models\ContactMessage;
 use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
 use App\Models\ProfileInfo;
@@ -14,6 +15,7 @@ use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VisitorService
 {
@@ -140,18 +142,36 @@ class VisitorService
     }
 
     /**
-     * Record an incoming contact-form message.
+     * Persist an incoming contact-form message and mirror it to its log channel.
+     *
+     * The database row is the source of truth: a logging failure must never
+     * cost the owner a lead, so the log copy is best-effort.
      *
      * @param  StoreContactRequest  $request  Validated payload
      */
     public function storeContact(StoreContactRequest $request): void
     {
-        Log::channel('contact')->info('New contact message received', [
+        ContactMessage::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'message' => $request->input('comments'),
+            'ip' => $request->ip(),
+            'user_agent' => Str::limit((string) $request->userAgent(), 255, ''),
         ]);
+
+        try {
+            Log::channel('contact')->info('New contact message received', [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'message' => $request->input('comments'),
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning('Contact message stored without a log copy', [
+                'reason' => $e->getMessage(),
+            ]);
+        }
     }
 
     /*

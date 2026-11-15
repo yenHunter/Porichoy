@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ConfigurationController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\HomeController;
@@ -157,6 +158,12 @@ Route::middleware('auth')->group(function () {
                 Route::get('', [SettingsController::class, 'profile_management'])->name('view');
                 Route::post('update', [SettingsController::class, 'profile_update'])->name('update');
             });
+        });
+
+        Route::prefix('contact-message')->name('contact_message.')->group(function () {
+            Route::get('', [ContactMessageController::class, 'view'])->name('view');
+            Route::get('read/{contact_message_id}', [ContactMessageController::class, 'read'])->name('read');
+            Route::get('delete/{contact_message_id}', [ContactMessageController::class, 'delete'])->name('delete');
         });
 
         Route::prefix('system')->name('system.')->group(function () {
