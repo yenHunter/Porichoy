@@ -94,7 +94,7 @@ class SettingsService
     public function researchSourceViewData(): array
     {
         return [
-            'research_source_list' => SelectType::where('use_for', 'research_source')->orderBy('id', 'asc')->get(),
+            'research_source_list' => SelectType::where('use_for', 'research_source')->sorted()->get(),
             'research_source_settings' => ColumnSettings::where('module', 'research_source')->get(),
         ];
     }
@@ -179,7 +179,7 @@ class SettingsService
      */
     public function selectTypeViewData(string $use_for): Collection
     {
-        return SelectType::where('use_for', $use_for)->orderBy('id', 'asc')->get();
+        return SelectType::where('use_for', $use_for)->sorted()->get();
     }
 
     /**
@@ -247,6 +247,19 @@ class SettingsService
         $object->delete();
 
         $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Removed '.str_replace('_', ' ', $use_for).' record');
+    }
+
+    /**
+     * Persist the drag/drop order of a select-type list.
+     *
+     * @param  array<int, array{id: int|string, sequence: int}>  $order
+     */
+    public function updateSelectTypeSequence(array $order): void
+    {
+        foreach ($order as $item) {
+            SelectType::where('id', $item['id'])
+                ->update(['sequence' => $item['sequence']]);
+        }
     }
 
     // ---------------------------------------------------------------------

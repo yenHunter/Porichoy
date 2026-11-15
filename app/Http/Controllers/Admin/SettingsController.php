@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateBlogCategorySequenceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
+use App\Http\Requests\Admin\Settings\UpdateSelectTypeSequenceRequest;
 use App\Models\SelectType;
 use App\Services\Settings\SettingsService;
 use Illuminate\Http\JsonResponse;
@@ -97,6 +98,16 @@ class SettingsController extends Controller
         return back()->with('success', 'Research Source removed');
     }
 
+    /**
+     * Persist the drag/drop order of the research source table.
+     */
+    public function updateResearchSourceSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
+    {
+        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
+
+        return response()->json(['status' => 'success']);
+    }
+
     // ---------------------------------------------------------------------
     // Location Type CRUD (SelectType use_for = location_type)
     // ---------------------------------------------------------------------
@@ -152,6 +163,16 @@ class SettingsController extends Controller
         $this->settings_service->deleteSelectType($location_type_id, 'location_type');
 
         return back()->with('success', 'Location Type removed');
+    }
+
+    /**
+     * Persist the drag/drop order of the location type table.
+     */
+    public function updateLocationTypeSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
+    {
+        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
+
+        return response()->json(['status' => 'success']);
     }
 
     // ---------------------------------------------------------------------
@@ -211,6 +232,16 @@ class SettingsController extends Controller
         return back()->with('success', 'Employment Type removed');
     }
 
+    /**
+     * Persist the drag/drop order of the employment type table.
+     */
+    public function updateEmploymentTypeSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
+    {
+        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
+
+        return response()->json(['status' => 'success']);
+    }
+
     // ---------------------------------------------------------------------
     // Training Category CRUD (SelectType use_for = training_category)
     // ---------------------------------------------------------------------
@@ -266,6 +297,16 @@ class SettingsController extends Controller
         $this->settings_service->deleteSelectType($training_category_id, 'training_category');
 
         return back()->with('success', 'Training Category removed');
+    }
+
+    /**
+     * Persist the drag/drop order of the training category table.
+     */
+    public function updateTrainingCategorySequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
+    {
+        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
+
+        return response()->json(['status' => 'success']);
     }
 
     // ---------------------------------------------------------------------

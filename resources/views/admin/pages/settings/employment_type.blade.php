@@ -53,16 +53,24 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
+                                <th>Order</th>
                                 <th>Title</th>
+                                <th>Details</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-employment-type">
                             @foreach ($employment_type_list as $item)
-                                <tr>
+                                <tr data-id="{{ $item->id }}">
+                                    <td>
+                                        <i class="ti ti-arrows-move fs-42"></i>
+                                    </td>
                                     <td>
                                         {{ $item->value }}
+                                    </td>
+                                    <td>
+                                        {{ $item->details ?: '—' }}
                                     </td>
                                     <td>
                                         @if ($item->status === 1)
@@ -122,7 +130,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="status" id="status">
+                                    <select aria-label="Select Status" class="form-select" name="status" id="status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
@@ -142,58 +150,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#create_update_modal').on('hidden.bs.modal', function() {
-            $('#create_update_form')[0].reset();
-            $('#create_update_form').attr('action', '{{ route('settings.employment_type.store') }}');
-            $('#create_update_form_method').val('POST');
-            $('#employment_type_id').val('');
-        });
-
-        $(document).on('click', '.btn-edit', function() {
-            let employment_type_id = $(this).data('employment_type_id');
-
-            $.ajax({
-                url: "{{ route('settings.employment_type.edit', ':id') }}".replace(':id', employment_type_id),
-                type: 'GET',
-                success: function(response) {
-                    $('#employment_type_id').val(response.id);
-                    $('#title').val(response.value);
-                    $('#details').val(response.details);
-                    $('#status').val(response.status);
-
-                    const form = document.getElementById('create_update_form');
-                    form.action = "{{ route('settings.employment_type.update') }}";
-                    document.getElementById('create_update_form_method').value = 'PUT';
-
-                    $('#create_update_modal').modal('show');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
-                    const employment_type_id = this.getAttribute('data-employment_type_id');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This action cannot be undone!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('settings.employment_type.delete', ':id') }}"
-                                .replace(':id', employment_type_id);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/settings-employment-type.js'])
 @endsection
