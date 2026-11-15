@@ -107,6 +107,21 @@ trait LookupListContract
         $this->assertSame($payload['title'], $record->refresh()->value);
     }
 
+    public function test_a_lookup_order_can_be_updated(): void
+    {
+        $record = $this->createLookupRecord();
+
+        $this->post(route($this->lookupPrefix().'.sequence'), [
+            'order' => [
+                ['id' => $record->getKey(), 'sequence' => 4],
+            ],
+        ])
+            ->assertOk()
+            ->assertJson(['status' => 'success']);
+
+        $this->assertSame(4, (int) $record->refresh()->sequence);
+    }
+
     public function test_a_lookup_value_can_be_deleted(): void
     {
         $record = $this->createLookupRecord();

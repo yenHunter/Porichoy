@@ -43,7 +43,8 @@
             @endif
             <div class="card">
                 <div class="card-header justify-content-between">
-                    <h4 class="card-title"> Training Category Management <code>create update delete all in here</code> </h4>
+                    <h4 class="card-title"> Training Category Management <code>create update delete all in here</code>
+                    </h4>
                     <a class="icon-link icon-link-hover link-primary fw-semibold" href="#"
                         data-bs-target="#create_update_modal" data-bs-toggle="modal">Create
                         <i class="ti ti-plus bi align-middle fs-lg"></i>
@@ -53,16 +54,24 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
+                                <th>Order</th>
                                 <th>Title</th>
+                                <th>Details</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-training-category">
                             @foreach ($training_category_list as $item)
-                                <tr>
+                                <tr data-id="{{ $item->id }}">
+                                    <td>
+                                        <i class="ti ti-arrows-move fs-42"></i>
+                                    </td>
                                     <td>
                                         {{ $item->value }}
+                                    </td>
+                                    <td>
+                                        {{ $item->details ?: '—' }}
                                     </td>
                                     <td>
                                         @if ($item->status === 1)
@@ -122,11 +131,12 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="status" id="status">
+                                    <select aria-label="Select Status" class="form-select" name="status"
+                                        id="training_category_status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
-                                    <label for="status">Status</label>
+                                    <label for="training_category_status">Status</label>
                                 </div>
                             </div>
                         </div>
@@ -142,58 +152,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#create_update_modal').on('hidden.bs.modal', function() {
-            $('#create_update_form')[0].reset();
-            $('#create_update_form').attr('action', '{{ route('settings.training_category.store') }}');
-            $('#create_update_form_method').val('POST');
-            $('#training_category_id').val('');
-        });
-
-        $(document).on('click', '.btn-edit', function() {
-            let training_category_id = $(this).data('training_category_id');
-
-            $.ajax({
-                url: "{{ route('settings.training_category.edit', ':id') }}".replace(':id', training_category_id),
-                type: 'GET',
-                success: function(response) {
-                    $('#training_category_id').val(response.id);
-                    $('#title').val(response.value);
-                    $('#details').val(response.details);
-                    $('#status').val(response.status);
-
-                    const form = document.getElementById('create_update_form');
-                    form.action = "{{ route('settings.training_category.update') }}";
-                    document.getElementById('create_update_form_method').value = 'PUT';
-
-                    $('#create_update_modal').modal('show');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
-                    const training_category_id = this.getAttribute('data-training_category_id');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This action cannot be undone!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('settings.training_category.delete', ':id') }}"
-                                .replace(':id', training_category_id);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/settings-training-category.js'])
 @endsection

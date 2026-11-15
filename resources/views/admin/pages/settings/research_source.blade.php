@@ -53,15 +53,19 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
+                                <th>Order</th>
                                 <th>Logo</th>
                                 <th>Title</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-research-source">
                             @foreach ($research_source_list as $item)
-                                <tr>
+                                <tr data-id="{{ $item->id }}">
+                                    <td>
+                                        <i class="ti ti-arrows-move fs-42"></i>
+                                    </td>
                                     <td>
                                         @if (isset($item->details))
                                             @if (\Illuminate\Support\Str::contains($item->details, 'static/settings/'))
@@ -74,8 +78,7 @@
                                             @endif
                                         @else
                                             <img class="img-thumbnail rounded" width="50px"
-                                                src="{{ asset('static/logo/research.png') }}"
-                                                alt="source-logo">
+                                                src="{{ asset('static/logo/research.png') }}" alt="source-logo">
                                         @endif
                                     </td>
                                     <td>
@@ -139,11 +142,12 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="status" id="status">
+                                    <select aria-label="Select Status" class="form-select" name="status"
+                                        id="research_source_status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
-                                    <label for="status">Status</label>
+                                    <label for="research_source_status">Status</label>
                                 </div>
                             </div>
                         </div>
@@ -159,57 +163,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#create_update_modal').on('hidden.bs.modal', function() {
-            $('#create_update_form')[0].reset();
-            $('#create_update_form').attr('action', '{{ route('settings.research_source.store') }}');
-            $('#create_update_form_method').val('POST');
-            $('#research_source_id').val('');
-        });
-
-        $(document).on('click', '.btn-edit', function() {
-            let research_source_id = $(this).data('research_source_id');
-
-            $.ajax({
-                url: "{{ route('settings.research_source.edit', ':id') }}".replace(':id', research_source_id),
-                type: 'GET',
-                success: function(response) {
-                    $('#research_source_id').val(response.id);
-                    $('#title').val(response.value);
-                    $('#status').val(response.status);
-
-                    const form = document.getElementById('create_update_form');
-                    form.action = "{{ route('settings.research_source.update') }}";
-                    document.getElementById('create_update_form_method').value = 'PUT';
-
-                    $('#create_update_modal').modal('show');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
-                    const research_source_id = this.getAttribute('data-research_source_id');
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This action cannot be undone!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('settings.research_source.delete', ':id') }}"
-                                .replace(':id', research_source_id);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/settings-research-source.js'])
 @endsection

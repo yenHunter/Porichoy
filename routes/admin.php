@@ -181,6 +181,7 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{research_source_id}', [SettingsController::class, 'editResearchSource'])->name('edit');
             Route::put('update', [SettingsController::class, 'updateResearchSource'])->name('update');
             Route::get('delete/{research_source_id}', [SettingsController::class, 'deleteResearchSource'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateResearchSourceSequence'])->name('sequence');
         });
 
         Route::prefix('location-type')->name('location_type.')->group(function () {
@@ -189,6 +190,7 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{location_type_id}', [SettingsController::class, 'editLocationType'])->name('edit');
             Route::put('update', [SettingsController::class, 'updateLocationType'])->name('update');
             Route::get('delete/{location_type_id}', [SettingsController::class, 'deleteLocationType'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateLocationTypeSequence'])->name('sequence');
         });
 
         Route::prefix('employment-type')->name('employment_type.')->group(function () {
@@ -197,6 +199,7 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{employment_type_id}', [SettingsController::class, 'editEmploymentType'])->name('edit');
             Route::put('update', [SettingsController::class, 'updateEmploymentType'])->name('update');
             Route::get('delete/{employment_type_id}', [SettingsController::class, 'deleteEmploymentType'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateEmploymentTypeSequence'])->name('sequence');
         });
 
         Route::prefix('training-category')->name('training_category.')->group(function () {
@@ -205,6 +208,16 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{training_category_id}', [SettingsController::class, 'editTrainingCategory'])->name('edit');
             Route::put('update', [SettingsController::class, 'updateTrainingCategory'])->name('update');
             Route::get('delete/{training_category_id}', [SettingsController::class, 'deleteTrainingCategory'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateTrainingCategorySequence'])->name('sequence');
+        });
+
+        Route::prefix('blog-category')->name('blog_category.')->group(function () {
+            Route::get('', [SettingsController::class, 'viewBlogCategory'])->name('view');
+            Route::post('store', [SettingsController::class, 'storeBlogCategory'])->name('store');
+            Route::get('edit/{blog_category_id}', [SettingsController::class, 'editBlogCategory'])->name('edit');
+            Route::put('update', [SettingsController::class, 'updateBlogCategory'])->name('update');
+            Route::get('delete/{blog_category_id}', [SettingsController::class, 'deleteBlogCategory'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateBlogCategorySequence'])->name('sequence');
         });
     });
 
