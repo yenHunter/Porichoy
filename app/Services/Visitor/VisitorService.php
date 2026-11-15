@@ -14,7 +14,6 @@ use App\Models\ProjectInfo;
 use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class VisitorService
@@ -142,10 +141,10 @@ class VisitorService
     }
 
     /**
-     * Persist an incoming contact-form message and mirror it to its log channel.
+     * Persist an incoming contact-form message.
      *
-     * The database row is the source of truth: a logging failure must never
-     * cost the owner a lead, so the log copy is best-effort.
+     * The database row is the only record of the submission; the admin
+     * Contact Request inbox reads from it.
      *
      * @param  StoreContactRequest  $request  Validated payload
      */
@@ -159,19 +158,6 @@ class VisitorService
             'ip' => $request->ip(),
             'user_agent' => Str::limit((string) $request->userAgent(), 255, ''),
         ]);
-
-        try {
-            Log::channel('contact')->info('New contact message received', [
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'message' => $request->input('comments'),
-            ]);
-        } catch (\Throwable $e) {
-            Log::warning('Contact message stored without a log copy', [
-                'reason' => $e->getMessage(),
-            ]);
-        }
     }
 
     /*

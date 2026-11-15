@@ -65,16 +65,6 @@ return [
             'replace_placeholders' => true,
         ],
 
-        // Incoming contact-form messages. Persisted to the database as well;
-        // this channel is the human-readable trail next to it.
-        'contact' => [
-            'driver' => 'daily',
-            'path' => storage_path('logs/contact.log'),
-            'level' => env('LOG_LEVEL', 'debug'),
-            'days' => env('LOG_DAILY_DAYS', 30),
-            'replace_placeholders' => true,
-        ],
-
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

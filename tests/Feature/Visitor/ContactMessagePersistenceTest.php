@@ -11,14 +11,6 @@ class ContactMessagePersistenceTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Regression guard for the missing channel that made the form 500.
-     */
-    public function test_the_contact_log_channel_is_configured(): void
-    {
-        $this->assertArrayHasKey('contact', config('logging.channels'));
-    }
-
     public function test_a_valid_submission_is_persisted_with_request_metadata(): void
     {
         Http::fake([

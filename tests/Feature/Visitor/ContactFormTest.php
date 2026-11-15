@@ -12,9 +12,6 @@ class ContactFormTest extends TestCase
 
     /**
      * A valid submission is persisted and flashed back.
-     *
-     * The real logging channel is exercised here on purpose: mocking it is
-     * what previously hid the fact that `contact` was never configured.
      */
     public function test_contact_form_persists_a_valid_message(): void
     {
