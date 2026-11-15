@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
+use App\Http\Requests\Admin\Settings\UpdateBlogCategorySequenceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
 use App\Models\SelectType;
 use App\Services\Settings\SettingsService;
@@ -333,5 +334,15 @@ class SettingsController extends Controller
         $this->settings_service->deleteBlogCategory($blog_category_id);
 
         return back()->with('success', 'Blog Category removed');
+    }
+
+    /**
+     * Persist the drag/drop order of the blog category table.
+     */
+    public function updateBlogCategorySequence(UpdateBlogCategorySequenceRequest $request): JsonResponse
+    {
+        $this->settings_service->updateBlogCategorySequence($request->input('order', []));
+
+        return response()->json(['status' => 'success']);
     }
 }

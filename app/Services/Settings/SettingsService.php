@@ -336,6 +336,19 @@ class SettingsService
         $this->logUserActivity('Blog Category', 'Removed Blog Category');
     }
 
+    /**
+     * Persist the drag/drop order for blog categories.
+     *
+     * @param  array<int, array{id: string, sequence: int}>  $order
+     */
+    public function updateBlogCategorySequence(array $order): void
+    {
+        foreach ($order as $item) {
+            BlogCategory::where('id', $item['id'])
+                ->update(['category_sequence' => $item['sequence']]);
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Internals

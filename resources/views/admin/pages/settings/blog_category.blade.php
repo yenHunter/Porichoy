@@ -56,6 +56,7 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
+                                <th>Order</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Posts</th>
@@ -63,9 +64,12 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-blog-category">
                             @foreach ($blog_category_list as $item)
-                                <tr>
+                                <tr data-id="{{ $item->id }}">
+                                    <td>
+                                        <i class="ti ti-arrows-move fs-42"></i>
+                                    </td>
                                     <td>
                                         {{ $item->category_name }}
                                     </td>
@@ -111,7 +115,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create Blog Category</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create blog category</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
@@ -135,7 +139,8 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select class="form-select" name="category_status" id="category_status">
+                                    <select aria-label="Select Status" class="form-select" name="category_status"
+                                        id="category_status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
@@ -155,61 +160,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $('#create_update_modal').on('hidden.bs.modal', function() {
-            $('#create_update_form')[0].reset();
-            $('#create_update_form').attr('action', '{{ route('settings.blog_category.store') }}');
-            $('#create_update_form_method').val('POST');
-            $('#blog_category_id').val('');
-        });
-
-        $(document).on('click', '.btn-edit', function() {
-            let blog_category_id = $(this).data('blog_category_id');
-
-            $.ajax({
-                url: "{{ route('settings.blog_category.edit', ':id') }}".replace(':id', blog_category_id),
-                type: 'GET',
-                success: function(response) {
-                    $('#blog_category_id').val(response.id);
-                    $('#category_name').val(response.category_name);
-                    $('#category_description').val(response.category_description);
-                    $('#category_status').val(response.category_status ? '1' : '0');
-
-                    const form = document.getElementById('create_update_form');
-                    form.action = "{{ route('settings.blog_category.update') }}";
-                    document.getElementById('create_update_form_method').value = 'PUT';
-
-                    $('#create_update_modal').modal('show');
-                }
-            });
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', function() {
-                    const blog_category_id = this.getAttribute('data-blog_category_id');
-                    const post_count = parseInt(this.getAttribute('data-post_count'), 10) || 0;
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: post_count > 0 ?
-                            `This category is used by ${post_count} post(s). Reassign them before deleting it.` :
-                            "This action cannot be undone!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete it!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('settings.blog_category.delete', ':id') }}"
-                                .replace(':id', blog_category_id);
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    @vite(['resources/js/pages/settings-blog-category.js'])
 @endsection

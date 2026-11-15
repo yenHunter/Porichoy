@@ -112,6 +112,22 @@ class BlogCategoryTest extends TestCase
         $this->assertDatabaseHas('blog_categories', ['id' => $category->getKey()]);
     }
 
+    public function test_the_blog_category_order_can_be_updated(): void
+    {
+        $category = BlogCategory::create(['category_name' => 'Design']);
+
+        $this->actingAs($this->adminUser())
+            ->post(route('settings.blog_category.sequence'), [
+                'order' => [
+                    ['id' => $category->getKey(), 'sequence' => 7],
+                ],
+            ])
+            ->assertOk()
+            ->assertJson(['status' => 'success']);
+
+        $this->assertSame(7, (int) $category->refresh()->category_sequence);
+    }
+
     /**
      * Insert a post that references the category.
      */

@@ -139,6 +139,7 @@ export default defineConfig({
                 "resources/js/pages/management-user.js",
                 "resources/js/pages/management-user-log.js",
                 "resources/js/pages/management-contact-message.js",
+                "resources/js/pages/settings-blog-category.js",
             ],
             refresh: true,
         }),

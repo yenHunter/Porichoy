@@ -213,6 +213,7 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{blog_category_id}', [SettingsController::class, 'editBlogCategory'])->name('edit');
             Route::put('update', [SettingsController::class, 'updateBlogCategory'])->name('update');
             Route::get('delete/{blog_category_id}', [SettingsController::class, 'deleteBlogCategory'])->name('delete');
+            Route::post('update-sequence', [SettingsController::class, 'updateBlogCategorySequence'])->name('sequence');
         });
     });
 
