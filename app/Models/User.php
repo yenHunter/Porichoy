@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -81,9 +82,18 @@ class User extends Authenticatable
     protected function profilePictureUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->profile_picture
-                ? asset('storage/'.$this->profile_picture)
-                : asset('static/icons/user.png')
+            get: function () {
+                // Bundled and seeded images live under `static/`, uploads live on
+                // the public storage disk. A user with neither gets the default
+                // icon rather than a `storage/` URL that resolves to a 403.
+                if (blank($this->profile_picture)) {
+                    return asset('static/icons/user.png');
+                }
+
+                return Str::contains($this->profile_picture, 'static/')
+                    ? asset($this->profile_picture)
+                    : asset('storage/'.$this->profile_picture);
+            }
         );
     }
 
