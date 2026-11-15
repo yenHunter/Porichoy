@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
@@ -264,5 +265,73 @@ class SettingsController extends Controller
         $this->settings_service->deleteSelectType($training_category_id, 'training_category');
 
         return back()->with('success', 'Training Category removed');
+    }
+
+    // ---------------------------------------------------------------------
+    // Blog Category CRUD (own table: blog_categories)
+    // ---------------------------------------------------------------------
+
+    /**
+     * Display the blog category listing.
+     */
+    public function viewBlogCategory(): View
+    {
+        return view(
+            'admin.pages.settings.blog_category',
+            [
+                'blog_category_list' => $this->settings_service->blogCategoryViewData(),
+            ]
+        );
+    }
+
+    /**
+     * Store a new blog category.
+     */
+    public function storeBlogCategory(BlogCategoryRequest $request): RedirectResponse
+    {
+        $this->settings_service->storeBlogCategory($request);
+
+        return back()->with('success', 'Blog Category created');
+    }
+
+    /**
+     * Get a blog category by id.
+     */
+    public function editBlogCategory(string $blog_category_id): JsonResponse
+    {
+        return response()->json(
+            $this->settings_service->findBlogCategory($blog_category_id)
+        );
+    }
+
+    /**
+     * Update a blog category.
+     */
+    public function updateBlogCategory(BlogCategoryRequest $request): RedirectResponse
+    {
+        $this->settings_service->updateBlogCategory($request);
+
+        return back()->with('success', 'Blog Category updated');
+    }
+
+    /**
+     * Delete a blog category, unless posts still reference it.
+     */
+    public function deleteBlogCategory(string $blog_category_id): RedirectResponse
+    {
+        $post_count = $this->settings_service->blogCategoryPostCount($blog_category_id);
+
+        if ($post_count > 0) {
+            $posts = $post_count === 1 ? 'post' : 'posts';
+
+            return back()->with(
+                'error',
+                "This category is used by {$post_count} {$posts}. Reassign them before deleting it."
+            );
+        }
+
+        $this->settings_service->deleteBlogCategory($blog_category_id);
+
+        return back()->with('success', 'Blog Category removed');
     }
 }

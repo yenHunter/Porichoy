@@ -206,6 +206,14 @@ Route::middleware('auth')->group(function () {
             Route::put('update', [SettingsController::class, 'updateTrainingCategory'])->name('update');
             Route::get('delete/{training_category_id}', [SettingsController::class, 'deleteTrainingCategory'])->name('delete');
         });
+
+        Route::prefix('blog-category')->name('blog_category.')->group(function () {
+            Route::get('', [SettingsController::class, 'viewBlogCategory'])->name('view');
+            Route::post('store', [SettingsController::class, 'storeBlogCategory'])->name('store');
+            Route::get('edit/{blog_category_id}', [SettingsController::class, 'editBlogCategory'])->name('edit');
+            Route::put('update', [SettingsController::class, 'updateBlogCategory'])->name('update');
+            Route::get('delete/{blog_category_id}', [SettingsController::class, 'deleteBlogCategory'])->name('delete');
+        });
     });
 
     Route::prefix('configuration')->name('configuration.')->group(function () {

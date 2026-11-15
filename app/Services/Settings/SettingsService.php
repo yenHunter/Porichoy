@@ -2,10 +2,12 @@
 
 namespace App\Services\Settings;
 
+use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
+use App\Models\BlogCategory;
 use App\Models\ColumnSettings;
 use App\Models\Country;
 use App\Models\EducationInfo;
@@ -245,6 +247,93 @@ class SettingsService
         $object->delete();
 
         $this->logUserActivity(ucwords(str_replace('_', ' ', $use_for)), 'Removed '.str_replace('_', ' ', $use_for).' record');
+    }
+
+    // ---------------------------------------------------------------------
+    // Blog Category CRUD (its own table: blog_categories)
+    // ---------------------------------------------------------------------
+
+    /**
+     * Rows for the blog category view, each with its post count.
+     *
+     * @return Collection<int, BlogCategory>
+     */
+    public function blogCategoryViewData(): Collection
+    {
+        return BlogCategory::withCount('blogs')->sorted()->get();
+    }
+
+    /**
+     * Create a blog category. `category_sequence` is assigned by the model.
+     */
+    public function storeBlogCategory(BlogCategoryRequest $request): BlogCategory
+    {
+        $category = new BlogCategory;
+        $category->category_name = $request->input('category_name');
+        $category->category_description = $request->input('category_description');
+        // `category_status` is NOT NULL; omitting the field means active.
+        $category->category_status = $request->input('category_status') ?? true;
+        $category->save();
+
+        $this->logUserActivity('Blog Category', 'Created a new Blog Category');
+
+        return $category;
+    }
+
+    /**
+     * Find a blog category by id.
+     */
+    public function findBlogCategory(string $blog_category_id): ?BlogCategory
+    {
+        return BlogCategory::where('id', $blog_category_id)->first();
+    }
+
+    /**
+     * Update a blog category.
+     */
+    public function updateBlogCategory(BlogCategoryRequest $request): ?BlogCategory
+    {
+        $category = $this->findBlogCategory((string) $request->input('blog_category_id'));
+        if ($category === null) {
+            return null;
+        }
+
+        $category->category_name = $request->input('category_name');
+        $category->category_description = $request->input('category_description');
+        // Omitted status keeps the stored value instead of writing null.
+        $category->category_status = $request->input('category_status') ?? $category->category_status;
+        $category->save();
+
+        $this->logUserActivity('Blog Category', 'Updated Blog Category');
+
+        return $category;
+    }
+
+    /**
+     * How many posts reference the category.
+     *
+     * Deleting a category is blocked while this is above zero: the foreign key
+     * is `onDelete('set null')`, so an unguarded delete would silently turn
+     * those posts into "No Category".
+     */
+    public function blogCategoryPostCount(string $blog_category_id): int
+    {
+        return BlogCategory::withCount('blogs')->find($blog_category_id)?->blogs_count ?? 0;
+    }
+
+    /**
+     * Delete a blog category. Callers must check blogCategoryPostCount() first.
+     */
+    public function deleteBlogCategory(string $blog_category_id): void
+    {
+        $category = $this->findBlogCategory($blog_category_id);
+        if ($category === null) {
+            return;
+        }
+
+        $category->delete();
+
+        $this->logUserActivity('Blog Category', 'Removed Blog Category');
     }
 
     /*

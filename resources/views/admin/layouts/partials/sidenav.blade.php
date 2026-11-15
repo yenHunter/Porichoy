@@ -245,6 +245,11 @@
                                 <span class="menu-text" data-lang="sidebar-settings-training-category">Training Category</span>
                             </a>
                         </li>
+                        <li class="side-nav-item">
+                            <a class="side-nav-link" href="{{ route('settings.blog_category.view') }}">
+                                <span class="menu-text" data-lang="sidebar-settings-blog-category">Blog Category</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
