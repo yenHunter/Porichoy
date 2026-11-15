@@ -64,7 +64,7 @@ $(document).on('click', '.btn-edit', function () {
             $('#training_category_id').val(data.id);
             $('#title').val(data.value);
             $('#details').val(data.details);
-            $('#status').val(data.status == 1 ? 1 : 0);
+            $('#training_category_status').val(data.status == 1 ? 1 : 0);
 
             // Update form
             const form = document.getElementById('create_update_form');

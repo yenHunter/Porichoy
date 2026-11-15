@@ -64,7 +64,7 @@ $(document).on('click', '.btn-edit', function () {
             $('#employment_type_id').val(data.id);
             $('#title').val(data.value);
             $('#details').val(data.details);
-            $('#status').val(data.status == 1 ? 1 : 0);
+            $('#employment_type_status').val(data.status == 1 ? 1 : 0);
 
             // Update form
             const form = document.getElementById('create_update_form');

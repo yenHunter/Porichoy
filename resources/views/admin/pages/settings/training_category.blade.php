@@ -131,11 +131,12 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="status" id="status">
+                                    <select aria-label="Select Status" class="form-select" name="status"
+                                        id="training_category_status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
-                                    <label for="status">Status</label>
+                                    <label for="training_category_status">Status</label>
                                 </div>
                             </div>
                         </div>

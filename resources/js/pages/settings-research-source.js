@@ -63,7 +63,7 @@ $(document).on('click', '.btn-edit', function () {
             // Fill form fields
             $('#research_source_id').val(data.id);
             $('#title').val(data.value);
-            $('#status').val(data.status == 1 ? 1 : 0);
+            $('#research_source_status').val(data.status == 1 ? 1 : 0);
 
             // Update form
             const form = document.getElementById('create_update_form');
