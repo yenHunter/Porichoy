@@ -343,13 +343,8 @@
                     <a aria-expanded="false" aria-haspopup="false"
                         class="topbar-link dropdown-toggle drop-arrow-none px-2" data-bs-offset="0,19"
                         data-bs-toggle="dropdown" href="#">
-                        @if (\Illuminate\Support\Str::contains(Auth::user()->profile_picture, 'static/'))
-                            <img alt="user-image" class="rounded-circle me-lg-2 d-flex"
-                                src="{{ asset(Auth::user()->profile_picture) }}" width="32" />
-                        @else
-                            <img alt="user-image" class="rounded-circle me-lg-2 d-flex"
-                                src="{{ asset('storage/' . Auth::user()->profile_picture) }}" width="32" />
-                        @endif
+                        <img alt="user-image" class="rounded-circle me-lg-2 d-flex"
+                            src="{{ Auth::user()->profile_picture_url }}" width="32" />
                         <div class="d-lg-flex align-items-center gap-1 d-none">
                             <h5 class="my-0">{{ Auth::user()->first_name }}</h5>
                             <i class="ti ti-chevron-down align-middle"></i>
