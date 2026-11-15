@@ -6,6 +6,7 @@ use App\Http\Requests\Visitor\StoreContactRequest;
 use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\ClientInfo;
+use App\Models\ContactMessage;
 use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
 use App\Models\ProfileInfo;
@@ -13,7 +14,7 @@ use App\Models\ProjectInfo;
 use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VisitorService
 {
@@ -140,17 +141,22 @@ class VisitorService
     }
 
     /**
-     * Record an incoming contact-form message.
+     * Persist an incoming contact-form message.
+     *
+     * The database row is the only record of the submission; the admin
+     * Contact Request inbox reads from it.
      *
      * @param  StoreContactRequest  $request  Validated payload
      */
     public function storeContact(StoreContactRequest $request): void
     {
-        Log::channel('contact')->info('New contact message received', [
+        ContactMessage::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
             'message' => $request->input('comments'),
+            'ip' => $request->ip(),
+            'user_agent' => Str::limit((string) $request->userAgent(), 255, ''),
         ]);
     }
 

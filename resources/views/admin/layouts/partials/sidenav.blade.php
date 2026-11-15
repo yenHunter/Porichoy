@@ -162,7 +162,7 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a class="side-nav-link" href="#">
+                <a class="side-nav-link" href="{{ route('management.contact_message.view') }}">
                     <span class="menu-icon"><i data-lucide="mail-question-mark"></i></span>
                     <span class="menu-text" data-lang="sidebar-management-contact-request">Contact Request</span>
                 </a>

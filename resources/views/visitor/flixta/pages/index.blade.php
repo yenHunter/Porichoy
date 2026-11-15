@@ -1507,7 +1507,7 @@
 
                                 @include('visitor.partials.form-alerts')
                                 <div class="row g-5">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="rs-contact-input">
                                             <input id="name" name="name" type="text" placeholder="Full Name">
                                         </div>
@@ -1522,19 +1522,6 @@
                                         <div class="rs-contact-input">
                                             <input id="phone" name="phone" type="text"
                                                 placeholder="Phone Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="rs-contact-input">
-                                            <div class="rs-contact-input">
-                                                <select id="subject" name="subject">
-                                                    <option selected disabled>Choose Service</option>
-                                                    @foreach ($service_list as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->service_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
