@@ -177,9 +177,9 @@ class SettingsService
     }
 
     /**
-     * Rows for location-type / employment-type views.
+     * Rows for a select-type lookup view.
      *
-     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
+     * @param  string  $use_for  Any SelectType use_for constant
      * @return Collection<int, SelectType>
      */
     public function selectTypeViewData(string $use_for): Collection
@@ -188,9 +188,9 @@ class SettingsService
     }
 
     /**
-     * Create a location/employment-type SelectType row.
+     * Create a SelectType row for a lookup list.
      *
-     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
+     * @param  string  $use_for  Any SelectType use_for constant
      */
     public function storeSelectType(SelectTypeRequest $request, string $use_for): SelectType
     {
@@ -216,9 +216,9 @@ class SettingsService
     }
 
     /**
-     * Update a location/employment-type row.
+     * Update a lookup row.
      *
-     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
+     * @param  string  $use_for  Any SelectType use_for constant
      * @param  string  $id  Row id
      */
     public function updateSelectType(SelectTypeRequest $request, string $use_for, string $id): ?SelectType
@@ -240,7 +240,7 @@ class SettingsService
     }
 
     /**
-     * Delete a location/employment-type row.
+     * Delete a lookup row.
      */
     public function deleteSelectType(string $id, string $use_for): void
     {
@@ -268,7 +268,11 @@ class SettingsService
     }
 
     // ---------------------------------------------------------------------
-    // Blog Category CRUD (SelectType use_for = blog_category)
+    // Blog Category (SelectType use_for = blog_category)
+    //
+    // Only the two lookups the generic helpers cannot express live here; the
+    // create, edit, update, delete and reorder paths are selectType*() calls
+    // with SelectType::BLOG_CATEGORY.
     // ---------------------------------------------------------------------
 
     /**
@@ -278,56 +282,7 @@ class SettingsService
      */
     public function blogCategoryViewData(): Collection
     {
-        return SelectType::where('use_for', SelectType::BLOG_CATEGORY)->withCount('blogs')->sorted()->get();
-    }
-
-    /**
-     * Create a blog category (a select_types row). `sequence` is set by the model.
-     */
-    public function storeBlogCategory(SelectTypeRequest $request): SelectType
-    {
-        $object = new SelectType;
-        $object->use_for = SelectType::BLOG_CATEGORY;
-        $object->value = $request->title;
-        $object->details = $request->details;
-        // `status` is NOT NULL; omitting the field means active.
-        $object->status = $request->status ?? true;
-        $object->save();
-
-        $this->logUserActivity('Blog Category', 'Created a new Blog Category');
-
-        return $object;
-    }
-
-    /**
-     * Find a blog category by id.
-     */
-    public function findBlogCategory(string $blog_category_id): ?SelectType
-    {
-        return SelectType::where('id', $blog_category_id)
-            ->where('use_for', SelectType::BLOG_CATEGORY)
-            ->first();
-    }
-
-    /**
-     * Update a blog category.
-     */
-    public function updateBlogCategory(SelectTypeRequest $request): ?SelectType
-    {
-        $object = $this->findBlogCategory((string) $request->input('blog_category_id'));
-        if ($object === null) {
-            return null;
-        }
-
-        $object->value = $request->title;
-        $object->details = $request->details;
-        // Omitted status keeps the stored value instead of writing null.
-        $object->status = $request->status ?? $object->status;
-        $object->save();
-
-        $this->logUserActivity('Blog Category', 'Updated Blog Category');
-
-        return $object;
+        return $this->selectTypeViewData(SelectType::BLOG_CATEGORY)->loadCount('blogs');
     }
 
     /**
@@ -339,34 +294,9 @@ class SettingsService
      */
     public function blogCategoryPostCount(string $blog_category_id): int
     {
-        return SelectType::where('use_for', SelectType::BLOG_CATEGORY)
-            ->withCount('blogs')
-            ->find($blog_category_id)?->blogs_count ?? 0;
-    }
+        $category = $this->findSelectType($blog_category_id, SelectType::BLOG_CATEGORY);
 
-    /**
-     * Delete a blog category. Callers must check blogCategoryPostCount() first.
-     */
-    public function deleteBlogCategory(string $blog_category_id): void
-    {
-        $object = $this->findBlogCategory($blog_category_id);
-        if ($object === null) {
-            return;
-        }
-
-        $object->delete();
-
-        $this->logUserActivity('Blog Category', 'Removed Blog Category');
-    }
-
-    /**
-     * Persist the drag/drop order for blog categories.
-     *
-     * @param  array<int, array{id: int|string, sequence: int}>  $order
-     */
-    public function updateBlogCategorySequence(array $order): void
-    {
-        $this->updateSelectTypeSequence($order);
+        return $category === null ? 0 : $category->blogs()->count();
     }
 
     /*

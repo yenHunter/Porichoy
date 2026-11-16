@@ -329,7 +329,7 @@ class SettingsController extends Controller
      */
     public function storeBlogCategory(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->storeBlogCategory($request);
+        $this->settings_service->storeSelectType($request, SelectType::BLOG_CATEGORY);
 
         return back()->with('success', 'Blog Category created');
     }
@@ -340,7 +340,7 @@ class SettingsController extends Controller
     public function editBlogCategory(string $blog_category_id): JsonResponse
     {
         return response()->json(
-            $this->settings_service->findBlogCategory($blog_category_id)
+            $this->settings_service->findSelectType($blog_category_id, SelectType::BLOG_CATEGORY)
         );
     }
 
@@ -349,7 +349,7 @@ class SettingsController extends Controller
      */
     public function updateBlogCategory(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->updateBlogCategory($request);
+        $this->settings_service->updateSelectType($request, SelectType::BLOG_CATEGORY, $request->input('blog_category_id'));
 
         return back()->with('success', 'Blog Category updated');
     }
@@ -370,7 +370,7 @@ class SettingsController extends Controller
             );
         }
 
-        $this->settings_service->deleteBlogCategory($blog_category_id);
+        $this->settings_service->deleteSelectType($blog_category_id, SelectType::BLOG_CATEGORY);
 
         return back()->with('success', 'Blog Category removed');
     }
@@ -380,7 +380,7 @@ class SettingsController extends Controller
      */
     public function updateBlogCategorySequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
     {
-        $this->settings_service->updateBlogCategorySequence($request->input('order', []));
+        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
 
         return response()->json(['status' => 'success']);
     }

@@ -5,9 +5,10 @@ namespace App\Http\Requests\Admin\Settings;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Used for both location-type and employment-type CRUDs — the payload shape
- * is identical (title + optional details + status) and differs only by the
- * `use_for` discriminator, which routes/URL set.
+ * Used by every select-type lookup CRUD (location type, employment type,
+ * training category, blog category) — the payload shape is identical
+ * (title + optional details + status) and differs only by the `use_for`
+ * discriminator, which the route or controller settles.
  */
 class SelectTypeRequest extends FormRequest
 {

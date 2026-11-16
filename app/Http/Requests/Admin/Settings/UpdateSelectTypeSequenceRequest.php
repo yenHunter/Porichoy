@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Shared by every select-type lookup (research source, location type,
- * employment type, training category): they all reorder through
- * `{order: [{id, sequence}]}`.
+ * employment type, training category, blog category): they all reorder
+ * through `{order: [{id, sequence}]}`.
  */
 class UpdateSelectTypeSequenceRequest extends FormRequest
 {
