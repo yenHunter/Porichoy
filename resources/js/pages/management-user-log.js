@@ -6,6 +6,8 @@ import 'datatables.net-responsive-bs5'
 new DataTable('[data-tables="basic"]', {
     ordering: false,
     language: {
+        emptyTable: 'No activity has been recorded yet.',
+        zeroRecords: 'No activity matches your search.',
         paginate: {
             first: '<i class="ti ti-chevrons-left"></i>', 
             previous: '<i class="ti ti-chevron-left"></i>', 
