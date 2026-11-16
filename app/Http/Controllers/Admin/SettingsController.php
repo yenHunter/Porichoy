@@ -118,7 +118,7 @@ class SettingsController extends Controller
         return view(
             'admin.pages.settings.location_type',
             [
-                'location_type_list' => $this->settings_service->selectTypeViewData('location_type'),
+                'location_type_list' => $this->settings_service->selectTypeViewData(SelectType::LOCATION_TYPE),
             ]
         );
     }
@@ -128,7 +128,7 @@ class SettingsController extends Controller
      */
     public function storeLocationType(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->storeSelectType($request, 'location_type');
+        $this->settings_service->storeSelectType($request, SelectType::LOCATION_TYPE);
 
         return back()->with('success', 'Location Type created');
     }
@@ -139,7 +139,7 @@ class SettingsController extends Controller
     public function editLocationType(string $location_type_id): JsonResponse
     {
         return response()->json(
-            $this->settings_service->findSelectType($location_type_id, 'location_type')
+            $this->settings_service->findSelectType($location_type_id, SelectType::LOCATION_TYPE)
         );
     }
 
@@ -148,7 +148,7 @@ class SettingsController extends Controller
      */
     public function updateLocationType(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->updateSelectType($request, 'location_type', $request->input('location_type_id'));
+        $this->settings_service->updateSelectType($request, SelectType::LOCATION_TYPE, $request->input('location_type_id'));
 
         return back()->with('success', 'Location Type updated');
     }
@@ -158,7 +158,7 @@ class SettingsController extends Controller
      */
     public function deleteLocationType(string $location_type_id): RedirectResponse
     {
-        $this->settings_service->deleteSelectType($location_type_id, 'location_type');
+        $this->settings_service->deleteSelectType($location_type_id, SelectType::LOCATION_TYPE);
 
         return back()->with('success', 'Location Type removed');
     }
@@ -185,7 +185,7 @@ class SettingsController extends Controller
         return view(
             'admin.pages.settings.employment_type',
             [
-                'employment_type_list' => $this->settings_service->selectTypeViewData('employment_type'),
+                'employment_type_list' => $this->settings_service->selectTypeViewData(SelectType::EMPLOYMENT_TYPE),
             ]
         );
     }
@@ -195,7 +195,7 @@ class SettingsController extends Controller
      */
     public function storeEmploymentType(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->storeSelectType($request, 'employment_type');
+        $this->settings_service->storeSelectType($request, SelectType::EMPLOYMENT_TYPE);
 
         return back()->with('success', 'Employment Type created');
     }
@@ -206,7 +206,7 @@ class SettingsController extends Controller
     public function editEmploymentType(string $employment_type_id): JsonResponse
     {
         return response()->json(
-            $this->settings_service->findSelectType($employment_type_id, 'employment_type')
+            $this->settings_service->findSelectType($employment_type_id, SelectType::EMPLOYMENT_TYPE)
         );
     }
 
@@ -215,7 +215,7 @@ class SettingsController extends Controller
      */
     public function updateEmploymentType(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->updateSelectType($request, 'employment_type', $request->input('employment_type_id'));
+        $this->settings_service->updateSelectType($request, SelectType::EMPLOYMENT_TYPE, $request->input('employment_type_id'));
 
         return back()->with('success', 'Employment Type updated');
     }
@@ -225,7 +225,7 @@ class SettingsController extends Controller
      */
     public function deleteEmploymentType(string $employment_type_id): RedirectResponse
     {
-        $this->settings_service->deleteSelectType($employment_type_id, 'employment_type');
+        $this->settings_service->deleteSelectType($employment_type_id, SelectType::EMPLOYMENT_TYPE);
 
         return back()->with('success', 'Employment Type removed');
     }
@@ -252,7 +252,7 @@ class SettingsController extends Controller
         return view(
             'admin.pages.settings.training_category',
             [
-                'training_category_list' => $this->settings_service->selectTypeViewData('training_category'),
+                'training_category_list' => $this->settings_service->selectTypeViewData(SelectType::TRAINING_CATEGORY),
             ]
         );
     }
@@ -262,7 +262,7 @@ class SettingsController extends Controller
      */
     public function storeTrainingCategory(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->storeSelectType($request, 'training_category');
+        $this->settings_service->storeSelectType($request, SelectType::TRAINING_CATEGORY);
 
         return back()->with('success', 'Training Category created');
     }
@@ -273,7 +273,7 @@ class SettingsController extends Controller
     public function editTrainingCategory(string $training_category_id): JsonResponse
     {
         return response()->json(
-            $this->settings_service->findSelectType($training_category_id, 'training_category')
+            $this->settings_service->findSelectType($training_category_id, SelectType::TRAINING_CATEGORY)
         );
     }
 
@@ -282,7 +282,7 @@ class SettingsController extends Controller
      */
     public function updateTrainingCategory(SelectTypeRequest $request): RedirectResponse
     {
-        $this->settings_service->updateSelectType($request, 'training_category', $request->input('training_category_id'));
+        $this->settings_service->updateSelectType($request, SelectType::TRAINING_CATEGORY, $request->input('training_category_id'));
 
         return back()->with('success', 'Training Category updated');
     }
@@ -292,7 +292,7 @@ class SettingsController extends Controller
      */
     public function deleteTrainingCategory(string $training_category_id): RedirectResponse
     {
-        $this->settings_service->deleteSelectType($training_category_id, 'training_category');
+        $this->settings_service->deleteSelectType($training_category_id, SelectType::TRAINING_CATEGORY);
 
         return back()->with('success', 'Training Category removed');
     }

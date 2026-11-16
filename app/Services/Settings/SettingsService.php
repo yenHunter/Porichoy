@@ -92,7 +92,7 @@ class SettingsService
     public function researchSourceViewData(): array
     {
         return [
-            'research_source_list' => SelectType::where('use_for', 'research_source')->sorted()->get(),
+            'research_source_list' => SelectType::where('use_for', SelectType::RESEARCH_SOURCE)->sorted()->get(),
             'research_source_settings' => ColumnSettings::where('module', 'research_source')->get(),
         ];
     }
@@ -103,7 +103,7 @@ class SettingsService
     public function storeResearchSource(StoreResearchSourceRequest $request): SelectType
     {
         $object = new SelectType;
-        $object->use_for = 'research_source';
+        $object->use_for = SelectType::RESEARCH_SOURCE;
         $object->value = $request->title;
         $object->details = $this->storeThumbnail($request);
         // `status` is NOT NULL; omitting the field means active.
@@ -120,7 +120,9 @@ class SettingsService
      */
     public function findResearchSource(string $research_source_id): ?SelectType
     {
-        return SelectType::where('id', $research_source_id)->where('use_for', 'research_source')->first();
+        return SelectType::where('id', $research_source_id)
+            ->where('use_for', SelectType::RESEARCH_SOURCE)
+            ->first();
     }
 
     /**
@@ -172,7 +174,7 @@ class SettingsService
     /**
      * Rows for location-type / employment-type views.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
      * @return Collection<int, SelectType>
      */
     public function selectTypeViewData(string $use_for): Collection
@@ -183,7 +185,7 @@ class SettingsService
     /**
      * Create a location/employment-type SelectType row.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
      */
     public function storeSelectType(SelectTypeRequest $request, string $use_for): SelectType
     {
@@ -211,7 +213,7 @@ class SettingsService
     /**
      * Update a location/employment-type row.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  SelectType::LOCATION_TYPE or SelectType::EMPLOYMENT_TYPE
      * @param  string  $id  Row id
      */
     public function updateSelectType(SelectTypeRequest $request, string $use_for, string $id): ?SelectType

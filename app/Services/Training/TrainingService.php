@@ -33,11 +33,11 @@ class TrainingService
     {
         return [
             'training_list' => TrainingInfo::with('category')
-                ->whereRelation('category', 'use_for', 'training_category')
+                ->whereRelation('category', 'use_for', SelectType::TRAINING_CATEGORY)
                 ->sorted()
                 ->get(),
             'training_settings' => ColumnSettings::where('module', 'training')->get(),
-            'training_category' => SelectType::where('use_for', 'training_category')->get(),
+            'training_category' => SelectType::where('use_for', SelectType::TRAINING_CATEGORY)->get(),
         ];
     }
 

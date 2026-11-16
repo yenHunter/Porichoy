@@ -15,7 +15,7 @@ class SelectSeeder extends Seeder
     {
         $data = [
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Full-time',
                 'details' => null,
                 'status' => 1,
@@ -23,7 +23,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Part-time',
                 'details' => null,
                 'status' => 1,
@@ -31,7 +31,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Self-employed',
                 'details' => null,
                 'status' => 1,
@@ -39,7 +39,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Freelancer',
                 'details' => null,
                 'status' => 1,
@@ -47,7 +47,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Contarct',
                 'details' => null,
                 'status' => 1,
@@ -55,7 +55,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Internship',
                 'details' => null,
                 'status' => 1,
@@ -63,7 +63,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Apprenticeship',
                 'details' => null,
                 'status' => 1,
@@ -71,7 +71,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'employment_type',
+                'use_for' => SelectType::EMPLOYMENT_TYPE,
                 'value' => 'Seasonal',
                 'details' => null,
                 'status' => 1,
@@ -79,7 +79,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'location_type',
+                'use_for' => SelectType::LOCATION_TYPE,
                 'value' => 'On-site',
                 'details' => null,
                 'status' => 1,
@@ -87,7 +87,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'location_type',
+                'use_for' => SelectType::LOCATION_TYPE,
                 'value' => 'Remote',
                 'details' => null,
                 'status' => 1,
@@ -95,7 +95,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'location_type',
+                'use_for' => SelectType::LOCATION_TYPE,
                 'value' => 'Hybrid',
                 'details' => null,
                 'status' => 1,
@@ -103,7 +103,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'research_source',
+                'use_for' => SelectType::RESEARCH_SOURCE,
                 'value' => 'Proceedings of the National Academy of Sciences',
                 'details' => 'static/settings/research-source/proceedings-of-the-national-academy-of-sciences.png',
                 'status' => 1,
@@ -111,7 +111,7 @@ class SelectSeeder extends Seeder
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ],
             [
-                'use_for' => 'training_category',
+                'use_for' => SelectType::TRAINING_CATEGORY,
                 'value' => 'Training Category 1',
                 'details' => null,
                 'status' => 1,

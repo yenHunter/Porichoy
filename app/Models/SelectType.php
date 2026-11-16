@@ -7,9 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class SelectType extends Model
 {
     /**
+     * The `use_for` value marking a row as a training category.
+     */
+    public const TRAINING_CATEGORY = 'training_category';
+
+    /**
      * The `use_for` value marking a row as a blog category.
      */
     public const BLOG_CATEGORY = 'blog_category';
+
+    /**
+     * The `use_for` value marking a row as an employment type.
+     */
+    public const EMPLOYMENT_TYPE = 'employment_type';
+
+    /**
+     * The `use_for` value marking a row as a location type.
+     */
+    public const LOCATION_TYPE = 'location_type';
+
+    /**
+     * The `use_for` value marking a row as a research source.
+     */
+    public const RESEARCH_SOURCE = 'research_source';
 
     protected $fillable = [
         'use_for',

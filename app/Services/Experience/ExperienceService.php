@@ -45,8 +45,8 @@ class ExperienceService
         return [
             'experience_list' => ExperienceInfo::sorted()->get(),
             'experience_settings' => ColumnSettings::where('module', 'experience')->get(),
-            'employment_type' => SelectType::where('use_for', 'employment_type')->get(),
-            'location_type' => SelectType::where('use_for', 'location_type')->get(),
+            'employment_type' => SelectType::where('use_for', SelectType::EMPLOYMENT_TYPE)->get(),
+            'location_type' => SelectType::where('use_for', SelectType::LOCATION_TYPE)->get(),
         ];
     }
 
