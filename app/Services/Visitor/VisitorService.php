@@ -15,6 +15,7 @@ use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 class VisitorService
 {
@@ -169,13 +170,40 @@ class VisitorService
     /**
      * The profile column/value pairs shared by several visitor pages.
      *
+     * The map is keyed by column name alone, so two rows sharing a name
+     * would leave only one value on the site. Instead of dropping a value
+     * silently the first row wins and the duplicate is raised as an error:
+     * duplicate names come from seeded or hand-written rows, where failing
+     * loudly beats a public page that quietly shows half the data.
+     *
      * @return array<string, string|null>
+     *
+     * @throws RuntimeException when two active rows share a column name
      */
     private function profile(): array
     {
+        $profile = [];
+        $duplicates = [];
+
         // Only rows the admin form treats as visible; a deactivated row
         // disappears from the public site too.
-        return ProfileInfo::active()->pluck('column_value', 'column_name')->toArray();
+        foreach (ProfileInfo::active()->orderBy('id')->get(['column_name', 'column_value']) as $row) {
+            if (array_key_exists($row->column_name, $profile)) {
+                $duplicates[$row->column_name] = $row->column_name;
+
+                continue;
+            }
+
+            $profile[$row->column_name] = $row->column_value;
+        }
+
+        if ($duplicates !== []) {
+            throw new RuntimeException(
+                'Duplicate profile column names: '.implode(', ', $duplicates)
+            );
+        }
+
+        return $profile;
     }
 
     /**
