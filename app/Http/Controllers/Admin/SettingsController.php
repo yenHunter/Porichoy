@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
-use App\Http\Requests\Admin\Settings\UpdateBlogCategorySequenceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateSelectTypeSequenceRequest;
 use App\Models\SelectType;
@@ -310,7 +308,7 @@ class SettingsController extends Controller
     }
 
     // ---------------------------------------------------------------------
-    // Blog Category CRUD (own table: blog_categories)
+    // Blog Category CRUD (SelectType use_for = blog_category)
     // ---------------------------------------------------------------------
 
     /**
@@ -329,7 +327,7 @@ class SettingsController extends Controller
     /**
      * Store a new blog category.
      */
-    public function storeBlogCategory(BlogCategoryRequest $request): RedirectResponse
+    public function storeBlogCategory(SelectTypeRequest $request): RedirectResponse
     {
         $this->settings_service->storeBlogCategory($request);
 
@@ -349,7 +347,7 @@ class SettingsController extends Controller
     /**
      * Update a blog category.
      */
-    public function updateBlogCategory(BlogCategoryRequest $request): RedirectResponse
+    public function updateBlogCategory(SelectTypeRequest $request): RedirectResponse
     {
         $this->settings_service->updateBlogCategory($request);
 
@@ -380,7 +378,7 @@ class SettingsController extends Controller
     /**
      * Persist the drag/drop order of the blog category table.
      */
-    public function updateBlogCategorySequence(UpdateBlogCategorySequenceRequest $request): JsonResponse
+    public function updateBlogCategorySequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
     {
         $this->settings_service->updateBlogCategorySequence($request->input('order', []));
 

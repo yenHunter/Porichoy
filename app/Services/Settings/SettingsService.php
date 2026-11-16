@@ -2,12 +2,10 @@
 
 namespace App\Services\Settings;
 
-use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
-use App\Models\BlogCategory;
 use App\Models\ColumnSettings;
 use App\Models\Country;
 use App\Models\EducationInfo;
@@ -263,63 +261,64 @@ class SettingsService
     }
 
     // ---------------------------------------------------------------------
-    // Blog Category CRUD (its own table: blog_categories)
+    // Blog Category CRUD (SelectType use_for = blog_category)
     // ---------------------------------------------------------------------
 
     /**
      * Rows for the blog category view, each with its post count.
      *
-     * @return Collection<int, BlogCategory>
+     * @return Collection<int, SelectType>
      */
     public function blogCategoryViewData(): Collection
     {
-        return BlogCategory::withCount('blogs')->sorted()->get();
+        return SelectType::where('use_for', 'blog_category')->withCount('blogs')->sorted()->get();
     }
 
     /**
-     * Create a blog category. `category_sequence` is assigned by the model.
+     * Create a blog category (a select_types row). `sequence` is set by the model.
      */
-    public function storeBlogCategory(BlogCategoryRequest $request): BlogCategory
+    public function storeBlogCategory(SelectTypeRequest $request): SelectType
     {
-        $category = new BlogCategory;
-        $category->category_name = $request->input('category_name');
-        $category->category_description = $request->input('category_description');
-        // `category_status` is NOT NULL; omitting the field means active.
-        $category->category_status = $request->input('category_status') ?? true;
-        $category->save();
+        $object = new SelectType;
+        $object->use_for = 'blog_category';
+        $object->value = $request->title;
+        $object->details = $request->details;
+        // `status` is NOT NULL; omitting the field means active.
+        $object->status = $request->status ?? true;
+        $object->save();
 
         $this->logUserActivity('Blog Category', 'Created a new Blog Category');
 
-        return $category;
+        return $object;
     }
 
     /**
      * Find a blog category by id.
      */
-    public function findBlogCategory(string $blog_category_id): ?BlogCategory
+    public function findBlogCategory(string $blog_category_id): ?SelectType
     {
-        return BlogCategory::where('id', $blog_category_id)->first();
+        return SelectType::where('id', $blog_category_id)->where('use_for', 'blog_category')->first();
     }
 
     /**
      * Update a blog category.
      */
-    public function updateBlogCategory(BlogCategoryRequest $request): ?BlogCategory
+    public function updateBlogCategory(SelectTypeRequest $request): ?SelectType
     {
-        $category = $this->findBlogCategory((string) $request->input('blog_category_id'));
-        if ($category === null) {
+        $object = $this->findBlogCategory((string) $request->input('blog_category_id'));
+        if ($object === null) {
             return null;
         }
 
-        $category->category_name = $request->input('category_name');
-        $category->category_description = $request->input('category_description');
+        $object->value = $request->title;
+        $object->details = $request->details;
         // Omitted status keeps the stored value instead of writing null.
-        $category->category_status = $request->input('category_status') ?? $category->category_status;
-        $category->save();
+        $object->status = $request->status ?? $object->status;
+        $object->save();
 
         $this->logUserActivity('Blog Category', 'Updated Blog Category');
 
-        return $category;
+        return $object;
     }
 
     /**
@@ -331,7 +330,9 @@ class SettingsService
      */
     public function blogCategoryPostCount(string $blog_category_id): int
     {
-        return BlogCategory::withCount('blogs')->find($blog_category_id)?->blogs_count ?? 0;
+        return SelectType::where('use_for', 'blog_category')
+            ->withCount('blogs')
+            ->find($blog_category_id)?->blogs_count ?? 0;
     }
 
     /**
@@ -339,12 +340,12 @@ class SettingsService
      */
     public function deleteBlogCategory(string $blog_category_id): void
     {
-        $category = $this->findBlogCategory($blog_category_id);
-        if ($category === null) {
+        $object = $this->findBlogCategory($blog_category_id);
+        if ($object === null) {
             return;
         }
 
-        $category->delete();
+        $object->delete();
 
         $this->logUserActivity('Blog Category', 'Removed Blog Category');
     }
@@ -352,14 +353,11 @@ class SettingsService
     /**
      * Persist the drag/drop order for blog categories.
      *
-     * @param  array<int, array{id: string, sequence: int}>  $order
+     * @param  array<int, array{id: int|string, sequence: int}>  $order
      */
     public function updateBlogCategorySequence(array $order): void
     {
-        foreach ($order as $item) {
-            BlogCategory::where('id', $item['id'])
-                ->update(['category_sequence' => $item['sequence']]);
-        }
+        $this->updateSelectTypeSequence($order);
     }
 
     /*

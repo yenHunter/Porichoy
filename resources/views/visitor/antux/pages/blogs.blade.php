@@ -216,7 +216,7 @@
                                     <ul>
                                         @forelse ($category_list as $category)
                                             <li>
-                                                <a href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}
+                                                <a href="{{ route('visitor.blog.index') }}">{{ $category->value }}
                                                     <span>{{ $category->blogs_count }}</span></a>
                                             </li>
                                         @empty

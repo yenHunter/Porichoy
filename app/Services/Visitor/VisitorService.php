@@ -3,7 +3,6 @@
 namespace App\Services\Visitor;
 
 use App\Http\Requests\Visitor\StoreContactRequest;
-use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\ClientInfo;
 use App\Models\ContactMessage;
@@ -11,6 +10,7 @@ use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
 use App\Models\ProfileInfo;
 use App\Models\ProjectInfo;
+use App\Models\SelectType;
 use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
@@ -185,7 +185,7 @@ class VisitorService
     {
         return [
             'blog_list' => BlogInfo::sorted()->active()->with('category', 'updatedBy')->get(),
-            'category_list' => BlogCategory::sorted()->active()->withCount('blogs')->get(),
+            'category_list' => SelectType::where('use_for', 'blog_category')->sorted()->active()->withCount('blogs')->get(),
             'recent_blogs' => BlogInfo::active()->latestPublished()->limit(3)->get(),
         ];
     }

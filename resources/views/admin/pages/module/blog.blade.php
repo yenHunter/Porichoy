@@ -77,7 +77,7 @@
                                         <small>{{ $item->blog_excerpt }}</small>
                                     </td>
                                     <td>
-                                        {{ $item->category?->category_name ?? 'No Category' }}
+                                        {{ $item->category?->value ?? 'No Category' }}
                                     </td>
                                     <td>
                                         {{ $item->blog_published?->format('j M, Y') ?? 'Not published' }}
@@ -172,7 +172,7 @@
                                         @foreach ($blog_categories as $category)
                                             <option value="{{ $category->id }}"
                                                 {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->category_name }}
+                                                {{ $category->value }}
                                             </option>
                                         @endforeach
                                     </select>

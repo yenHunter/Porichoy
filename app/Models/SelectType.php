@@ -36,6 +36,15 @@ class SelectType extends Model
     */
 
     /**
+     * Get only active rows.
+     * Usage: SelectType::active()->get();
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
+
+    /**
      * Order by the drag/drop sequence, falling back to the id so rows that
      * share a sequence (every seeded row) still have a stable order.
      * Usage: SelectType::sorted()->get();
@@ -53,5 +62,10 @@ class SelectType extends Model
     public function training()
     {
         return $this->hasMany(TrainingInfo::class, 'category_id');
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany(BlogInfo::class, 'category_id');
     }
 }

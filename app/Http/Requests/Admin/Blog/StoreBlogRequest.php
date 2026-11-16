@@ -28,7 +28,7 @@ class StoreBlogRequest extends FormRequest
             'keywords' => ['nullable', 'string', 'max:255'],
             'blog_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'blog_featured_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'category_id' => ['nullable', 'exists:blog_categories,id'],
+            'category_id' => ['nullable', 'integer', 'exists:select_types,id'],
             'blog_published' => ['nullable', 'date'],
             'blog_status' => ['nullable', 'boolean'],
         ];
