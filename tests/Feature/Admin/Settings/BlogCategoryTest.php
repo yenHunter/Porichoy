@@ -107,7 +107,8 @@ class BlogCategoryTest extends TestCase
         $this->actingAs($this->adminUser())
             ->get(route('settings.blog_category.delete', $category->id))
             ->assertRedirect()
-            ->assertSessionHas('error');
+            // The wording lives in the controller's per-lookup config.
+            ->assertSessionHas('error', fn (string $message) => str_contains($message, 'used by 1 post'));
 
         $this->assertDatabaseHas('select_types', ['id' => $category->id]);
     }

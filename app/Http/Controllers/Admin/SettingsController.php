@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
-use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
-use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateSelectTypeSequenceRequest;
 use App\Models\SelectType;
 use App\Services\Settings\SettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -42,346 +41,189 @@ class SettingsController extends Controller
     }
 
     // ---------------------------------------------------------------------
-    // Research Source CRUD
+    // Select-type lookups
+    //
+    // Research sources, location types, employment types, training categories
+    // and blog categories share one action set. The route carries the use_for
+    // value as a `lookup` default, so routes/admin.php decides which list is
+    // served.
     // ---------------------------------------------------------------------
 
     /**
-     * Display the research source listing.
+     * Per-lookup wiring.
+     *
+     * `with_count` names a relation that is counted in the listing and checked
+     * before deleting a row; `blocked_message` (a printf template taking the
+     * count and the noun) and `blocked_noun` (singular, plural) override the
+     * refusal wording for that list. Both fall back to a generic sentence, so a
+     * new list only has to set `with_count`.
+     *
+     * `column_settings` adds `<view_key>` minus `_list` plus `_settings` to the
+     * payload, for screens whose column modal reads ColumnSettings.
+     *
+     * @var array<string, array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}, column_settings?: bool}>
      */
-    public function viewResearchSource(): View
-    {
-        return view(
-            'admin.pages.settings.research_source',
-            $this->settings_service->researchSourceViewData()
-        );
-    }
+    private const LOOKUPS = [
+        SelectType::RESEARCH_SOURCE => [
+            'view' => 'admin.pages.settings.research_source',
+            'view_key' => 'research_source_list',
+            'column_settings' => true,
+        ],
+        SelectType::LOCATION_TYPE => [
+            'view' => 'admin.pages.settings.location_type',
+            'view_key' => 'location_type_list',
+        ],
+        SelectType::EMPLOYMENT_TYPE => [
+            'view' => 'admin.pages.settings.employment_type',
+            'view_key' => 'employment_type_list',
+        ],
+        SelectType::TRAINING_CATEGORY => [
+            'view' => 'admin.pages.settings.training_category',
+            'view_key' => 'training_category_list',
+        ],
+        SelectType::BLOG_CATEGORY => [
+            'view' => 'admin.pages.settings.blog_category',
+            'view_key' => 'blog_category_list',
+            'with_count' => 'blogs',
+            'blocked_message' => 'This category is used by %d %s. Reassign them before deleting it.',
+            'blocked_noun' => ['post', 'posts'],
+        ],
+    ];
 
     /**
-     * Store a new research source.
+     * Display a lookup listing.
      */
-    public function storeResearchSource(StoreResearchSourceRequest $request): RedirectResponse
+    public function viewLookup(Request $request): View
     {
-        $this->settings_service->storeResearchSource($request);
+        $useFor = $this->lookupKey($request);
+        $lookup = $this->lookup($request);
 
-        return back()->with('success', 'Research Source created');
-    }
+        $data = [
+            $lookup['view_key'] => $this->settings_service->selectTypeViewData(
+                $useFor,
+                $lookup['with_count'] ?? null,
+            ),
+        ];
 
-    /**
-     * Get a research source by id.
-     */
-    public function editResearchSource(string $research_source_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findResearchSource($research_source_id)
-        );
-    }
-
-    /**
-     * Update a research source.
-     */
-    public function updateResearchSource(UpdateResearchSourceRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateResearchSource($request);
-
-        return back()->with('success', 'Research Source updated');
-    }
-
-    /**
-     * Delete a research source.
-     */
-    public function deleteResearchSource(string $research_source_id): RedirectResponse
-    {
-        $this->settings_service->deleteResearchSource($research_source_id);
-
-        return back()->with('success', 'Research Source removed');
-    }
-
-    /**
-     * Persist the drag/drop order of the research source table.
-     */
-    public function updateResearchSourceSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
-    {
-        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
-
-        return response()->json(['status' => 'success']);
-    }
-
-    // ---------------------------------------------------------------------
-    // Location Type CRUD (SelectType use_for = location_type)
-    // ---------------------------------------------------------------------
-
-    /**
-     * Display the location type listing.
-     */
-    public function viewLocationType(): View
-    {
-        return view(
-            'admin.pages.settings.location_type',
-            [
-                'location_type_list' => $this->settings_service->selectTypeViewData(SelectType::LOCATION_TYPE),
-            ]
-        );
-    }
-
-    /**
-     * Store a new location type.
-     */
-    public function storeLocationType(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->storeSelectType($request, SelectType::LOCATION_TYPE);
-
-        return back()->with('success', 'Location Type created');
-    }
-
-    /**
-     * Get a location type by id.
-     */
-    public function editLocationType(string $location_type_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findSelectType($location_type_id, SelectType::LOCATION_TYPE)
-        );
-    }
-
-    /**
-     * Update a location type.
-     */
-    public function updateLocationType(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateSelectType($request, SelectType::LOCATION_TYPE, $request->input('location_type_id'));
-
-        return back()->with('success', 'Location Type updated');
-    }
-
-    /**
-     * Delete a location type.
-     */
-    public function deleteLocationType(string $location_type_id): RedirectResponse
-    {
-        $this->settings_service->deleteSelectType($location_type_id, SelectType::LOCATION_TYPE);
-
-        return back()->with('success', 'Location Type removed');
-    }
-
-    /**
-     * Persist the drag/drop order of the location type table.
-     */
-    public function updateLocationTypeSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
-    {
-        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
-
-        return response()->json(['status' => 'success']);
-    }
-
-    // ---------------------------------------------------------------------
-    // Employment Type CRUD (SelectType use_for = employment_type)
-    // ---------------------------------------------------------------------
-
-    /**
-     * Display the employment type listing.
-     */
-    public function viewEmploymentType(): View
-    {
-        return view(
-            'admin.pages.settings.employment_type',
-            [
-                'employment_type_list' => $this->settings_service->selectTypeViewData(SelectType::EMPLOYMENT_TYPE),
-            ]
-        );
-    }
-
-    /**
-     * Store a new employment type.
-     */
-    public function storeEmploymentType(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->storeSelectType($request, SelectType::EMPLOYMENT_TYPE);
-
-        return back()->with('success', 'Employment Type created');
-    }
-
-    /**
-     * Get an employment type by id.
-     */
-    public function editEmploymentType(string $employment_type_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findSelectType($employment_type_id, SelectType::EMPLOYMENT_TYPE)
-        );
-    }
-
-    /**
-     * Update an employment type.
-     */
-    public function updateEmploymentType(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateSelectType($request, SelectType::EMPLOYMENT_TYPE, $request->input('employment_type_id'));
-
-        return back()->with('success', 'Employment Type updated');
-    }
-
-    /**
-     * Delete an employment type.
-     */
-    public function deleteEmploymentType(string $employment_type_id): RedirectResponse
-    {
-        $this->settings_service->deleteSelectType($employment_type_id, SelectType::EMPLOYMENT_TYPE);
-
-        return back()->with('success', 'Employment Type removed');
-    }
-
-    /**
-     * Persist the drag/drop order of the employment type table.
-     */
-    public function updateEmploymentTypeSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
-    {
-        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
-
-        return response()->json(['status' => 'success']);
-    }
-
-    // ---------------------------------------------------------------------
-    // Training Category CRUD (SelectType use_for = training_category)
-    // ---------------------------------------------------------------------
-
-    /**
-     * Display the training category listing.
-     */
-    public function viewTrainingCategory(): View
-    {
-        return view(
-            'admin.pages.settings.training_category',
-            [
-                'training_category_list' => $this->settings_service->selectTypeViewData(SelectType::TRAINING_CATEGORY),
-            ]
-        );
-    }
-
-    /**
-     * Store a new training category.
-     */
-    public function storeTrainingCategory(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->storeSelectType($request, SelectType::TRAINING_CATEGORY);
-
-        return back()->with('success', 'Training Category created');
-    }
-
-    /**
-     * Get a training category by id.
-     */
-    public function editTrainingCategory(string $training_category_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findSelectType($training_category_id, SelectType::TRAINING_CATEGORY)
-        );
-    }
-
-    /**
-     * Update a training category.
-     */
-    public function updateTrainingCategory(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateSelectType($request, SelectType::TRAINING_CATEGORY, $request->input('training_category_id'));
-
-        return back()->with('success', 'Training Category updated');
-    }
-
-    /**
-     * Delete a training category.
-     */
-    public function deleteTrainingCategory(string $training_category_id): RedirectResponse
-    {
-        $this->settings_service->deleteSelectType($training_category_id, SelectType::TRAINING_CATEGORY);
-
-        return back()->with('success', 'Training Category removed');
-    }
-
-    /**
-     * Persist the drag/drop order of the training category table.
-     */
-    public function updateTrainingCategorySequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
-    {
-        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
-
-        return response()->json(['status' => 'success']);
-    }
-
-    // ---------------------------------------------------------------------
-    // Blog Category CRUD (SelectType use_for = blog_category)
-    // ---------------------------------------------------------------------
-
-    /**
-     * Display the blog category listing.
-     */
-    public function viewBlogCategory(): View
-    {
-        return view(
-            'admin.pages.settings.blog_category',
-            [
-                'blog_category_list' => $this->settings_service->blogCategoryViewData(),
-            ]
-        );
-    }
-
-    /**
-     * Store a new blog category.
-     */
-    public function storeBlogCategory(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->storeSelectType($request, SelectType::BLOG_CATEGORY);
-
-        return back()->with('success', 'Blog Category created');
-    }
-
-    /**
-     * Get a blog category by id.
-     */
-    public function editBlogCategory(string $blog_category_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findSelectType($blog_category_id, SelectType::BLOG_CATEGORY)
-        );
-    }
-
-    /**
-     * Update a blog category.
-     */
-    public function updateBlogCategory(SelectTypeRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateSelectType($request, SelectType::BLOG_CATEGORY, $request->input('blog_category_id'));
-
-        return back()->with('success', 'Blog Category updated');
-    }
-
-    /**
-     * Delete a blog category, unless posts still reference it.
-     */
-    public function deleteBlogCategory(string $blog_category_id): RedirectResponse
-    {
-        $post_count = $this->settings_service->blogCategoryPostCount($blog_category_id);
-
-        if ($post_count > 0) {
-            $posts = $post_count === 1 ? 'post' : 'posts';
-
-            return back()->with(
-                'error',
-                "This category is used by {$post_count} {$posts}. Reassign them before deleting it."
-            );
+        if ($lookup['column_settings'] ?? false) {
+            $data[$useFor.'_settings'] = $this->settings_service->selectTypeColumnSettings($useFor);
         }
 
-        $this->settings_service->deleteSelectType($blog_category_id, SelectType::BLOG_CATEGORY);
-
-        return back()->with('success', 'Blog Category removed');
+        return view($lookup['view'], $data);
     }
 
     /**
-     * Persist the drag/drop order of the blog category table.
+     * Store a new lookup row.
      */
-    public function updateBlogCategorySequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
+    public function storeLookup(SelectTypeRequest $request): RedirectResponse
+    {
+        $this->settings_service->storeSelectType($request, $this->lookupKey($request));
+
+        return back()->with('success', $this->lookupLabel($request).' created');
+    }
+
+    /**
+     * Get a lookup row by id.
+     */
+    public function editLookup(Request $request, string $lookup_id): JsonResponse
+    {
+        return response()->json(
+            $this->settings_service->findSelectType($lookup_id, $this->lookupKey($request))
+        );
+    }
+
+    /**
+     * Update a lookup row.
+     */
+    public function updateLookup(SelectTypeRequest $request): RedirectResponse
+    {
+        // Every lookup form posts its id as `<use_for>_id`.
+        $useFor = $this->lookupKey($request);
+
+        $this->settings_service->updateSelectType($request, $useFor, $request->input($useFor.'_id'));
+
+        return back()->with('success', $this->lookupLabel($request).' updated');
+    }
+
+    /**
+     * Delete a lookup row, unless records still reference it.
+     */
+    public function deleteLookup(Request $request, string $lookup_id): RedirectResponse
+    {
+        $useFor = $this->lookupKey($request);
+        $lookup = $this->lookup($request);
+
+        if (isset($lookup['with_count'])) {
+            $used = $this->settings_service->selectTypeUsageCount($lookup_id, $useFor, $lookup['with_count']);
+
+            // The foreign keys are `onDelete('set null')`, so an unguarded
+            // delete would silently strip the reference from those records.
+            if ($used > 0) {
+                return back()->with('error', self::blockedMessage($lookup, $used));
+            }
+        }
+
+        $this->settings_service->deleteSelectType($lookup_id, $useFor);
+
+        return back()->with('success', $this->lookupLabel($request).' removed');
+    }
+
+    /**
+     * Persist the drag/drop order of a lookup table.
+     */
+    public function updateLookupSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
     {
         $this->settings_service->updateSelectTypeSequence($request->input('order', []));
 
         return response()->json(['status' => 'success']);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lookup internals
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * The use_for value of the list the current route serves.
+     */
+    private function lookupKey(Request $request): string
+    {
+        return $request->route()->defaults['lookup'];
+    }
+
+    /**
+     * The refusal sentence for a list that still has records pointing at it.
+     *
+     * A list that counts a relation without naming its wording still gets a
+     * usable sentence instead of a TypeError.
+     *
+     * @param  array{blocked_message?: string, blocked_noun?: array{0: string, 1: string}}  $lookup
+     */
+    private static function blockedMessage(array $lookup, int $used): string
+    {
+        $message = $lookup['blocked_message']
+            ?? 'This value is used by %d %s. Reassign them before deleting it.';
+        $noun = ($lookup['blocked_noun'] ?? ['record', 'records'])[$used === 1 ? 0 : 1];
+
+        return sprintf($message, $used, $noun);
+    }
+
+    /**
+     * The view wiring for the current route's list.
+     *
+     * @return array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}, column_settings?: bool}
+     */
+    private function lookup(Request $request): array
+    {
+        return self::LOOKUPS[$this->lookupKey($request)];
+    }
+
+    /**
+     * Human label for flash messages, e.g. "Blog Category".
+     */
+    private function lookupLabel(Request $request): string
+    {
+        return ucwords(str_replace('_', ' ', $this->lookupKey($request)));
     }
 }
