@@ -173,7 +173,9 @@ class VisitorService
      */
     private function profile(): array
     {
-        return ProfileInfo::pluck('column_value', 'column_name')->toArray();
+        // Only rows the admin form treats as visible; a deactivated row
+        // disappears from the public site too.
+        return ProfileInfo::active()->pluck('column_value', 'column_name')->toArray();
     }
 
     /**
