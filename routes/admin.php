@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\TrainingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\RoutingController;
+use App\Models\SelectType;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin'], function () {
@@ -184,41 +185,31 @@ Route::middleware('auth')->group(function () {
             Route::post('update-sequence', [SettingsController::class, 'updateResearchSourceSequence'])->name('sequence');
         });
 
-        Route::prefix('location-type')->name('location_type.')->group(function () {
-            Route::get('', [SettingsController::class, 'viewLocationType'])->name('view');
-            Route::post('store', [SettingsController::class, 'storeLocationType'])->name('store');
-            Route::get('edit/{location_type_id}', [SettingsController::class, 'editLocationType'])->name('edit');
-            Route::put('update', [SettingsController::class, 'updateLocationType'])->name('update');
-            Route::get('delete/{location_type_id}', [SettingsController::class, 'deleteLocationType'])->name('delete');
-            Route::post('update-sequence', [SettingsController::class, 'updateLocationTypeSequence'])->name('sequence');
-        });
+        // The four select-type lists share one controller action set; each
+        // route names the list it serves through a `lookup` default.
+        $selectTypeLookups = [
+            'location-type' => SelectType::LOCATION_TYPE,
+            'employment-type' => SelectType::EMPLOYMENT_TYPE,
+            'training-category' => SelectType::TRAINING_CATEGORY,
+            'blog-category' => SelectType::BLOG_CATEGORY,
+        ];
 
-        Route::prefix('employment-type')->name('employment_type.')->group(function () {
-            Route::get('', [SettingsController::class, 'viewEmploymentType'])->name('view');
-            Route::post('store', [SettingsController::class, 'storeEmploymentType'])->name('store');
-            Route::get('edit/{employment_type_id}', [SettingsController::class, 'editEmploymentType'])->name('edit');
-            Route::put('update', [SettingsController::class, 'updateEmploymentType'])->name('update');
-            Route::get('delete/{employment_type_id}', [SettingsController::class, 'deleteEmploymentType'])->name('delete');
-            Route::post('update-sequence', [SettingsController::class, 'updateEmploymentTypeSequence'])->name('sequence');
-        });
-
-        Route::prefix('training-category')->name('training_category.')->group(function () {
-            Route::get('', [SettingsController::class, 'viewTrainingCategory'])->name('view');
-            Route::post('store', [SettingsController::class, 'storeTrainingCategory'])->name('store');
-            Route::get('edit/{training_category_id}', [SettingsController::class, 'editTrainingCategory'])->name('edit');
-            Route::put('update', [SettingsController::class, 'updateTrainingCategory'])->name('update');
-            Route::get('delete/{training_category_id}', [SettingsController::class, 'deleteTrainingCategory'])->name('delete');
-            Route::post('update-sequence', [SettingsController::class, 'updateTrainingCategorySequence'])->name('sequence');
-        });
-
-        Route::prefix('blog-category')->name('blog_category.')->group(function () {
-            Route::get('', [SettingsController::class, 'viewBlogCategory'])->name('view');
-            Route::post('store', [SettingsController::class, 'storeBlogCategory'])->name('store');
-            Route::get('edit/{blog_category_id}', [SettingsController::class, 'editBlogCategory'])->name('edit');
-            Route::put('update', [SettingsController::class, 'updateBlogCategory'])->name('update');
-            Route::get('delete/{blog_category_id}', [SettingsController::class, 'deleteBlogCategory'])->name('delete');
-            Route::post('update-sequence', [SettingsController::class, 'updateBlogCategorySequence'])->name('sequence');
-        });
+        foreach ($selectTypeLookups as $uri => $lookup) {
+            Route::prefix($uri)->name($lookup.'.')->group(function () use ($lookup) {
+                Route::get('', [SettingsController::class, 'viewLookup'])
+                    ->name('view')->defaults('lookup', $lookup);
+                Route::post('store', [SettingsController::class, 'storeLookup'])
+                    ->name('store')->defaults('lookup', $lookup);
+                Route::get('edit/{lookup_id}', [SettingsController::class, 'editLookup'])
+                    ->name('edit')->defaults('lookup', $lookup);
+                Route::put('update', [SettingsController::class, 'updateLookup'])
+                    ->name('update')->defaults('lookup', $lookup);
+                Route::get('delete/{lookup_id}', [SettingsController::class, 'deleteLookup'])
+                    ->name('delete')->defaults('lookup', $lookup);
+                Route::post('update-sequence', [SettingsController::class, 'updateLookupSequence'])
+                    ->name('sequence')->defaults('lookup', $lookup);
+            });
+        }
     });
 
     Route::prefix('configuration')->name('configuration.')->group(function () {

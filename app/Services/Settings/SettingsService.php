@@ -180,11 +180,32 @@ class SettingsService
      * Rows for a select-type lookup view.
      *
      * @param  string  $use_for  Any SelectType use_for constant
+     * @param  string|null  $with_count  Relation to count per row (e.g. blog posts)
      * @return Collection<int, SelectType>
      */
-    public function selectTypeViewData(string $use_for): Collection
+    public function selectTypeViewData(string $use_for, ?string $with_count = null): Collection
     {
-        return SelectType::where('use_for', $use_for)->sorted()->get();
+        $query = SelectType::where('use_for', $use_for);
+
+        if ($with_count !== null) {
+            $query->withCount($with_count);
+        }
+
+        return $query->sorted()->get();
+    }
+
+    /**
+     * How many records of $relation still point at this lookup row.
+     *
+     * Deleting is blocked while this is above zero: the foreign keys are
+     * `onDelete('set null')`, so an unguarded delete would silently strip the
+     * reference from those records.
+     */
+    public function selectTypeUsageCount(string $id, string $use_for, string $relation): int
+    {
+        $row = $this->findSelectType($id, $use_for);
+
+        return $row === null ? 0 : $row->{$relation}()->count();
     }
 
     /**
@@ -265,38 +286,6 @@ class SettingsService
             SelectType::where('id', $item['id'])
                 ->update(['sequence' => $item['sequence']]);
         }
-    }
-
-    // ---------------------------------------------------------------------
-    // Blog Category (SelectType use_for = blog_category)
-    //
-    // Only the two lookups the generic helpers cannot express live here; the
-    // create, edit, update, delete and reorder paths are selectType*() calls
-    // with SelectType::BLOG_CATEGORY.
-    // ---------------------------------------------------------------------
-
-    /**
-     * Rows for the blog category view, each with its post count.
-     *
-     * @return Collection<int, SelectType>
-     */
-    public function blogCategoryViewData(): Collection
-    {
-        return $this->selectTypeViewData(SelectType::BLOG_CATEGORY)->loadCount('blogs');
-    }
-
-    /**
-     * How many posts reference the category.
-     *
-     * Deleting a category is blocked while this is above zero: the foreign key
-     * is `onDelete('set null')`, so an unguarded delete would silently turn
-     * those posts into "No Category".
-     */
-    public function blogCategoryPostCount(string $blog_category_id): int
-    {
-        $category = $this->findSelectType($blog_category_id, SelectType::BLOG_CATEGORY);
-
-        return $category === null ? 0 : $category->blogs()->count();
     }
 
     /*
