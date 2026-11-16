@@ -17,11 +17,11 @@ class StoreExperienceRequest extends FormRequest
     }
 
     /**
-     * Validation rules for creating an experience entry.
+     * Shared rules for store and update (keep them in sync via this helper).
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public static function sharedRules(): array
     {
         return [
             'employment_position' => ['required', 'string', 'max:255'],
@@ -46,6 +46,16 @@ class StoreExperienceRequest extends FormRequest
             'employment_details' => ['nullable', 'string'],
             'employment_status' => ['nullable', 'boolean'],
         ];
+    }
+
+    /**
+     * Validation rules for creating an experience entry.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return self::sharedRules();
     }
 
     /**
