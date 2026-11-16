@@ -36,7 +36,12 @@ class SettingsService
      * Profile-info categories handled by the profile management form.
      */
     private const PROFILE_CATEGORIES = [
-        'basic', 'personal', 'address', 'present_address', 'permanent_address', 'social',
+        ProfileInfo::BASIC,
+        ProfileInfo::PERSONAL,
+        ProfileInfo::ADDRESS,
+        ProfileInfo::PRESENT_ADDRESS,
+        ProfileInfo::PERMANENT_ADDRESS,
+        ProfileInfo::SOCIAL,
     ];
 
     /**
@@ -48,12 +53,12 @@ class SettingsService
     {
         return [
             'profile_data' => [
-                'basic' => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
-                'personal' => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
-                'address' => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
-                'present_address' => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
-                'permanent_address' => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
-                'social' => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::BASIC => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PERSONAL => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::ADDRESS => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PRESENT_ADDRESS => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PERMANENT_ADDRESS => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::SOCIAL => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
                 'education' => EducationInfo::active()->sorted()->first(),
                 'experience' => ExperienceInfo::active()->sorted()->first(),
             ],

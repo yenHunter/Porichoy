@@ -8,6 +8,36 @@ use Illuminate\Database\Eloquent\Model;
 class ProfileInfo extends Model
 {
     /**
+     * The `use_for` value marking a row as basic information.
+     */
+    public const BASIC = 'basic';
+
+    /**
+     * The `use_for` value marking a row as personal information.
+     */
+    public const PERSONAL = 'personal';
+
+    /**
+     * The `use_for` value marking a row as address information.
+     */
+    public const ADDRESS = 'address';
+
+    /**
+     * The `use_for` value marking a row as present address information.
+     */
+    public const PRESENT_ADDRESS = 'present_address';
+
+    /**
+     * The `use_for` value marking a row as permanent address information.
+     */
+    public const PERMANENT_ADDRESS = 'permanent_address';
+
+    /**
+     * The `use_for` value marking a row as social information.
+     */
+    public const SOCIAL = 'social';
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -69,7 +99,7 @@ class ProfileInfo extends Model
      */
     public function scopeBasicInfo($query)
     {
-        return $query->byCategory('basic');
+        return $query->byCategory(self::BASIC);
     }
 
     /**
@@ -80,7 +110,7 @@ class ProfileInfo extends Model
      */
     public function scopePersonalInfo($query)
     {
-        return $query->byCategory('personal');
+        return $query->byCategory(self::PERSONAL);
     }
 
     /**
@@ -91,7 +121,7 @@ class ProfileInfo extends Model
      */
     public function scopeAddressInfo($query)
     {
-        return $query->byCategory('address');
+        return $query->byCategory(self::ADDRESS);
     }
 
     /**
@@ -102,7 +132,7 @@ class ProfileInfo extends Model
      */
     public function scopeSocialInfo($query)
     {
-        return $query->byCategory('social');
+        return $query->byCategory(self::SOCIAL);
     }
 
     /**
@@ -113,7 +143,7 @@ class ProfileInfo extends Model
      */
     public function scopePresentAddressInfo($query)
     {
-        return $query->byCategory('present_address');
+        return $query->byCategory(self::PRESENT_ADDRESS);
     }
 
     /**
@@ -124,7 +154,7 @@ class ProfileInfo extends Model
      */
     public function scopePermanentAddressInfo($query)
     {
-        return $query->byCategory('permanent_address');
+        return $query->byCategory(self::PERMANENT_ADDRESS);
     }
 
     /**
