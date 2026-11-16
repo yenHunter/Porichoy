@@ -36,8 +36,6 @@ class UpdateExperienceRequest extends FormRequest
      */
     public function attributes(): array
     {
-        return [
-            'organization_logo' => 'organization logo',
-        ];
+        return StoreExperienceRequest::sharedAttributes();
     }
 }

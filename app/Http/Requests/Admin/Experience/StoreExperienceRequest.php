@@ -49,6 +49,18 @@ class StoreExperienceRequest extends FormRequest
     }
 
     /**
+     * Human-readable field names shared by store and update.
+     *
+     * @return array<string, string>
+     */
+    public static function sharedAttributes(): array
+    {
+        return [
+            'organization_logo' => 'organization logo',
+        ];
+    }
+
+    /**
      * Validation rules for creating an experience entry.
      *
      * @return array<string, mixed>
@@ -65,8 +77,6 @@ class StoreExperienceRequest extends FormRequest
      */
     public function attributes(): array
     {
-        return [
-            'organization_logo' => 'organization logo',
-        ];
+        return self::sharedAttributes();
     }
 }
