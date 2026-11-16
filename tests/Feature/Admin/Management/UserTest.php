@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin\Management;
 
 use App\Models\User;
+use App\Models\UserLog;
 use App\Notifications\WelcomeSetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
@@ -116,5 +117,35 @@ class UserTest extends TestCase
             ->assertRedirect();
 
         $this->assertDatabaseMissing('users', ['id' => $target->getKey()]);
+    }
+
+    /**
+     * The activity log references the account with a NULL-on-delete foreign
+     * key: deleting an operator who has ever acted must succeed and keep the
+     * audit trail, not fail on an integrity constraint.
+     */
+    public function test_a_user_with_activity_can_be_deleted_and_keeps_their_log(): void
+    {
+        $admin = $this->adminUser();
+        $target = $this->adminUser();
+
+        $log = new UserLog;
+        $log->module = 'Education';
+        $log->action = 'Updated Education info';
+        $log->user_id = $target->getKey();
+        $log->user_ip = '127.0.0.1';
+        $log->user_agent = 'phpunit';
+        $log->save();
+
+        $this->actingAs($admin)
+            ->get(route('management.user.delete', $target->getKey()))
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('users', ['id' => $target->getKey()]);
+        $this->assertDatabaseHas('user_logs', [
+            'id' => $log->getKey(),
+            'user_id' => null,
+            'action' => 'Updated Education info',
+        ]);
     }
 }

@@ -22,6 +22,7 @@ class SystemController extends Controller
             'admin.pages.management.user-log',
             [
                 'log_list' => $this->system_log_service->userLogs(),
+                'log_limit' => SystemLogService::USER_LOG_LIMIT,
             ]
         );
     }
@@ -29,13 +30,16 @@ class SystemController extends Controller
     /**
      * Display the laravel application log viewer.
      *
-     * @param  Request  $request  Optional ?file= (validated against a allowlist)
+     * @param  Request  $request  Optional ?file= (validated against a allowlist) and ?level=
      */
     public function applicationLog(Request $request): View
     {
         return view(
             'admin.pages.management.system-log',
-            $this->system_log_service->applicationLogs($request->query('file'))
+            $this->system_log_service->applicationLogs(
+                $request->query('file'),
+                $request->query('level')
+            )
         );
     }
 }

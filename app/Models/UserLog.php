@@ -28,11 +28,14 @@ class UserLog extends Model
     */
 
     /**
-     * Order by sequence.
+     * Order by creation, newest first.
+     *
+     * Activity rows are append-only, so `created_at` is the real timestamp;
+     * the id breaks ties between entries written in the same second.
      * Usage: UserLog::sorted()->get();
      */
     public function scopeSorted($query)
     {
-        return $query->orderBy('updated_at', 'desc');
+        return $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
     }
 }
