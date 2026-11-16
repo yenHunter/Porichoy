@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin\Modules;
 
 use App\Models\ResearchInfo;
+use App\Models\SelectType;
 use Tests\Support\AdminModuleContract;
 use Tests\Support\ColumnVisibilityContract;
 use Tests\TestCase;
@@ -73,6 +74,23 @@ class ResearchTest extends TestCase
         $this->post(route('module.research.store'), array_merge($this->modulePayload(), [
             'research_source' => 99999,
         ]))->assertSessionHasErrors(['research_source']);
+    }
+
+    /**
+     * The source must belong to the research list: an id from another
+     * select-type list (here a blog category) is rejected.
+     */
+    public function test_the_research_source_cannot_come_from_another_list(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $blogCategory = $this->selectType(SelectType::BLOG_CATEGORY, 'Blog category');
+
+        $this->post(route('module.research.store'), array_merge($this->modulePayload(), [
+            'research_source' => $blogCategory,
+        ]))->assertSessionHasErrors(['research_source']);
+
+        $this->assertDatabaseMissing('research_infos', ['research_title' => 'A Test Paper']);
     }
 
     public function test_the_role_is_limited_to_eight_characters(): void

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Modules;
 
+use App\Models\SelectType;
 use App\Models\TrainingInfo;
 use Tests\Support\AdminModuleContract;
 use Tests\Support\ColumnVisibilityContract;
@@ -73,6 +74,23 @@ class TrainingTest extends TestCase
         $this->post(route('module.training.store'), array_merge($this->modulePayload(), [
             'training_category' => 99999,
         ]))->assertSessionHasErrors(['training_category']);
+    }
+
+    /**
+     * The category must belong to the training list: an id from another
+     * select-type list (here a blog category) is rejected.
+     */
+    public function test_the_training_category_cannot_come_from_another_list(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $blogCategory = $this->selectType(SelectType::BLOG_CATEGORY, 'Blog category');
+
+        $this->post(route('module.training.store'), array_merge($this->modulePayload(), [
+            'training_category' => $blogCategory,
+        ]))->assertSessionHasErrors(['training_category']);
+
+        $this->assertDatabaseMissing('training_infos', ['training_title' => 'Laravel Bootcamp']);
     }
 
     public function test_the_start_date_cannot_be_in_the_future(): void

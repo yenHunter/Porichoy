@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin\Experience;
 
+use App\Models\SelectType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreExperienceRequest extends FormRequest
 {
@@ -23,14 +25,24 @@ class StoreExperienceRequest extends FormRequest
     {
         return [
             'employment_position' => ['required', 'string', 'max:255'],
-            'employment_type' => ['required', 'integer', 'exists:select_types,id'],
+            // Only an employment type, not any other select-type list.
+            'employment_type' => [
+                'required',
+                'integer',
+                Rule::exists('select_types', 'id')->where('use_for', SelectType::EMPLOYMENT_TYPE),
+            ],
             'employment_department' => ['nullable', 'string', 'max:255'],
             'employment_organization' => ['required', 'string', 'max:255'],
             'organization_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'organization_address' => ['nullable', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date', 'after:start_date'],
-            'location_type' => ['nullable', 'integer', 'exists:select_types,id'],
+            // Only a location type, not any other select-type list.
+            'location_type' => [
+                'nullable',
+                'integer',
+                Rule::exists('select_types', 'id')->where('use_for', SelectType::LOCATION_TYPE),
+            ],
             'employment_details' => ['nullable', 'string'],
             'employment_status' => ['nullable', 'boolean'],
         ];

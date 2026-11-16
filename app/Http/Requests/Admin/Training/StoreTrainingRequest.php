@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests\Admin\Training;
 
+use App\Models\SelectType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rule;
 
 class StoreTrainingRequest extends FormRequest
 {
@@ -24,7 +26,12 @@ class StoreTrainingRequest extends FormRequest
     {
         return [
             'training_title' => ['required', 'string', 'max:255'],
-            'training_category' => ['required', 'integer', 'exists:select_types,id'],
+            // Only a training category, not any other select-type list.
+            'training_category' => [
+                'required',
+                'integer',
+                Rule::exists('select_types', 'id')->where('use_for', SelectType::TRAINING_CATEGORY),
+            ],
             'training_institute' => ['required', 'string', 'max:255'],
             'start_date' => ['nullable', 'date', 'before_or_equal:today'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],

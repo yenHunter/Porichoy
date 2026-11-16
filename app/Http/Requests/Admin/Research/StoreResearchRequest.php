@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin\Research;
 
+use App\Models\SelectType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreResearchRequest extends FormRequest
 {
@@ -22,7 +24,12 @@ class StoreResearchRequest extends FormRequest
     public static function sharedRules(): array
     {
         return [
-            'research_source' => ['required', 'integer', 'exists:select_types,id'],
+            // Only a research source, not any other select-type list.
+            'research_source' => [
+                'required',
+                'integer',
+                Rule::exists('select_types', 'id')->where('use_for', SelectType::RESEARCH_SOURCE),
+            ],
             'research_category' => ['required', 'string', 'max:255'],
             'research_title' => ['required', 'string', 'max:255'],
             'published_date' => ['nullable', 'date'],
