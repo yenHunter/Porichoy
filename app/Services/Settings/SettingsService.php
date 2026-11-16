@@ -4,8 +4,6 @@ namespace App\Services\Settings;
 
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
-use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
-use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
 use App\Models\ColumnSettings;
 use App\Models\Country;
 use App\Models\EducationInfo;
@@ -14,7 +12,6 @@ use App\Models\ProfileInfo;
 use App\Models\SelectType;
 use App\Traits\UserLogTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,12 +20,6 @@ use Intervention\Image\Laravel\Facades\Image;
 class SettingsService
 {
     use UserLogTrait;
-
-    /**
-     * Directory (on the 'public' disk) for research-source thumbnails and
-     * profile uploads.
-     */
-    private const RESEARCH_SOURCE_DIR = 'uploads/settings/research-source';
 
     private const PROFILE_DIR = 'uploads/profile';
 
@@ -90,90 +81,13 @@ class SettingsService
     }
 
     /**
-     * Research source listing (+ its ColumnSettings for the view).
+     * Column settings of a module's list (the lookup screens' column modal).
      *
-     * @return array<string, Collection>
+     * @return Collection<int, ColumnSettings>
      */
-    public function researchSourceViewData(): array
+    public function selectTypeColumnSettings(string $module): Collection
     {
-        return [
-            'research_source_list' => SelectType::where('use_for', SelectType::RESEARCH_SOURCE)->sorted()->get(),
-            'research_source_settings' => ColumnSettings::where('module', 'research_source')->get(),
-        ];
-    }
-
-    /**
-     * Create a research-source SelectType row (optionally with a thumbnail).
-     */
-    public function storeResearchSource(StoreResearchSourceRequest $request): SelectType
-    {
-        $object = new SelectType;
-        $object->use_for = SelectType::RESEARCH_SOURCE;
-        $object->value = $request->title;
-        $object->details = $this->storeThumbnail($request);
-        // `status` is NOT NULL; omitting the field means active.
-        $object->status = $request->status ?? true;
-        $object->save();
-
-        $this->logUserActivity('Research Source', 'Created a new Research Source');
-
-        return $object;
-    }
-
-    /**
-     * Find a research-source row by id.
-     */
-    public function findResearchSource(string $research_source_id): ?SelectType
-    {
-        return SelectType::where('id', $research_source_id)
-            ->where('use_for', SelectType::RESEARCH_SOURCE)
-            ->first();
-    }
-
-    /**
-     * Update a research-source row (replacing the thumbnail when given).
-     *
-     * @throws ModelNotFoundException
-     */
-    public function updateResearchSource(UpdateResearchSourceRequest $request): SelectType
-    {
-        $object = SelectType::where('id', $request->research_source_id)->firstOrFail();
-
-        if ($request->hasFile('thumbnail')) {
-            if (! empty($object->details) && Storage::disk('public')->exists($object->details)) {
-                Storage::disk('public')->delete($object->details);
-            }
-
-            $object->details = $this->storeThumbnail($request);
-        }
-
-        $object->value = $request->title;
-        // Omitted status keeps the stored value instead of writing null.
-        $object->status = $request->status ?? $object->status;
-        $object->save();
-
-        $this->logUserActivity('Research Source', 'Updated Research Source');
-
-        return $object;
-    }
-
-    /**
-     * Delete a research-source row (and its thumbnail).
-     */
-    public function deleteResearchSource(string $research_source_id): void
-    {
-        $object = SelectType::where('id', $research_source_id)->first();
-        if ($object === null) {
-            return;
-        }
-
-        if (! empty($object->details) && Storage::disk('public')->exists($object->details)) {
-            Storage::disk('public')->delete($object->details);
-        }
-
-        $object->delete();
-
-        $this->logUserActivity('Research Source', 'Removed Research Source');
+        return ColumnSettings::where('module', $module)->get();
     }
 
     /**
@@ -218,7 +132,10 @@ class SettingsService
         $object = new SelectType;
         $object->use_for = $use_for;
         $object->value = $request->title;
-        $object->details = $request->details;
+        // A thumbnail upload (research sources) is stored in `details`.
+        $object->details = $request->hasFile('thumbnail')
+            ? $this->storeThumbnail($request, $use_for)
+            : $request->details;
         // `status` is NOT NULL; omitting the field means active.
         $object->status = $request->status ?? true;
         $object->save();
@@ -250,7 +167,17 @@ class SettingsService
         }
 
         $object->value = $request->title;
-        $object->details = $request->details;
+
+        if ($request->hasFile('thumbnail')) {
+            $this->deleteStoredFile($object->details);
+            $object->details = $this->storeThumbnail($request, $use_for);
+        } elseif ($request->has('details')) {
+            // Screens without a thumbnail field (every other list) edit the
+            // text directly; research sources never post it, so the stored
+            // thumbnail path survives an update.
+            $object->details = $request->details;
+        }
+
         // Omitted status keeps the stored value instead of writing null.
         $object->status = $request->status ?? $object->status;
         $object->save();
@@ -269,6 +196,9 @@ class SettingsService
         if ($object === null) {
             return;
         }
+
+        // Remove the stored thumbnail, if `details` points at an uploaded file.
+        $this->deleteStoredFile($object->details);
 
         $object->delete();
 
@@ -318,17 +248,30 @@ class SettingsService
     /**
      * Persist a research-source thumbnail (original extension kept).
      */
-    private function storeThumbnail(StoreResearchSourceRequest $request): ?string
+    private function storeThumbnail(SelectTypeRequest $request, string $use_for): ?string
     {
         if (! $request->hasFile('thumbnail')) {
             return null;
         }
 
+        $dir = 'uploads/settings/'.str_replace('_', '-', $use_for);
         $file = $request->file('thumbnail');
-        $filename = time().'.'.$file->getClientOriginalExtension();
+        // Random rather than time-based, so two uploads in the same second
+        // cannot overwrite each other.
+        $filename = Str::random(20).'.'.$file->getClientOriginalExtension();
 
-        $file->storeAs('public/'.self::RESEARCH_SOURCE_DIR, $filename);
+        Storage::disk('public')->putFileAs($dir, $file, $filename);
 
-        return self::RESEARCH_SOURCE_DIR.'/'.$filename;
+        return $dir.'/'.$filename;
+    }
+
+    /**
+     * Delete a stored upload when the column value points at one.
+     */
+    private function deleteStoredFile(?string $path): void
+    {
+        if (! empty($path) && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+        }
     }
 }

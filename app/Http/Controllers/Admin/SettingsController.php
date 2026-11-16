@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
-use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
-use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateSelectTypeSequenceRequest;
 use App\Models\SelectType;
 use App\Services\Settings\SettingsService;
@@ -43,76 +41,12 @@ class SettingsController extends Controller
     }
 
     // ---------------------------------------------------------------------
-    // Research Source CRUD
-    // ---------------------------------------------------------------------
-
-    /**
-     * Display the research source listing.
-     */
-    public function viewResearchSource(): View
-    {
-        return view(
-            'admin.pages.settings.research_source',
-            $this->settings_service->researchSourceViewData()
-        );
-    }
-
-    /**
-     * Store a new research source.
-     */
-    public function storeResearchSource(StoreResearchSourceRequest $request): RedirectResponse
-    {
-        $this->settings_service->storeResearchSource($request);
-
-        return back()->with('success', 'Research Source created');
-    }
-
-    /**
-     * Get a research source by id.
-     */
-    public function editResearchSource(string $research_source_id): JsonResponse
-    {
-        return response()->json(
-            $this->settings_service->findResearchSource($research_source_id)
-        );
-    }
-
-    /**
-     * Update a research source.
-     */
-    public function updateResearchSource(UpdateResearchSourceRequest $request): RedirectResponse
-    {
-        $this->settings_service->updateResearchSource($request);
-
-        return back()->with('success', 'Research Source updated');
-    }
-
-    /**
-     * Delete a research source.
-     */
-    public function deleteResearchSource(string $research_source_id): RedirectResponse
-    {
-        $this->settings_service->deleteResearchSource($research_source_id);
-
-        return back()->with('success', 'Research Source removed');
-    }
-
-    /**
-     * Persist the drag/drop order of the research source table.
-     */
-    public function updateResearchSourceSequence(UpdateSelectTypeSequenceRequest $request): JsonResponse
-    {
-        $this->settings_service->updateSelectTypeSequence($request->input('order', []));
-
-        return response()->json(['status' => 'success']);
-    }
-
-    // ---------------------------------------------------------------------
     // Select-type lookups
     //
-    // Location types, employment types, training categories and blog
-    // categories share one action set. The route carries the use_for value as
-    // a `lookup` default, so which list is served is decided in routes/admin.php.
+    // Research sources, location types, employment types, training categories
+    // and blog categories share one action set. The route carries the use_for
+    // value as a `lookup` default, so routes/admin.php decides which list is
+    // served.
     // ---------------------------------------------------------------------
 
     /**
@@ -124,9 +58,17 @@ class SettingsController extends Controller
      * refusal wording for that list. Both fall back to a generic sentence, so a
      * new list only has to set `with_count`.
      *
-     * @var array<string, array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}}>
+     * `column_settings` adds `<view_key>` minus `_list` plus `_settings` to the
+     * payload, for screens whose column modal reads ColumnSettings.
+     *
+     * @var array<string, array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}, column_settings?: bool}>
      */
     private const LOOKUPS = [
+        SelectType::RESEARCH_SOURCE => [
+            'view' => 'admin.pages.settings.research_source',
+            'view_key' => 'research_source_list',
+            'column_settings' => true,
+        ],
         SelectType::LOCATION_TYPE => [
             'view' => 'admin.pages.settings.location_type',
             'view_key' => 'location_type_list',
@@ -153,14 +95,21 @@ class SettingsController extends Controller
      */
     public function viewLookup(Request $request): View
     {
+        $useFor = $this->lookupKey($request);
         $lookup = $this->lookup($request);
 
-        return view($lookup['view'], [
+        $data = [
             $lookup['view_key'] => $this->settings_service->selectTypeViewData(
-                $this->lookupKey($request),
+                $useFor,
                 $lookup['with_count'] ?? null,
             ),
-        ]);
+        ];
+
+        if ($lookup['column_settings'] ?? false) {
+            $data[$useFor.'_settings'] = $this->settings_service->selectTypeColumnSettings($useFor);
+        }
+
+        return view($lookup['view'], $data);
     }
 
     /**
@@ -210,13 +159,7 @@ class SettingsController extends Controller
             // The foreign keys are `onDelete('set null')`, so an unguarded
             // delete would silently strip the reference from those records.
             if ($used > 0) {
-                // A list that counts a relation without naming its wording
-                // still gets a usable sentence instead of a TypeError.
-                $message = $lookup['blocked_message']
-                    ?? 'This value is used by %d %s. Reassign them before deleting it.';
-                $noun = ($lookup['blocked_noun'] ?? ['record', 'records'])[$used === 1 ? 0 : 1];
-
-                return back()->with('error', sprintf($message, $used, $noun));
+                return back()->with('error', self::blockedMessage($lookup, $used));
             }
         }
 
@@ -250,9 +193,26 @@ class SettingsController extends Controller
     }
 
     /**
+     * The refusal sentence for a list that still has records pointing at it.
+     *
+     * A list that counts a relation without naming its wording still gets a
+     * usable sentence instead of a TypeError.
+     *
+     * @param  array{blocked_message?: string, blocked_noun?: array{0: string, 1: string}}  $lookup
+     */
+    private static function blockedMessage(array $lookup, int $used): string
+    {
+        $message = $lookup['blocked_message']
+            ?? 'This value is used by %d %s. Reassign them before deleting it.';
+        $noun = ($lookup['blocked_noun'] ?? ['record', 'records'])[$used === 1 ? 0 : 1];
+
+        return sprintf($message, $used, $noun);
+    }
+
+    /**
      * The view wiring for the current route's list.
      *
-     * @return array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}}
+     * @return array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}, column_settings?: bool}
      */
     private function lookup(Request $request): array
     {

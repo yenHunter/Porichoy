@@ -5,10 +5,10 @@ namespace App\Http\Requests\Admin\Settings;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Used by every select-type lookup CRUD (location type, employment type,
- * training category, blog category) — the payload shape is identical
- * (title + optional details + status) and differs only by the `use_for`
- * discriminator, which the route or controller settles.
+ * Used by every select-type lookup CRUD (research source, location type,
+ * employment type, training category, blog category) — the payload shape is
+ * identical (title + optional details/thumbnail + status) and differs only by
+ * the `use_for` discriminator, which the route settles.
  */
 class SelectTypeRequest extends FormRequest
 {
@@ -30,6 +30,8 @@ class SelectTypeRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'details' => ['nullable', 'string', 'max:255'],
+            // Only the research source screen uploads one; stored in `details`.
+            'thumbnail' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'status' => ['nullable', 'boolean'],
         ];
     }

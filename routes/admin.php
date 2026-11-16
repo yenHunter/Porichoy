@@ -176,18 +176,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('settings')->name('settings.')->group(function () {
         // The theme picker lives under configuration; SettingsController has no theme_view().
         Route::get('theme', [ConfigurationController::class, 'theme_view'])->name('theme');
-        Route::prefix('research-source')->name('research_source.')->group(function () {
-            Route::get('', [SettingsController::class, 'viewResearchSource'])->name('view');
-            Route::post('store', [SettingsController::class, 'storeResearchSource'])->name('store');
-            Route::get('edit/{research_source_id}', [SettingsController::class, 'editResearchSource'])->name('edit');
-            Route::put('update', [SettingsController::class, 'updateResearchSource'])->name('update');
-            Route::get('delete/{research_source_id}', [SettingsController::class, 'deleteResearchSource'])->name('delete');
-            Route::post('update-sequence', [SettingsController::class, 'updateResearchSourceSequence'])->name('sequence');
-        });
-
-        // The four select-type lists share one controller action set; each
+        // The five select-type lists share one controller action set; each
         // route names the list it serves through a `lookup` default.
         $selectTypeLookups = [
+            'research-source' => SelectType::RESEARCH_SOURCE,
             'location-type' => SelectType::LOCATION_TYPE,
             'employment-type' => SelectType::EMPLOYMENT_TYPE,
             'training-category' => SelectType::TRAINING_CATEGORY,
