@@ -6,9 +6,9 @@ use App\Http\Requests\Admin\Blog\StoreBlogRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSequenceRequest;
 use App\Http\Requests\Admin\Blog\UpdateBlogSettingsRequest;
-use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\ColumnSettings;
+use App\Models\SelectType;
 use App\Traits\UserLogTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -47,7 +47,7 @@ class BlogService
      *
      * @return array{
      *   blog_list: Collection<int, BlogInfo>,
-     *   blog_categories: Collection<int, BlogCategory>,
+     *   blog_categories: Collection<int, SelectType>,
      *   blog_settings: Collection<int, ColumnSettings>,
      * }
      */
@@ -55,7 +55,7 @@ class BlogService
     {
         return [
             'blog_list' => BlogInfo::with('category')->sorted()->get(),
-            'blog_categories' => BlogCategory::active()->sorted()->get(),
+            'blog_categories' => SelectType::where('use_for', SelectType::BLOG_CATEGORY)->active()->sorted()->get(),
             'blog_settings' => ColumnSettings::where('module', 'blog')->get(),
         ];
     }

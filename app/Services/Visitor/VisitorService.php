@@ -3,7 +3,6 @@
 namespace App\Services\Visitor;
 
 use App\Http\Requests\Visitor\StoreContactRequest;
-use App\Models\BlogCategory;
 use App\Models\BlogInfo;
 use App\Models\ClientInfo;
 use App\Models\ContactMessage;
@@ -11,10 +10,12 @@ use App\Models\EducationInfo;
 use App\Models\ExperienceInfo;
 use App\Models\ProfileInfo;
 use App\Models\ProjectInfo;
+use App\Models\SelectType;
 use App\Models\ServiceInfo;
 use App\Models\SkillInfo;
 use App\Models\TestimonialInfo;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 class VisitorService
 {
@@ -169,11 +170,40 @@ class VisitorService
     /**
      * The profile column/value pairs shared by several visitor pages.
      *
+     * The map is keyed by column name alone, so two rows sharing a name
+     * leave only the first value on the site. That is reported and logged as
+     * an error rather than thrown: a duplicate comes from a seeded or
+     * hand-written row, and a data mistake must not take the public site
+     * down for its visitors.
+     *
      * @return array<string, string|null>
      */
     private function profile(): array
     {
-        return ProfileInfo::pluck('column_value', 'column_name')->toArray();
+        $profile = [];
+        $duplicates = [];
+
+        // Only rows the admin form treats as visible; a deactivated row
+        // disappears from the public site too.
+        foreach (ProfileInfo::active()->orderBy('id')->get(['column_name', 'column_value']) as $row) {
+            if (array_key_exists($row->column_name, $profile)) {
+                $duplicates[$row->column_name] = $row->column_name;
+
+                continue;
+            }
+
+            $profile[$row->column_name] = $row->column_value;
+        }
+
+        if ($duplicates !== []) {
+            // Reported (and logged at error level) rather than thrown: a data
+            // mistake must not take the public site down for its visitors.
+            report(new RuntimeException(
+                'Duplicate profile column names: '.implode(', ', $duplicates)
+            ));
+        }
+
+        return $profile;
     }
 
     /**
@@ -185,7 +215,7 @@ class VisitorService
     {
         return [
             'blog_list' => BlogInfo::sorted()->active()->with('category', 'updatedBy')->get(),
-            'category_list' => BlogCategory::sorted()->active()->withCount('blogs')->get(),
+            'category_list' => SelectType::where('use_for', SelectType::BLOG_CATEGORY)->sorted()->active()->withCount('blogs')->get(),
             'recent_blogs' => BlogInfo::active()->latestPublished()->limit(3)->get(),
         ];
     }

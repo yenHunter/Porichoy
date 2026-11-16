@@ -57,8 +57,8 @@
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
                                 <th>Order</th>
-                                <th>Name</th>
-                                <th>Description</th>
+                                <th>Title</th>
+                                <th>Details</th>
                                 <th>Posts</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -71,16 +71,16 @@
                                         <i class="ti ti-arrows-move fs-42"></i>
                                     </td>
                                     <td>
-                                        {{ $item->category_name }}
+                                        {{ $item->value }}
                                     </td>
                                     <td>
-                                        {{ $item->category_description ?: '—' }}
+                                        {{ $item->details ?: '—' }}
                                     </td>
                                     <td>
                                         {{ $item->blogs_count }}
                                     </td>
                                     <td>
-                                        @if ($item->category_status === true)
+                                        @if ($item->status === 1)
                                             <span class="badge bg-success">Active</span>
                                         @else
                                             <span class="badge bg-danger">Inactive</span>
@@ -123,28 +123,27 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <input class="form-control" placeholder="Web Development"
-                                        value="{{ old('category_name') }}" name="category_name" id="category_name"
-                                        type="text" />
-                                    <label for="category_name">Name
+                                        value="{{ old('title') }}" name="title" id="title" type="text" />
+                                    <label for="title">Title
                                         <span class="badge badge-soft-danger">required</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Blog category description"
-                                        name="category_description" id="category_description">{{ old('category_description') }}</textarea>
-                                    <label for="category_description">Description</label>
+                                    <textarea class="form-control" placeholder="Blog category details"
+                                        name="details" id="details">{{ old('details') }}</textarea>
+                                    <label for="details">Details</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <select aria-label="Select Status" class="form-select" name="category_status"
-                                        id="category_status">
+                                    <select aria-label="Select Status" class="form-select" name="status"
+                                        id="blog_category_status">
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
-                                    <label for="category_status">Status</label>
+                                    <label for="blog_category_status">Status</label>
                                 </div>
                             </div>
                         </div>

@@ -2,12 +2,10 @@
 
 namespace App\Services\Settings;
 
-use App\Http\Requests\Admin\Settings\BlogCategoryRequest;
 use App\Http\Requests\Admin\Settings\ProfileUpdateRequest;
 use App\Http\Requests\Admin\Settings\SelectTypeRequest;
 use App\Http\Requests\Admin\Settings\StoreResearchSourceRequest;
 use App\Http\Requests\Admin\Settings\UpdateResearchSourceRequest;
-use App\Models\BlogCategory;
 use App\Models\ColumnSettings;
 use App\Models\Country;
 use App\Models\EducationInfo;
@@ -38,7 +36,12 @@ class SettingsService
      * Profile-info categories handled by the profile management form.
      */
     private const PROFILE_CATEGORIES = [
-        'basic', 'personal', 'address', 'present_address', 'permanent_address', 'social',
+        ProfileInfo::BASIC,
+        ProfileInfo::PERSONAL,
+        ProfileInfo::ADDRESS,
+        ProfileInfo::PRESENT_ADDRESS,
+        ProfileInfo::PERMANENT_ADDRESS,
+        ProfileInfo::SOCIAL,
     ];
 
     /**
@@ -50,12 +53,12 @@ class SettingsService
     {
         return [
             'profile_data' => [
-                'basic' => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
-                'personal' => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
-                'address' => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
-                'present_address' => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
-                'permanent_address' => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
-                'social' => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::BASIC => ProfileInfo::basicInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PERSONAL => ProfileInfo::personalInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::ADDRESS => ProfileInfo::addressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PRESENT_ADDRESS => ProfileInfo::presentAddressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::PERMANENT_ADDRESS => ProfileInfo::permanentAddressInfo()->active()->get()->keyBy('column_name'),
+                ProfileInfo::SOCIAL => ProfileInfo::socialInfo()->active()->get()->keyBy('column_name'),
                 'education' => EducationInfo::active()->sorted()->first(),
                 'experience' => ExperienceInfo::active()->sorted()->first(),
             ],
@@ -94,7 +97,7 @@ class SettingsService
     public function researchSourceViewData(): array
     {
         return [
-            'research_source_list' => SelectType::where('use_for', 'research_source')->sorted()->get(),
+            'research_source_list' => SelectType::where('use_for', SelectType::RESEARCH_SOURCE)->sorted()->get(),
             'research_source_settings' => ColumnSettings::where('module', 'research_source')->get(),
         ];
     }
@@ -105,7 +108,7 @@ class SettingsService
     public function storeResearchSource(StoreResearchSourceRequest $request): SelectType
     {
         $object = new SelectType;
-        $object->use_for = 'research_source';
+        $object->use_for = SelectType::RESEARCH_SOURCE;
         $object->value = $request->title;
         $object->details = $this->storeThumbnail($request);
         // `status` is NOT NULL; omitting the field means active.
@@ -122,7 +125,9 @@ class SettingsService
      */
     public function findResearchSource(string $research_source_id): ?SelectType
     {
-        return SelectType::where('id', $research_source_id)->where('use_for', 'research_source')->first();
+        return SelectType::where('id', $research_source_id)
+            ->where('use_for', SelectType::RESEARCH_SOURCE)
+            ->first();
     }
 
     /**
@@ -172,9 +177,9 @@ class SettingsService
     }
 
     /**
-     * Rows for location-type / employment-type views.
+     * Rows for a select-type lookup view.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  Any SelectType use_for constant
      * @return Collection<int, SelectType>
      */
     public function selectTypeViewData(string $use_for): Collection
@@ -183,9 +188,9 @@ class SettingsService
     }
 
     /**
-     * Create a location/employment-type SelectType row.
+     * Create a SelectType row for a lookup list.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  Any SelectType use_for constant
      */
     public function storeSelectType(SelectTypeRequest $request, string $use_for): SelectType
     {
@@ -211,9 +216,9 @@ class SettingsService
     }
 
     /**
-     * Update a location/employment-type row.
+     * Update a lookup row.
      *
-     * @param  string  $use_for  'location_type' or 'employment_type'
+     * @param  string  $use_for  Any SelectType use_for constant
      * @param  string  $id  Row id
      */
     public function updateSelectType(SelectTypeRequest $request, string $use_for, string $id): ?SelectType
@@ -235,7 +240,7 @@ class SettingsService
     }
 
     /**
-     * Delete a location/employment-type row.
+     * Delete a lookup row.
      */
     public function deleteSelectType(string $id, string $use_for): void
     {
@@ -263,63 +268,21 @@ class SettingsService
     }
 
     // ---------------------------------------------------------------------
-    // Blog Category CRUD (its own table: blog_categories)
+    // Blog Category (SelectType use_for = blog_category)
+    //
+    // Only the two lookups the generic helpers cannot express live here; the
+    // create, edit, update, delete and reorder paths are selectType*() calls
+    // with SelectType::BLOG_CATEGORY.
     // ---------------------------------------------------------------------
 
     /**
      * Rows for the blog category view, each with its post count.
      *
-     * @return Collection<int, BlogCategory>
+     * @return Collection<int, SelectType>
      */
     public function blogCategoryViewData(): Collection
     {
-        return BlogCategory::withCount('blogs')->sorted()->get();
-    }
-
-    /**
-     * Create a blog category. `category_sequence` is assigned by the model.
-     */
-    public function storeBlogCategory(BlogCategoryRequest $request): BlogCategory
-    {
-        $category = new BlogCategory;
-        $category->category_name = $request->input('category_name');
-        $category->category_description = $request->input('category_description');
-        // `category_status` is NOT NULL; omitting the field means active.
-        $category->category_status = $request->input('category_status') ?? true;
-        $category->save();
-
-        $this->logUserActivity('Blog Category', 'Created a new Blog Category');
-
-        return $category;
-    }
-
-    /**
-     * Find a blog category by id.
-     */
-    public function findBlogCategory(string $blog_category_id): ?BlogCategory
-    {
-        return BlogCategory::where('id', $blog_category_id)->first();
-    }
-
-    /**
-     * Update a blog category.
-     */
-    public function updateBlogCategory(BlogCategoryRequest $request): ?BlogCategory
-    {
-        $category = $this->findBlogCategory((string) $request->input('blog_category_id'));
-        if ($category === null) {
-            return null;
-        }
-
-        $category->category_name = $request->input('category_name');
-        $category->category_description = $request->input('category_description');
-        // Omitted status keeps the stored value instead of writing null.
-        $category->category_status = $request->input('category_status') ?? $category->category_status;
-        $category->save();
-
-        $this->logUserActivity('Blog Category', 'Updated Blog Category');
-
-        return $category;
+        return $this->selectTypeViewData(SelectType::BLOG_CATEGORY)->loadCount('blogs');
     }
 
     /**
@@ -331,35 +294,9 @@ class SettingsService
      */
     public function blogCategoryPostCount(string $blog_category_id): int
     {
-        return BlogCategory::withCount('blogs')->find($blog_category_id)?->blogs_count ?? 0;
-    }
+        $category = $this->findSelectType($blog_category_id, SelectType::BLOG_CATEGORY);
 
-    /**
-     * Delete a blog category. Callers must check blogCategoryPostCount() first.
-     */
-    public function deleteBlogCategory(string $blog_category_id): void
-    {
-        $category = $this->findBlogCategory($blog_category_id);
-        if ($category === null) {
-            return;
-        }
-
-        $category->delete();
-
-        $this->logUserActivity('Blog Category', 'Removed Blog Category');
-    }
-
-    /**
-     * Persist the drag/drop order for blog categories.
-     *
-     * @param  array<int, array{id: string, sequence: int}>  $order
-     */
-    public function updateBlogCategorySequence(array $order): void
-    {
-        foreach ($order as $item) {
-            BlogCategory::where('id', $item['id'])
-                ->update(['category_sequence' => $item['sequence']]);
-        }
+        return $category === null ? 0 : $category->blogs()->count();
     }
 
     /*

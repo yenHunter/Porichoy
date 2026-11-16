@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('blog_featured_image')->nullable();
             $table->string('blog_image')->nullable();
             $table->string('keywords')->nullable();
-            $table->foreignUuid('category_id')->nullable()->constrained('blog_categories')->onDelete('set null');
+            // Blog categories are select_types rows (use_for = blog_category).
+            $table->foreignId('category_id')->nullable()->constrained('select_types')->onDelete('set null');
             $table->integer('view_count')->default(0);
             $table->dateTime('blog_published')->nullable();
             $table->boolean('blog_status')->default(true);

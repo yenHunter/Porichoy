@@ -6,6 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class SelectType extends Model
 {
+    /**
+     * The `use_for` value marking a row as a training category.
+     */
+    public const TRAINING_CATEGORY = 'training_category';
+
+    /**
+     * The `use_for` value marking a row as a blog category.
+     */
+    public const BLOG_CATEGORY = 'blog_category';
+
+    /**
+     * The `use_for` value marking a row as an employment type.
+     */
+    public const EMPLOYMENT_TYPE = 'employment_type';
+
+    /**
+     * The `use_for` value marking a row as a location type.
+     */
+    public const LOCATION_TYPE = 'location_type';
+
+    /**
+     * The `use_for` value marking a row as a research source.
+     */
+    public const RESEARCH_SOURCE = 'research_source';
+
     protected $fillable = [
         'use_for',
         'value',
@@ -36,6 +61,15 @@ class SelectType extends Model
     */
 
     /**
+     * Get only active rows.
+     * Usage: SelectType::active()->get();
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
+    }
+
+    /**
      * Order by the drag/drop sequence, falling back to the id so rows that
      * share a sequence (every seeded row) still have a stable order.
      * Usage: SelectType::sorted()->get();
@@ -53,5 +87,10 @@ class SelectType extends Model
     public function training()
     {
         return $this->hasMany(TrainingInfo::class, 'category_id');
+    }
+
+    public function blogs()
+    {
+        return $this->hasMany(BlogInfo::class, 'category_id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ProfileInfo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -72,7 +73,7 @@ class ProfileInfoSeeder extends Seeder
         // Insert data for each category
         foreach ($basicInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'basic',
+                'use_for' => ProfileInfo::BASIC,
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -81,7 +82,7 @@ class ProfileInfoSeeder extends Seeder
 
         foreach ($personalInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'personal',
+                'use_for' => ProfileInfo::PERSONAL,
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -90,7 +91,7 @@ class ProfileInfoSeeder extends Seeder
 
         foreach ($presentAddressData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'present_address',
+                'use_for' => ProfileInfo::PRESENT_ADDRESS,
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -99,7 +100,7 @@ class ProfileInfoSeeder extends Seeder
 
         foreach ($permanentAddressData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'permanent_address',
+                'use_for' => ProfileInfo::PERMANENT_ADDRESS,
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -108,7 +109,7 @@ class ProfileInfoSeeder extends Seeder
 
         foreach ($socialInfoData as $data) {
             DB::table('profile_infos')->insert(array_merge($data, [
-                'use_for' => 'social',
+                'use_for' => ProfileInfo::SOCIAL,
                 'column_status' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

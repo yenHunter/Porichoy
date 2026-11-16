@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin\Modules;
 
-use App\Models\BlogCategory;
 use App\Models\BlogInfo;
+use App\Models\SelectType;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -186,6 +186,28 @@ class BlogTest extends TestCase
     }
 
     /**
+     * Only blog categories are valid: an id from another select-type list
+     * (here a training category) is rejected.
+     */
+    public function test_a_post_rejects_a_category_from_another_select_type_list(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $trainingCategory = SelectType::create([
+            'use_for' => 'training_category',
+            'value' => 'Laravel Bootcamp',
+            'status' => true,
+        ]);
+
+        $this->post(route('module.blog.store'), [
+            'blog_title' => 'Wrong category list',
+            'category_id' => $trainingCategory->getKey(),
+        ])->assertSessionHasErrors(['category_id']);
+
+        $this->assertDatabaseMissing('blog_infos', ['blog_title' => 'Wrong category list']);
+    }
+
+    /**
      * Only real images are accepted for either image field.
      */
     public function test_a_post_rejects_a_non_image_upload(): void
@@ -308,13 +330,12 @@ class BlogTest extends TestCase
     /**
      * A blog category to attach a post to.
      */
-    private function category(string $name = 'Engineering'): BlogCategory
+    private function category(string $name = 'Engineering'): SelectType
     {
-        $category = new BlogCategory;
-        $category->category_name = $name;
-        $category->category_status = true;
-        $category->save();
-
-        return $category;
+        return SelectType::create([
+            'use_for' => 'blog_category',
+            'value' => $name,
+            'status' => true,
+        ]);
     }
 }

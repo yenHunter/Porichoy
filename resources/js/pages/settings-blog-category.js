@@ -62,9 +62,9 @@ $(document).on('click', '.btn-edit', function () {
 
             // Fill form fields
             $('#blog_category_id').val(data.id);
-            $('#category_name').val(data.category_name);
-            $('#category_description').val(data.category_description);
-            $('#category_status').val(data.category_status == 1 ? 1 : 0);
+            $('#title').val(data.value);
+            $('#details').val(data.details);
+            $('#blog_category_status').val(data.status == 1 ? 1 : 0);
 
             // Update form
             const form = document.getElementById('create_update_form');

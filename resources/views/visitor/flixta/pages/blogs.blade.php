@@ -50,7 +50,7 @@
                                         </a>
                                         <div class="rs-postbox-tag">
                                             <a
-                                                href="{{ route('visitor.blog.index') }}">{{ $blog->category?->category_name ?? 'Business' }}</a>
+                                                href="{{ route('visitor.blog.index') }}">{{ $blog->category?->value ?? 'Business' }}</a>
                                         </div>
                                     </div>
                                     <div class="rs-postbox-content">
@@ -190,7 +190,7 @@
                                         <ul>
                                             @forelse ($category_list as $category)
                                                 <li><a
-                                                        href="{{ route('visitor.blog.index') }}">{{ $category->category_name }}</a>
+                                                        href="{{ route('visitor.blog.index') }}">{{ $category->value }}</a>
                                                 </li>
                                             @empty
                                                 <li><a

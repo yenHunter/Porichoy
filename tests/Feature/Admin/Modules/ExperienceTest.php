@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin\Modules;
 
 use App\Models\ExperienceInfo;
+use App\Models\SelectType;
 use Tests\Support\AdminModuleContract;
 use Tests\Support\ColumnVisibilityContract;
 use Tests\TestCase;
@@ -83,6 +84,27 @@ class ExperienceTest extends TestCase
         $this->post(route('module.experience.store'), array_merge($this->modulePayload(), [
             'location_type' => 99999,
         ]))->assertSessionHasErrors(['location_type']);
+    }
+
+    /**
+     * Both lookups must come from their own list: a blog category id is
+     * rejected for the employment type and for the location type.
+     */
+    public function test_the_experience_lookups_cannot_come_from_another_list(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $blogCategory = $this->selectType(SelectType::BLOG_CATEGORY, 'Blog category');
+
+        $this->post(route('module.experience.store'), array_merge($this->modulePayload(), [
+            'employment_type' => $blogCategory,
+        ]))->assertSessionHasErrors(['employment_type']);
+
+        $this->post(route('module.experience.store'), array_merge($this->modulePayload(), [
+            'location_type' => $blogCategory,
+        ]))->assertSessionHasErrors(['location_type']);
+
+        $this->assertDatabaseMissing('experience_infos', ['employment_position' => 'Developer']);
     }
 
     public function test_the_end_date_must_be_after_the_start_date(): void

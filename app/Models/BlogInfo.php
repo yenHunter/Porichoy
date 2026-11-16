@@ -105,7 +105,7 @@ class BlogInfo extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(BlogCategory::class, 'category_id');
+        return $this->belongsTo(SelectType::class, 'category_id');
     }
 
     public function comments(): HasMany

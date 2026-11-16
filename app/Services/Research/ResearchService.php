@@ -26,11 +26,11 @@ class ResearchService
     {
         return [
             'research_list' => ResearchInfo::with('source')
-                ->whereRelation('source', 'use_for', 'research_source')
+                ->whereRelation('source', 'use_for', SelectType::RESEARCH_SOURCE)
                 ->sorted()
                 ->get(),
             'research_settings' => ColumnSettings::where('module', 'research')->get(),
-            'research_source' => SelectType::where('use_for', 'research_source')->get(),
+            'research_source' => SelectType::where('use_for', SelectType::RESEARCH_SOURCE)->get(),
         ];
     }
 
