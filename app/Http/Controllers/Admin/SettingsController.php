@@ -120,8 +120,9 @@ class SettingsController extends Controller
      *
      * `with_count` names a relation that is counted in the listing and checked
      * before deleting a row; `blocked_message` (a printf template taking the
-     * count and the noun) and `blocked_noun` (singular, plural) word the refusal
-     * for that list.
+     * count and the noun) and `blocked_noun` (singular, plural) override the
+     * refusal wording for that list. Both fall back to a generic sentence, so a
+     * new list only has to set `with_count`.
      *
      * @var array<string, array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}}>
      */
@@ -209,11 +210,13 @@ class SettingsController extends Controller
             // The foreign keys are `onDelete('set null')`, so an unguarded
             // delete would silently strip the reference from those records.
             if ($used > 0) {
-                return back()->with('error', sprintf(
-                    $lookup['blocked_message'],
-                    $used,
-                    $lookup['blocked_noun'][$used === 1 ? 0 : 1],
-                ));
+                // A list that counts a relation without naming its wording
+                // still gets a usable sentence instead of a TypeError.
+                $message = $lookup['blocked_message']
+                    ?? 'This value is used by %d %s. Reassign them before deleting it.';
+                $noun = ($lookup['blocked_noun'] ?? ['record', 'records'])[$used === 1 ? 0 : 1];
+
+                return back()->with('error', sprintf($message, $used, $noun));
             }
         }
 
