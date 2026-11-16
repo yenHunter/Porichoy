@@ -177,7 +177,7 @@ class SystemLogTest extends TestCase
     public function test_application_log_keeps_the_stack_trace_of_an_entry(): void
     {
         $this->writeLogFile('laravel.log', implode("\n", [
-            $this->entry('2026-11-16 10:00:00', 'ERROR', 'Undefined array key "slug"', false),
+            $this->entry('2026-11-16 10:00:00', 'ERROR', 'Undefined array key "slug"'),
             '[stacktrace]',
             '#0 /app/Http/Controllers/BlogController.php(42): handle()',
             '#1 {main}',
@@ -223,12 +223,11 @@ class SystemLogTest extends TestCase
      */
     public function test_application_log_reads_only_the_tail_of_a_large_file(): void
     {
-        $padding = str_repeat($this->entry('2026-11-02 00:00:00', 'INFO', str_repeat('filler ', 8)), 15000);
+        $padding = str_repeat($this->entry('2026-11-02 00:00:00', 'INFO', str_repeat('filler ', 8))."\n", 15000);
 
         $this->writeLogFile('laravel.log', implode("\n", [
             $this->entry('2026-11-01 00:00:00', 'ERROR', 'Ancient entry'),
-            $padding,
-            $this->entry('2026-11-16 00:00:00', 'ERROR', 'Fresh entry'),
+            $padding.$this->entry('2026-11-16 00:00:00', 'ERROR', 'Fresh entry'),
         ]));
 
         $this->assertGreaterThan(
@@ -243,6 +242,23 @@ class SystemLogTest extends TestCase
         $this->assertNotContains('Ancient entry', $messages);
         $this->assertContains('Fresh entry', $messages);
         $this->assertLessThanOrEqual(SystemLogService::ENTRY_LIMIT, count($logs));
+    }
+
+    /**
+     * The tail can begin in the middle of a line. A fragment can never match an
+     * entry header, so it is skipped instead of rendered as a truncated entry.
+     */
+    public function test_a_tail_fragment_is_never_parsed_as_an_entry(): void
+    {
+        $this->writeLogFile('laravel.log', implode("\n", [
+            str_repeat('A', SystemLogService::TAIL_BYTES + 100),
+            $this->entry('2026-11-16 00:00:00', 'ERROR', 'Fresh entry'),
+        ]));
+
+        $logs = (new SystemLogService($this->logDirectory))->applicationLogs(null)['logs'];
+
+        $this->assertCount(1, $logs);
+        $this->assertSame('Fresh entry', $logs[0]['message']);
     }
 
     public function test_application_log_page_handles_an_empty_log_directory(): void
@@ -264,15 +280,13 @@ class SystemLogTest extends TestCase
 
     private function activity(?User $user, string $action): UserLog
     {
-        $log = new UserLog;
-        $log->module = 'Education';
-        $log->action = $action;
-        $log->user_id = $user?->getKey();
-        $log->user_ip = '127.0.0.1';
-        $log->user_agent = 'phpunit';
-        $log->save();
-
-        return $log;
+        return UserLog::create([
+            'module' => 'Education',
+            'action' => $action,
+            'user_id' => $user?->getKey(),
+            'user_ip' => '127.0.0.1',
+            'user_agent' => 'phpunit',
+        ]);
     }
 
     /**
@@ -297,10 +311,10 @@ class SystemLogTest extends TestCase
     }
 
     /**
-     * A log entry in Laravel's format.
+     * A log entry header line in Laravel's format, without a trailing newline.
      */
-    private function entry(string $date, string $level, string $message, bool $newline = true): string
+    private function entry(string $date, string $level, string $message): string
     {
-        return "[{$date}] local.{$level}: {$message}".($newline ? "\n" : '');
+        return "[{$date}] local.{$level}: {$message}";
     }
 }

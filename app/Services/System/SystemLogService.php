@@ -92,7 +92,6 @@ class SystemLogService
      *   total:       int,
      *   level:       string|null,
      *   levels:      array<int, string>,
-     *   entryLimit:  int,
      *   truncated:   bool
      * }
      */
@@ -105,7 +104,8 @@ class SystemLogService
             ? $requested
             : ($names[0] ?? null);
 
-        $level = in_array(strtolower((string) $level), self::LEVELS, true) ? strtolower((string) $level) : null;
+        $level = strtolower((string) $level);
+        $level = in_array($level, self::LEVELS, true) ? $level : null;
 
         $entries = $currentFile ? $this->entries($currentFile) : [];
 
@@ -125,7 +125,6 @@ class SystemLogService
             'total' => $total,
             'level' => $level,
             'levels' => self::LEVELS,
-            'entryLimit' => self::ENTRY_LIMIT,
             'truncated' => $total > self::ENTRY_LIMIT,
         ];
     }
@@ -146,14 +145,15 @@ class SystemLogService
             return [];
         }
 
-        $size = (int) filesize($path);
-        $offset = max(0, $size - self::TAIL_BYTES);
-        $content = (string) file_get_contents($path, false, null, $offset);
-
-        // A tail read starts in the middle of an entry; drop the partial line.
-        if ($offset > 0 && ($break = strpos($content, "\n")) !== false) {
-            $content = substr($content, $break + 1);
-        }
+        // Only the tail is read. It may begin inside a line or an entry, and
+        // such a fragment cannot match a header, so the loop below skips it
+        // until the first complete entry and never renders half of one.
+        $content = (string) file_get_contents(
+            $path,
+            false,
+            null,
+            max(0, (int) filesize($path) - self::TAIL_BYTES)
+        );
 
         $entries = [];
         $current = null;
@@ -167,7 +167,7 @@ class SystemLogService
                 $current = [
                     'date' => $matches['date'],
                     'env' => $matches['env'],
-                    'level' => strtoupper($matches['level']),
+                    'level' => $matches['level'],
                     'message' => $matches['message'],
                     'detail' => '',
                 ];

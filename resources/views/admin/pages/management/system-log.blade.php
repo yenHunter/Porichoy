@@ -18,9 +18,7 @@
                                 <span class="badge bg-secondary">{{ number_format($file['size'] / 1024, 1) }} KB</span>
                             </div>
                             <small class="text-muted">
-                                {{ $file['modified']
-                                    ? \Illuminate\Support\Carbon::createFromTimestamp($file['modified'])->format('M d, Y H:i')
-                                    : '—' }}
+                                {{ $file['modified'] ? date('M d, Y H:i', $file['modified']) : '—' }}
                             </small>
                         </a>
                     @empty
@@ -56,7 +54,8 @@
                             <span class="badge bg-secondary">{{ $total }} Entries</span>
                             <form action="{{ route('management.system.application-log') }}" method="GET">
                                 <input type="hidden" name="file" value="{{ $currentFile }}">
-                                <select class="form-select form-select-sm" name="level" onchange="this.form.submit()">
+                                <select class="form-select form-select-sm" name="level"
+                                    aria-label="Filter by level" onchange="this.form.submit()">
                                     <option value="">All levels</option>
                                     @foreach ($levels as $option)
                                         <option value="{{ $option }}" @selected($level === $option)>
