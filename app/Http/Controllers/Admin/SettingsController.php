@@ -116,12 +116,14 @@ class SettingsController extends Controller
     // ---------------------------------------------------------------------
 
     /**
-     * Per-lookup view wiring.
+     * Per-lookup wiring.
      *
      * `with_count` names a relation that is counted in the listing and checked
-     * before deleting a row.
+     * before deleting a row; `blocked_message` (a printf template taking the
+     * count and the noun) and `blocked_noun` (singular, plural) word the refusal
+     * for that list.
      *
-     * @var array<string, array{view: string, view_key: string, with_count?: string}>
+     * @var array<string, array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}}>
      */
     private const LOOKUPS = [
         SelectType::LOCATION_TYPE => [
@@ -140,6 +142,8 @@ class SettingsController extends Controller
             'view' => 'admin.pages.settings.blog_category',
             'view_key' => 'blog_category_list',
             'with_count' => 'blogs',
+            'blocked_message' => 'This category is used by %d %s. Reassign them before deleting it.',
+            'blocked_noun' => ['post', 'posts'],
         ],
     ];
 
@@ -203,14 +207,13 @@ class SettingsController extends Controller
             $used = $this->settings_service->selectTypeUsageCount($lookup_id, $useFor, $lookup['with_count']);
 
             // The foreign keys are `onDelete('set null')`, so an unguarded
-            // delete would silently leave those records without a category.
+            // delete would silently strip the reference from those records.
             if ($used > 0) {
-                $noun = $used === 1 ? 'post' : 'posts';
-
-                return back()->with(
-                    'error',
-                    "This category is used by {$used} {$noun}. Reassign them before deleting it."
-                );
+                return back()->with('error', sprintf(
+                    $lookup['blocked_message'],
+                    $used,
+                    $lookup['blocked_noun'][$used === 1 ? 0 : 1],
+                ));
             }
         }
 
@@ -246,7 +249,7 @@ class SettingsController extends Controller
     /**
      * The view wiring for the current route's list.
      *
-     * @return array{view: string, view_key: string, with_count?: string}
+     * @return array{view: string, view_key: string, with_count?: string, blocked_message?: string, blocked_noun?: array{0: string, 1: string}}
      */
     private function lookup(Request $request): array
     {
