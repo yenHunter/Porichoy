@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SelectType extends Model
 {
+    /**
+     * The `use_for` value marking a row as a blog category.
+     */
+    public const BLOG_CATEGORY = 'blog_category';
+
     protected $fillable = [
         'use_for',
         'value',

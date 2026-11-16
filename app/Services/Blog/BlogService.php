@@ -55,7 +55,7 @@ class BlogService
     {
         return [
             'blog_list' => BlogInfo::with('category')->sorted()->get(),
-            'blog_categories' => SelectType::where('use_for', 'blog_category')->active()->sorted()->get(),
+            'blog_categories' => SelectType::where('use_for', SelectType::BLOG_CATEGORY)->active()->sorted()->get(),
             'blog_settings' => ColumnSettings::where('module', 'blog')->get(),
         ];
     }

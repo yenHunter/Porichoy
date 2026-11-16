@@ -185,7 +185,7 @@ class VisitorService
     {
         return [
             'blog_list' => BlogInfo::sorted()->active()->with('category', 'updatedBy')->get(),
-            'category_list' => SelectType::where('use_for', 'blog_category')->sorted()->active()->withCount('blogs')->get(),
+            'category_list' => SelectType::where('use_for', SelectType::BLOG_CATEGORY)->sorted()->active()->withCount('blogs')->get(),
             'recent_blogs' => BlogInfo::active()->latestPublished()->limit(3)->get(),
         ];
     }

@@ -271,7 +271,7 @@ class SettingsService
      */
     public function blogCategoryViewData(): Collection
     {
-        return SelectType::where('use_for', 'blog_category')->withCount('blogs')->sorted()->get();
+        return SelectType::where('use_for', SelectType::BLOG_CATEGORY)->withCount('blogs')->sorted()->get();
     }
 
     /**
@@ -280,7 +280,7 @@ class SettingsService
     public function storeBlogCategory(SelectTypeRequest $request): SelectType
     {
         $object = new SelectType;
-        $object->use_for = 'blog_category';
+        $object->use_for = SelectType::BLOG_CATEGORY;
         $object->value = $request->title;
         $object->details = $request->details;
         // `status` is NOT NULL; omitting the field means active.
@@ -297,7 +297,9 @@ class SettingsService
      */
     public function findBlogCategory(string $blog_category_id): ?SelectType
     {
-        return SelectType::where('id', $blog_category_id)->where('use_for', 'blog_category')->first();
+        return SelectType::where('id', $blog_category_id)
+            ->where('use_for', SelectType::BLOG_CATEGORY)
+            ->first();
     }
 
     /**
@@ -330,7 +332,7 @@ class SettingsService
      */
     public function blogCategoryPostCount(string $blog_category_id): int
     {
-        return SelectType::where('use_for', 'blog_category')
+        return SelectType::where('use_for', SelectType::BLOG_CATEGORY)
             ->withCount('blogs')
             ->find($blog_category_id)?->blogs_count ?? 0;
     }

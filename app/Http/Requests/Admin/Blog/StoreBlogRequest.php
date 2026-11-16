@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Blog;
 
+use App\Models\SelectType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -34,7 +35,7 @@ class StoreBlogRequest extends FormRequest
             'category_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('select_types', 'id')->where('use_for', 'blog_category'),
+                Rule::exists('select_types', 'id')->where('use_for', SelectType::BLOG_CATEGORY),
             ],
             'blog_published' => ['nullable', 'date'],
             'blog_status' => ['nullable', 'boolean'],
