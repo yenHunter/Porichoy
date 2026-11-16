@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Blog;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBlogRequest extends FormRequest
 {
@@ -28,7 +29,13 @@ class StoreBlogRequest extends FormRequest
             'keywords' => ['nullable', 'string', 'max:255'],
             'blog_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'blog_featured_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
-            'category_id' => ['nullable', 'integer', 'exists:select_types,id'],
+            // A post may only point at a blog category, not at any other
+            // select-type list such as training categories.
+            'category_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('select_types', 'id')->where('use_for', 'blog_category'),
+            ],
             'blog_published' => ['nullable', 'date'],
             'blog_status' => ['nullable', 'boolean'],
         ];
