@@ -4,7 +4,7 @@ namespace Tests\Feature\Visitor;
 
 use App\Models\ProfileInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use RuntimeException;
+use Illuminate\Support\Facades\Log;
 use Tests\Support\SeedsStorefront;
 use Tests\TestCase;
 
@@ -15,27 +15,32 @@ class ProfileMapTest extends TestCase
 
     /**
      * The visitor map is keyed by column name alone, so a name used by two
-     * active rows would leave only one value on the site. That must surface
-     * as an error rather than quietly losing a value.
+     * active rows leaves only the first value. That is logged instead of
+     * thrown, so the page still renders for visitors.
      */
-    public function test_a_duplicate_profile_column_name_fails_loudly(): void
+    public function test_a_duplicate_profile_column_name_is_logged_and_keeps_the_first_value(): void
     {
         $this->seedStorefrontRecords();
 
-        $this->profileRow(ProfileInfo::BASIC, 'email', 'first@example.com');
-        $this->profileRow(ProfileInfo::SOCIAL, 'email', 'second@example.com');
+        // `first_name` is printed by the antux home page.
+        $this->profileRow(ProfileInfo::BASIC, 'first_name', 'First Value');
+        $this->profileRow(ProfileInfo::SOCIAL, 'first_name', 'Second Value');
 
-        $this->withoutExceptionHandling();
+        Log::spy();
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Duplicate profile column names: email');
+        $this->withSession(['visitor_theme' => 'antux'])->get('/')
+            ->assertOk()
+            ->assertSee('First Value');
 
-        $this->withSession(['visitor_theme' => 'antux'])->get('/');
+        Log::shouldHaveReceived('error')
+            ->withArgs(fn (string $message) => str_contains($message, 'Duplicate profile column names')
+                && str_contains($message, 'first_name'))
+            ->once();
     }
 
     /**
-     * An active transmission row in a second category is not a duplicate
-     * when the column names differ, so the page renders normally.
+     * A row in a second category is not a duplicate when the column names
+     * differ, so the page renders normally and nothing is logged.
      */
     public function test_distinct_column_names_still_render(): void
     {

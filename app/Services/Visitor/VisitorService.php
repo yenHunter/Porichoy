@@ -171,14 +171,12 @@ class VisitorService
      * The profile column/value pairs shared by several visitor pages.
      *
      * The map is keyed by column name alone, so two rows sharing a name
-     * would leave only one value on the site. Instead of dropping a value
-     * silently the first row wins and the duplicate is raised as an error:
-     * duplicate names come from seeded or hand-written rows, where failing
-     * loudly beats a public page that quietly shows half the data.
+     * leave only the first value on the site. That is reported and logged as
+     * an error rather than thrown: a duplicate comes from a seeded or
+     * hand-written row, and a data mistake must not take the public site
+     * down for its visitors.
      *
      * @return array<string, string|null>
-     *
-     * @throws RuntimeException when two active rows share a column name
      */
     private function profile(): array
     {
@@ -198,9 +196,11 @@ class VisitorService
         }
 
         if ($duplicates !== []) {
-            throw new RuntimeException(
+            // Reported (and logged at error level) rather than thrown: a data
+            // mistake must not take the public site down for its visitors.
+            report(new RuntimeException(
                 'Duplicate profile column names: '.implode(', ', $duplicates)
-            );
+            ));
         }
 
         return $profile;
