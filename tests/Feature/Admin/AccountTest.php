@@ -230,18 +230,27 @@ class AccountTest extends TestCase
         $this->assertSame([$picture], Storage::disk('public')->allFiles('uploads/users'));
     }
 
-    public function test_a_non_image_picture_is_rejected(): void
+    /**
+     * One reason, one message: the field states the accepted types itself
+     * instead of carrying both an `image` and a `mimes` rule.
+     */
+    public function test_a_non_image_picture_is_rejected_with_a_single_message(): void
     {
         Storage::fake('public');
 
-        $this->actingAs($this->adminUser())
+        $response = $this->actingAs($this->adminUser())
             ->put(route('account.profile.update'), [
                 'first_name' => 'Ada',
                 'last_name' => 'Lovelace',
                 'profile_picture' => UploadedFile::fake()->create('notes.pdf', 12, 'application/pdf'),
-            ], ['Accept' => 'application/json'])
-            ->assertStatus(422)
-            ->assertJsonValidationErrors(['profile_picture']);
+            ], ['Accept' => 'application/json']);
+
+        $response->assertStatus(422)->assertJsonValidationErrors(['profile_picture']);
+
+        $this->assertSame(
+            ['The profile picture must be a JPEG, PNG, GIF or WebP image.'],
+            $response->json('errors.profile_picture')
+        );
 
         $this->assertSame([], Storage::disk('public')->allFiles('uploads/users'));
     }

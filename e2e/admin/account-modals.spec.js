@@ -170,7 +170,9 @@ test.describe('account modals', () => {
         await saveProfile(page);
 
         await expect(errors).toBeVisible();
-        await expect(errors).toContainText(/profile picture/i);
+        await expect(errors).toContainText('The profile picture must be a JPEG, PNG, GIF or WebP image.');
+        // One reason, one line: the field is not reported twice.
+        await expect(errors.locator('div')).toHaveCount(1);
         await expect(page.locator(PROFILE_MODAL)).toBeVisible();
         await expect(page.locator('#account_profile_picture')).toHaveValue('');
         await expect(avatar).toHaveAttribute('src', STORED_PICTURE);

@@ -25,8 +25,11 @@ class UpdateProfileRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            // Same limits the user management screen accepts.
-            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            // The types are content-checked: `mimes` reads what the file
+            // actually is, not its name. An extra `image` rule would accept the
+            // same uploads but fail them a second time, so the modal would show
+            // two reasons for one problem.
+            'profile_picture' => ['nullable', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             // Opt-in flag: an untouched modal keeps the stored picture.
             'remove_profile_picture' => ['nullable', 'boolean'],
         ];
@@ -40,6 +43,18 @@ class UpdateProfileRequest extends FormRequest
     public function profile(): array
     {
         return $this->safe()->only(['first_name', 'last_name']);
+    }
+
+    /**
+     * Name the accepted types in the one message a rejected picture produces.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'profile_picture.mimes' => 'The profile picture must be a JPEG, PNG, GIF or WebP image.',
+        ];
     }
 
     /**
