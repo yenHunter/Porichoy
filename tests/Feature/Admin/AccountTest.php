@@ -3,7 +3,9 @@
 namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
@@ -51,6 +53,92 @@ class AccountTest extends TestCase
             ->assertOk();
 
         $this->assertSame('owner@example.test', $user->refresh()->email);
+    }
+
+    /**
+     * The picture is stored exactly as the user management screen stores it:
+     * a 300px wide WebP on the public disk, and the response carries the URL
+     * the topbar swaps in.
+     */
+    public function test_an_admin_can_change_their_profile_picture(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+
+        $this->actingAs($user)
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'profile_picture' => UploadedFile::fake()->image('avatar.jpg', 600, 600),
+            ], ['Accept' => 'application/json'])
+            ->assertOk()
+            ->assertJsonPath(
+                'user.profile_picture_url',
+                fn ($url) => str_contains($url, 'storage/uploads/users/')
+            );
+
+        $user->refresh();
+
+        $this->assertMatchesRegularExpression('#^uploads/users/[0-9a-f-]+\.webp$#', (string) $user->profile_picture);
+        Storage::disk('public')->assertExists($user->profile_picture);
+    }
+
+    public function test_a_new_picture_replaces_and_removes_the_old_file(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+        $old = 'uploads/users/old.webp';
+
+        Storage::disk('public')->put($old, 'old-bytes');
+        $user->forceFill(['profile_picture' => $old])->save();
+
+        $this->actingAs($user)
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'profile_picture' => UploadedFile::fake()->image('new.png', 400, 400),
+            ], ['Accept' => 'application/json'])
+            ->assertOk();
+
+        $user->refresh();
+
+        $this->assertNotSame($old, $user->profile_picture);
+        Storage::disk('public')->assertMissing($old);
+        Storage::disk('public')->assertExists($user->profile_picture);
+    }
+
+    public function test_saving_without_a_picture_keeps_the_stored_one(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+        $picture = 'uploads/users/kept.webp';
+
+        Storage::disk('public')->put($picture, 'bytes');
+        $user->forceFill(['profile_picture' => $picture])->save();
+
+        $this->actingAs($user)
+            ->putJson(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+            ])
+            ->assertOk();
+
+        $this->assertSame($picture, $user->refresh()->profile_picture);
+        Storage::disk('public')->assertExists($picture);
+    }
+
+    public function test_a_non_image_picture_is_rejected(): void
+    {
+        Storage::fake('public');
+
+        $this->actingAs($this->adminUser())
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'profile_picture' => UploadedFile::fake()->create('notes.pdf', 12, 'application/pdf'),
+            ], ['Accept' => 'application/json'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['profile_picture']);
     }
 
     public function test_the_profile_requires_both_names(): void

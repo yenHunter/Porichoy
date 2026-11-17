@@ -29,6 +29,20 @@
                                 value="{{ Auth::user()->last_name }}">
                         </div>
                         <div class="col-12">
+                            <label class="form-label" for="account_profile_picture">Profile picture</label>
+                            <div class="d-flex align-items-center gap-3">
+                                <img alt="Profile picture" class="img-thumbnail rounded-circle"
+                                    id="account_profile_avatar" src="{{ Auth::user()->profile_picture_url }}"
+                                    style="height: 64px; width: 64px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <input accept="image/jpeg,image/png,image/gif,image/webp" class="form-control"
+                                        id="account_profile_picture" name="profile_picture" type="file">
+                                    <div class="form-text">JPEG, PNG, GIF or WebP up to 10 MB. Stored as a 300px wide
+                                        WebP.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <label class="form-label" for="account_profile_email">Email address</label>
                             <input class="form-control" disabled id="account_profile_email" readonly type="email"
                                 value="{{ Auth::user()->email }}">

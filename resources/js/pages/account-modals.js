@@ -58,7 +58,11 @@ const submit = async (form, payload) => {
     button.disabled = true;
 
     try {
-        const { data } = await axios.put(form.getAttribute('action'), payload);
+        // A file upload is sent as multipart, using the form's `_method` spoof.
+        const { data } = payload instanceof FormData
+            ? await axios.post(form.getAttribute('action'), payload)
+            : await axios.put(form.getAttribute('action'), payload);
+
         return { data };
     } catch (error) {
         return { error };
@@ -84,15 +88,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const hint = document.getElementById('account_password_hint');
+    const avatar = document.getElementById('account_profile_avatar');
+    let savedAvatar = avatar?.getAttribute('src') ?? '';
+    let previewUrl = null;
+
+    // Show the picked file before it is uploaded.
+    profileForm.elements.profile_picture?.addEventListener('change', (event) => {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        const file = event.target.files?.[0];
+
+        if (!file) {
+            if (avatar) {
+                avatar.src = savedAvatar;
+            }
+
+            return;
+        }
+
+        previewUrl = URL.createObjectURL(file);
+
+        if (avatar) {
+            avatar.src = previewUrl;
+        }
+    });
 
     profileForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         clearErrors(profileForm);
 
-        const { data, error } = await submit(profileForm, {
-            first_name: profileForm.elements.first_name.value.trim(),
-            last_name: profileForm.elements.last_name.value.trim(),
-        });
+        const payload = new FormData(profileForm);
+
+        payload.set('first_name', profileForm.elements.first_name.value.trim());
+        payload.set('last_name', profileForm.elements.last_name.value.trim());
+
+        // An untouched file input would otherwise be sent as an empty file.
+        if (!profileForm.elements.profile_picture?.files.length) {
+            payload.delete('profile_picture');
+        }
+
+        const { data, error } = await submit(profileForm, payload);
 
         if (error) {
             showErrors(profileForm, fallbackError(error, 'Your profile could not be saved.'));
@@ -107,10 +145,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const topbarName = document.querySelector('.nav-user h5');
+        const topbarAvatar = document.querySelector('.nav-user .topbar-link img');
 
         if (topbarName) {
             topbarName.textContent = data.user.first_name;
         }
+
+        if (topbarAvatar) {
+            topbarAvatar.src = data.user.profile_picture_url;
+        }
+
+        if (avatar) {
+            avatar.src = data.user.profile_picture_url;
+        }
+
+        savedAvatar = data.user.profile_picture_url;
 
         hideModal('account_profile_modal');
         toast(data.message);
@@ -165,6 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
     [['account_profile_modal', profileForm], ['account_password_modal', passwordForm]].forEach(([id, form]) => {
         document.getElementById(id)?.addEventListener('hidden.bs.modal', () => {
             form.reset();
+
+            if (form === profileForm) {
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                    previewUrl = null;
+                }
+
+                if (avatar) {
+                    avatar.src = savedAvatar;
+                }
+            }
+
             clearErrors(form);
             hint.textContent = '';
             hint.classList.remove('text-danger');

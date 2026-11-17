@@ -5,20 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Account\UpdatePasswordRequest;
 use App\Http\Requests\Admin\Account\UpdateProfileRequest;
+use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
+    public function __construct(
+        private readonly UserService $user_service
+    ) {}
+
     /**
-     * Update the signed-in admin's own names from the topbar modal.
+     * Update the signed-in admin's own names and picture from the topbar modal.
      *
      * The request never carries an email, so the address cannot be changed
-     * here even if one is posted.
+     * here even if one is posted. The picture goes through the same storage
+     * path the user management screen uses (public disk, 300px wide WebP).
      */
     public function updateProfile(UpdateProfileRequest $request): JsonResponse
     {
         $user = $request->user();
+
+        if ($request->hasFile('profile_picture')) {
+            $this->user_service->deletePicture($user);
+            $user->profile_picture = $this->user_service->storePicture($request->file('profile_picture'));
+        }
+
         $user->fill($request->profile())->save();
 
         return response()->json([
@@ -27,6 +39,7 @@ class AccountController extends Controller
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'full_name' => $user->full_name,
+                'profile_picture_url' => $user->profile_picture_url,
             ],
         ]);
     }

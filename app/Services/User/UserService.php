@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\UserLogTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,9 @@ class UserService
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'profile_picture' => $this->storePicture($request),
+            'profile_picture' => $request->hasFile('profile_picture')
+                ? $this->storePicture($request->file('profile_picture'))
+                : null,
             'user_status' => $request->user_status ?? false,
         ]);
         // `password` is not mass-assignable on the model.
@@ -88,7 +91,7 @@ class UserService
         $picture = $user->profile_picture;
         if ($request->hasFile('profile_picture')) {
             $this->deletePicture($user);
-            $picture = $this->storePicture($request);
+            $picture = $this->storePicture($request->file('profile_picture'));
         }
 
         $user->fill([
@@ -129,14 +132,12 @@ class UserService
 
     /**
      * Persist an uploaded profile picture (rescaled, re-coded as WebP).
+     *
+     * Public so the self-service profile modal can store a picture exactly the
+     * way the user management screen does.
      */
-    private function storePicture(StoreUserRequest|UpdateUserRequest $request): ?string
+    public function storePicture(UploadedFile $file): string
     {
-        if (! $request->hasFile('profile_picture')) {
-            return null;
-        }
-
-        $file = $request->file('profile_picture');
         $filename = Str::uuid().'.webp';
         $path = self::PICTURE_DIR.'/'.$filename;
 
@@ -151,7 +152,7 @@ class UserService
     /**
      * Remove a stored picture from disk (silently no-ops when absent).
      */
-    private function deletePicture(User $user): void
+    public function deletePicture(User $user): void
     {
         if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
             Storage::disk('public')->delete($user->profile_picture);

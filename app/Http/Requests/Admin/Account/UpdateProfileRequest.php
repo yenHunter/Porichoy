@@ -25,6 +25,8 @@ class UpdateProfileRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            // Same limits the user management screen accepts.
+            'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
         ];
     }
 
@@ -48,6 +50,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'first_name' => 'first name',
             'last_name' => 'last name',
+            'profile_picture' => 'profile picture',
         ];
     }
 }
