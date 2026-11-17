@@ -33,15 +33,14 @@ class UpdatePasswordRequest extends FormRequest
                 'string',
                 'confirmed',
                 Password::min(8)->mixedCase()->numbers()->symbols(),
-                'different:current_password',
             ],
         ];
     }
 
     /**
-     * `different` only compares the submitted strings, so it misses a new
-     * password that equals the stored one in a different spelling. Compare
-     * against the hash as well.
+     * A reused password is rejected against the stored hash, which also covers
+     * a new password that equals the current one but was spelled differently.
+     * This is the only reuse check, so the modal shows one message.
      *
      * @return array<int, callable>
      */

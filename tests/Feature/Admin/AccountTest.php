@@ -375,8 +375,9 @@ class AccountTest extends TestCase
 
         $response->assertStatus(422)->assertJsonValidationErrors(['password']);
 
-        $this->assertContains(
-            'The new password must be different from your current password.',
+        // One reason, one message: the hash check is the only reuse rule.
+        $this->assertSame(
+            ['The new password must be different from your current password.'],
             $response->json('errors.password')
         );
 
