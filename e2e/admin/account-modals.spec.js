@@ -215,6 +215,44 @@ test.describe('account modals', () => {
         await expect(page.locator('#account_profile_avatar')).toHaveAttribute('src', DEFAULT_AVATAR);
     });
 
+    test('a save answered while the modal is still opening still closes it', async ({ page }) => {
+        await signIn(page);
+
+        // Answer instantly and keep the open animation running for seconds, so
+        // the save is always handled inside the window where Bootstrap drops
+        // hide(). On a fast runner the real round trip is enough to hit it.
+        await page.route('**/account/profile', (route) =>
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    message: 'Your profile has been updated.',
+                    user: {
+                        first_name: 'E2E',
+                        last_name: 'Admin',
+                        full_name: 'E2E Admin',
+                        profile_picture_url: '/static/icons/user.png',
+                        has_picture: false,
+                    },
+                }),
+            })
+        );
+
+        await page.addStyleTag({
+            content: '.modal-backdrop { transition-duration: .05s !important; } #account_profile_modal { transition-duration: 3s !important; }',
+        });
+
+        await page.click('.nav-user .dropdown-toggle');
+        await page.click('.nav-user .dropdown-menu a[data-bs-target="#account_profile_modal"]');
+        await expect(page.locator(PROFILE_MODAL)).toBeVisible();
+
+        await saveProfile(page);
+
+        await waitForToast(page, 'Your profile has been updated.');
+        await expect(page.locator(PROFILE_MODAL)).toBeHidden();
+        await expect(page.locator('.modal-backdrop')).toHaveCount(0);
+    });
+
     test('the password modal gates the change and rotates the password', async ({ page }) => {
         // A second account, so this test never leaves the run without a sign-in.
         await signIn(page, ACCOUNT);

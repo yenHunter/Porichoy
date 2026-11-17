@@ -74,8 +74,23 @@ const submit = async (form, payload) => {
     }
 };
 
+/**
+ * Close a modal after a successful save.
+ *
+ * Bootstrap silently drops hide() while a modal is still animating in, which a
+ * save that is answered within the open transition hits; the call is gone and
+ * the modal would stay open. hide() reports success by removing `show`, so when
+ * the class is still there, hide again once the animation announces it is done.
+ */
 const hideModal = (id) => {
-    window.bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).hide();
+    const element = document.getElementById(id);
+    const modal = window.bootstrap.Modal.getOrCreateInstance(element);
+
+    modal.hide();
+
+    if (element.classList.contains('show')) {
+        element.addEventListener('shown.bs.modal', () => modal.hide(), { once: true });
+    }
 };
 
 const fallbackError = (error, message) => error.response?.data?.errors ?? { error: [message] };
