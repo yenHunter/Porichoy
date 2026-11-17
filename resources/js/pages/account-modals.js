@@ -80,6 +80,24 @@ const hideModal = (id) => {
 
 const fallbackError = (error, message) => error.response?.data?.errors ?? { error: [message] };
 
+/**
+ * PHP can reject the body before Laravel ever sees it: 413 when it exceeds
+ * post_max_size, and 419 when the body is dropped so the CSRF token never
+ * arrives. Neither carries a validation payload, so explain them ourselves.
+ */
+const bodyRejectedMessage = (error, uploaded) => {
+    switch (error.response?.status) {
+        case 413:
+            return 'The picture is too large for this server to accept (HTTP 413). Choose a smaller image and try again.';
+        case 419:
+            return uploaded
+                ? 'The server dropped the upload before it could be read, which usually means the picture is too large. Choose a smaller image, reload the page and try again.'
+                : 'Your session expired before the request was sent. Reload the page and sign in again.';
+        default:
+            return null;
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initPasswordStrengthBars();
 
@@ -199,7 +217,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (error) {
             // A rejected upload must not leave the pick or its preview behind.
             clearPickedFile();
-            showErrors(profileForm, fallbackError(error, 'Your profile could not be saved.'));
+
+            const rejected = bodyRejectedMessage(error, Boolean(picked));
+
+            showErrors(
+                profileForm,
+                rejected ? { error: [rejected] } : fallbackError(error, 'Your profile could not be saved.')
+            );
+
             return;
         }
 
