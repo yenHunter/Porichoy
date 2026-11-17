@@ -138,6 +138,7 @@ export default defineConfig({
                 "resources/js/pages/element-testimonial.js",
                 "resources/js/pages/management-user.js",
                 "resources/js/pages/management-user-log.js",
+                "resources/js/pages/account-modals.js",
                 "resources/js/pages/management-contact-message.js",
                 "resources/js/pages/settings-blog-category.js",
                 "resources/js/pages/settings-research-source.js",

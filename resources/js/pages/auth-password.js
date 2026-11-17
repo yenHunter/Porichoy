@@ -65,14 +65,35 @@ class PasswordAuth {
     }
 }
 
+/**
+ * Initialise every `[data-password="bar"]` wrapper on the page.
+ *
+ * Shared with the topbar account modals so a password typed there is rated by
+ * the same scoring as the sign-up form.
+ */
+export function initPasswordStrengthBars() {
+    new PasswordAuth().init();
+}
+
+export { PasswordAuth };
+
 document.addEventListener("DOMContentLoaded", () => {
-    new PasswordAuth().init()
+    initPasswordStrengthBars()
 })
 
 function onSubmit(token) {
     document.getElementById("register_form").submit();
 }
 
-document.getElementById('termAndPolicy').addEventListener('change', function () {
-    document.getElementById('submit_button').disabled = !this.checked;
-});
+// Only the sign-up page has the terms checkbox.
+const termAndPolicy = document.getElementById('termAndPolicy');
+
+if (termAndPolicy) {
+    termAndPolicy.addEventListener('change', function () {
+        const submitButton = document.getElementById('submit_button');
+
+        if (submitButton) {
+            submitButton.disabled = !this.checked;
+        }
+    });
+}

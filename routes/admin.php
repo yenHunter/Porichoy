@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ClientController;
@@ -44,6 +45,12 @@ Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('lock', [AuthController::class, 'session_lock'])->name('lock.screen');
     Route::post('unlock', [AuthController::class, 'session_unlock'])->name('unlock.screen');
+
+    // The signed-in admin's own account, driven by the topbar modals.
+    Route::prefix('account')->name('account.')->group(function () {
+        Route::put('profile', [AccountController::class, 'updateProfile'])->name('profile.update');
+        Route::put('password', [AccountController::class, 'updatePassword'])->name('password.update');
+    });
 
     Route::prefix('module')->name('module.')->group(function () {
         Route::prefix('education')->name('education.')->group(function () {
