@@ -89,15 +89,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hint = document.getElementById('account_password_hint');
     const avatar = document.getElementById('account_profile_avatar');
+    const removeButton = document.getElementById('account_profile_remove_picture');
+    const removeField = profileForm.elements.remove_profile_picture;
+    const defaultAvatar = avatar?.dataset.defaultSrc ?? '';
+
     let savedAvatar = avatar?.getAttribute('src') ?? '';
+    let hasPicture = savedAvatar !== defaultAvatar;
     let previewUrl = null;
 
-    // Show the picked file before it is uploaded.
+    const setRemoveRequested = (requested) => {
+        removeField.value = requested ? '1' : '0';
+        removeButton.textContent = requested ? 'Keep picture' : 'Remove picture';
+        removeButton.classList.toggle('btn-outline-secondary', requested);
+        removeButton.classList.toggle('btn-outline-danger', !requested);
+    };
+
+    // Show the picked file before it is uploaded; a pick cancels a removal.
     profileForm.elements.profile_picture?.addEventListener('change', (event) => {
         if (previewUrl) {
             URL.revokeObjectURL(previewUrl);
             previewUrl = null;
         }
+
+        setRemoveRequested(false);
+        removeButton.classList.remove('d-none');
 
         const file = event.target.files?.[0];
 
@@ -113,6 +128,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (avatar) {
             avatar.src = previewUrl;
+        }
+    });
+
+    // Removing is a toggle: the flag rides along with the next save, and the
+    // preview falls back to the default avatar straight away.
+    removeButton?.addEventListener('click', () => {
+        const requested = removeField.value !== '1';
+
+        if (requested) {
+            // A pending removal wins over a picked file.
+            profileForm.elements.profile_picture.value = '';
+        }
+
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        setRemoveRequested(requested);
+
+        if (avatar) {
+            avatar.src = requested ? defaultAvatar : savedAvatar;
         }
     });
 
@@ -160,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         savedAvatar = data.user.profile_picture_url;
+        hasPicture = data.user.has_picture;
+
+        setRemoveRequested(false);
+        removeButton?.classList.toggle('d-none', !hasPicture);
 
         hideModal('account_profile_modal');
         toast(data.message);
@@ -224,6 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (avatar) {
                     avatar.src = savedAvatar;
                 }
+
+                setRemoveRequested(false);
+                removeButton?.classList.toggle('d-none', !hasPicture);
             }
 
             clearErrors(form);

@@ -27,6 +27,8 @@ class UpdateProfileRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:255'],
             // Same limits the user management screen accepts.
             'profile_picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            // Opt-in flag: an untouched modal keeps the stored picture.
+            'remove_profile_picture' => ['nullable', 'boolean'],
         ];
     }
 
@@ -51,6 +53,7 @@ class UpdateProfileRequest extends FormRequest
             'first_name' => 'first name',
             'last_name' => 'last name',
             'profile_picture' => 'profile picture',
+            'remove_profile_picture' => 'remove picture',
         ];
     }
 }

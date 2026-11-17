@@ -32,6 +32,7 @@
                             <label class="form-label" for="account_profile_picture">Profile picture</label>
                             <div class="d-flex align-items-center gap-3">
                                 <img alt="Profile picture" class="img-thumbnail rounded-circle"
+                                    data-default-src="{{ asset('static/icons/user.png') }}"
                                     id="account_profile_avatar" src="{{ Auth::user()->profile_picture_url }}"
                                     style="height: 64px; width: 64px; object-fit: cover;">
                                 <div class="flex-grow-1">
@@ -39,6 +40,12 @@
                                         id="account_profile_picture" name="profile_picture" type="file">
                                     <div class="form-text">JPEG, PNG, GIF or WebP up to 10 MB. Stored as a 300px wide
                                         WebP.</div>
+                                    <input name="remove_profile_picture" type="hidden" value="0">
+                                    <button
+                                        @class(['btn btn-sm btn-outline-danger mt-2', 'd-none' => ! Auth::user()->profile_picture])
+                                        id="account_profile_remove_picture" type="button">
+                                        Remove picture
+                                    </button>
                                 </div>
                             </div>
                         </div>

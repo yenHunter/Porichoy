@@ -107,6 +107,79 @@ class AccountTest extends TestCase
         Storage::disk('public')->assertExists($user->profile_picture);
     }
 
+    /**
+     * Removing is opt-in: the stored file is deleted and the default avatar
+     * comes back, both in the response and in the database.
+     */
+    public function test_an_admin_can_remove_their_profile_picture(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+        $picture = 'uploads/users/current.webp';
+
+        Storage::disk('public')->put($picture, 'bytes');
+        $user->forceFill(['profile_picture' => $picture])->save();
+
+        $this->actingAs($user)
+            ->putJson(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'remove_profile_picture' => true,
+            ])
+            ->assertOk()
+            ->assertJsonPath('user.has_picture', false)
+            ->assertJsonPath(
+                'user.profile_picture_url',
+                fn ($url) => str_ends_with($url, 'static/icons/user.png')
+            );
+
+        $this->assertNull($user->refresh()->profile_picture);
+        Storage::disk('public')->assertMissing($picture);
+    }
+
+    public function test_a_picked_picture_wins_over_the_remove_flag(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+        $old = 'uploads/users/old.webp';
+
+        Storage::disk('public')->put($old, 'old-bytes');
+        $user->forceFill(['profile_picture' => $old])->save();
+
+        $this->actingAs($user)
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'remove_profile_picture' => '1',
+                'profile_picture' => UploadedFile::fake()->image('new.png', 300, 300),
+            ], ['Accept' => 'application/json'])
+            ->assertOk()
+            ->assertJsonPath('user.has_picture', true);
+
+        $user->refresh();
+
+        $this->assertNotNull($user->profile_picture);
+        Storage::disk('public')->assertMissing($old);
+        Storage::disk('public')->assertExists($user->profile_picture);
+    }
+
+    public function test_removing_a_picture_that_was_never_set_is_harmless(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+
+        $this->actingAs($user)
+            ->putJson(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'remove_profile_picture' => true,
+            ])
+            ->assertOk()
+            ->assertJsonPath('user.has_picture', false);
+
+        $this->assertNull($user->refresh()->profile_picture);
+    }
+
     public function test_saving_without_a_picture_keeps_the_stored_one(): void
     {
         Storage::fake('public');

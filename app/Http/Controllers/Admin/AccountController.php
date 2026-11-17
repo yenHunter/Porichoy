@@ -29,6 +29,10 @@ class AccountController extends Controller
         if ($request->hasFile('profile_picture')) {
             $this->user_service->deletePicture($user);
             $user->profile_picture = $this->user_service->storePicture($request->file('profile_picture'));
+        } elseif ($request->boolean('remove_profile_picture')) {
+            // Drop the file and fall back to the default avatar.
+            $this->user_service->deletePicture($user);
+            $user->profile_picture = null;
         }
 
         $user->fill($request->profile())->save();
@@ -40,6 +44,7 @@ class AccountController extends Controller
                 'last_name' => $user->last_name,
                 'full_name' => $user->full_name,
                 'profile_picture_url' => $user->profile_picture_url,
+                'has_picture' => filled($user->profile_picture),
             ],
         ]);
     }
