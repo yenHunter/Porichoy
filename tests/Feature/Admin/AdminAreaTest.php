@@ -75,7 +75,7 @@ class AdminAreaTest extends TestCase
      */
     public function test_every_admin_route_is_behind_auth(): void
     {
-        $adminPrefixes = ['module.', 'element.', 'management.', 'settings.', 'configuration.'];
+        $adminPrefixes = ['module.', 'element.', 'management.', 'settings.', 'configuration.', 'account.'];
         $adminNames = ['home', 'logout', 'lock.screen', 'unlock.screen'];
         $checked = 0;
 
@@ -124,6 +124,8 @@ class AdminAreaTest extends TestCase
         $this->post(route('management.user.store'), [])->assertRedirect(route('login'));
         $this->put(route('settings.research_source.update'), [])->assertRedirect(route('login'));
         $this->post(route('configuration.update', 'antux'))->assertRedirect(route('login'));
+        $this->put(route('account.profile.update'), [])->assertRedirect(route('login'));
+        $this->put(route('account.password.update'), [])->assertRedirect(route('login'));
     }
 
     #[DataProvider('adminPageProvider')]

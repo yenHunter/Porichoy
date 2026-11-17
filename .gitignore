@@ -28,3 +28,5 @@ Thumbs.db
 .freebuff/
 .opencode/
 .agent-docs/
+
+/ci-artifacts

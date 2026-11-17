@@ -356,19 +356,16 @@
                             <h6 class="text-overflow m-0">Welcome back 👋!</h6>
                         </div>
                         <!-- My Profile -->
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" data-bs-target="#account_profile_modal" data-bs-toggle="modal"
+                            href="#account_profile_modal">
                             <i class="ti ti-user-circle me-1 fs-17 align-middle"></i>
                             <span class="align-middle">Profile</span>
                         </a>
-                        <!-- Notifications -->
-                        <a class="dropdown-item" href="javascript:void(0);">
-                            <i class="ti ti-bell-ringing me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Notifications</span>
-                        </a>
-                        <!-- Settings -->
-                        <a class="dropdown-item" href="javascript:void(0);">
-                            <i class="ti ti-settings-2 me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Account Settings</span>
+                        <!-- Change Password -->
+                        <a class="dropdown-item" data-bs-target="#account_password_modal" data-bs-toggle="modal"
+                            href="#account_password_modal">
+                            <i class="ti ti-lock-password me-1 fs-17 align-middle"></i>
+                            <span class="align-middle">Change Password</span>
                         </a>
                         <!-- Divider -->
                         <div class="dropdown-divider"></div>
@@ -389,3 +386,5 @@
     </div>
 </header>
 <!-- Topbar End -->
+
+@include('admin.layouts.partials.account-modals')

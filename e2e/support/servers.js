@@ -26,6 +26,12 @@ const ADMIN = {
     password: 'e2e-password',
 };
 
+/** Credentials of the second account, used by the account-modal suite. */
+const ACCOUNT = {
+    email: 'e2e-account@example.com',
+    password: 'E2e-account#1',
+};
+
 /** Origin of one themed app server. */
 function baseUrl(theme) {
     return `http://127.0.0.1:${theme.port}`;
@@ -60,4 +66,14 @@ function appEnvironment(theme) {
     return environment;
 }
 
-module.exports = { THEMES, STUB_PORT, ADMIN_PORT, DATABASE, ADMIN, baseUrl, adminUrl, appEnvironment };
+module.exports = {
+    THEMES,
+    STUB_PORT,
+    ADMIN_PORT,
+    DATABASE,
+    ADMIN,
+    ACCOUNT,
+    baseUrl,
+    adminUrl,
+    appEnvironment,
+};
