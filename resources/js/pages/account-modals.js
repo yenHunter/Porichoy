@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hint = document.getElementById('account_password_hint');
     const avatar = document.getElementById('account_profile_avatar');
     const removeButton = document.getElementById('account_profile_remove_picture');
+    const avatarWrapper = document.getElementById('account_profile_avatar_wrapper');
     const removeField = profileForm.elements.remove_profile_picture;
     const defaultAvatar = avatar?.dataset.defaultSrc ?? '';
 
@@ -118,11 +119,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let hasPicture = savedAvatar !== defaultAvatar;
     let previewUrl = null;
 
+    /**
+     * Arm or undo the removal. The overlay button keeps its place over the
+     * picture; only its icon, accessible name and tooltip change.
+     */
     const setRemoveRequested = (requested) => {
         removeField.value = requested ? '1' : '0';
-        removeButton.textContent = requested ? 'Keep picture' : 'Remove picture';
-        removeButton.classList.toggle('btn-outline-secondary', requested);
-        removeButton.classList.toggle('btn-outline-danger', !requested);
+        avatarWrapper?.classList.toggle('is-armed', requested);
+
+        const label = requested ? 'Keep your current picture' : 'Remove your profile picture';
+        const icon = removeButton.querySelector('i');
+
+        removeButton.setAttribute('aria-label', label);
+        removeButton.setAttribute('data-bs-title', label);
+        window.bootstrap?.Tooltip.getInstance(removeButton)?.setContent({ '.tooltip-inner': label });
+
+        icon?.classList.toggle('ti-trash', !requested);
+        icon?.classList.toggle('ti-arrow-back-up', requested);
     };
 
     // Show the picked file before it is uploaded; a pick cancels a removal.
