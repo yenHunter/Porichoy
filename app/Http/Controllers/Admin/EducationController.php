@@ -37,9 +37,17 @@ class EducationController extends Controller
      *
      * @param  StoreEducationRequest  $request  Validated payload
      */
-    public function store(StoreEducationRequest $request): RedirectResponse
+    public function store(StoreEducationRequest $request): JsonResponse|RedirectResponse
     {
         $this->education_service->store($request);
+
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Education info created');
+
+            return response()->json(['message' => 'Education info created']);
+        }
 
         return back()->with('success', 'Education info created');
     }
@@ -59,9 +67,15 @@ class EducationController extends Controller
      *
      * @param  UpdateEducationRequest  $request  Validated payload
      */
-    public function update(UpdateEducationRequest $request): RedirectResponse
+    public function update(UpdateEducationRequest $request): JsonResponse|RedirectResponse
     {
         $this->education_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Education info updated');
+
+            return response()->json(['message' => 'Education info updated']);
+        }
 
         return back()->with('success', 'Education info updated');
     }

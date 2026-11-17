@@ -126,6 +126,15 @@ inputElement.forEach(input => {
         onaddfile: (error) => {
             if (!error) {
                 dropRejectedFiles(pond);
+                // The new pick replaces the stored logo, so the card and any
+                // queued removal are no longer relevant.
+                resetLogoRemoval();
+                currentLogoCard.classList.add('d-none');
+            }
+        },
+        onremovefile: () => {
+            if (currentLogoUrl && removeLogoInput.value !== '1') {
+                currentLogoCard.classList.remove('d-none');
             }
         },
     });
@@ -142,16 +151,30 @@ function dropRejectedFiles(pond) {
         .forEach(file => pond.removeFile(file));
 }
 
+const form = document.getElementById('create_update_form');
+const submitButton = form.querySelector('button[type="submit"]');
+const startDateInput = document.getElementById('start_date');
+const endDateInput = document.getElementById('end_date');
+const currentDegreeInput = document.getElementById('current_degree');
+const statusInput = document.getElementById('education_status');
 const currentLogoCard = document.getElementById('current_institute_logo');
 const currentLogoImage = document.getElementById('current_institute_logo_image');
+const removeLogoInput = document.getElementById('remove_institute_logo');
+const removeLogoButton = document.getElementById('current_institute_logo_remove');
+const logoRemovedNotice = document.getElementById('current_institute_logo_removed');
+const undoRemoveButton = document.getElementById('current_institute_logo_undo');
+
+let currentLogoUrl = '';
 
 /**
  * Show the logo already saved for the record being edited (or hide the card
  * when creating, or when the record has no logo yet).
  */
 function setCurrentLogo(url) {
-    if (url) {
-        currentLogoImage.src = url;
+    currentLogoUrl = url || '';
+
+    if (currentLogoUrl) {
+        currentLogoImage.src = currentLogoUrl;
         currentLogoCard.classList.remove('d-none');
 
         return;
@@ -161,12 +184,154 @@ function setCurrentLogo(url) {
     currentLogoCard.classList.add('d-none');
 }
 
-document.getElementById('current_degree').addEventListener('change', function () {
-    let endDate = document.getElementById('end_date');
-    if (this.checked) {
-        endDate.disabled = true;
-    } else {
-        endDate.disabled = false;
+/** Clear a queued logo removal (a new pick or a reset supersedes it). */
+function resetLogoRemoval() {
+    removeLogoInput.value = '0';
+    logoRemovedNotice.classList.add('d-none');
+}
+
+removeLogoButton.addEventListener('click', () => {
+    removeLogoInput.value = '1';
+    currentLogoCard.classList.add('d-none');
+    logoRemovedNotice.classList.remove('d-none');
+});
+
+undoRemoveButton.addEventListener('click', () => {
+    resetLogoRemoval();
+
+    if (currentLogoUrl) {
+        currentLogoCard.classList.remove('d-none');
+    }
+});
+
+/**
+ * A degree still being studied has no end date: the input is disabled so it is
+ * not submitted, and the update clears the stored value.
+ */
+function syncEndDateState() {
+    endDateInput.disabled = currentDegreeInput.checked;
+}
+
+currentDegreeInput.addEventListener('change', () => {
+    if (currentDegreeInput.checked) {
+        endDateInput.value = '';
+        clearFieldError(endDateInput);
+    }
+
+    syncEndDateState();
+});
+
+/** The end date may not precede the start date (mirrors the request rule). */
+function dateOrderError() {
+    if (endDateInput.disabled || !startDateInput.value || !endDateInput.value) {
+        return '';
+    }
+
+    return endDateInput.value < startDateInput.value
+        ? 'The end date must be on or after the start date.'
+        : '';
+}
+
+function checkDateOrder() {
+    setFieldError(endDateInput, dateOrderError());
+}
+
+startDateInput.addEventListener('change', checkDateOrder);
+endDateInput.addEventListener('change', checkDateOrder);
+
+/**
+ * Show one validation message under the field it belongs to.
+ */
+function setFieldError(input, message) {
+    clearFieldError(input);
+
+    if (!message) {
+        return;
+    }
+
+    input.classList.add('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    const feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback d-block';
+    feedback.dataset.fieldError = 'true';
+    feedback.textContent = message;
+    holder.appendChild(feedback);
+}
+
+function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    holder?.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+function clearFormErrors() {
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    form.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+/** Paint a 422 payload under its fields, then jump to the first one. */
+function showFormErrors(errors) {
+    Object.entries(errors).forEach(([field, messages]) => {
+        const input = form.elements[field];
+
+        if (!input || messages.length === 0) {
+            return;
+        }
+
+        setFieldError(input, messages[0]);
+    });
+
+    const first = form.querySelector('.is-invalid');
+
+    if (first) {
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+    }
+}
+
+function closeFormModal() {
+    window.bootstrap.Modal.getInstance(document.getElementById('create_update_modal'))?.hide();
+}
+
+// Saved over JS so a rejected field keeps the modal (and what was typed in it)
+// open, instead of reloading the page and losing both.
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearFormErrors();
+
+    const orderError = dateOrderError();
+
+    if (orderError) {
+        setFieldError(endDateInput, orderError);
+        endDateInput.scrollIntoView({ block: 'center' });
+        endDateInput.focus({ preventScroll: true });
+
+        return;
+    }
+
+    submitButton.disabled = true;
+    const submitLabel = submitButton.innerHTML;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+        await axios.post(form.action, new FormData(form), {
+            headers: { Accept: 'application/json' },
+        });
+
+        closeFormModal();
+        window.location.reload();
+    } catch (error) {
+        if (error.response?.status === 422) {
+            showFormErrors(error.response.data.errors ?? {});
+        } else {
+            console.error('Education save failed:', error);
+            Swal.fire('Error!', 'The education info could not be saved.', 'error');
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = submitLabel;
     }
 });
 
@@ -227,6 +392,12 @@ $(document).on('click', '.btn-edit', function () {
             $('#education_result').val(data.education_result);
             $('#education_status').val(data.education_status == 1 ? 1 : 0);
 
+            // A record without an end date is a degree still being studied.
+            currentDegreeInput.checked = formattedEnd === '';
+            syncEndDateState();
+            clearFormErrors();
+            resetLogoRemoval();
+
             // A picked file from an earlier open must not ride along; the stored
             // logo is shown separately and is only replaced by a new pick.
             ponds.forEach(pond => pond.removeFiles());
@@ -264,6 +435,11 @@ $('#create_update_modal').on('hidden.bs.modal', function () {
     // them or the next create would resubmit the previous pick.
     ponds.forEach(pond => pond.removeFiles());
     setCurrentLogo('');
+    resetLogoRemoval();
+    currentDegreeInput.checked = false;
+    syncEndDateState();
+    clearFormErrors();
+    statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create education info';
 });
 

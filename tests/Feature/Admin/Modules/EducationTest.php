@@ -120,6 +120,74 @@ class EducationTest extends TestCase
         ]))->assertSessionHasErrors(['institute_logo']);
     }
 
+    public function test_the_stored_logo_can_be_removed_without_a_replacement(): void
+    {
+        Storage::fake('public');
+        $this->actingAs($this->adminUser());
+
+        $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
+            'institute_logo' => UploadedFile::fake()->image('logo.png', 120, 120),
+        ]))->assertSessionHasNoErrors();
+
+        $education = EducationInfo::query()->firstOrFail();
+        $stored = (string) $education->institute_logo;
+
+        $this->put(route('module.education.update'), array_merge($this->modulePayload(), [
+            'education_id' => $education->getKey(),
+            'remove_institute_logo' => '1',
+        ]))
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $this->assertNull($education->refresh()->institute_logo);
+        Storage::disk('public')->assertMissing($stored);
+    }
+
+    public function test_a_picked_logo_wins_over_a_removal_request(): void
+    {
+        Storage::fake('public');
+        $this->actingAs($this->adminUser());
+
+        $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
+            'institute_logo' => UploadedFile::fake()->image('first.png', 120, 120),
+        ]))->assertSessionHasNoErrors();
+
+        $education = EducationInfo::query()->firstOrFail();
+        $old_logo = (string) $education->institute_logo;
+
+        $this->put(route('module.education.update'), array_merge($this->modulePayload(), [
+            'education_id' => $education->getKey(),
+            'institute_logo' => UploadedFile::fake()->image('second.png', 120, 120),
+            'remove_institute_logo' => '1',
+        ]))->assertSessionHasNoErrors();
+
+        $education->refresh();
+
+        $this->assertNotNull($education->institute_logo);
+        $this->assertNotSame($old_logo, $education->institute_logo);
+        Storage::disk('public')->assertMissing($old_logo);
+        Storage::disk('public')->assertExists($education->institute_logo);
+    }
+
+    public function test_the_scripted_save_answers_json_and_flashes_its_message(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $this->postJson(route('module.education.store'), $this->modulePayload())
+            ->assertOk()
+            ->assertJson(['message' => 'Education info created'])
+            ->assertSessionHas('success', 'Education info created');
+    }
+
+    public function test_the_scripted_save_reports_field_errors_as_json(): void
+    {
+        $this->actingAs($this->adminUser());
+
+        $this->postJson(route('module.education.store'), [])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['education_degree', 'education_institute', 'start_date']);
+    }
+
     public function test_the_edit_payload_exposes_the_stored_logo_url(): void
     {
         Storage::fake('public');
