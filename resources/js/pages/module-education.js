@@ -8,7 +8,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { route } from 'ziggy-js';
 
-import { registerPlugin, create } from 'filepond';
+import { registerPlugin, create, FileStatus } from 'filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
@@ -107,7 +107,7 @@ const inputElement = document.querySelectorAll('.filepond');
 const ponds = [];
 
 inputElement.forEach(input => {
-    ponds.push(create(input, {
+    const pond = create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
@@ -121,8 +121,26 @@ inputElement.forEach(input => {
         labelFileTypeNotAllowed: 'The institute logo must be a JPEG, PNG, GIF or WebP image.',
         labelMaxFileSizeExceeded: 'This logo is too large.',
         labelMaxFileSize: 'The maximum size is {filesize}.',
-    }));
+        // A rejected file stays in the list on its own, so an accepted pick
+        // would sit next to it and the field would look like it holds two.
+        onaddfile: (error) => {
+            if (!error) {
+                dropRejectedFiles(pond);
+            }
+        },
+    });
+
+    ponds.push(pond);
 });
+
+/**
+ * Remove files FilePond rejected (wrong type, too large) from the list.
+ */
+function dropRejectedFiles(pond) {
+    pond.getFiles()
+        .filter(file => file.status === FileStatus.LOAD_ERROR)
+        .forEach(file => pond.removeFile(file));
+}
 
 const currentLogoCard = document.getElementById('current_institute_logo');
 const currentLogoImage = document.getElementById('current_institute_logo_image');
