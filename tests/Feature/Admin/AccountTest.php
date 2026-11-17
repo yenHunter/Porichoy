@@ -200,6 +200,36 @@ class AccountTest extends TestCase
         Storage::disk('public')->assertExists($picture);
     }
 
+    /**
+     * Validation runs before the controller, so a rejected file is never
+     * written and the stored picture survives the attempt untouched.
+     */
+    public function test_a_rejected_picture_leaves_the_stored_file_untouched(): void
+    {
+        Storage::fake('public');
+        $user = $this->adminUser();
+        $picture = 'uploads/users/current.webp';
+
+        Storage::disk('public')->put($picture, 'bytes');
+        $user->forceFill(['profile_picture' => $picture])->save();
+
+        $this->actingAs($user)
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'profile_picture' => UploadedFile::fake()->create('notes.pdf', 12, 'application/pdf'),
+            ], ['Accept' => 'application/json'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['profile_picture']);
+
+        $user->refresh();
+
+        $this->assertSame($picture, $user->profile_picture);
+        $this->assertNotSame('Ada', $user->first_name, 'a rejected form must not save anything');
+        Storage::disk('public')->assertExists($picture);
+        $this->assertSame([$picture], Storage::disk('public')->allFiles('uploads/users'));
+    }
+
     public function test_a_non_image_picture_is_rejected(): void
     {
         Storage::fake('public');
@@ -212,6 +242,24 @@ class AccountTest extends TestCase
             ], ['Accept' => 'application/json'])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['profile_picture']);
+
+        $this->assertSame([], Storage::disk('public')->allFiles('uploads/users'));
+    }
+
+    public function test_an_oversized_picture_is_rejected(): void
+    {
+        Storage::fake('public');
+
+        $this->actingAs($this->adminUser())
+            ->put(route('account.profile.update'), [
+                'first_name' => 'Ada',
+                'last_name' => 'Lovelace',
+                'profile_picture' => UploadedFile::fake()->image('huge.jpg')->size(10241),
+            ], ['Accept' => 'application/json'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors(['profile_picture']);
+
+        $this->assertSame([], Storage::disk('public')->allFiles('uploads/users'));
     }
 
     public function test_the_profile_requires_both_names(): void

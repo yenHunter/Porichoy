@@ -27,8 +27,10 @@ class AccountController extends Controller
         $user = $request->user();
 
         if ($request->hasFile('profile_picture')) {
+            // Store first: a failed conversion must not cost the current picture.
+            $stored = $this->user_service->storePicture($request->file('profile_picture'));
             $this->user_service->deletePicture($user);
-            $user->profile_picture = $this->user_service->storePicture($request->file('profile_picture'));
+            $user->profile_picture = $stored;
         } elseif ($request->boolean('remove_profile_picture')) {
             // Drop the file and fall back to the default avatar.
             $this->user_service->deletePicture($user);

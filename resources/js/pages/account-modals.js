@@ -11,6 +11,9 @@ if (csrfToken) {
 
 const meter = new PasswordAuth();
 
+// Mirrors the server rule so an oversized file never leaves the browser.
+const MAX_PICTURE_BYTES = 10 * 1024 * 1024;
+
 const toast = (message) => Swal.fire({
     toast: true,
     position: 'top-end',
@@ -153,9 +156,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Drop the picked file and show what is actually stored instead.
+    const clearPickedFile = () => {
+        profileForm.elements.profile_picture.value = '';
+
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
+        }
+
+        if (avatar) {
+            avatar.src = removeField.value === '1' ? defaultAvatar : savedAvatar;
+        }
+    };
+
     profileForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         clearErrors(profileForm);
+
+        const picked = profileForm.elements.profile_picture?.files?.[0];
+
+        if (picked && picked.size > MAX_PICTURE_BYTES) {
+            clearPickedFile();
+            showErrors(profileForm, {
+                profile_picture: ['The profile picture must not be larger than 10 MB.'],
+            });
+            return;
+        }
 
         const payload = new FormData(profileForm);
 
@@ -170,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const { data, error } = await submit(profileForm, payload);
 
         if (error) {
+            // A rejected upload must not leave the pick or its preview behind.
+            clearPickedFile();
             showErrors(profileForm, fallbackError(error, 'Your profile could not be saved.'));
             return;
         }
