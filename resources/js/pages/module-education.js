@@ -11,6 +11,7 @@ import { route } from 'ziggy-js';
 import { registerPlugin, create } from 'filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -89,25 +90,58 @@ new DataTable('[data-tables="basic"]', {
     },
 });
 
+// The same limits the server enforces, applied to the picked file so a wrong
+// type or an oversized image is refused before anything is sent.
+const LOGO_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const LOGO_MAX_BYTES = 10 * 1024 * 1024;
+
 // Register plugin
 registerPlugin(
     FilePondPluginImagePreview,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize
 );
 
 // Initialize
 const inputElement = document.querySelectorAll('.filepond');
+const ponds = [];
 
 inputElement.forEach(input => {
-    create(input, {
+    ponds.push(create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
-        acceptedFileTypes: ['image/*'],
+        acceptedFileTypes: LOGO_MIME_TYPES,
+        maxFileSize: LOGO_MAX_BYTES,
+        // Report the limit in the same units the help text uses.
+        fileSizeBase: 1024,
         instantUpload: false,
         storeAsFile: true,
-    });
+        labelIdle: 'Drag & drop a logo or <span class="filepond--label-action">Browse</span>',
+        labelFileTypeNotAllowed: 'The institute logo must be a JPEG, PNG, GIF or WebP image.',
+        labelMaxFileSizeExceeded: 'This logo is too large.',
+        labelMaxFileSize: 'The maximum size is {filesize}.',
+    }));
 });
+
+const currentLogoCard = document.getElementById('current_institute_logo');
+const currentLogoImage = document.getElementById('current_institute_logo_image');
+
+/**
+ * Show the logo already saved for the record being edited (or hide the card
+ * when creating, or when the record has no logo yet).
+ */
+function setCurrentLogo(url) {
+    if (url) {
+        currentLogoImage.src = url;
+        currentLogoCard.classList.remove('d-none');
+
+        return;
+    }
+
+    currentLogoImage.removeAttribute('src');
+    currentLogoCard.classList.add('d-none');
+}
 
 document.getElementById('current_degree').addEventListener('change', function () {
     let endDate = document.getElementById('end_date');
@@ -175,6 +209,11 @@ $(document).on('click', '.btn-edit', function () {
             $('#education_result').val(data.education_result);
             $('#education_status').val(data.education_status == 1 ? 1 : 0);
 
+            // A picked file from an earlier open must not ride along; the stored
+            // logo is shown separately and is only replaced by a new pick.
+            ponds.forEach(pond => pond.removeFiles());
+            setCurrentLogo(data.institute_logo ? data.institute_logo_url : '');
+
             const htmlContent = data.education_details || '';
             myQuill.root.innerHTML = htmlContent;
             $('#education_details_hidden').val(htmlContent);
@@ -203,6 +242,10 @@ $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#education_id').val('');
     myQuill.root.innerHTML = '';
     $('#education_details_hidden').val('');
+    // FilePond keeps files in sync with the input, so a closed modal must drop
+    // them or the next create would resubmit the previous pick.
+    ponds.forEach(pond => pond.removeFiles());
+    setCurrentLogo('');
     document.getElementById('create_update_modal_title').innerHTML = 'Create education info';
 });
 

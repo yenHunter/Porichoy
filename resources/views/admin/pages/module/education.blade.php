@@ -150,10 +150,20 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="institute_logo" type="file" />
-                                    <label for="institute_logo">Institute Logo</label>
+                                <label class="form-label">Institute Logo</label>
+                                <div class="filepond-uploader">
+                                    <input accept="image/jpeg,image/png,image/gif,image/webp" class="filepond"
+                                        name="institute_logo" type="file" />
                                 </div>
+                                <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_institute_logo">
+                                    <img alt="Current institute logo" class="img-thumbnail rounded" height="48"
+                                        id="current_institute_logo_image" src="" width="48">
+                                    <div class="small text-muted">
+                                        <span class="d-block fw-semibold text-body">Current logo</span>
+                                        Choose a new image to replace it.
+                                    </div>
+                                </div>
+                                <div class="form-text">JPEG, PNG, GIF or WebP — up to 10 MB.</div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">

@@ -186,6 +186,7 @@ class EducationService
         }
 
         return $education->toArray() + [
+            'institute_logo_url' => $education->institute_logo_url,
             'start_date_input' => $education->start_date?->format('Y-m-d'),
             'end_date_input' => $education->end_date?->format('Y-m-d'),
         ];

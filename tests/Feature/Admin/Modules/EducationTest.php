@@ -120,6 +120,22 @@ class EducationTest extends TestCase
         ]))->assertSessionHasErrors(['institute_logo']);
     }
 
+    public function test_the_edit_payload_exposes_the_stored_logo_url(): void
+    {
+        Storage::fake('public');
+        $this->actingAs($this->adminUser());
+
+        $this->post(route('module.education.store'), array_merge($this->modulePayload(), [
+            'institute_logo' => UploadedFile::fake()->image('logo.png', 120, 120),
+        ]))->assertSessionHasNoErrors();
+
+        $education = EducationInfo::query()->firstOrFail();
+
+        $this->get(route('module.education.edit', $education->getKey()))
+            ->assertOk()
+            ->assertJsonPath('institute_logo_url', asset('storage/'.$education->institute_logo));
+    }
+
     public function test_the_institute_logo_is_stored_as_webp(): void
     {
         Storage::fake('public');
