@@ -181,7 +181,7 @@ test.describe('education module', () => {
 
         // The row falls back to the placeholder image once the logo is gone.
         const row = await findRow(page, REMOVED_DEGREE);
-        await expect(row.locator('img')).toHaveAttribute('src', /static\/education\.png$/);
+        await expect(row.locator('img')).toHaveAttribute('src', /static\/module\/education\.png$/);
     });
 
     test('restores the current-degree state on edit', async ({ page }) => {

@@ -31,9 +31,17 @@ class ExperienceController extends Controller
      *
      * @param  StoreExperienceRequest  $request  Validated payload
      */
-    public function store(StoreExperienceRequest $request): RedirectResponse
+    public function store(StoreExperienceRequest $request): JsonResponse|RedirectResponse
     {
         $this->experience_service->store($request);
+
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Experience info created');
+
+            return response()->json(['message' => 'Experience info created']);
+        }
 
         return back()->with('success', 'Experience info created');
     }
@@ -43,7 +51,9 @@ class ExperienceController extends Controller
      */
     public function edit(string $experience_id): JsonResponse
     {
-        return response()->json($this->experience_service->find($experience_id));
+        return response()->json(
+            $this->experience_service->findForEdit($experience_id)
+        );
     }
 
     /**
@@ -51,9 +61,15 @@ class ExperienceController extends Controller
      *
      * @param  UpdateExperienceRequest  $request  Validated payload
      */
-    public function update(UpdateExperienceRequest $request): RedirectResponse
+    public function update(UpdateExperienceRequest $request): JsonResponse|RedirectResponse
     {
         $this->experience_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Experience info updated');
+
+            return response()->json(['message' => 'Experience info updated']);
+        }
 
         return back()->with('success', 'Experience info updated');
     }

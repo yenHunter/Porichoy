@@ -8,9 +8,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { route } from 'ziggy-js';
 
-import { registerPlugin, create } from 'filepond';
+import { registerPlugin, create, FileStatus } from 'filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -89,32 +90,263 @@ new DataTable('[data-tables="basic"]', {
     },
 });
 
+// The same limits the server enforces, applied to the picked file so a wrong
+// type or an oversized image is refused before anything is sent.
+const LOGO_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const LOGO_MAX_BYTES = 10 * 1024 * 1024;
+
 // Register plugin
 registerPlugin(
     FilePondPluginImagePreview,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize
 );
 
 // Initialize
 const inputElement = document.querySelectorAll('.filepond');
+const ponds = [];
 
 inputElement.forEach(input => {
-    create(input, {
+    const pond = create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
-        acceptedFileTypes: ['image/*'],
+        acceptedFileTypes: LOGO_MIME_TYPES,
+        maxFileSize: LOGO_MAX_BYTES,
+        // Report the limit in the same units the help text uses.
+        fileSizeBase: 1024,
         instantUpload: false,
         storeAsFile: true,
+        labelIdle: 'Drag & drop a logo or <span class="filepond--label-action">Browse</span>',
+        labelFileTypeNotAllowed: 'The organization logo must be a JPEG, PNG, GIF or WebP image.',
+        labelMaxFileSizeExceeded: 'This logo is too large.',
+        labelMaxFileSize: 'The maximum size is {filesize}.',
+        // A rejected file stays in the list on its own, so an accepted pick
+        // would sit next to it and the field would look like it holds two.
+        onaddfile: (error) => {
+            if (!error) {
+                dropRejectedFiles(pond);
+                // The new pick replaces the stored logo, so the card and any
+                // queued removal are no longer relevant.
+                resetLogoRemoval();
+                currentLogoCard.classList.add('d-none');
+            }
+        },
+        onremovefile: () => {
+            if (currentLogoUrl && removeLogoInput.value !== '1') {
+                currentLogoCard.classList.remove('d-none');
+            }
+        },
     });
+
+    ponds.push(pond);
 });
 
-document.getElementById('current_position').addEventListener('change', function () {
-    let endDate = document.getElementById('end_date');
-    if (this.checked) {
-        endDate.disabled = true;
-    } else {
-        endDate.disabled = false;
+/**
+ * Remove files FilePond rejected (wrong type, too large) from the list.
+ */
+function dropRejectedFiles(pond) {
+    pond.getFiles()
+        .filter(file => file.status === FileStatus.LOAD_ERROR)
+        .forEach(file => pond.removeFile(file));
+}
+
+const form = document.getElementById('create_update_form');
+const submitButton = form.querySelector('button[type="submit"]');
+const startDateInput = document.getElementById('start_date');
+const endDateInput = document.getElementById('end_date');
+const currentPositionInput = document.getElementById('current_position');
+const endDateRequiredBadge = document.getElementById('end_date_required');
+const statusInput = document.getElementById('employment_status');
+const currentLogoCard = document.getElementById('current_organization_logo');
+const currentLogoImage = document.getElementById('current_organization_logo_image');
+const removeLogoInput = document.getElementById('remove_organization_logo');
+const removeLogoButton = document.getElementById('current_organization_logo_remove');
+const logoRemovedNotice = document.getElementById('current_organization_logo_removed');
+const undoRemoveButton = document.getElementById('current_organization_logo_undo');
+
+let currentLogoUrl = '';
+
+/**
+ * Show the logo already saved for the record being edited (or hide the card
+ * when creating, or when the record has no logo yet).
+ */
+function setCurrentLogo(url) {
+    currentLogoUrl = url || '';
+
+    if (currentLogoUrl) {
+        currentLogoImage.src = currentLogoUrl;
+        currentLogoCard.classList.remove('d-none');
+
+        return;
+    }
+
+    currentLogoImage.removeAttribute('src');
+    currentLogoCard.classList.add('d-none');
+}
+
+/** Clear a queued logo removal (a new pick or a reset supersedes it). */
+function resetLogoRemoval() {
+    removeLogoInput.value = '0';
+    logoRemovedNotice.classList.add('d-none');
+}
+
+removeLogoButton.addEventListener('click', () => {
+    removeLogoInput.value = '1';
+    currentLogoCard.classList.add('d-none');
+    logoRemovedNotice.classList.remove('d-none');
+});
+
+undoRemoveButton.addEventListener('click', () => {
+    resetLogoRemoval();
+
+    if (currentLogoUrl) {
+        currentLogoCard.classList.remove('d-none');
+    }
+});
+
+/**
+ * A role still being worked has no end date: the input is disabled so it is
+ * not submitted, and the update clears the stored value. Otherwise the end
+ * date is required in the form (the request still accepts it as optional).
+ */
+function syncEndDateState() {
+    const isCurrent = currentPositionInput.checked;
+
+    endDateInput.disabled = isCurrent;
+    endDateRequiredBadge.classList.toggle('d-none', isCurrent);
+}
+
+currentPositionInput.addEventListener('change', () => {
+    if (currentPositionInput.checked) {
+        endDateInput.value = '';
+        syncEndDateState();
+        clearFieldError(endDateInput);
+
+        return;
+    }
+
+    syncEndDateState();
+    checkEndDate();
+});
+
+/** The end date is required unless the role is still being worked. */
+function endDateError() {
+    if (endDateInput.disabled) {
+        return '';
+    }
+
+    if (!endDateInput.value) {
+        return 'The end date is required unless you are currently working in this role.';
+    }
+
+    if (startDateInput.value && endDateInput.value < startDateInput.value) {
+        return 'The end date must be on or after the start date.';
+    }
+
+    return '';
+}
+
+function checkEndDate() {
+    setFieldError(endDateInput, endDateError());
+}
+
+startDateInput.addEventListener('change', checkEndDate);
+endDateInput.addEventListener('change', checkEndDate);
+
+/**
+ * Show one validation message under the field it belongs to.
+ */
+function setFieldError(input, message) {
+    clearFieldError(input);
+
+    if (!message) {
+        return;
+    }
+
+    input.classList.add('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    const feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback d-block';
+    feedback.dataset.fieldError = 'true';
+    feedback.textContent = message;
+    holder.appendChild(feedback);
+}
+
+function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    holder?.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+function clearFormErrors() {
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    form.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+/** Paint a 422 payload under its fields, then jump to the first one. */
+function showFormErrors(errors) {
+    Object.entries(errors).forEach(([field, messages]) => {
+        const input = form.elements[field];
+
+        if (!input || messages.length === 0) {
+            return;
+        }
+
+        setFieldError(input, messages[0]);
+    });
+
+    const first = form.querySelector('.is-invalid');
+
+    if (first) {
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+    }
+}
+
+function closeFormModal() {
+    window.bootstrap.Modal.getInstance(document.getElementById('create_update_modal'))?.hide();
+}
+
+// Saved over JS so a rejected field keeps the modal (and what was typed in it)
+// open, instead of reloading the page and losing both.
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearFormErrors();
+
+    const dateError = endDateError();
+
+    if (dateError) {
+        setFieldError(endDateInput, dateError);
+        endDateInput.scrollIntoView({ block: 'center' });
+        endDateInput.focus({ preventScroll: true });
+
+        return;
+    }
+
+    submitButton.disabled = true;
+    const submitLabel = submitButton.innerHTML;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+        await axios.post(form.action, new FormData(form), {
+            headers: { Accept: 'application/json' },
+        });
+
+        closeFormModal();
+        window.location.reload();
+    } catch (error) {
+        if (error.response?.status === 422) {
+            showFormErrors(error.response.data.errors ?? {});
+        } else {
+            console.error('Experience save failed:', error);
+            Swal.fire('Error!', 'The experience info could not be saved.', 'error');
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = submitLabel;
     }
 });
 
@@ -167,19 +399,30 @@ $(document).on('click', '.btn-edit', function () {
             $('#employment_department').val(data.employment_department);
             $('#employment_organization').val(data.employment_organization);
             $('#organization_address').val(data.organization_address);
-            $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
-            $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
+            // The edit response already carries 'Y-m-d' strings. Parsing the raw
+            // date attributes would shift the day for a client west of the app
+            // timezone (the UTC serialisation is the previous day there).
+            const formattedStart = data.start_date_input || '';
+            const formattedEnd = data.end_date_input || '';
+            $('#start_date').val(formattedStart);
+            $('#end_date').val(formattedEnd);
             $('#location_type').val(data.location_type);
             $('#employment_status').val(data.employment_status == 1 ? 1 : 0);
+
+            // A record without an end date is a role still being worked.
+            currentPositionInput.checked = formattedEnd === '';
+            syncEndDateState();
+            clearFormErrors();
+            resetLogoRemoval();
+
+            // A picked file from an earlier open must not ride along; the stored
+            // logo is shown separately and is only replaced by a new pick.
+            ponds.forEach(pond => pond.removeFiles());
+            setCurrentLogo(data.organization_logo ? data.organization_logo_url : '');
 
             const htmlContent = data.employment_details || '';
             myQuill.root.innerHTML = htmlContent;
             $('#employment_details_hidden').val(htmlContent);
-
-            if (data.end_date == null) {
-                document.getElementById('current_position').checked = true;
-                document.getElementById('end_date').disabled = true;
-            }
 
             // Update form
             const form = document.getElementById('create_update_form');
@@ -205,6 +448,15 @@ $('#create_update_modal').on('hidden.bs.modal', function () {
     $('#experience_id').val('');
     myQuill.root.innerHTML = '';
     $('#employment_details_hidden').val('');
+    // FilePond keeps files in sync with the input, so a closed modal must drop
+    // them or the next create would resubmit the previous pick.
+    ponds.forEach(pond => pond.removeFiles());
+    setCurrentLogo('');
+    resetLogoRemoval();
+    currentPositionInput.checked = false;
+    syncEndDateState();
+    clearFormErrors();
+    statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create experience info';
 });
 

@@ -99,7 +99,7 @@ class SkillInfo extends Model
         return Attribute::make(
             get: fn () => $this->skill_logo
                 ? asset('storage/'.$this->skill_logo)
-                : asset('static/logo/skill.png')
+                : asset('static/module/skill.png')
         );
     }
 

@@ -36,7 +36,7 @@ class StoreExperienceRequest extends FormRequest
             'organization_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'organization_address' => ['nullable', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
-            'end_date' => ['nullable', 'date', 'after:start_date'],
+            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             // Only a location type, not any other select-type list.
             'location_type' => [
                 'nullable',

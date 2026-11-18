@@ -80,14 +80,26 @@ class ExperienceService
     }
 
     /**
-     * Find a single experience record by id.
+     * Find one record plus the dates and logo URL the edit form reads back.
      *
-     * Returns null when the record does not exist so the controller can
-     * choose an empty JSON response instead of throwing.
+     * The date inputs are local dates in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @return array<string, mixed>|null
      */
-    public function find(string $experience_id): ?ExperienceInfo
+    public function findForEdit(string $experience_id): ?array
     {
-        return ExperienceInfo::where('id', $experience_id)->first();
+        $experience = ExperienceInfo::where('id', $experience_id)->first();
+
+        if ($experience === null) {
+            return null;
+        }
+
+        return $experience->toArray() + [
+            'organization_logo_url' => $experience->organization_logo_url,
+            'start_date_input' => $experience->start_date?->format('Y-m-d'),
+            'end_date_input' => $experience->end_date?->format('Y-m-d'),
+        ];
     }
 
     /**
@@ -103,9 +115,18 @@ class ExperienceService
         $experience = ExperienceInfo::findOrFail($request->experience_id);
 
         if ($request->hasFile('organization_logo')) {
+            // Store the replacement before dropping the old file, so a failed
+            // conversion cannot leave the record without a logo. A picked file
+            // also wins over a removal request.
+            $new_logo = $this->storeLogo($request);
+
             $this->deleteLogo($experience);
 
-            $experience->organization_logo = $this->storeLogo($request);
+            $experience->organization_logo = $new_logo;
+        } elseif ($request->boolean('remove_organization_logo')) {
+            $this->deleteLogo($experience);
+
+            $experience->organization_logo = null;
         }
 
         $experience->fill([
