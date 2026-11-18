@@ -29,6 +29,7 @@ class UpdateEducationRequest extends FormRequest
             'education_subject' => ['nullable', 'string', 'max:255'],
             'education_institute' => ['required', 'string', 'max:255'],
             'institute_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'remove_institute_logo' => ['nullable', 'boolean'],
             'institute_address' => ['nullable', 'string', 'max:255'],
             'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],

@@ -70,9 +70,18 @@ class EducationService
         $education = EducationInfo::findOrFail($request->education_id);
 
         if ($request->hasFile('institute_logo')) {
+            // Store the replacement before dropping the old file, so a failed
+            // conversion cannot leave the record without a logo. A picked file
+            // also wins over a removal request.
+            $new_logo = $this->storeLogo($request);
+
             $this->deleteLogo($education);
 
-            $education->institute_logo = $this->storeLogo($request);
+            $education->institute_logo = $new_logo;
+        } elseif ($request->boolean('remove_institute_logo')) {
+            $this->deleteLogo($education);
+
+            $education->institute_logo = null;
         }
 
         $education->fill([
@@ -186,6 +195,7 @@ class EducationService
         }
 
         return $education->toArray() + [
+            'institute_logo_url' => $education->institute_logo_url,
             'start_date_input' => $education->start_date?->format('Y-m-d'),
             'end_date_input' => $education->end_date?->format('Y-m-d'),
         ];

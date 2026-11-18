@@ -65,7 +65,7 @@
                             @foreach ($education_list as $item)
                                 <tr data-id="{{ $item->id }}">
                                     <td>
-                                        <i class="ti ti-arrows-move fs-42"></i>
+                                        <i class="ti ti-arrows-move fs-lg"></i>
                                     </td>
                                     <td>
                                         <img class="img-thumbnail rounded" width="50px" src="{{ $item->institute_logo_url }}"
@@ -114,7 +114,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create client info</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create education info</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
@@ -134,9 +134,7 @@
                                     <input class="form-control" placeholder="Computer Engineering"
                                         value="{{ old('education_subject') }}" name="education_subject"
                                         id="education_subject" type="text" />
-                                    <label for="education_subject">Subject
-                                        <span class="badge badge-soft-danger">required</span>
-                                    </label>
+                                    <label for="education_subject">Subject</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -150,10 +148,30 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="institute_logo" type="file" />
-                                    <label for="institute_logo">Institute Logo</label>
+                                <label class="form-label">Institute Logo</label>
+                                <div class="filepond-uploader">
+                                    <input accept="image/jpeg,image/png,image/gif,image/webp" class="filepond"
+                                        name="institute_logo" type="file" />
                                 </div>
+                                <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_institute_logo">
+                                    <img alt="Current institute logo" class="img-thumbnail rounded" height="48"
+                                        id="current_institute_logo_image" src="" width="48">
+                                    <div class="small text-muted">
+                                        <span class="d-block fw-semibold text-body">Current logo</span>
+                                        Choose a new image to replace it, or remove it.
+                                    </div>
+                                    <button class="btn btn-sm btn-soft-danger ms-auto" id="current_institute_logo_remove"
+                                        type="button">
+                                        <i class="ti ti-trash fs-lg"></i> Remove
+                                    </button>
+                                </div>
+                                <div class="small text-danger mt-2 d-none" id="current_institute_logo_removed">
+                                    The logo will be removed when you save.
+                                    <button class="btn btn-link btn-sm p-0 align-baseline" id="current_institute_logo_undo"
+                                        type="button">Undo</button>
+                                </div>
+                                <input id="remove_institute_logo" name="remove_institute_logo" type="hidden" value="0">
+                                <div class="form-text">JPEG, PNG, GIF or WebP — up to 10 MB.</div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-floating">
@@ -166,7 +184,7 @@
                             <div class="col-lg-12">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" id="current_degree" type="checkbox" />
-                                    <label class="form-check-label" for="current_degree">I am currently studing in this
+                                    <label class="form-check-label" for="current_degree">I am currently studying in this
                                         degree</label>
                                 </div>
                             </div>
@@ -187,7 +205,9 @@
                                             <input class="form-control" placeholder="End Date"
                                                 value="{{ old('end_date') }}" name="end_date" id="end_date"
                                                 type="date">
-                                            <label for="end_date">End Date</label>
+                                            <label for="end_date">End Date
+                                                <span class="badge badge-soft-danger" id="end_date_required">required</span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -209,8 +229,7 @@
                                 <div class="form-floating">
                                     <select aria-label="Select Status" class="form-select" name="education_status"
                                         id="education_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
+                                        <option selected value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                     <label for="education_status">Status</label>
