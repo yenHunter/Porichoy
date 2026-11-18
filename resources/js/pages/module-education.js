@@ -398,10 +398,11 @@ $(document).on('click', '.btn-edit', function () {
             $('#education_subject').val(data.education_subject);
             $('#education_institute').val(data.education_institute);
             $('#institute_address').val(data.institute_address);
-            const startDate = data.start_date ? new Date(data.start_date) : null;
-            const formattedStart = startDate ? startDate.toLocaleDateString('en-CA') : '';
-            const endDate = data.end_date ? new Date(data.end_date) : null;
-            const formattedEnd = endDate ? endDate.toLocaleDateString('en-CA') : '';
+            // The edit response already carries 'Y-m-d' strings. Parsing the raw
+            // date attributes would shift the day for a client west of the app
+            // timezone (the UTC serialisation is the previous day there).
+            const formattedStart = data.start_date_input || '';
+            const formattedEnd = data.end_date_input || '';
             $('#start_date').val(formattedStart);
             $('#end_date').val(formattedEnd);
             $('#education_result').val(data.education_result);
