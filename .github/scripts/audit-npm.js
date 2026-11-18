@@ -14,11 +14,22 @@ const ALLOWED = {
     // picomatch 4.0.7 is the newest release and the last affected version, so
     // there is no patched version to upgrade to yet. It is reached only through
     // build tooling (vite, fdir, tinyglobby, @parcel/watcher) and is not part of
-    // the shipped bundle. Delete this entry once a picomatch > 4.0.7 installs.
+    // the shipped bundle. The entry stops applying by itself as soon as npm
+    // reports an installable, non-breaking fix; then run `npm audit fix` and
+    // delete it.
     'GHSA-fc5q-39xc-vjpf': 'no patched picomatch release exists yet (4.0.7 is latest)',
 };
 
 const BLOCKING = new Set(['high', 'critical']);
+
+/**
+ * Whether npm can clear the advisory without a breaking bump. `true` is a
+ * semver-compatible fix; an object is a proposed version, breaking only when it
+ * is flagged isSemVerMajor.
+ */
+const isInstallableFix = (fixAvailable) =>
+    fixAvailable === true ||
+    (typeof fixAvailable === 'object' && fixAvailable !== null && fixAvailable.isSemVerMajor !== true);
 
 let report;
 
@@ -61,6 +72,21 @@ for (const [id, advisory] of advisories) {
     const packages = [...advisory.packages].sort().join(', ');
 
     if (id in ALLOWED) {
+        // An allowlist entry is only defensible while nothing can be done about
+        // the advisory. Once npm offers a non-breaking fix, the entry has to go.
+        const installable = [...advisory.packages]
+            .filter((name) => isInstallableFix((report.vulnerabilities[name] || {}).fixAvailable))
+            .sort();
+
+        if (installable.length) {
+            failures.push(
+                `${id} (${advisory.severity}) ${packages} — the allowlist entry is stale: npm audit reports an installable ` +
+                `fix for ${installable.join(', ')}, so run npm audit fix and delete it`,
+            );
+
+            continue;
+        }
+
         console.log(`allowed: ${id} (${advisory.severity}) ${packages} — ${ALLOWED[id]}`);
 
         continue;
