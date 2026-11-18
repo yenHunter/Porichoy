@@ -106,12 +106,7 @@ const form = document.getElementById('create_update_form');
 const submitButton = form.querySelector('button[type="submit"]');
 const startDateInput = document.getElementById('start_date');
 const endDateInput = document.getElementById('end_date');
-const certificateFileInput = form.elements.training_certificate_file ?? form.querySelector('input[name="training_certificate"][type="file"]');
 const certificateLinkInput = document.getElementById('training_certificate_link');
-const certificateFileDiv = document.getElementById('certificate-file-div');
-const certificateLinkDiv = document.getElementById('certificate-link-div');
-const certificateSourceFile = document.getElementById('certificate_source_file');
-const certificateSourceLink = document.getElementById('certificate_source_link');
 const currentCertificateCard = document.getElementById('current_training_certificate');
 const currentCertificateLink = document.getElementById('current_training_certificate_link');
 const removeCertificateInput = document.getElementById('remove_training_certificate');
@@ -121,6 +116,9 @@ const undoRemoveButton = document.getElementById('current_training_certificate_u
 const statusInput = document.getElementById('training_status');
 
 let currentCertificateUrl = '';
+// The stored value as the link field should show it: the URL for a link
+// certificate, and empty for a file (whose path is not a link).
+let currentCertificateLinkValue = '';
 
 // Initialize the picker after the elements it talks to exist.
 const ponds = [];
@@ -145,9 +143,10 @@ document.querySelectorAll('.filepond').forEach(input => {
         onaddfile: (error) => {
             if (!error) {
                 dropRejectedFiles(pond);
-                // The new pick replaces the stored certificate, so the card and
-                // any queued removal are no longer relevant.
+                // The new pick replaces both the stored certificate and any
+                // link typed before it (the server prefers the file anyway).
                 resetCertificateRemoval();
+                certificateLinkInput.value = '';
                 currentCertificateCard.classList.add('d-none');
             }
         },
@@ -170,39 +169,10 @@ function dropRejectedFiles(pond) {
         .forEach(file => pond.removeFile(file));
 }
 
-/**
- * Switch between the two certificate sources.
- *
- * Only the active input is submitted: the other one is disabled, so a link
- * typed during an earlier edit can never override an uploaded file (both
- * inputs share the `training_certificate` name).
- */
-function setCertificateMode(mode) {
-    const isFile = mode !== 'link';
-
-    certificateSourceFile.checked = isFile;
-    certificateSourceLink.checked = !isFile;
-
-    certificateFileDiv.classList.toggle('d-none', !isFile);
-    certificateLinkDiv.classList.toggle('d-none', isFile);
-
-    certificateFileInput.disabled = !isFile;
-    certificateLinkInput.disabled = isFile;
-
-    if (!isFile) {
-        ponds.forEach(pond => pond.removeFiles());
-    }
-
-    if (currentCertificateUrl && removeCertificateInput.value !== '1') {
-        currentCertificateCard.classList.remove('d-none');
-    } else {
-        currentCertificateCard.classList.add('d-none');
-    }
-}
-
 /** Show the certificate already saved for the record being edited. */
-function setCurrentCertificate(url) {
+function setCurrentCertificate(url, storedValue) {
     currentCertificateUrl = url || '';
+    currentCertificateLinkValue = storedValue || '';
 
     if (!currentCertificateUrl) {
         currentCertificateLink.setAttribute('href', '');
@@ -221,21 +191,29 @@ function resetCertificateRemoval() {
     certificateRemovedNotice.classList.add('d-none');
 }
 
-certificateSourceFile.addEventListener('change', () => setCertificateMode('file'));
-certificateSourceLink.addEventListener('change', () => setCertificateMode('link'));
+// A typed link replaces the stored certificate, so a queued removal no longer
+// applies to it.
+function clearRemovalWhenLinkTyped() {
+    if (certificateLinkInput.value.trim() !== '') {
+        resetCertificateRemoval();
+        // A link typed after a pick means the link is what gets saved.
+        ponds.forEach(pond => pond.removeFiles());
+    }
+}
 
-// Start in file mode with the link input disabled: an empty link submitted
-// next to an untouched file input would otherwise clear the stored value.
-setCertificateMode('file');
+certificateLinkInput.addEventListener('input', clearRemovalWhenLinkTyped);
 
 removeCertificateButton.addEventListener('click', () => {
     removeCertificateInput.value = '1';
+    // The server prefers a non-empty link, so removing has to empty it too.
+    certificateLinkInput.value = '';
     currentCertificateCard.classList.add('d-none');
     certificateRemovedNotice.classList.remove('d-none');
 });
 
 undoRemoveButton.addEventListener('click', () => {
     resetCertificateRemoval();
+    certificateLinkInput.value = currentCertificateLinkValue;
 
     if (currentCertificateUrl) {
         currentCertificateCard.classList.remove('d-none');
@@ -261,23 +239,6 @@ function checkEndDate() {
 
 startDateInput.addEventListener('change', checkEndDate);
 endDateInput.addEventListener('change', checkEndDate);
-
-/** Link mode needs a URL unless the certificate is being removed. */
-function certificateError() {
-    if (certificateSourceLink.checked
-        && removeCertificateInput.value !== '1'
-        && !certificateLinkInput.value.trim()) {
-        return 'Enter a certificate link or choose Upload a file.';
-    }
-
-    return '';
-}
-
-function checkCertificate() {
-    setFieldError(certificateLinkInput, certificateError());
-}
-
-certificateLinkInput.addEventListener('change', checkCertificate);
 
 /**
  * Show one validation message under the field it belongs to.
@@ -345,20 +306,11 @@ form.addEventListener('submit', async (event) => {
     clearFormErrors();
 
     const dateError = endDateError();
-    const linkError = certificateError();
 
-    if (dateError || linkError) {
-        if (dateError) {
-            setFieldError(endDateInput, dateError);
-        }
-
-        if (linkError) {
-            setFieldError(certificateLinkInput, linkError);
-        }
-
-        const first = dateError ? endDateInput : certificateLinkInput;
-        first.scrollIntoView({ block: 'center' });
-        first.focus({ preventScroll: true });
+    if (dateError) {
+        setFieldError(endDateInput, dateError);
+        endDateInput.scrollIntoView({ block: 'center' });
+        endDateInput.focus({ preventScroll: true });
 
         return;
     }
@@ -448,10 +400,10 @@ $(document).on('click', '.btn-edit', function () {
             resetCertificateRemoval();
 
             // A certificate stored as a link prefills the link field; a stored
-            // file shows the current-certificate card instead.
+            // file shows the current-certificate card instead. An untouched
+            // link is never submitted, so the stored value survives the save.
             certificateLinkInput.value = data.certificate_is_url ? (data.training_certificate || '') : '';
-            setCurrentCertificate(data.certificate_url || '');
-            setCertificateMode(data.certificate_is_url ? 'link' : 'file');
+            setCurrentCertificate(data.certificate_url || '', data.training_certificate || '');
 
             const htmlContent = data.training_details || '';
             myQuill.root.innerHTML = htmlContent;
@@ -486,7 +438,6 @@ $('#create_update_modal').on('hidden.bs.modal', function () {
     certificateLinkInput.value = '';
     setCurrentCertificate('');
     resetCertificateRemoval();
-    setCertificateMode('file');
     clearFormErrors();
     statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create training info';

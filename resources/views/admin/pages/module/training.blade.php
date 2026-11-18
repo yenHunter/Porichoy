@@ -192,54 +192,38 @@
                             </div>
                             <div class="col-lg-12">
                                 <label class="form-label">Certificate</label>
-                                <div class="d-flex flex-wrap gap-3 mb-2">
-                                    <div class="form-check">
-                                        <input checked class="form-check-input" id="certificate_source_file"
-                                            name="certificate_source" type="radio" value="file">
-                                        <label class="form-check-label" for="certificate_source_file">Upload a
-                                            file</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" id="certificate_source_link"
-                                            name="certificate_source" type="radio" value="link">
-                                        <label class="form-check-label" for="certificate_source_link">Use a link</label>
-                                    </div>
+                                <div class="filepond-uploader">
+                                    <input accept="application/pdf,image/jpeg,image/png" class="filepond"
+                                        name="training_certificate" type="file" />
                                 </div>
-
-                                <div id="certificate-file-div">
-                                    <div class="filepond-uploader">
-                                        <input accept="application/pdf,image/jpeg,image/png" class="filepond"
-                                            name="training_certificate" type="file" />
+                                <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_training_certificate">
+                                    <i class="ti ti-file-certificate fs-2 text-primary"></i>
+                                    <div class="small text-muted">
+                                        <a class="d-block fw-semibold text-body text-decoration-underline"
+                                            href="" id="current_training_certificate_link" rel="noopener"
+                                            target="_blank">Current certificate</a>
+                                        Choose a new file or link to replace it, or remove it.
                                     </div>
-                                    <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_training_certificate">
-                                        <i class="ti ti-file-certificate fs-2 text-primary"></i>
-                                        <div class="small text-muted">
-                                            <a class="d-block fw-semibold text-body text-decoration-underline"
-                                                href="" id="current_training_certificate_link" rel="noopener"
-                                                target="_blank">Current certificate</a>
-                                            Choose a new file to replace it, or remove it.
-                                        </div>
-                                        <button class="btn btn-sm btn-soft-danger ms-auto"
-                                            id="current_training_certificate_remove" type="button">
-                                            <i class="ti ti-trash fs-lg"></i> Remove
-                                        </button>
-                                    </div>
-                                    <div class="small text-danger mt-2 d-none" id="current_training_certificate_removed">
-                                        The certificate will be removed when you save.
-                                        <button class="btn btn-link btn-sm p-0 align-baseline"
-                                            id="current_training_certificate_undo" type="button">Undo</button>
-                                    </div>
-                                    <input id="remove_training_certificate" name="remove_training_certificate"
-                                        type="hidden" value="0">
-                                    <div class="form-text">PDF, JPG or PNG — up to 10 MB.</div>
+                                    <button class="btn btn-sm btn-soft-danger ms-auto"
+                                        id="current_training_certificate_remove" type="button">
+                                        <i class="ti ti-trash fs-lg"></i> Remove
+                                    </button>
                                 </div>
-
-                                <div class="form-floating d-none" id="certificate-link-div">
+                                <div class="small text-danger mt-2 d-none" id="current_training_certificate_removed">
+                                    The certificate will be removed when you save.
+                                    <button class="btn btn-link btn-sm p-0 align-baseline"
+                                        id="current_training_certificate_undo" type="button">Undo</button>
+                                </div>
+                                <input id="remove_training_certificate" name="remove_training_certificate"
+                                    type="hidden" value="0">
+                                <div class="form-floating mt-2">
                                     <input class="form-control" value="{{ old('training_certificate') }}"
                                         placeholder="https://www.netacad.com/certificates/example"
                                         name="training_certificate" id="training_certificate_link" type="url" />
                                     <label for="training_certificate_link">Certificate link</label>
                                 </div>
+                                <div class="form-text">PDF, JPG or PNG — up to 10 MB. A picked file replaces the
+                                    link, and a link replaces a stored file.</div>
                             </div>
                             <div class="col-lg-12">
                                 <label for="details">Details</label>

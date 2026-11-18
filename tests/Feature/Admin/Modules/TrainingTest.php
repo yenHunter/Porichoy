@@ -192,6 +192,29 @@ class TrainingTest extends TestCase
         Storage::disk('public')->assertExists('uploads/training/old.pdf');
     }
 
+    /**
+     * Precedence is file, link, removal, stored value: a link typed while a
+     * removal is queued replaces the certificate instead of removing it.
+     */
+    public function test_a_typed_link_wins_over_a_removal_request(): void
+    {
+        $record = $this->createModuleRecord();
+        Storage::disk('public')->put('uploads/training/old.pdf', 'certificate');
+        $record->forceFill(['training_certificate' => 'uploads/training/old.pdf'])->save();
+
+        $this->put(route('module.training.update'), array_merge($this->modulePayload(), [
+            'training_id' => $record->getKey(),
+            'remove_training_certificate' => '1',
+            'training_certificate' => 'https://example.test/new-certificate',
+        ]))->assertSessionHasNoErrors();
+
+        $this->assertSame(
+            'https://example.test/new-certificate',
+            $record->refresh()->training_certificate
+        );
+        Storage::disk('public')->assertMissing('uploads/training/old.pdf');
+    }
+
     public function test_the_stored_certificate_can_be_removed(): void
     {
         $record = $this->createModuleRecord();

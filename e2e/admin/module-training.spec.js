@@ -9,6 +9,7 @@ const FIXTURE_IMAGE = require('node:path').resolve(__dirname, '..', 'fixtures', 
 const UNIQUE = Math.random().toString(36).substring(2, 15);
 const TITLE = `Laravel ${UNIQUE}`;
 const CERT_TITLE = `Certified ${UNIQUE}`;
+const KEPT_TITLE = `Kept ${UNIQUE}`;
 const REMOVED_TITLE = `Removed ${UNIQUE}`;
 const DATED_TITLE = `Dated ${UNIQUE}`;
 
@@ -168,6 +169,20 @@ test.describe('training module', () => {
 
         await expect(page.locator('#current_training_certificate')).toBeVisible();
         await expect(page.locator('#current_training_certificate_link')).toHaveAttribute(
+            'href',
+            /uploads\/training\/.+\.png$/
+        );
+    });
+
+    test('keeps the certificate when an edit does not touch it', async ({ page }) => {
+        await createTraining(page, KEPT_TITLE, { certificate: true });
+        await openEdit(page, KEPT_TITLE);
+
+        // Nothing is picked, typed or removed; the stored file must survive.
+        await save(page);
+
+        const row = await findRow(page, KEPT_TITLE);
+        await expect(row.locator('td').nth(1).locator('a')).toHaveAttribute(
             'href',
             /uploads\/training\/.+\.png$/
         );

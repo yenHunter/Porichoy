@@ -102,29 +102,28 @@ class TrainingService
     {
         $training = TrainingInfo::findOrFail($request->training_id);
 
+        // Precedence: a picked file, then a non-empty link, then a removal
+        // request, then the stored value. Nothing arrives for an untouched
+        // certificate, so saving an edit cannot wipe it.
+        $certificate = trim((string) $request->input('training_certificate'));
+
         if ($request->hasFile('training_certificate')) {
             // Store the replacement before dropping the old file, so a failed
-            // upload cannot leave the record without a certificate. A picked
-            // file also wins over a removal request.
+            // upload cannot leave the record without a certificate.
             $new_certificate = $this->storeCertificate($request);
 
             $this->deleteCertificate($training);
 
             $training->training_certificate = $new_certificate;
-        } elseif ($request->boolean('remove_training_certificate')) {
+        } elseif ($certificate !== '' && $certificate !== (string) $training->training_certificate) {
+            // A link replaces the stored file only when it actually differs.
+            $this->deleteCertificate($training);
+
+            $training->training_certificate = $certificate;
+        } elseif ($certificate === '' && $request->boolean('remove_training_certificate')) {
             $this->deleteCertificate($training);
 
             $training->training_certificate = null;
-        } elseif ($request->has('training_certificate')) {
-            // The field is absent while the file input is in use, so an update
-            // that only reshapes the record keeps the stored certificate.
-            $certificate = trim((string) $request->input('training_certificate'));
-
-            if ($certificate !== (string) $training->training_certificate) {
-                $this->deleteCertificate($training);
-
-                $training->training_certificate = $certificate === '' ? null : $certificate;
-            }
         }
 
         $training->fill([
