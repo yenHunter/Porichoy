@@ -101,7 +101,7 @@ class EducationInfo extends Model
         return Attribute::make(
             get: fn () => $this->institute_logo
                 ? asset('storage/'.$this->institute_logo)
-                : asset('static/education.png')
+                : asset('static/module/education.png')
         );
     }
 

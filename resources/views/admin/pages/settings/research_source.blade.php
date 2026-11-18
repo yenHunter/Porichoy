@@ -78,7 +78,7 @@
                                             @endif
                                         @else
                                             <img class="img-thumbnail rounded" width="50px"
-                                                src="{{ asset('static/logo/research.png') }}" alt="source-logo">
+                                                src="{{ asset('static/module/research.png') }}" alt="source-logo">
                                         @endif
                                     </td>
                                     <td>

@@ -99,7 +99,7 @@ class ExperienceInfo extends Model
         return Attribute::make(
             get: fn () => $this->organization_logo
                 ? asset('storage/'.$this->organization_logo)
-                : asset('static/logo/experience.png')
+                : asset('static/module/experience.png')
         );
     }
 

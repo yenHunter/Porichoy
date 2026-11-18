@@ -25,6 +25,7 @@ class UpdateExperienceRequest extends FormRequest
     {
         return [
             'experience_id' => ['required', Rule::exists('experience_infos', 'id')],
+            'remove_organization_logo' => ['nullable', 'boolean'],
         ]
             + StoreExperienceRequest::sharedRules();
     }

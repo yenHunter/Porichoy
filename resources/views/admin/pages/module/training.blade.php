@@ -70,7 +70,7 @@
                                     <td>
                                         <a href="{{ $item->certificate_url }}" target="_blank">
                                             <img class="img-thumbnail rounded" width="50px"
-                                                src="{{ asset('static/training.png') }}" alt="source-logo">
+                                                src="{{ asset('static/module/training.png') }}" alt="source-logo">
                                         </a>
                                     </td>
                                     <td>
