@@ -184,7 +184,7 @@
                             <div class="col-lg-12">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" id="current_degree" type="checkbox" />
-                                    <label class="form-check-label" for="current_degree">I am currently studing in this
+                                    <label class="form-check-label" for="current_degree">I am currently studying in this
                                         degree</label>
                                 </div>
                             </div>
@@ -205,7 +205,9 @@
                                             <input class="form-control" placeholder="End Date"
                                                 value="{{ old('end_date') }}" name="end_date" id="end_date"
                                                 type="date">
-                                            <label for="end_date">End Date</label>
+                                            <label for="end_date">End Date
+                                                <span class="badge badge-soft-danger" id="end_date_required">required</span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">

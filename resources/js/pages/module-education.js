@@ -156,6 +156,7 @@ const submitButton = form.querySelector('button[type="submit"]');
 const startDateInput = document.getElementById('start_date');
 const endDateInput = document.getElementById('end_date');
 const currentDegreeInput = document.getElementById('current_degree');
+const endDateRequiredBadge = document.getElementById('end_date_required');
 const statusInput = document.getElementById('education_status');
 const currentLogoCard = document.getElementById('current_institute_logo');
 const currentLogoImage = document.getElementById('current_institute_logo_image');
@@ -206,38 +207,52 @@ undoRemoveButton.addEventListener('click', () => {
 
 /**
  * A degree still being studied has no end date: the input is disabled so it is
- * not submitted, and the update clears the stored value.
+ * not submitted, and the update clears the stored value. Otherwise the end
+ * date is required in the form (the request still accepts it as optional).
  */
 function syncEndDateState() {
-    endDateInput.disabled = currentDegreeInput.checked;
+    const isCurrent = currentDegreeInput.checked;
+
+    endDateInput.disabled = isCurrent;
+    endDateRequiredBadge.classList.toggle('d-none', isCurrent);
 }
 
 currentDegreeInput.addEventListener('change', () => {
     if (currentDegreeInput.checked) {
         endDateInput.value = '';
+        syncEndDateState();
         clearFieldError(endDateInput);
+
+        return;
     }
 
     syncEndDateState();
+    checkEndDate();
 });
 
-/** The end date may not precede the start date (mirrors the request rule). */
-function dateOrderError() {
-    if (endDateInput.disabled || !startDateInput.value || !endDateInput.value) {
+/** The end date is required unless the degree is still being studied. */
+function endDateError() {
+    if (endDateInput.disabled) {
         return '';
     }
 
-    return endDateInput.value < startDateInput.value
-        ? 'The end date must be on or after the start date.'
-        : '';
+    if (!endDateInput.value) {
+        return 'The end date is required unless you are currently studying in this degree.';
+    }
+
+    if (startDateInput.value && endDateInput.value < startDateInput.value) {
+        return 'The end date must be on or after the start date.';
+    }
+
+    return '';
 }
 
-function checkDateOrder() {
-    setFieldError(endDateInput, dateOrderError());
+function checkEndDate() {
+    setFieldError(endDateInput, endDateError());
 }
 
-startDateInput.addEventListener('change', checkDateOrder);
-endDateInput.addEventListener('change', checkDateOrder);
+startDateInput.addEventListener('change', checkEndDate);
+endDateInput.addEventListener('change', checkEndDate);
 
 /**
  * Show one validation message under the field it belongs to.
@@ -301,10 +316,10 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
     clearFormErrors();
 
-    const orderError = dateOrderError();
+    const dateError = endDateError();
 
-    if (orderError) {
-        setFieldError(endDateInput, orderError);
+    if (dateError) {
+        setFieldError(endDateInput, dateError);
         endDateInput.scrollIntoView({ block: 'center' });
         endDateInput.focus({ preventScroll: true });
 

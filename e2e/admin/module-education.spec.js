@@ -50,7 +50,7 @@ async function save(page) {
     await expect(page.locator('.alert-success')).toBeVisible();
 }
 
-async function createDegree(page, degree, { logo = false, endDate = '' } = {}) {
+async function createDegree(page, degree, { logo = false, endDate = '2024-06-30' } = {}) {
     await page.click('a[data-bs-target="#create_update_modal"]');
     await page.fill('#education_degree', degree);
     await page.fill('#education_institute', 'E2E University');
@@ -102,6 +102,7 @@ test.describe('education module', () => {
         await page.click('a[data-bs-target="#create_update_modal"]');
         await page.fill('#education_institute', 'E2E University');
         await page.fill('#start_date', '2020-01-01');
+        await page.fill('#end_date', '2024-06-30');
         await page.click('#create_update_form button[type="submit"]');
 
         // No reload: the modal stays open with the error under the field.
