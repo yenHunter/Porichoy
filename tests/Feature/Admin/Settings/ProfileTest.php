@@ -5,6 +5,8 @@ namespace Tests\Feature\Admin\Settings;
 use App\Models\ProfileInfo;
 use Database\Seeders\ProfileInfoSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -25,6 +27,31 @@ class ProfileTest extends TestCase
             ->assertRedirect();
 
         $this->assertSame('Renamed First', $row->refresh()->column_value);
+    }
+
+    /**
+     * The picture is posted as a file in the `basic` category, not as a value,
+     * so the service has to read the file bag as well as the input bag.
+     */
+    public function test_the_profile_picture_upload_is_stored(): void
+    {
+        $this->seed(ProfileInfoSeeder::class);
+        $this->actingAs($this->adminUser());
+        Storage::fake('public');
+
+        $row = ProfileInfo::where('column_name', 'profile_picture')->firstOrFail();
+
+        $this->post(route('management.settings.profile.update'), [
+            'basic' => [$row->getKey() => UploadedFile::fake()->image('avatar.jpg', 600, 600)],
+        ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $row->refresh();
+
+        $this->assertStringStartsWith('uploads/profile/', (string) $row->column_value);
+        $this->assertStringEndsWith('.webp', (string) $row->column_value);
+        Storage::disk('public')->assertExists($row->column_value);
     }
 
     /**

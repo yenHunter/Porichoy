@@ -67,7 +67,9 @@ class SettingsService
     public function updateProfile(ProfileUpdateRequest $request): void
     {
         foreach (self::PROFILE_CATEGORIES as $category) {
-            $inputs = $request->input($category, []);
+            // `input()` never carries uploads: they live in the file bag, so a
+            // category's files have to be merged in before the loop.
+            $inputs = $request->input($category, []) + $request->file($category, []);
             foreach ($inputs as $id => $value) {
                 if ($value instanceof UploadedFile && $value->isValid()) {
                     $this->storeProfileFile($id, $value);
