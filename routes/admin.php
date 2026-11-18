@@ -86,9 +86,9 @@ Route::middleware('auth')->group(function () {
         Route::prefix('training')->name('training.')->group(function () {
             Route::get('', [TrainingController::class, 'view'])->name('view');
             Route::post('store', [TrainingController::class, 'store'])->name('store');
-            Route::get('edit/{experience_id}', [TrainingController::class, 'edit'])->name('edit');
+            Route::get('edit/{training_id}', [TrainingController::class, 'edit'])->name('edit');
             Route::put('update', [TrainingController::class, 'update'])->name('update');
-            Route::get('delete/{experience_id}', [TrainingController::class, 'delete'])->name('delete');
+            Route::get('delete/{training_id}', [TrainingController::class, 'delete'])->name('delete');
             Route::post('update-sequence', [TrainingController::class, 'update_sequence'])->name('sequence');
             Route::put('settings-update', [TrainingController::class, 'settings_update'])->name('settings.update');
         });

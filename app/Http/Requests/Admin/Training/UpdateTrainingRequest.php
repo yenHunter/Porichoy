@@ -25,7 +25,20 @@ class UpdateTrainingRequest extends FormRequest
     {
         return [
             'training_id' => ['required', Rule::exists('training_infos', 'id')],
+            'remove_training_certificate' => ['nullable', 'boolean'],
         ]
             + StoreTrainingRequest::sharedRules();
+    }
+
+    /**
+     * Field names for validation error display.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'training_certificate' => 'certificate',
+        ];
     }
 }

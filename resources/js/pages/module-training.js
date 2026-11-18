@@ -8,9 +8,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { route } from 'ziggy-js';
 
-import { registerPlugin, create } from 'filepond';
+import { registerPlugin, create, FileStatus } from 'filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -89,35 +90,300 @@ new DataTable('[data-tables="basic"]', {
     },
 });
 
+// The same limits the server enforces. Certificates are documents as well as
+// images, so PDFs are accepted here and stored as uploaded.
+const CERTIFICATE_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
+const CERTIFICATE_MAX_BYTES = 10 * 1024 * 1024;
+
 // Register plugin
 registerPlugin(
     FilePondPluginImagePreview,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize
 );
 
-// Initialize
-const inputElement = document.querySelectorAll('.filepond');
+const form = document.getElementById('create_update_form');
+const submitButton = form.querySelector('button[type="submit"]');
+const startDateInput = document.getElementById('start_date');
+const endDateInput = document.getElementById('end_date');
+const certificateFileInput = form.elements.training_certificate_file ?? form.querySelector('input[name="training_certificate"][type="file"]');
+const certificateLinkInput = document.getElementById('training_certificate_link');
+const certificateFileDiv = document.getElementById('certificate-file-div');
+const certificateLinkDiv = document.getElementById('certificate-link-div');
+const certificateSourceFile = document.getElementById('certificate_source_file');
+const certificateSourceLink = document.getElementById('certificate_source_link');
+const currentCertificateCard = document.getElementById('current_training_certificate');
+const currentCertificateLink = document.getElementById('current_training_certificate_link');
+const removeCertificateInput = document.getElementById('remove_training_certificate');
+const removeCertificateButton = document.getElementById('current_training_certificate_remove');
+const certificateRemovedNotice = document.getElementById('current_training_certificate_removed');
+const undoRemoveButton = document.getElementById('current_training_certificate_undo');
+const statusInput = document.getElementById('training_status');
 
-inputElement.forEach(input => {
-    create(input, {
+let currentCertificateUrl = '';
+
+// Initialize the picker after the elements it talks to exist.
+const ponds = [];
+
+document.querySelectorAll('.filepond').forEach(input => {
+    const pond = create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
-        acceptedFileTypes: ['image/*', 'application/pdf'],
+        acceptedFileTypes: CERTIFICATE_MIME_TYPES,
+        maxFileSize: CERTIFICATE_MAX_BYTES,
+        // Report the limit in the same units the help text uses.
+        fileSizeBase: 1024,
         instantUpload: false,
         storeAsFile: true,
+        labelIdle: 'Drag & drop a certificate or <span class="filepond--label-action">Browse</span>',
+        labelFileTypeNotAllowed: 'The certificate must be a PDF, JPG or PNG file.',
+        labelMaxFileSizeExceeded: 'This certificate is too large.',
+        labelMaxFileSize: 'The maximum size is {filesize}.',
+        // A rejected file stays in the list on its own, so an accepted pick
+        // would sit next to it and the field would look like it holds two.
+        onaddfile: (error) => {
+            if (!error) {
+                dropRejectedFiles(pond);
+                // The new pick replaces the stored certificate, so the card and
+                // any queued removal are no longer relevant.
+                resetCertificateRemoval();
+                currentCertificateCard.classList.add('d-none');
+            }
+        },
+        onremovefile: () => {
+            if (currentCertificateUrl && removeCertificateInput.value !== '1') {
+                currentCertificateCard.classList.remove('d-none');
+            }
+        },
     });
+
+    ponds.push(pond);
 });
 
-document.getElementById('isFile').addEventListener('change', function () {
-    let certificateFile = document.getElementById('certificate-file-div');
-    let certificateLink = document.getElementById('certificate-link-div');
-    if (this.checked) {
-        certificateFile.style.display = 'block';
-        certificateLink.style.display = 'none';
+/**
+ * Remove files FilePond rejected (wrong type, too large) from the list.
+ */
+function dropRejectedFiles(pond) {
+    pond.getFiles()
+        .filter(file => file.status === FileStatus.LOAD_ERROR)
+        .forEach(file => pond.removeFile(file));
+}
+
+/**
+ * Switch between the two certificate sources.
+ *
+ * Only the active input is submitted: the other one is disabled, so a link
+ * typed during an earlier edit can never override an uploaded file (both
+ * inputs share the `training_certificate` name).
+ */
+function setCertificateMode(mode) {
+    const isFile = mode !== 'link';
+
+    certificateSourceFile.checked = isFile;
+    certificateSourceLink.checked = !isFile;
+
+    certificateFileDiv.classList.toggle('d-none', !isFile);
+    certificateLinkDiv.classList.toggle('d-none', isFile);
+
+    certificateFileInput.disabled = !isFile;
+    certificateLinkInput.disabled = isFile;
+
+    if (!isFile) {
+        ponds.forEach(pond => pond.removeFiles());
+    }
+
+    if (currentCertificateUrl && removeCertificateInput.value !== '1') {
+        currentCertificateCard.classList.remove('d-none');
     } else {
-        certificateFile.style.display = 'none';
-        certificateLink.style.display = 'block';
+        currentCertificateCard.classList.add('d-none');
+    }
+}
+
+/** Show the certificate already saved for the record being edited. */
+function setCurrentCertificate(url) {
+    currentCertificateUrl = url || '';
+
+    if (!currentCertificateUrl) {
+        currentCertificateLink.setAttribute('href', '');
+        currentCertificateCard.classList.add('d-none');
+
+        return;
+    }
+
+    currentCertificateLink.href = currentCertificateUrl;
+    currentCertificateCard.classList.remove('d-none');
+}
+
+/** Clear a queued certificate removal (a new pick or a reset supersedes it). */
+function resetCertificateRemoval() {
+    removeCertificateInput.value = '0';
+    certificateRemovedNotice.classList.add('d-none');
+}
+
+certificateSourceFile.addEventListener('change', () => setCertificateMode('file'));
+certificateSourceLink.addEventListener('change', () => setCertificateMode('link'));
+
+// Start in file mode with the link input disabled: an empty link submitted
+// next to an untouched file input would otherwise clear the stored value.
+setCertificateMode('file');
+
+removeCertificateButton.addEventListener('click', () => {
+    removeCertificateInput.value = '1';
+    currentCertificateCard.classList.add('d-none');
+    certificateRemovedNotice.classList.remove('d-none');
+});
+
+undoRemoveButton.addEventListener('click', () => {
+    resetCertificateRemoval();
+
+    if (currentCertificateUrl) {
+        currentCertificateCard.classList.remove('d-none');
+    }
+});
+
+/** The end date must not precede the start date. */
+function endDateError() {
+    if (!startDateInput.value || !endDateInput.value) {
+        return '';
+    }
+
+    if (endDateInput.value < startDateInput.value) {
+        return 'The end date must be on or after the start date.';
+    }
+
+    return '';
+}
+
+function checkEndDate() {
+    setFieldError(endDateInput, endDateError());
+}
+
+startDateInput.addEventListener('change', checkEndDate);
+endDateInput.addEventListener('change', checkEndDate);
+
+/** Link mode needs a URL unless the certificate is being removed. */
+function certificateError() {
+    if (certificateSourceLink.checked
+        && removeCertificateInput.value !== '1'
+        && !certificateLinkInput.value.trim()) {
+        return 'Enter a certificate link or choose Upload a file.';
+    }
+
+    return '';
+}
+
+function checkCertificate() {
+    setFieldError(certificateLinkInput, certificateError());
+}
+
+certificateLinkInput.addEventListener('change', checkCertificate);
+
+/**
+ * Show one validation message under the field it belongs to.
+ */
+function setFieldError(input, message) {
+    clearFieldError(input);
+
+    if (!message) {
+        return;
+    }
+
+    input.classList.add('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    const feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback d-block';
+    feedback.dataset.fieldError = 'true';
+    feedback.textContent = message;
+    holder.appendChild(feedback);
+}
+
+function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    holder?.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+function clearFormErrors() {
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    form.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+/** Paint a 422 payload under its fields, then jump to the first one. */
+function showFormErrors(errors) {
+    Object.entries(errors).forEach(([field, messages]) => {
+        const element = form.elements[field];
+        // The two certificate inputs share a name, so the lookup can return a
+        // RadioNodeList instead of a single control.
+        const input = element instanceof RadioNodeList ? element[0] : element;
+
+        if (!input || messages.length === 0) {
+            return;
+        }
+
+        setFieldError(input, messages[0]);
+    });
+
+    const first = form.querySelector('.is-invalid');
+
+    if (first) {
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+    }
+}
+
+function closeFormModal() {
+    window.bootstrap.Modal.getInstance(document.getElementById('create_update_modal'))?.hide();
+}
+
+// Saved over JS so a rejected field keeps the modal (and what was typed in it)
+// open, instead of reloading the page and losing both.
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearFormErrors();
+
+    const dateError = endDateError();
+    const linkError = certificateError();
+
+    if (dateError || linkError) {
+        if (dateError) {
+            setFieldError(endDateInput, dateError);
+        }
+
+        if (linkError) {
+            setFieldError(certificateLinkInput, linkError);
+        }
+
+        const first = dateError ? endDateInput : certificateLinkInput;
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+
+        return;
+    }
+
+    submitButton.disabled = true;
+    const submitLabel = submitButton.innerHTML;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+        await axios.post(form.action, new FormData(form), {
+            headers: { Accept: 'application/json' },
+        });
+
+        closeFormModal();
+        window.location.reload();
+    } catch (error) {
+        if (error.response?.status === 422) {
+            showFormErrors(error.response.data.errors ?? {});
+        } else {
+            console.error('Training save failed:', error);
+            Swal.fire('Error!', 'The training info could not be saved.', 'error');
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = submitLabel;
     }
 });
 
@@ -165,32 +431,33 @@ $(document).on('click', '.btn-edit', function () {
 
             // Fill form fields
             $('#training_id').val(data.id);
-            $('#training_title').val(data.training_title);
             $('#training_category').val(data.training_category);
+            $('#training_title').val(data.training_title);
             $('#training_institute').val(data.training_institute);
-            $('#start_date').val(data.start_date ? data.start_date.substring(0, 10) : '');
-            $('#end_date').val(data.end_date ? data.end_date.substring(0, 10) : '');
+            // The edit response already carries 'Y-m-d' strings. Parsing the raw
+            // date attributes would shift the day for a client west of the app
+            // timezone (the UTC serialisation is the previous day there).
+            $('#start_date').val(data.start_date_input || '');
+            $('#end_date').val(data.end_date_input || '');
             $('#training_location').val(data.training_location);
             $('#training_status').val(data.training_status == 1 ? 1 : 0);
+
+            // A picked file from an earlier open must not ride along.
+            ponds.forEach(pond => pond.removeFiles());
+            clearFormErrors();
+            resetCertificateRemoval();
+
+            // A certificate stored as a link prefills the link field; a stored
+            // file shows the current-certificate card instead.
+            certificateLinkInput.value = data.certificate_is_url ? (data.training_certificate || '') : '';
+            setCurrentCertificate(data.certificate_url || '');
+            setCertificateMode(data.certificate_is_url ? 'link' : 'file');
 
             const htmlContent = data.training_details || '';
             myQuill.root.innerHTML = htmlContent;
             $('#training_details_hidden').val(htmlContent);
 
-            if (data.training_certificate != null && !data.training_certificate.startsWith('http')) {
-                document.getElementById('isFile').checked = true;
-                document.getElementById('certificate-file-div').style.display = 'block';
-                document.getElementById('certificate-link-div').style.display = 'none';
-            }
-            else {
-                $('#training_certificate_link').val(data.training_certificate);
-                document.getElementById('isFile').checked = false;
-                document.getElementById('certificate-file-div').style.display = 'none';
-                document.getElementById('certificate-link-div').style.display = 'block';
-            }
-
             // Update form
-            const form = document.getElementById('create_update_form');
             form.action = route('module.training.update');
             document.getElementById('create_update_form_method').value = 'PUT';
             document.getElementById('create_update_modal_title').innerHTML = 'Update training info';
@@ -207,16 +474,22 @@ $(document).on('click', '.btn-edit', function () {
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
-    $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('module.training.store'));
-    $('#create_update_form_method').val('POST');
-    $('#training_id').val('');
+    form.reset();
+    form.setAttribute('action', route('module.training.store'));
+    document.getElementById('create_update_form_method').value = 'POST';
+    document.getElementById('training_id').value = '';
     myQuill.root.innerHTML = '';
     $('#training_details_hidden').val('');
+    // FilePond keeps files in sync with the input, so a closed modal must drop
+    // them or the next create would resubmit the previous pick.
+    ponds.forEach(pond => pond.removeFiles());
+    certificateLinkInput.value = '';
+    setCurrentCertificate('');
+    resetCertificateRemoval();
+    setCertificateMode('file');
+    clearFormErrors();
+    statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create training info';
-    document.getElementById('isFile').checked = false;
-    document.getElementById('certificate-file-div').style.display = 'none';
-    document.getElementById('certificate-link-div').style.display = 'block';
 });
 
 document.addEventListener("DOMContentLoaded", function () {

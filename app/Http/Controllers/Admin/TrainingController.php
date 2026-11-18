@@ -31,9 +31,17 @@ class TrainingController extends Controller
      *
      * @param  StoreTrainingRequest  $request  Validated payload
      */
-    public function store(StoreTrainingRequest $request): RedirectResponse
+    public function store(StoreTrainingRequest $request): JsonResponse|RedirectResponse
     {
         $this->training_service->store($request);
+
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Training info created');
+
+            return response()->json(['message' => 'Training info created']);
+        }
 
         return back()->with('success', 'Training info created');
     }
@@ -43,7 +51,9 @@ class TrainingController extends Controller
      */
     public function edit(string $training_id): JsonResponse
     {
-        return response()->json($this->training_service->find($training_id));
+        return response()->json(
+            $this->training_service->findForEdit($training_id)
+        );
     }
 
     /**
@@ -51,9 +61,15 @@ class TrainingController extends Controller
      *
      * @param  UpdateTrainingRequest  $request  Validated payload
      */
-    public function update(UpdateTrainingRequest $request): RedirectResponse
+    public function update(UpdateTrainingRequest $request): JsonResponse|RedirectResponse
     {
         $this->training_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Training info updated');
+
+            return response()->json(['message' => 'Training info updated']);
+        }
 
         return back()->with('success', 'Training info updated');
     }

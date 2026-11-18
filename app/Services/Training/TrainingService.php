@@ -56,7 +56,7 @@ class TrainingService
         $training->start_date = $request->start_date;
         $training->end_date = $request->end_date;
         $training->training_location = $request->training_location;
-        $training->training_certificate = $this->storeCertificate($request);
+        $training->training_certificate = $this->resolveCertificate($request);
         $training->training_details = $request->training_details;
         $training->training_status = $request->training_status;
         $training->save();
@@ -67,11 +67,27 @@ class TrainingService
     }
 
     /**
-     * Find a single training record by id.
+     * Find one record plus the values the edit form reads back.
+     *
+     * The date inputs are local dates in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @return array<string, mixed>|null
      */
-    public function find(string $training_id): ?TrainingInfo
+    public function findForEdit(string $training_id): ?array
     {
-        return TrainingInfo::where('id', $training_id)->first();
+        $training = TrainingInfo::where('id', $training_id)->first();
+
+        if ($training === null) {
+            return null;
+        }
+
+        return $training->toArray() + [
+            'certificate_url' => $training->certificate_url,
+            'certificate_is_url' => $this->isCertificateUrl($training->training_certificate),
+            'start_date_input' => $training->start_date?->format('Y-m-d'),
+            'end_date_input' => $training->end_date?->format('Y-m-d'),
+        ];
     }
 
     /**
@@ -87,12 +103,28 @@ class TrainingService
         $training = TrainingInfo::findOrFail($request->training_id);
 
         if ($request->hasFile('training_certificate')) {
+            // Store the replacement before dropping the old file, so a failed
+            // upload cannot leave the record without a certificate. A picked
+            // file also wins over a removal request.
+            $new_certificate = $this->storeCertificate($request);
+
             $this->deleteCertificate($training);
 
-            $training->training_certificate = $this->storeCertificate($request);
-        } else {
-            // The field also accepts a URL string.
-            $training->training_certificate = $request->training_certificate;
+            $training->training_certificate = $new_certificate;
+        } elseif ($request->boolean('remove_training_certificate')) {
+            $this->deleteCertificate($training);
+
+            $training->training_certificate = null;
+        } elseif ($request->has('training_certificate')) {
+            // The field is absent while the file input is in use, so an update
+            // that only reshapes the record keeps the stored certificate.
+            $certificate = trim((string) $request->input('training_certificate'));
+
+            if ($certificate !== (string) $training->training_certificate) {
+                $this->deleteCertificate($training);
+
+                $training->training_certificate = $certificate === '' ? null : $certificate;
+            }
         }
 
         $training->fill([
@@ -164,23 +196,52 @@ class TrainingService
     */
 
     /**
-     * Persist an uploaded training certificate (original extension kept).
+     * The certificate to store on create: an upload, a non-empty URL, or null.
      *
      * @param  StoreTrainingRequest|UpdateTrainingRequest  $request
-     * @return string|null Stored path, or the URL string when no upload.
+     */
+    private function resolveCertificate($request): ?string
+    {
+        if ($request->hasFile('training_certificate')) {
+            return $this->storeCertificate($request);
+        }
+
+        $certificate = trim((string) $request->input('training_certificate'));
+
+        return $certificate === '' ? null : $certificate;
+    }
+
+    /**
+     * Persist an uploaded training certificate (original extension kept).
+     *
+     * Certificates are documents, not decorative images: the file is stored as
+     * uploaded instead of being re-encoded, so a PDF stays a PDF and an image
+     * keeps its bytes.
+     *
+     * @param  StoreTrainingRequest|UpdateTrainingRequest  $request
+     * @return string|null Stored path, or null when no file was uploaded.
      */
     private function storeCertificate($request): ?string
     {
         if (! $request->hasFile('training_certificate')) {
-            return $request->input('training_certificate');
+            return null;
         }
 
         $file = $request->file('training_certificate');
-        $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
+        $filename = Str::uuid().'.'.strtolower($file->getClientOriginalExtension());
 
         Storage::disk('public')->putFileAs(self::CERT_DIR, $file, $filename);
 
         return self::CERT_DIR.'/'.$filename;
+    }
+
+    /**
+     * Whether the stored certificate is an external link rather than a file.
+     */
+    private function isCertificateUrl(?string $certificate): bool
+    {
+        return is_string($certificate)
+            && Str::startsWith($certificate, ['http://', 'https://']);
     }
 
     /**

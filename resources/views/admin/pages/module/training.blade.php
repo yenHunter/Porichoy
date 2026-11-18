@@ -53,7 +53,7 @@
                     <table class="table table-striped dt-responsive align-middle mb-0" data-tables="basic">
                         <thead class="thead-sm text-uppercase fs-xxs">
                             <tr>
-                                <th>#</th>
+                                <th>Order</th>
                                 <th>Certificate</th>
                                 <th>Title</th>
                                 <th>Institute</th>
@@ -65,13 +65,18 @@
                             @foreach ($training_list as $item)
                                 <tr data-id="{{ $item->id }}">
                                     <td>
-                                        <i class="ti ti-arrows-move fs-42"></i>
+                                        <i class="ti ti-arrows-move fs-lg"></i>
                                     </td>
                                     <td>
-                                        <a href="{{ $item->certificate_url }}" target="_blank">
-                                            <img class="img-thumbnail rounded" width="50px"
-                                                src="{{ asset('static/module/training.png') }}" alt="source-logo">
-                                        </a>
+                                        @if ($item->certificate_url)
+                                            <a href="{{ $item->certificate_url }}" rel="noopener" target="_blank">
+                                                <img class="img-thumbnail rounded" width="50px"
+                                                    src="{{ asset('static/module/training.png') }}" alt="certificate">
+                                            </a>
+                                        @else
+                                            <img class="img-thumbnail rounded opacity-50" width="50px"
+                                                src="{{ asset('static/module/training.png') }}" alt="no certificate">
+                                        @endif
                                     </td>
                                     <td>
                                         {{ $item->training_title }}
@@ -118,7 +123,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create client info</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create training info</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
@@ -126,7 +131,7 @@
                             <div class="col-lg-12">
                                 <div class="form-floating">
                                     <select class="form-select" name="training_category" id="training_category" required>
-                                        <option selected disabled>Choose...</option>
+                                        <option disabled value="">Choose a category...</option>
                                         @foreach ($training_category as $item)
                                             <option value="{{ $item->id }}"
                                                 {{ old('training_category') == $item->id ? 'selected' : '' }}>
@@ -186,23 +191,54 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" id="isFile" type="checkbox" />
-                                    <label class="form-check-label" for="isFile">Upload certificate</label>
+                                <label class="form-label">Certificate</label>
+                                <div class="d-flex flex-wrap gap-3 mb-2">
+                                    <div class="form-check">
+                                        <input checked class="form-check-input" id="certificate_source_file"
+                                            name="certificate_source" type="radio" value="file">
+                                        <label class="form-check-label" for="certificate_source_file">Upload a
+                                            file</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="certificate_source_link"
+                                            name="certificate_source" type="radio" value="link">
+                                        <label class="form-check-label" for="certificate_source_link">Use a link</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12" id="certificate-file-div" style="display: none;">
-                                <div class="filepond-uploader form-floating">
-                                    <input class="filepond" name="training_certificate" type="file" />
-                                    <label for="training_certificate">Certificate</label>
+
+                                <div id="certificate-file-div">
+                                    <div class="filepond-uploader">
+                                        <input accept="application/pdf,image/jpeg,image/png" class="filepond"
+                                            name="training_certificate" type="file" />
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_training_certificate">
+                                        <i class="ti ti-file-certificate fs-2 text-primary"></i>
+                                        <div class="small text-muted">
+                                            <a class="d-block fw-semibold text-body text-decoration-underline"
+                                                href="" id="current_training_certificate_link" rel="noopener"
+                                                target="_blank">Current certificate</a>
+                                            Choose a new file to replace it, or remove it.
+                                        </div>
+                                        <button class="btn btn-sm btn-soft-danger ms-auto"
+                                            id="current_training_certificate_remove" type="button">
+                                            <i class="ti ti-trash fs-lg"></i> Remove
+                                        </button>
+                                    </div>
+                                    <div class="small text-danger mt-2 d-none" id="current_training_certificate_removed">
+                                        The certificate will be removed when you save.
+                                        <button class="btn btn-link btn-sm p-0 align-baseline"
+                                            id="current_training_certificate_undo" type="button">Undo</button>
+                                    </div>
+                                    <input id="remove_training_certificate" name="remove_training_certificate"
+                                        type="hidden" value="0">
+                                    <div class="form-text">PDF, JPG or PNG — up to 10 MB.</div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12" id="certificate-link-div">
-                                <div class="form-floating">
+
+                                <div class="form-floating d-none" id="certificate-link-div">
                                     <input class="form-control" value="{{ old('training_certificate') }}"
-                                        placeholder="https://www.netacad.com/courses/introduction-data-science"
-                                        name="training_certificate" id="training_certificate_link" type="text" />
-                                    <label for="training_certificate_link">Link</label>
+                                        placeholder="https://www.netacad.com/certificates/example"
+                                        name="training_certificate" id="training_certificate_link" type="url" />
+                                    <label for="training_certificate_link">Certificate link</label>
                                 </div>
                             </div>
                             <div class="col-lg-12">
@@ -214,8 +250,7 @@
                                 <div class="form-floating">
                                     <select aria-label="Select Status" class="form-select" name="training_status"
                                         id="training_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
+                                        <option selected value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                     <label for="training_status">Status</label>
