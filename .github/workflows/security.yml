@@ -47,8 +47,11 @@ jobs:
 
       # Reads package-lock.json, so there is nothing to install. High and
       # critical advisories fail the job; lower ones are still printed and land
-      # in the job summary, they just do not block.
+      # in the job summary, they just do not block. The allowlist in the gate
+      # script holds only advisories with no installable fix yet, and each entry
+      # says why — everything else still fails the run.
       - name: Audit npm dependencies
         run: |
           set -o pipefail
-          npm audit --package-lock-only --audit-level=high 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+          npm audit --package-lock-only 2>&1 | tee -a "$GITHUB_STEP_SUMMARY" || true
+          node .github/scripts/audit-npm.js | tee -a "$GITHUB_STEP_SUMMARY"
