@@ -10,6 +10,7 @@ use App\Models\ProjectInfo;
 use App\Models\ServiceInfo;
 use App\Traits\UserLogTrait;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
@@ -76,6 +77,30 @@ class ProjectService
     public function find(string $project_id): ?ProjectInfo
     {
         return ProjectInfo::where('id', $project_id)->first();
+    }
+
+    /**
+     * Find one record plus the values the edit form reads back.
+     *
+     * The date inputs are local dates in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findForEdit(string $project_id): ?array
+    {
+        $project = ProjectInfo::where('id', $project_id)->first();
+
+        if ($project === null) {
+            return null;
+        }
+
+        return $project->toArray() + [
+            'profile_image_url' => $project->project_profile_image_url,
+            'cover_image_url' => $project->project_cover_image_url,
+            'start_date_input' => $project->start_date?->format('Y-m-d'),
+            'end_date_input' => $project->end_date?->format('Y-m-d'),
+        ];
     }
 
     /**
@@ -152,27 +177,52 @@ class ProjectService
     */
 
     /**
-     * Handle both project images in one pass (store new, delete old).
+     * Handle both project images in one pass.
+     *
+     * A picked file replaces the stored image; otherwise a removal request
+     * clears it; otherwise the stored image is kept, so saving an edit without
+     * touching an image cannot wipe it.
      */
     private function storeProjectImages(ProjectInfo $project, StoreProjectRequest|UpdateProjectRequest $request): void
     {
         foreach (self::IMAGE_DIRS as $field => $config) {
-            if (! $request->hasFile($field)) {
+            if ($request->hasFile($field)) {
+                // Convert and store the replacement before dropping the old
+                // file, so a failed conversion cannot leave the record without
+                // an image.
+                $path = $this->storeImage($request->file($field), $config);
+
+                $this->deleteImage($project->{$field});
+
+                $project->{$field} = $path;
+
                 continue;
             }
 
-            $this->deleteImage($project->{$field});
+            if ($request->boolean('remove_'.$field)) {
+                $this->deleteImage($project->{$field});
 
-            $filename = Str::uuid().'.webp';
-            $path = $config['dir'].'/'.$filename;
-
-            $image = Image::read($request->file($field));
-            $image->scale(width: $config['width']);
-
-            Storage::disk('public')->put($path, $image->toWebp(80));
-
-            $project->{$field} = $path;
+                $project->{$field} = null;
+            }
         }
+    }
+
+    /**
+     * Convert one uploaded image to WebP and store it on the public disk.
+     *
+     * @param  UploadedFile  $file
+     * @param  array{dir: string, width: int}  $config
+     */
+    private function storeImage($file, array $config): string
+    {
+        $path = $config['dir'].'/'.Str::uuid().'.webp';
+
+        $image = Image::read($file);
+        $image->scale(width: $config['width']);
+
+        Storage::disk('public')->put($path, $image->toWebp(80));
+
+        return $path;
     }
 
     /**

@@ -8,9 +8,10 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { route } from 'ziggy-js';
 
-import { registerPlugin, create } from 'filepond';
+import { registerPlugin, create, FileStatus } from 'filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
@@ -42,6 +43,16 @@ document.addEventListener("DOMContentLoaded", () => {
 let myQuill;
 let choicesClientInstance;
 let choicesServiceInstance;
+
+/**
+ * Choices has no getOrCreateInstance in this build, and the admin select is a
+ * plain <select> with no data-choices attribute, so one is built per select.
+ */
+function createChoices(selector) {
+    const element = document.querySelector(selector);
+
+    return element ? new Choices(element, { searchEnabled: true, shouldSort: false }) : null;
+}
 
 $(document).ready(function () {
     try {
@@ -101,8 +112,8 @@ $(document).ready(function () {
     }
 
     // Store Choices instances for later use
-    choicesClientInstance = Choices.getOrCreateInstance('#client_id');
-    choicesServiceInstance = Choices.getOrCreateInstance('#service_id');
+    choicesClientInstance = createChoices('#client_id');
+    choicesServiceInstance = createChoices('#service_id');
 });
 
 new DataTable('[data-tables="basic"]', {
@@ -119,21 +130,239 @@ new DataTable('[data-tables="basic"]', {
 // Register plugin
 registerPlugin(
     FilePondPluginImagePreview,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize
 );
 
-// Initialize FilePond for all file inputs
-const inputElement = document.querySelectorAll('.filepond');
+// The same limits the server enforces.
+const IMAGE_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const IMAGE_MAX_BYTES = 10 * 1024 * 1024;
 
-inputElement.forEach(input => {
-    create(input, {
+const form = document.getElementById('create_update_form');
+const submitButton = form.querySelector('button[type="submit"]');
+const startDateInput = document.getElementById('start_date');
+const endDateInput = document.getElementById('end_date');
+const statusInput = document.getElementById('project_status');
+
+/**
+ * One stored image: its picker, its "current image" card and its removal
+ * request. The server keeps the stored image when none of them changes.
+ */
+const imageGroups = ['profile_image', 'cover_image'].map(field => ({
+    field,
+    card: document.getElementById(`current_${field}`),
+    preview: document.getElementById(`current_${field}_preview`),
+    removeInput: document.getElementById(`remove_${field}`),
+    removeButton: document.getElementById(`current_${field}_remove`),
+    notice: document.getElementById(`current_${field}_removed`),
+    undoButton: document.getElementById(`current_${field}_undo`),
+    url: '',
+}));
+
+function imageGroup(field) {
+    return imageGroups.find(group => group.field === field);
+}
+
+// Initialize the pickers after the elements they talk to exist.
+const ponds = {};
+
+form.querySelectorAll('input.filepond').forEach(input => {
+    const group = imageGroup(input.name);
+
+    ponds[input.name] = create(input, {
         allowImagePreview: true,
         imagePreviewHeight: 150,
         allowMultiple: false,
-        acceptedFileTypes: ['image/*'],
+        acceptedFileTypes: IMAGE_MIME_TYPES,
+        maxFileSize: IMAGE_MAX_BYTES,
+        // Report the limit in the same units the help text uses.
+        fileSizeBase: 1024,
         instantUpload: false,
         storeAsFile: true,
+        // Without the plugin an oversized file is only rejected by the server,
+        // after the whole modal has been submitted.
+        labelIdle: 'Drag & drop an image or <span class="filepond--label-action">Browse</span>',
+        labelFileTypeNotAllowed: 'The image must be a JPEG, PNG, GIF or WebP file.',
+        labelMaxFileSizeExceeded: 'This image is too large.',
+        labelMaxFileSize: 'The maximum size is {filesize}.',
+        // A rejected file stays in the list on its own, so an accepted pick
+        // would sit next to it and the field would look like it holds two.
+        onaddfile: (error) => {
+            if (!error) {
+                dropRejectedFiles(ponds[input.name]);
+                // The new pick replaces the stored image and any queued removal.
+                resetImageRemoval(group);
+                group.card.classList.add('d-none');
+            }
+        },
+        onremovefile: () => {
+            if (group.url && group.removeInput.value !== '1') {
+                group.card.classList.remove('d-none');
+            }
+        },
     });
+});
+
+/**
+ * Remove files FilePond rejected (wrong type, too large) from the list.
+ */
+function dropRejectedFiles(pond) {
+    pond.getFiles()
+        .filter(file => file.status === FileStatus.LOAD_ERROR)
+        .forEach(file => pond.removeFile(file));
+}
+
+/** Show the image already saved for the record being edited. */
+function setCurrentImage(group, url) {
+    group.url = url || '';
+
+    if (!group.url) {
+        group.preview.setAttribute('src', '');
+        group.card.classList.add('d-none');
+
+        return;
+    }
+
+    group.preview.src = group.url;
+    group.card.classList.remove('d-none');
+}
+
+/** Clear a queued image removal (a new pick or a reset supersedes it). */
+function resetImageRemoval(group) {
+    group.removeInput.value = '0';
+    group.notice.classList.add('d-none');
+}
+
+imageGroups.forEach(group => {
+    group.removeButton.addEventListener('click', () => {
+        group.removeInput.value = '1';
+        group.card.classList.add('d-none');
+        group.notice.classList.remove('d-none');
+    });
+
+    group.undoButton.addEventListener('click', () => {
+        resetImageRemoval(group);
+
+        if (group.url) {
+            group.card.classList.remove('d-none');
+        }
+    });
+});
+
+/** The end date must not precede the start date. */
+function endDateError() {
+    if (!startDateInput.value || !endDateInput.value) {
+        return '';
+    }
+
+    if (endDateInput.value < startDateInput.value) {
+        return 'The end date must be on or after the start date.';
+    }
+
+    return '';
+}
+
+function checkEndDate() {
+    setFieldError(endDateInput, endDateError());
+}
+
+startDateInput.addEventListener('change', checkEndDate);
+endDateInput.addEventListener('change', checkEndDate);
+
+/**
+ * Show one validation message under the field it belongs to.
+ */
+function setFieldError(input, message) {
+    clearFieldError(input);
+
+    if (!message) {
+        return;
+    }
+
+    input.classList.add('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    const feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback d-block';
+    feedback.dataset.fieldError = 'true';
+    feedback.textContent = message;
+    holder.appendChild(feedback);
+}
+
+function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    holder?.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+function clearFormErrors() {
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    form.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+/** Paint a 422 payload under its fields, then jump to the first one. */
+function showFormErrors(errors) {
+    Object.entries(errors).forEach(([field, messages]) => {
+        const input = form.elements[field];
+
+        if (!input || messages.length === 0) {
+            return;
+        }
+
+        setFieldError(input, messages[0]);
+    });
+
+    const first = form.querySelector('.is-invalid');
+
+    if (first) {
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+    }
+}
+
+function closeFormModal() {
+    window.bootstrap.Modal.getInstance(document.getElementById('create_update_modal'))?.hide();
+}
+
+// Saved over JS so a rejected field keeps the modal (and what was typed in it)
+// open, instead of reloading the page and losing both.
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearFormErrors();
+
+    const dateError = endDateError();
+
+    if (dateError) {
+        setFieldError(endDateInput, dateError);
+        endDateInput.scrollIntoView({ block: 'center' });
+        endDateInput.focus({ preventScroll: true });
+
+        return;
+    }
+
+    submitButton.disabled = true;
+    const submitLabel = submitButton.innerHTML;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+        await axios.post(form.action, new FormData(form), {
+            headers: { Accept: 'application/json' },
+        });
+
+        closeFormModal();
+        window.location.reload();
+    } catch (error) {
+        if (error.response?.status === 422) {
+            showFormErrors(error.response.data.errors ?? {});
+        } else {
+            console.error('Project save failed:', error);
+            Swal.fire('Error!', 'The project could not be saved.', 'error');
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = submitLabel;
+    }
 });
 
 $(function () {
@@ -164,6 +393,7 @@ $(function () {
                     Swal.fire('Updated!', 'Project order updated successfully.', 'success');
                 })
                 .catch(error => {
+                    console.error(error);
                     Swal.fire('Error!', 'Could not update order.', 'error');
                 });
         }
@@ -180,8 +410,11 @@ $(document).on('click', '.btn-edit', function () {
             // Fill form fields
             $('#project_id').val(data.id);
             $('#project_title').val(data.project_title);
-            $('#start_date').val(data.start_date);
-            $('#end_date').val(data.end_date);
+            // The edit response already carries 'Y-m-d' strings. Parsing the raw
+            // date attributes would shift the day for a client west of the app
+            // timezone (the UTC serialisation is the previous day there).
+            $('#start_date').val(data.start_date_input || '');
+            $('#end_date').val(data.end_date_input || '');
             $('#project_location').val(data.project_location);
             $('#project_background').val(data.project_background);
             $('#project_challenges').val(data.project_challenges);
@@ -190,16 +423,28 @@ $(document).on('click', '.btn-edit', function () {
 
             // Set Choices select values
             if (data.client_id) {
-                choicesClientInstance.setChoiceByValue(data.client_id.toString());
+                choicesClientInstance?.setChoiceByValue(data.client_id.toString());
             } else {
-                choicesClientInstance.clearStore();
+                choicesClientInstance?.clearStore();
             }
 
             if (data.service_id) {
-                choicesServiceInstance.setChoiceByValue(data.service_id.toString());
+                choicesServiceInstance?.setChoiceByValue(data.service_id.toString());
             } else {
-                choicesServiceInstance.clearStore();
+                choicesServiceInstance?.clearStore();
             }
+
+            // A picked file from an earlier open must not ride along.
+            Object.values(ponds).forEach(pond => pond.removeFiles());
+            clearFormErrors();
+
+            imageGroups.forEach(group => {
+                resetImageRemoval(group);
+                setCurrentImage(
+                    group,
+                    data[group.field] ? (data[`${group.field}_url`] || '') : ''
+                );
+            });
 
             // Set Quill editor content
             const htmlContent = data.project_details || '';
@@ -207,7 +452,6 @@ $(document).on('click', '.btn-edit', function () {
             $('#project_details_hidden').val(htmlContent);
 
             // Update form
-            const form = document.getElementById('create_update_form');
             form.action = route('element.project.update');
             document.getElementById('create_update_form_method').value = 'PUT';
             document.getElementById('create_update_modal_title').innerHTML = 'Update project info';
@@ -224,20 +468,23 @@ $(document).on('click', '.btn-edit', function () {
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
-    $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('element.project.store'));
-    $('#create_update_form_method').val('POST');
-    $('#project_id').val('');
-    $('#start_date').val('');
-    $('#end_date').val('');
-    $('#project_location').val('');
-    $('#project_background').val('');
-    $('#project_challenges').val('');
-    $('#project_solution').val('');
-    choicesClientInstance.clearStore();
-    choicesServiceInstance.clearStore();
+    form.reset();
+    form.setAttribute('action', route('element.project.store'));
+    document.getElementById('create_update_form_method').value = 'POST';
+    document.getElementById('project_id').value = '';
     myQuill.root.innerHTML = '';
     $('#project_details_hidden').val('');
+    // FilePond keeps files in sync with the input, so a closed modal must drop
+    // them or the next create would resubmit the previous picks.
+    Object.values(ponds).forEach(pond => pond.removeFiles());
+    imageGroups.forEach(group => {
+        resetImageRemoval(group);
+        setCurrentImage(group, '');
+    });
+    choicesClientInstance?.clearStore();
+    choicesServiceInstance?.clearStore();
+    clearFormErrors();
+    statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create project info';
 });
 

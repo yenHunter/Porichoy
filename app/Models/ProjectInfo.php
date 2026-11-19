@@ -125,7 +125,7 @@ class ProjectInfo extends Model
         return Attribute::make(
             get: fn () => $this->profile_image
                 ? asset('storage/'.$this->profile_image)
-                : asset('static/logo/project.png')
+                : asset('static/module/project.png')
         );
     }
 
@@ -134,7 +134,7 @@ class ProjectInfo extends Model
         return Attribute::make(
             get: fn () => $this->cover_image
                 ? asset('storage/'.$this->cover_image)
-                : asset('static/logo/project.png')
+                : asset('static/module/project.png')
         );
     }
 

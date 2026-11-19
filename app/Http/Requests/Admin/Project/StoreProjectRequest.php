@@ -26,6 +26,8 @@ class StoreProjectRequest extends FormRequest
             'project_details' => ['nullable', 'string'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
             'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:10240'],
+            'remove_profile_image' => ['nullable', 'boolean'],
+            'remove_cover_image' => ['nullable', 'boolean'],
             'client_id' => ['nullable', 'exists:client_infos,id'],
             'start_date' => ['required', 'date'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
@@ -58,6 +60,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'client_id' => 'client',
             'service_id' => 'service',
+            'profile_image' => 'profile image',
+            'cover_image' => 'cover image',
         ];
     }
 
