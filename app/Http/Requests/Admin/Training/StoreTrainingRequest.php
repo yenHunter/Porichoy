@@ -37,15 +37,32 @@ class StoreTrainingRequest extends FormRequest
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
             'training_location' => ['nullable', 'string', 'max:255'],
 
-            // Certificate may be an uploaded file (pdf/jpg/png) OR a URL string.
+            // Certificate may be an uploaded file (PDF/JPG/JPEG/PNG) OR a URL.
+            // The size ceiling matches the picker's 10 MB limit.
             'training_certificate' => [
                 'nullable',
                 function ($attribute, $value, $fail) {
                     if ($value instanceof UploadedFile) {
-                        if (! $value->isValid() || ! in_array($value->extension(), ['pdf', 'jpg', 'png'])) {
-                            $fail('The certificate must be a valid PDF, JPG, or PNG file.');
+                        if (! $value->isValid()) {
+                            $fail('The certificate could not be uploaded. Choose the file again.');
+
+                            return;
                         }
 
+                        if (! in_array(strtolower($value->getClientOriginalExtension()), ['pdf', 'jpg', 'jpeg', 'png'], true)) {
+                            $fail('The certificate must be a PDF, JPG or PNG file.');
+
+                            return;
+                        }
+
+                        if ($value->getSize() > 10 * 1024 * 1024) {
+                            $fail('The certificate may not be larger than 10 MB.');
+                        }
+
+                        return;
+                    }
+
+                    if ($value === null || $value === '') {
                         return;
                     }
 
@@ -68,5 +85,17 @@ class StoreTrainingRequest extends FormRequest
     public function rules(): array
     {
         return self::sharedRules();
+    }
+
+    /**
+     * Field names for validation error display.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'training_certificate' => 'certificate',
+        ];
     }
 }
