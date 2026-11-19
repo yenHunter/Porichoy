@@ -30,19 +30,29 @@ class ProjectController extends Controller
      *
      * @param  StoreProjectRequest  $request  Validated payload
      */
-    public function store(StoreProjectRequest $request): RedirectResponse
+    public function store(StoreProjectRequest $request): JsonResponse|RedirectResponse
     {
         $this->project_service->store($request);
 
-        return back()->with('success', 'Project added successfully.');
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Project info created');
+
+            return response()->json(['message' => 'Project info created']);
+        }
+
+        return back()->with('success', 'Project info created');
     }
 
     /**
-     * Get a project info by id.
+     * Get a project info by id, with the values the edit form reads back.
      */
     public function edit(string $project_id): JsonResponse
     {
-        return response()->json($this->project_service->find($project_id));
+        return response()->json(
+            $this->project_service->findForEdit($project_id)
+        );
     }
 
     /**
@@ -50,9 +60,15 @@ class ProjectController extends Controller
      *
      * @param  UpdateProjectRequest  $request  Validated payload
      */
-    public function update(UpdateProjectRequest $request): RedirectResponse
+    public function update(UpdateProjectRequest $request): JsonResponse|RedirectResponse
     {
         $this->project_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Project info updated');
+
+            return response()->json(['message' => 'Project info updated']);
+        }
 
         return back()->with('success', 'Project info updated');
     }
