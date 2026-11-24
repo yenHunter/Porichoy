@@ -65,15 +65,20 @@
                             @foreach ($research_list as $item)
                                 <tr data-id="{{ $item->id }}">
                                     <td>
-                                        <i class="ti ti-arrows-move fs-42"></i>
+                                        <i class="ti ti-arrows-move fs-lg"></i>
                                     </td>
                                     <td>
                                         <img class="img-thumbnail rounded" width="50px"
-                                            src="{{ asset($item->source->details) }}" alt="source-logo">
+                                            src="{{ $item->source?->details_url ?? asset('static/module/research.png') }}"
+                                            alt="source-logo">
                                     </td>
                                     <td>
-                                        <a href="{{ $item->link }}" class="text-dark"
-                                            target="_blank">{{ $item->research_title }}</a>
+                                        @if ($item->research_link)
+                                            <a href="{{ $item->research_link }}" class="text-dark" target="_blank"
+                                                rel="noopener">{{ $item->research_title }}</a>
+                                        @else
+                                            <span class="text-dark">{{ $item->research_title }}</span>
+                                        @endif
                                         <br>
                                         <small>{{ $item->research_category }}</small>
                                     </td>
@@ -116,7 +121,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-fullscreen" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="create_update_modal_title">Create client info</h5>
+                        <h5 class="modal-title" id="create_update_modal_title">Create research info</h5>
                         <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
                     </div>
                     <div class="modal-body">
@@ -152,16 +157,21 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="form-floating">
-                                            <select class="form-select" name="research_category" id="research_category">
+                                            <select class="form-select" name="research_category" id="research_category"
+                                                required>
                                                 <option selected disabled>Choose...</option>
-                                                <option {{ old('category') == 'National' ? 'selected' : '' }}>
+                                                <option value="National"
+                                                    {{ old('research_category') == 'National' ? 'selected' : '' }}>
                                                     National
                                                 </option>
-                                                <option {{ old('category') == 'International' ? 'selected' : '' }}>
+                                                <option value="International"
+                                                    {{ old('research_category') == 'International' ? 'selected' : '' }}>
                                                     International
                                                 </option>
                                             </select>
-                                            <label for="research_category">Category</label>
+                                            <label for="research_category">Category
+                                                <span class="badge badge-soft-danger">required</span>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -175,10 +185,12 @@
                                         <div class="form-floating">
                                             <select class="form-select" name="research_role" id="research_role">
                                                 <option selected disabled>Choose...</option>
-                                                <option {{ old('research_role') == 'Author' ? 'selected' : '' }}>
+                                                <option value="Author"
+                                                    {{ old('research_role') == 'Author' ? 'selected' : '' }}>
                                                     Author
                                                 </option>
-                                                <option {{ old('research_role') == 'Co-author' ? 'selected' : '' }}>
+                                                <option value="Co-author"
+                                                    {{ old('research_role') == 'Co-author' ? 'selected' : '' }}>
                                                     Co-author
                                                 </option>
                                             </select>
@@ -212,8 +224,7 @@
                                 <div class="form-floating">
                                     <select aria-label="Select Status" class="form-select" name="research_status"
                                         id="research_status">
-                                        <option selected disabled>Choose...</option>
-                                        <option value="1">Active</option>
+                                        <option selected value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                     <label for="research_status">Status</label>
