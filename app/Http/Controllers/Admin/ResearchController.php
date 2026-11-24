@@ -31,9 +31,17 @@ class ResearchController extends Controller
      *
      * @param  StoreResearchRequest  $request  Validated payload
      */
-    public function store(StoreResearchRequest $request): RedirectResponse
+    public function store(StoreResearchRequest $request): JsonResponse|RedirectResponse
     {
         $this->research_service->store($request);
+
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Research info created');
+
+            return response()->json(['message' => 'Research info created']);
+        }
 
         return back()->with('success', 'Research info created');
     }
@@ -43,7 +51,9 @@ class ResearchController extends Controller
      */
     public function edit(string $research_id): JsonResponse
     {
-        return response()->json($this->research_service->find($research_id));
+        return response()->json(
+            $this->research_service->findForEdit($research_id)
+        );
     }
 
     /**
@@ -51,9 +61,15 @@ class ResearchController extends Controller
      *
      * @param  UpdateResearchRequest  $request  Validated payload
      */
-    public function update(UpdateResearchRequest $request): RedirectResponse
+    public function update(UpdateResearchRequest $request): JsonResponse|RedirectResponse
     {
         $this->research_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Research info updated');
+
+            return response()->json(['message' => 'Research info updated']);
+        }
 
         return back()->with('success', 'Research info updated');
     }

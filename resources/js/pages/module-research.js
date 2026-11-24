@@ -82,6 +82,96 @@ new DataTable('[data-tables="basic"]', {
     },
 });
 
+const form = document.getElementById('create_update_form');
+const submitButton = form.querySelector('button[type="submit"]');
+const statusInput = document.getElementById('research_status');
+
+/**
+ * Show one validation message under the field it belongs to.
+ */
+function setFieldError(input, message) {
+    clearFieldError(input);
+
+    if (!message) {
+        return;
+    }
+
+    input.classList.add('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    const feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback d-block';
+    feedback.dataset.fieldError = 'true';
+    feedback.textContent = message;
+    holder.appendChild(feedback);
+}
+
+function clearFieldError(input) {
+    input.classList.remove('is-invalid');
+
+    const holder = input.closest('.col-lg-12') || input.parentElement;
+    holder?.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+function clearFormErrors() {
+    form.querySelectorAll('.is-invalid').forEach(input => input.classList.remove('is-invalid'));
+    form.querySelectorAll('[data-field-error]').forEach(node => node.remove());
+}
+
+/** Paint a 422 payload under its fields, then jump to the first one. */
+function showFormErrors(errors) {
+    Object.entries(errors).forEach(([field, messages]) => {
+        const input = form.elements[field];
+
+        if (!input || messages.length === 0) {
+            return;
+        }
+
+        setFieldError(input, messages[0]);
+    });
+
+    const first = form.querySelector('.is-invalid');
+
+    if (first) {
+        first.scrollIntoView({ block: 'center' });
+        first.focus({ preventScroll: true });
+    }
+}
+
+function closeFormModal() {
+    window.bootstrap.Modal.getInstance(document.getElementById('create_update_modal'))?.hide();
+}
+
+// Saved over JS so a rejected field keeps the modal (and what was typed in it)
+// open, instead of reloading the page and losing both.
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearFormErrors();
+
+    submitButton.disabled = true;
+    const submitLabel = submitButton.innerHTML;
+    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+
+    try {
+        await axios.post(form.action, new FormData(form), {
+            headers: { Accept: 'application/json' },
+        });
+
+        closeFormModal();
+        window.location.reload();
+    } catch (error) {
+        if (error.response?.status === 422) {
+            showFormErrors(error.response.data.errors ?? {});
+        } else {
+            console.error('Research save failed:', error);
+            Swal.fire('Error!', 'The research info could not be saved.', 'error');
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = submitLabel;
+    }
+});
+
 $(function () {
     $("#sortable-research").sortable({
         handle: '.ti-arrows-move',
@@ -129,18 +219,24 @@ $(document).on('click', '.btn-edit', function () {
             $('#research_source').val(data.research_source);
             $('#research_category').val(data.research_category);
             $('#research_title').val(data.research_title);
-            $('#published_date').val(data.published_date ? data.published_date.substring(0, 10) : '');
+            // The edit response already carries a 'Y-m-d' string. Parsing the raw
+            // date attribute would shift the day for a client west of the app
+            // timezone (the UTC serialisation is the previous day there).
+            $('#published_date').val(data.published_date_input || '');
             $('#research_role').val(data.research_role);
             $('#research_authors').val(data.research_authors);
             $('#research_link').val(data.research_link);
             $('#research_status').val(data.research_status == 1 ? 1 : 0);
 
+            clearFormErrors();
+
             const htmlContent = data.research_details || '';
-            myQuill.root.innerHTML = htmlContent;
+            if (myQuill) {
+                myQuill.root.innerHTML = htmlContent;
+            }
             $('#research_details_hidden').val(htmlContent);
 
             // Update form
-            const form = document.getElementById('create_update_form');
             form.action = route('module.research.update');
             document.getElementById('create_update_form_method').value = 'PUT';
             document.getElementById('create_update_modal_title').innerHTML = 'Update research info';
@@ -157,12 +253,16 @@ $(document).on('click', '.btn-edit', function () {
 });
 
 $('#create_update_modal').on('hidden.bs.modal', function () {
-    $('#create_update_form')[0].reset();
-    $('#create_update_form').attr('action', route('module.research.store'));
+    form.reset();
+    $(form).attr('action', route('module.research.store'));
     $('#create_update_form_method').val('POST');
     $('#research_id').val('');
-    myQuill.root.innerHTML = '';
-    $('#employment_details_hidden').val('');
+    if (myQuill) {
+        myQuill.root.innerHTML = '';
+    }
+    $('#research_details_hidden').val('');
+    clearFormErrors();
+    statusInput.value = '1';
     document.getElementById('create_update_modal_title').innerHTML = 'Create research info';
 });
 

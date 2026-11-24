@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class SelectType extends Model
 {
@@ -52,6 +53,30 @@ class SelectType extends Model
                 $model->sequence = static::where('use_for', $model->use_for)->max('sequence') + 1;
             }
         });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attributes
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * Public URL of the row's image, or null when it has none.
+     *
+     * Seeded images live under `public/static/...` and are used as stored;
+     * uploads live on the public disk and need the `storage/` prefix, which
+     * a bare `asset($details)` would miss and render as a broken image.
+     */
+    public function getDetailsUrlAttribute(): ?string
+    {
+        if (! $this->details) {
+            return null;
+        }
+
+        return Str::contains($this->details, 'static/')
+            ? asset($this->details)
+            : asset('storage/'.$this->details);
     }
 
     /*

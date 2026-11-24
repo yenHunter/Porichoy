@@ -60,11 +60,24 @@ class ResearchService
     }
 
     /**
-     * Find a single research record by id.
+     * Find one record plus the dates the edit form reads back.
+     *
+     * The date input is a local date in the application timezone; a raw ISO
+     * value would show the previous day whenever the app is ahead of UTC.
+     *
+     * @return array<string, mixed>|null
      */
-    public function find(string $research_id): ?ResearchInfo
+    public function findForEdit(string $research_id): ?array
     {
-        return ResearchInfo::where('id', $research_id)->first();
+        $research = ResearchInfo::where('id', $research_id)->first();
+
+        if ($research === null) {
+            return null;
+        }
+
+        return $research->toArray() + [
+            'published_date_input' => $research->published_date?->format('Y-m-d'),
+        ];
     }
 
     /**
