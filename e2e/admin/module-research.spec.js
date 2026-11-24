@@ -71,6 +71,20 @@ async function openEdit(page, title) {
     await expect(page.locator('#create_update_modal')).toHaveClass(/show/);
 }
 
+/**
+ * Bootstrap ignores a hide request that arrives while the modal is still
+ * animating open, so a click right after `show` can be swallowed. Retry until
+ * the modal is actually gone instead of asserting on the first click.
+ */
+async function closeModal(page) {
+    await expect(async () => {
+        await page.click('#create_update_modal .btn-light');
+        await expect(page.locator('#create_update_modal')).not.toHaveClass(/show/, {
+            timeout: 500,
+        });
+    }).toPass({ timeout: 15_000 });
+}
+
 test.describe('research module', () => {
     // These tests sign in and save through the modal, which reloads the listing.
     test.describe.configure({ timeout: 90_000 });
@@ -137,9 +151,7 @@ test.describe('research module', () => {
         await createResearch(page, RESET_TITLE);
         await openEdit(page, RESET_TITLE);
 
-        await page.click('#create_update_modal .btn-light');
-
-        await expect(page.locator('#create_update_modal')).not.toHaveClass(/show/);
+        await closeModal(page);
 
         await page.click('a[data-bs-target="#create_update_modal"]');
 
