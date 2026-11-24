@@ -67,19 +67,9 @@
                                         <i class="ti ti-arrows-move fs-42"></i>
                                     </td>
                                     <td>
-                                        @if (isset($item->details))
-                                            @if (\Illuminate\Support\Str::contains($item->details, 'static/settings/'))
-                                                <img class="img-thumbnail rounded" width="50px"
-                                                    src="{{ asset($item->details) }}" alt="source-logo" />
-                                            @else
-                                                <img class="img-thumbnail rounded" width="50px"
-                                                    src="{{ asset('storage/' . $item->details) }}"
-                                                    alt="source-logo" />
-                                            @endif
-                                        @else
-                                            <img class="img-thumbnail rounded" width="50px"
-                                                src="{{ asset('static/module/research.png') }}" alt="source-logo">
-                                        @endif
+                                        <img class="img-thumbnail rounded" width="50px"
+                                            src="{{ $item->details_url ?? asset('static/module/research.png') }}"
+                                            alt="source-logo">
                                     </td>
                                     <td>
                                         {{ $item->value }}
