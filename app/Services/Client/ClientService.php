@@ -9,6 +9,7 @@ use App\Models\ClientInfo;
 use App\Traits\UserLogTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
@@ -18,11 +19,11 @@ class ClientService
     use UserLogTrait;
 
     /**
-     * Image storage directories (on the 'public' disk).
+     * Image storage directories (on the 'public' disk) and their target width.
      */
     private const IMAGE_DIRS = [
-        'client_picture' => 'uploads/client/image',
-        'organization_logo' => 'uploads/client/organization',
+        'client_picture' => ['dir' => 'uploads/client/image', 'width' => 300],
+        'organization_logo' => ['dir' => 'uploads/client/organization', 'width' => 300],
     ];
 
     /**
@@ -65,11 +66,25 @@ class ClientService
     }
 
     /**
-     * Find a single client record by id.
+     * Find one record plus the image URLs the edit form reads back.
+     *
+     * The accessors resolve a stored path to a public URL and fall back to the
+     * placeholder, so the form never has to rebuild either URL itself.
+     *
+     * @return array<string, mixed>|null
      */
-    public function find(string $client_id): ?ClientInfo
+    public function findForEdit(string $client_id): ?array
     {
-        return ClientInfo::where('id', $client_id)->first();
+        $client = ClientInfo::where('id', $client_id)->first();
+
+        if ($client === null) {
+            return null;
+        }
+
+        return $client->toArray() + [
+            'client_picture_url' => $client->client_picture_url,
+            'organization_logo_url' => $client->client_org_logo_url,
+        ];
     }
 
     /**
@@ -142,27 +157,52 @@ class ClientService
     */
 
     /**
-     * Handle both client images in one pass (store new, delete old).
+     * Handle both client images in one pass.
+     *
+     * A picked file replaces the stored image; otherwise a removal request
+     * clears it; otherwise the stored image is kept, so saving an edit without
+     * touching an image cannot wipe it.
      */
     private function storeClientImages(ClientInfo $client, StoreClientRequest|UpdateClientRequest $request): void
     {
-        foreach (self::IMAGE_DIRS as $field => $dir) {
-            if (! $request->hasFile($field)) {
+        foreach (self::IMAGE_DIRS as $field => $config) {
+            if ($request->hasFile($field)) {
+                // Convert and store the replacement before dropping the old
+                // file, so a failed conversion cannot leave the record without
+                // an image.
+                $path = $this->storeImage($request->file($field), $config);
+
+                $this->deleteImage($client->{$field});
+
+                $client->{$field} = $path;
+
                 continue;
             }
 
-            $this->deleteImage($client->{$field});
+            if ($request->boolean('remove_'.$field)) {
+                $this->deleteImage($client->{$field});
 
-            $filename = Str::uuid().'.webp';
-            $path = $dir.'/'.$filename;
-
-            $image = Image::read($request->file($field));
-            $image->scale(width: 300);
-
-            Storage::disk('public')->put($path, $image->toWebp(80));
-
-            $client->{$field} = $path;
+                $client->{$field} = null;
+            }
         }
+    }
+
+    /**
+     * Convert one uploaded image to WebP and store it on the public disk.
+     *
+     * @param  UploadedFile  $file
+     * @param  array{dir: string, width: int}  $config
+     */
+    private function storeImage($file, array $config): string
+    {
+        $path = $config['dir'].'/'.Str::uuid().'.webp';
+
+        $image = Image::read($file);
+        $image->scale(width: $config['width']);
+
+        Storage::disk('public')->put($path, $image->toWebp(80));
+
+        return $path;
     }
 
     /**

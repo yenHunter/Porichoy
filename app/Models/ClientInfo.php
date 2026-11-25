@@ -98,7 +98,7 @@ class ClientInfo extends Model
         return Attribute::make(
             get: fn () => $this->client_picture
                 ? asset('storage/'.$this->client_picture)
-                : asset('static/icons/client.png')
+                : asset('static/module/client.png')
         );
     }
 
@@ -107,7 +107,7 @@ class ClientInfo extends Model
         return Attribute::make(
             get: fn () => $this->organization_logo
                 ? asset('storage/'.$this->organization_logo)
-                : asset('static/icons/organization.png')
+                : asset('static/module/organization.png')
         );
     }
 

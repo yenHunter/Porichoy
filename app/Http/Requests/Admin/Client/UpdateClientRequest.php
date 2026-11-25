@@ -17,7 +17,7 @@ class UpdateClientRequest extends FormRequest
 
     /**
      * Validation rules for updating a client entry.
-     * (Same shape as store, plus the record id; logo optional on update.)
+     * (Same shape as store, plus the record id.)
      *
      * @return array<string, mixed>
      */
@@ -26,6 +26,19 @@ class UpdateClientRequest extends FormRequest
         return [
             'client_id' => ['required', Rule::exists('client_infos', 'id')],
         ]
-            + StoreClientRequest::sharedRules(logo_required: false);
+            + StoreClientRequest::sharedRules();
+    }
+
+    /**
+     * Field names for validation error display.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'client_picture' => 'client picture',
+            'organization_logo' => 'organization logo',
+        ];
     }
 }

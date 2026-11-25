@@ -30,9 +30,17 @@ class ClientController extends Controller
      *
      * @param  StoreClientRequest  $request  Validated payload
      */
-    public function store(StoreClientRequest $request): RedirectResponse
+    public function store(StoreClientRequest $request): JsonResponse|RedirectResponse
     {
         $this->client_service->store($request);
+
+        if ($request->expectsJson()) {
+            // The form is saved over JS and reloads the listing, so the message
+            // rides along as a flash instead of a redirect.
+            session()->flash('success', 'Client added successfully.');
+
+            return response()->json(['message' => 'Client added successfully.']);
+        }
 
         return back()->with('success', 'Client added successfully.');
     }
@@ -42,7 +50,9 @@ class ClientController extends Controller
      */
     public function edit(string $client_id): JsonResponse
     {
-        return response()->json($this->client_service->find($client_id));
+        return response()->json(
+            $this->client_service->findForEdit($client_id)
+        );
     }
 
     /**
@@ -50,9 +60,15 @@ class ClientController extends Controller
      *
      * @param  UpdateClientRequest  $request  Validated payload
      */
-    public function update(UpdateClientRequest $request): RedirectResponse
+    public function update(UpdateClientRequest $request): JsonResponse|RedirectResponse
     {
         $this->client_service->update($request);
+
+        if ($request->expectsJson()) {
+            session()->flash('success', 'Client info updated');
+
+            return response()->json(['message' => 'Client info updated']);
+        }
 
         return back()->with('success', 'Client info updated');
     }

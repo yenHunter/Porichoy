@@ -69,7 +69,7 @@
                             @foreach ($client_list as $item)
                                 <tr data-id="{{ $item->id }}">
                                     <td>
-                                        <i class="ti ti-arrows-move fs-42"></i>
+                                        <i class="ti ti-arrows-move fs-lg"></i>
                                     </td>
                                     <td>
                                         <img class="img-thumbnail rounded" width="50px" src="{{ $item->client_picture_url }}"
@@ -130,103 +130,100 @@
                                 <label class="form-label" for="client_name">Client Name
                                     <span class="badge badge-soft-danger">required</span>
                                 </label>
-                                <input class="form-control @error('client_name') is-invalid @enderror" placeholder="e.g., John Doe, Sarah Smith" value="{{ old('client_name') }}"
+                                <input class="form-control" placeholder="e.g., John Doe, Sarah Smith" value="{{ old('client_name') }}"
                                     name="client_name" id="client_name" type="text" required />
-                                <div class="invalid-feedback">
-                                    @error('client_name')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label" for="client_designation">Client Designation</label>
-                                <input class="form-control @error('client_designation') is-invalid @enderror" placeholder="e.g., Project Manager, CEO, Marketing Director" value="{{ old('client_designation') }}"
+                                <input class="form-control" placeholder="e.g., Project Manager, CEO, Marketing Director" value="{{ old('client_designation') }}"
                                     name="client_designation" id="client_designation" type="text" />
-                                <div class="invalid-feedback">
-                                    @error('client_designation')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label" for="client_email">Client Email
                                     <span class="badge badge-soft-danger">required</span>
                                 </label>
-                                <input class="form-control @error('client_email') is-invalid @enderror" placeholder="e.g., john@example.com" value="{{ old('client_email') }}"
+                                <input class="form-control" placeholder="e.g., john@example.com" value="{{ old('client_email') }}"
                                     name="client_email" id="client_email" type="email" required />
-                                <div class="invalid-feedback">
-                                    @error('client_email')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label" for="client_mobile">Client Mobile</label>
-                                <input class="form-control @error('client_mobile') is-invalid @enderror" placeholder="e.g., +1 (555) 000-0000 or +88 01700 000000" value="{{ old('client_mobile') }}"
+                                <input class="form-control" placeholder="e.g., +1 (555) 000-0000 or +88 01700 000000" value="{{ old('client_mobile') }}"
                                     name="client_mobile" id="client_mobile" type="text" />
-                                <div class="invalid-feedback">
-                                    @error('client_mobile')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <label class="form-label" for="client_organization">Client Organization</label>
-                                <input class="form-control @error('client_organization') is-invalid @enderror" placeholder="e.g., Tech Innovations Inc., Digital Solutions Ltd." value="{{ old('client_organization') }}"
+                                <input class="form-control" placeholder="e.g., Tech Innovations Inc., Digital Solutions Ltd." value="{{ old('client_organization') }}"
                                     name="client_organization" id="client_organization" type="text" />
-                                <div class="invalid-feedback">
-                                    @error('client_organization')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <label class="form-label" for="client_address">Client Address</label>
-                                <input class="form-control @error('client_address') is-invalid @enderror" placeholder="e.g., 123 Main Street, New York, NY 10001" value="{{ old('client_address') }}"
+                                <input class="form-control" placeholder="e.g., 123 Main Street, New York, NY 10001" value="{{ old('client_address') }}"
                                     name="client_address" id="client_address" type="text" />
-                                <div class="invalid-feedback">
-                                    @error('client_address')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-12">
                                 <label class="form-label" for="organization_website">Organization Website</label>
-                                <input class="form-control @error('organization_website') is-invalid @enderror" placeholder="e.g., https://example.com" value="{{ old('organization_website') }}"
+                                <input class="form-control" placeholder="e.g., https://example.com" value="{{ old('organization_website') }}"
                                     name="organization_website" id="organization_website" type="url" />
-                                <div class="invalid-feedback">
-                                    @error('organization_website')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <label class="form-label" for="client_picture">Client Picture</label>
                                 <div class="filepond-uploader">
-                                    <input class="filepond @error('client_picture') is-invalid @enderror" name="client_picture" type="file" accept="image/*" />
+                                    <input accept="image/jpeg,image/png,image/gif,image/webp" class="filepond"
+                                        name="client_picture" type="file" />
                                 </div>
+                                <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_client_picture">
+                                    <img alt="Current client picture" class="img-thumbnail rounded" height="48"
+                                        id="current_client_picture_image" src="" width="48">
+                                    <div class="small text-muted">
+                                        <span class="d-block fw-semibold text-body">Current picture</span>
+                                        Choose a new image to replace it, or remove it.
+                                    </div>
+                                    <button class="btn btn-sm btn-soft-danger ms-auto" id="current_client_picture_remove"
+                                        type="button">
+                                        <i class="ti ti-trash fs-lg"></i> Remove
+                                    </button>
+                                </div>
+                                <div class="small text-danger mt-2 d-none" id="current_client_picture_removed">
+                                    The picture will be removed when you save.
+                                    <button class="btn btn-link btn-sm p-0 align-baseline" id="current_client_picture_undo"
+                                        type="button">Undo</button>
+                                </div>
+                                <input id="remove_client_picture" name="remove_client_picture" type="hidden" value="0">
+                                <div class="form-text">JPEG, PNG, GIF or WebP — up to 10 MB.</div>
                             </div>
                             <div class="col-lg-6">
-                                <label class="form-label" for="organization_logo">Organization Logo
-                                    <span class="badge badge-soft-danger">required</span>
-                                </label>
+                                <label class="form-label" for="organization_logo">Organization Logo</label>
                                 <div class="filepond-uploader">
-                                    <input class="filepond @error('organization_logo') is-invalid @enderror" name="organization_logo" type="file" accept="image/*" required />
+                                    <input accept="image/jpeg,image/png,image/gif,image/webp" class="filepond"
+                                        name="organization_logo" type="file" />
                                 </div>
+                                <div class="d-flex align-items-center gap-2 mt-2 d-none" id="current_organization_logo">
+                                    <img alt="Current organization logo" class="img-thumbnail rounded" height="48"
+                                        id="current_organization_logo_image" src="" width="48">
+                                    <div class="small text-muted">
+                                        <span class="d-block fw-semibold text-body">Current logo</span>
+                                        Choose a new image to replace it, or remove it.
+                                    </div>
+                                    <button class="btn btn-sm btn-soft-danger ms-auto" id="current_organization_logo_remove"
+                                        type="button">
+                                        <i class="ti ti-trash fs-lg"></i> Remove
+                                    </button>
+                                </div>
+                                <div class="small text-danger mt-2 d-none" id="current_organization_logo_removed">
+                                    The logo will be removed when you save.
+                                    <button class="btn btn-link btn-sm p-0 align-baseline" id="current_organization_logo_undo"
+                                        type="button">Undo</button>
+                                </div>
+                                <input id="remove_organization_logo" name="remove_organization_logo" type="hidden" value="0">
+                                <div class="form-text">JPEG, PNG, GIF or WebP — up to 10 MB. Without a logo the listing shows the placeholder.</div>
                             </div>
                             <div class="col-lg-12">
                                 <label class="form-label" for="client_status">Status</label>
-                                <select aria-label="Select Status" class="form-select @error('client_status') is-invalid @enderror" name="client_status"
-                                    id="client_status" required>
-                                    <option selected disabled>Choose a status</option>
-                                    <option value="1">Active</option>
+                                <select aria-label="Select Status" class="form-select" name="client_status"
+                                    id="client_status">
+                                    <option selected value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    @error('client_status')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
                             </div>
                         </div>
                     </div>
