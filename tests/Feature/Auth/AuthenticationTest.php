@@ -131,6 +131,29 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_login_attempts_are_throttled(): void
+    {
+        $this->fakeCaptcha();
+
+        $user = $this->adminUser();
+
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('login.attempt'), [
+                'email' => $user->email,
+                'password' => 'not-the-password',
+                'g-recaptcha-response' => 'test-token',
+            ])->assertSessionHasErrors(['error' => 'Password incorrect']);
+        }
+
+        $this->post(route('login.attempt'), [
+            'email' => $user->email,
+            'password' => 'not-the-password',
+            'g-recaptcha-response' => 'test-token',
+        ])->assertStatus(429);
+
+        $this->assertGuest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Registration
@@ -175,6 +198,16 @@ class AuthenticationTest extends TestCase
         ])->assertSessionHasErrors(['email', 'password']);
 
         $this->assertDatabaseMissing('users', ['email' => 'new.user@example.test']);
+    }
+
+    public function test_registration_attempts_are_throttled(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('register.attempt'), [])
+                ->assertSessionHasErrors(['first_name', 'email']);
+        }
+
+        $this->post(route('register.attempt'), [])->assertStatus(429);
     }
 
     /*

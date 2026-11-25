@@ -32,8 +32,12 @@ Route::group(['prefix' => 'admin'], function () {
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'login_view'])->name('login');
     Route::get('register', [AuthController::class, 'register_view'])->name('register.view');
-    Route::post('login', [AuthController::class, 'login'])->name('login.attempt');
-    Route::post('register', [AuthController::class, 'register'])->name('register.attempt');
+
+    // Five attempts a minute per IP: enough for a mistyped password, too few
+    // to guess one.
+    Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.attempt');
+    Route::post('register', [AuthController::class, 'register'])->middleware('throttle:5,1')->name('register.attempt');
+
     Route::get('forgot-password', [AuthController::class, 'forgot_password_view'])->name('forgot.password.view');
     Route::post('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot.password.attempt');
     Route::get('reset-password/{token}', [AuthController::class, 'reset_password_view'])->name('password.reset');
