@@ -44,7 +44,7 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.attempt');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'active.account'])->group(function () {
     Route::get('home', [HomeController::class, 'dashboard'])->name('home');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('lock', [AuthController::class, 'session_lock'])->name('lock.screen');
