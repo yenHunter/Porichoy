@@ -33,10 +33,10 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'login_view'])->name('login');
     Route::get('register', [AuthController::class, 'register_view'])->name('register.view');
 
-    // Five attempts a minute per IP: enough for a mistyped password, too few
-    // to guess one.
-    Route::post('login', [AuthController::class, 'login'])->middleware('throttle:5,1')->name('login.attempt');
-    Route::post('register', [AuthController::class, 'register'])->middleware('throttle:5,1')->name('register.attempt');
+    // Five attempts a minute per IP by default (config/security.php): enough
+    // for a mistyped password, too few to guess one.
+    Route::post('login', [AuthController::class, 'login'])->middleware('throttle:login')->name('login.attempt');
+    Route::post('register', [AuthController::class, 'register'])->middleware('throttle:register')->name('register.attempt');
 
     Route::get('forgot-password', [AuthController::class, 'forgot_password_view'])->name('forgot.password.view');
     Route::post('forgot-password', [AuthController::class, 'forgot_password'])->name('forgot.password.attempt');

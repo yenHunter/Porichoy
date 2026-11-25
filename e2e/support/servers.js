@@ -57,6 +57,11 @@ function appEnvironment(theme) {
         RECAPTCHA_VERIFY_URL: `http://127.0.0.1:${STUB_PORT}/siteverify`,
         // php -S is single threaded; a browser opens several connections per page.
         PHP_CLI_SERVER_WORKERS: '4',
+        // The suites sign in and submit the contact form dozens of times from
+        // one loopback address, so the per-IP limits would fail them.
+        THROTTLE_LOGIN: '1000',
+        THROTTLE_REGISTER: '1000',
+        THROTTLE_CONTACT: '1000',
     };
 
     if (theme) {

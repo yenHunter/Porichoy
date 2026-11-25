@@ -15,5 +15,5 @@ Route::middleware('visitor')->name('visitor.')->group(function () {
     Route::get('blogs', [VisitorController::class, 'blogs'])->name('blog.index');
     Route::get('blog/{blog}', [VisitorController::class, 'blog_details'])->name('blog.details');
     Route::get('contact', [VisitorController::class, 'contact'])->name('contact.index');
-    Route::post('contact', [VisitorController::class, 'contactStore'])->middleware('throttle:5,1')->name('contact.store');
+    Route::post('contact', [VisitorController::class, 'contactStore'])->middleware('throttle:contact')->name('contact.store');
 });
