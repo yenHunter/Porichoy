@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
+const { waitForStoredPick } = require('../support/filepond');
 
 const PAGE = '/element/project';
 const PROFILE_INPUT = '#create_update_form input[name="profile_image"][type="file"]';
@@ -21,22 +22,6 @@ async function findRow(page, text) {
     await page.locator('.card-body input[type="search"]').first().fill(text);
 
     return page.locator('#sortable-project tr', { hasText: text });
-}
-
-/**
- * FilePond reads a picked file asynchronously and only hands it to the form
- * once that read finishes. Submitting in between posts no file at all: the
- * record is created without its image and the current-image block never shows
- * up on the next edit. Wait for the pick to reach the form before saving.
- */
-async function expectStoredPick(page) {
-    await expect.poll(() => page.evaluate(() => {
-        // FilePond drops the browser input's name while it holds an item and
-        // stores the file in an input of its own; only that one is submitted.
-        const fields = [...document.querySelectorAll('#create_update_form input[name="profile_image"]')];
-
-        return fields.some(field => !field.id.startsWith('filepond--browser-') && field.files.length === 1);
-    })).toBe(true);
 }
 
 /**
@@ -74,7 +59,7 @@ async function createProject(page, title, { image = false } = {}) {
 
     if (image) {
         await page.setInputFiles(PROFILE_INPUT, FIXTURE_IMAGE);
-        await expectStoredPick(page);
+        await waitForStoredPick(page, 'profile_image');
     }
 
     await save(page);
