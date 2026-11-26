@@ -51,6 +51,19 @@ class ContactFormTest extends TestCase
     }
 
     /**
+     * The endpoint is rate limited, so a script cannot flood the inbox.
+     */
+    public function test_contact_submissions_are_throttled(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post('/contact', [])
+                ->assertSessionHasErrors(['name', 'email', 'comments']);
+        }
+
+        $this->post('/contact', [])->assertStatus(429);
+    }
+
+    /**
      * An invalid reCAPTCHA token is rejected.
      */
     public function test_contact_form_rejects_an_invalid_captcha(): void

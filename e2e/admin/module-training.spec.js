@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
+const { waitForStoredPick } = require('../support/filepond');
 
 const PAGE = '/module/training';
 const CERTIFICATE_INPUT = '#create_update_form input[name="training_certificate"][type="file"]';
@@ -60,6 +61,7 @@ async function createTraining(page, title, { certificate = false } = {}) {
 
     if (certificate) {
         await page.setInputFiles(CERTIFICATE_INPUT, FIXTURE_IMAGE);
+        await waitForStoredPick(page, 'training_certificate');
     }
 
     await save(page);

@@ -11,6 +11,13 @@ use Illuminate\Support\Str;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * The public forms that are limited per IP, named after their config key.
+     *
+     * @var list<string>
+     */
+    private const THROTTLED = ['login', 'register', 'contact'];
+
+    /**
      * Register any application services.
      */
     public function register(): void
@@ -23,6 +30,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        foreach (self::THROTTLED as $bucket) {
+            RateLimiter::for($bucket, function (Request $request) use ($bucket) {
+                return Limit::perMinute(config("security.throttle.{$bucket}"))
+                    ->by("{$bucket}:{$request->ip()}");
+            });
+        }
+
         // A per-IP limit alone lets someone rotate addresses to keep mailing
         // one inbox, so reset requests are capped per address as well. The
         // password broker's own one-a-minute throttle still applies.

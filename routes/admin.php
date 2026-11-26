@@ -32,15 +32,21 @@ Route::group(['prefix' => 'admin'], function () {
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'login_view'])->name('login');
     Route::get('register', [AuthController::class, 'register_view'])->name('register.view');
-    Route::post('login', [AuthController::class, 'login'])->name('login.attempt');
-    Route::post('register', [AuthController::class, 'register'])->name('register.attempt');
+
+    // Five attempts a minute per IP by default (config/security.php): enough
+    // for a mistyped password, too few to guess one.
+    Route::post('login', [AuthController::class, 'login'])->middleware('throttle:login')->name('login.attempt');
+    Route::post('register', [AuthController::class, 'register'])->middleware('throttle:register')->name('register.attempt');
+
     Route::get('forgot-password', [AuthController::class, 'forgot_password_view'])->name('forgot.password.view');
+    // The named limiter caps the post per IP and per address: a per-IP limit
+    // alone still lets someone rotate addresses to mail-bomb one inbox.
     Route::post('forgot-password', [AuthController::class, 'forgot_password'])->middleware('throttle:forgot-password')->name('forgot.password.attempt');
     Route::get('reset-password/{token}', [AuthController::class, 'reset_password_view'])->name('password.reset');
-    Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.attempt');
+    Route::post('reset-password', [AuthController::class, 'reset_password'])->middleware('throttle:5,1')->name('reset.password.attempt');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'active.account'])->group(function () {
     Route::get('home', [HomeController::class, 'dashboard'])->name('home');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('lock', [AuthController::class, 'session_lock'])->name('lock.screen');

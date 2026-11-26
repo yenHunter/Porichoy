@@ -131,6 +131,29 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_login_attempts_are_throttled(): void
+    {
+        $this->fakeCaptcha();
+
+        $user = $this->adminUser();
+
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('login.attempt'), [
+                'email' => $user->email,
+                'password' => 'not-the-password',
+                'g-recaptcha-response' => 'test-token',
+            ])->assertSessionHasErrors(['error' => 'Password incorrect']);
+        }
+
+        $this->post(route('login.attempt'), [
+            'email' => $user->email,
+            'password' => 'not-the-password',
+            'g-recaptcha-response' => 'test-token',
+        ])->assertStatus(429);
+
+        $this->assertGuest();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Registration
@@ -175,6 +198,16 @@ class AuthenticationTest extends TestCase
         ])->assertSessionHasErrors(['email', 'password']);
 
         $this->assertDatabaseMissing('users', ['email' => 'new.user@example.test']);
+    }
+
+    public function test_registration_attempts_are_throttled(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('register.attempt'), [])
+                ->assertSessionHasErrors(['first_name', 'email']);
+        }
+
+        $this->post(route('register.attempt'), [])->assertStatus(429);
     }
 
     /*
@@ -291,6 +324,34 @@ class AuthenticationTest extends TestCase
 
         // The broker's own one-a-minute throttle sent at most one message.
         Notification::assertSentToTimes($user, ResetPassword::class, 1);
+    }
+
+    public function test_forgot_password_attempts_are_throttled(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('forgot.password.attempt'), ['email' => 'nobody@example.test'])
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('forgot.password.attempt'), ['email' => 'nobody@example.test'])
+            ->assertStatus(429);
+    }
+
+    public function test_password_reset_attempts_are_throttled(): void
+    {
+        $payload = [
+            'token' => 'not-a-real-token',
+            'email' => 'nobody@example.test',
+            'password' => 'a-brand-new-password',
+            'password_confirmation' => 'a-brand-new-password',
+        ];
+
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('reset.password.attempt'), $payload)
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('reset.password.attempt'), $payload)->assertStatus(429);
     }
 
     public function test_password_can_be_reset_with_a_valid_token(): void

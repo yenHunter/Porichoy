@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
+const { waitForStoredPick } = require('../support/filepond');
 
 const PAGE = '/module/experience';
 const LOGO_INPUT = '#create_update_form input[name="organization_logo"]';
@@ -63,6 +64,7 @@ async function createRole(page, position, { logo = false, endDate = '2024-06-30'
 
     if (logo) {
         await page.setInputFiles(LOGO_INPUT, FIXTURE_IMAGE);
+        await waitForStoredPick(page, 'organization_logo');
     }
 
     await save(page);
