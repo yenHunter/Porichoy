@@ -292,6 +292,34 @@ class AuthenticationTest extends TestCase
         Notification::assertNothingSent();
     }
 
+    public function test_forgot_password_attempts_are_throttled(): void
+    {
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('forgot.password.attempt'), ['email' => 'nobody@example.test'])
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('forgot.password.attempt'), ['email' => 'nobody@example.test'])
+            ->assertStatus(429);
+    }
+
+    public function test_password_reset_attempts_are_throttled(): void
+    {
+        $payload = [
+            'token' => 'not-a-real-token',
+            'email' => 'nobody@example.test',
+            'password' => 'a-brand-new-password',
+            'password_confirmation' => 'a-brand-new-password',
+        ];
+
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('reset.password.attempt'), $payload)
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('reset.password.attempt'), $payload)->assertStatus(429);
+    }
+
     public function test_password_can_be_reset_with_a_valid_token(): void
     {
         $user = $this->adminUser();
