@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
+const { waitForStoredPick } = require('../support/filepond');
 
 const PAGE = '/element/client';
 const PICTURE_INPUT = '#create_update_form input[name="client_picture"]';
@@ -58,10 +59,12 @@ async function createClient(page, name, { picture = false, logo = false } = {}) 
 
     if (picture) {
         await page.setInputFiles(PICTURE_INPUT, FIXTURE_IMAGE);
+        await waitForStoredPick(page, 'client_picture');
     }
 
     if (logo) {
         await page.setInputFiles(LOGO_INPUT, FIXTURE_IMAGE);
+        await waitForStoredPick(page, 'organization_logo');
     }
 
     await save(page);

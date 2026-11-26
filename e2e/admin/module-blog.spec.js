@@ -1,8 +1,10 @@
 const { test, expect } = require('@playwright/test');
 const { adminUrl } = require('../support/servers');
 const { signIn } = require('../support/admin');
+const { waitForStoredPick } = require('../support/filepond');
 
 const PAGE = '/module/blog';
+const IMAGE_INPUT = '#create_update_form input[name="blog_image"]';
 const FIXTURE_IMAGE = require('node:path').resolve(__dirname, '..', 'fixtures', 'sample.png');
 const UNIQUE = Math.random().toString(36).substring(2, 15);
 const TITLE = `E2E Post ${UNIQUE}`;
@@ -25,8 +27,10 @@ test.describe('blog module', () => {
         await page.locator('#blog-content-editor .ql-editor').fill('Body written with Quill.');
         await expect(page.locator('#blog_content_hidden')).toHaveValue(/<p>Body written with Quill.<\/p>/);
 
-        // FilePond stores the picked file in the real input.
-        await page.setInputFiles('#create_update_form input[name="blog_image"]', FIXTURE_IMAGE);
+        // FilePond stores the picked file in the real input, but only after it
+        // has read it: submitting before that posts no image.
+        await page.setInputFiles(IMAGE_INPUT, FIXTURE_IMAGE);
+        await waitForStoredPick(page, 'blog_image');
 
         await page.click('#create_update_form button[type="submit"]');
 
