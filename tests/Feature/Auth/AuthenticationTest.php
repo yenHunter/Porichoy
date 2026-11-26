@@ -292,6 +292,40 @@ class AuthenticationTest extends TestCase
         Notification::assertNothingSent();
     }
 
+    public function test_forgot_password_attempts_are_throttled_per_ip(): void
+    {
+        // A distinct address each time, so only the IP limit can trip.
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->post(route('forgot.password.attempt'), ['email' => "nobody{$attempt}@example.test"])
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('forgot.password.attempt'), ['email' => 'nobody6@example.test'])
+            ->assertStatus(429);
+    }
+
+    public function test_forgot_password_is_throttled_per_address_across_ips(): void
+    {
+        Notification::fake();
+
+        $user = $this->adminUser();
+
+        // One request per address, so the per-IP limit never comes into play.
+        for ($attempt = 1; $attempt <= 5; $attempt++) {
+            $this->withServerVariables(['REMOTE_ADDR' => "10.0.0.{$attempt}"])
+                ->post(route('forgot.password.attempt'), ['email' => $user->email])
+                ->assertStatus(302);
+        }
+
+        // Casing must not buy another round of mail either.
+        $this->withServerVariables(['REMOTE_ADDR' => '10.0.0.6'])
+            ->post(route('forgot.password.attempt'), ['email' => strtoupper($user->email)])
+            ->assertStatus(429);
+
+        // The broker's own one-a-minute throttle sent at most one message.
+        Notification::assertSentToTimes($user, ResetPassword::class, 1);
+    }
+
     public function test_forgot_password_attempts_are_throttled(): void
     {
         for ($attempt = 1; $attempt <= 5; $attempt++) {
