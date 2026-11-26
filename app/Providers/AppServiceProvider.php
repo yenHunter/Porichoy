@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @var list<string>
      */
-    private const THROTTLED = ['login', 'register', 'contact'];
+    private const THROTTLED = ['login', 'register', 'contact', 'reset'];
 
     /**
      * Register any application services.
@@ -44,8 +44,8 @@ class AppServiceProvider extends ServiceProvider
             $email = Str::lower(trim((string) $request->input('email')));
 
             return array_filter([
-                Limit::perMinute(5)->by('forgot-password:ip:'.$request->ip()),
-                $email === '' ? null : Limit::perHour(5)->by('forgot-password:email:'.$email),
+                Limit::perMinute(config('security.throttle.forgot'))->by('forgot-password:ip:'.$request->ip()),
+                $email === '' ? null : Limit::perHour(config('security.throttle.forgot_email'))->by('forgot-password:email:'.$email),
             ]);
         });
     }

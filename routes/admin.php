@@ -43,7 +43,7 @@ Route::middleware('guest')->group(function () {
     // alone still lets someone rotate addresses to mail-bomb one inbox.
     Route::post('forgot-password', [AuthController::class, 'forgot_password'])->middleware('throttle:forgot-password')->name('forgot.password.attempt');
     Route::get('reset-password/{token}', [AuthController::class, 'reset_password_view'])->name('password.reset');
-    Route::post('reset-password', [AuthController::class, 'reset_password'])->middleware('throttle:5,1')->name('reset.password.attempt');
+    Route::post('reset-password', [AuthController::class, 'reset_password'])->middleware('throttle:reset')->name('reset.password.attempt');
 });
 
 Route::middleware(['auth', 'active.account'])->group(function () {
