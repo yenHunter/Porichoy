@@ -354,6 +354,37 @@ class AuthenticationTest extends TestCase
         $this->post(route('reset.password.attempt'), $payload)->assertStatus(429);
     }
 
+    public function test_forgot_password_limit_comes_from_the_security_config(): void
+    {
+        config(['security.throttle.forgot' => 2]);
+
+        // A distinct address each time, so only the per-IP limit can trip.
+        for ($attempt = 1; $attempt <= 2; $attempt++) {
+            $this->post(route('forgot.password.attempt'), ['email' => "nobody{$attempt}@example.test"])
+                ->assertSessionHasErrors(['email']);
+        }
+
+        $this->post(route('forgot.password.attempt'), ['email' => 'nobody3@example.test'])
+            ->assertStatus(429);
+    }
+
+    public function test_reset_password_limit_comes_from_the_security_config(): void
+    {
+        config(['security.throttle.reset' => 1]);
+
+        $payload = [
+            'token' => 'not-a-real-token',
+            'email' => 'nobody@example.test',
+            'password' => 'a-brand-new-password',
+            'password_confirmation' => 'a-brand-new-password',
+        ];
+
+        $this->post(route('reset.password.attempt'), $payload)
+            ->assertSessionHasErrors(['email']);
+
+        $this->post(route('reset.password.attempt'), $payload)->assertStatus(429);
+    }
+
     public function test_password_can_be_reset_with_a_valid_token(): void
     {
         $user = $this->adminUser();
